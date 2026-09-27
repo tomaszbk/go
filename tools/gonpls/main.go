@@ -1,0 +1,57 @@
+// Copyright 2019 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// Gopls (pronounced “go please”) is an LSP server for Go.
+// The Language Server Protocol allows any text editor
+// to be extended with IDE-like features;
+// see https://langserver.org/ for details.
+//
+// See https://go.dev/gopls for comprehensive documentation on Gopls.
+package main
+
+import (
+	"context"
+	"log"
+	"os"
+
+	"golang.org/x/telemetry/counter"
+	"golang.org/x/tools/gopls/internal/cmd"
+	"golang.org/x/tools/gopls/internal/filecache"
+	"golang.org/x/tools/gopls/internal/tool"
+	versionpkg "golang.org/x/tools/gopls/internal/version"
+)
+
+var version = "" // if set by the linker, overrides the gopls version
+
+func main() {
+	versionpkg.VersionOverride = version
+
+	// Gon does not start upstream telemetry or crash uploads.
+
+	// Force early creation of the filecache and refuse to start
+	// if there were unexpected errors such as ENOSPC. This
+	// minimizes the window of exposure to deletion of the
+	// executable, and ensures that all subsequent calls to
+	// filecache.Get cannot fail for these two reasons;
+	// see issue #67433.
+	//
+	// This leaves only one likely cause for later failures:
+	// deletion of the cache while gopls is running. If the
+	// problem continues, we could periodically stat the cache
+	// directory (for example at the start of every RPC) and
+	// either re-create it or just fail the RPC with an
+	// informative error and terminate the process.
+	if _, err := filecache.Get("nonesuch", [32]byte{}, filecache.Bytes); err != nil && err != filecache.ErrNotFound {
+		counter.Inc("gopls/nocache")
+		log.Fatalf("gopls cannot access its persistent index (disk full?): %v", err)
+	}
+
+	ctx := context.Background()
+	// "gonpls gon ..." implements the tooling commands of the public gon
+	// launcher, which need their own flag syntax and exit statuses.
+	if len(os.Args) > 1 && os.Args[1] == "gon" {
+		os.Exit(cmd.RunGon(ctx, os.Args[2:]))
+	}
+	tool.Main(ctx, cmd.New(), os.Args[1:])
+}

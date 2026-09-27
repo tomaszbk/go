@@ -1,0 +1,6 @@
+print the gopls version information
+
+Usage:
+  gonpls [flags] version
+  -json
+    	outputs in json format.

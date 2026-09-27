@@ -1,0 +1,12 @@
+{
+  "module": "golang.org/x/tools/gopls@v0.23.0",
+  "sum": "h1:Dn6mf9WXu9iLnTftDDMb9wV0c6Se7PjzEMqP0LEe08Y=",
+  "goModSum": "h1:Ijg67bAdTicg9IINxII7MV+dQpHEXM4646WpNWVYBP0=",
+  "origin": {
+    "VCS": "git",
+    "URL": "https://go.googlesource.com/tools",
+    "Subdir": "gopls",
+    "Hash": "014f87ff5c01915bc90f4f11a6bb8aea3e0edbd7",
+    "Ref": "refs/tags/gopls/v0.23.0"
+  }
+}

@@ -1,0 +1,118 @@
+This test checks completion of Go builtins.
+
+-- flags --
+-ignore_extra_diags
+-filter_builtins=false
+
+-- builtin_args.go --
+package builtins
+
+func _() {
+	var (
+		aSlice    []int          //@item(builtinSlice, "aSlice", "[]int", "var")
+		aMap      map[string]int //@item(builtinMap, "aMap", "map[string]int", "var")
+		aString   string         //@item(builtinString, "aString", "string", "var")
+		aArray    [0]int         //@item(builtinArray, "aArray", "[0]int", "var")
+		aArrayPtr *[0]int        //@item(builtinArrayPtr, "aArrayPtr", "*[0]int", "var")
+		aChan     chan int       //@item(builtinChan, "aChan", "chan int", "var")
+		aPtr      *int           //@item(builtinPtr, "aPtr", "*int", "var")
+		aInt      int            //@item(builtinInt, "aInt", "int", "var")
+	)
+
+	type (
+		aSliceType []int          //@item(builtinSliceType, "aSliceType", "[]int", "type")
+		aChanType  chan int       //@item(builtinChanType, "aChanType", "chan int", "type")
+		aMapType   map[string]int //@item(builtinMapType, "aMapType", "map[string]int", "type")
+	)
+
+	close() //@rank(re"()\\)", builtinChan, builtinSlice)
+
+	append() //@rank(re"()\\)", builtinSlice, builtinChan)
+
+	var _ []byte = append([]byte(nil), ""...) //@rank(re"()\\) \\/\\/")
+
+	copy()           //@rank(re"()\\)", builtinSlice, builtinChan)
+	copy(aSlice, aS) //@rank(re"()\\)", builtinSlice, builtinString)
+	copy(aS, aSlice) //@rank(re"(),", builtinSlice, builtinString)
+
+	delete()         //@rank(re"()\\)", builtinMap, builtinChan)
+	delete(aMap, aS) //@rank(re"()\\)", builtinString, builtinSlice)
+
+	aMapFunc := func() map[int]int { //@item(builtinMapFunc, "aMapFunc", "func() map[int]int", "var")
+		return nil
+	}
+	delete() //@rank(re"()\\)", builtinMapFunc, builtinSlice)
+
+	len() //@rank(re"()\\)", builtinSlice, builtinInt),rank(re"()\\)", builtinMap, builtinInt),rank(re"()\\)", builtinString, builtinInt),rank(re"()\\)", builtinArray, builtinInt),rank(re"()\\)", builtinArrayPtr, builtinPtr),rank(re"()\\)", builtinChan, builtinInt)
+
+	cap() //@rank(re"()\\)", builtinSlice, builtinMap),rank(re"()\\)", builtinArray, builtinString),rank(re"()\\)", builtinArrayPtr, builtinPtr),rank(re"()\\)", builtinChan, builtinInt)
+
+	make()              //@rank(re"()\\)", builtinMapType, int),rank(re"()\\)", builtinChanType, int),rank(re"()\\)", builtinSliceType, int),rank(re"()\\)", builtinMapType, int)
+	make(aSliceType, a) //@rank(re"()\\)", builtinInt, builtinSlice)
+
+	type myInt int
+	var mi myInt        //@item(builtinMyInt, "mi", "myInt", "var")
+	make(aSliceType, m) //@snippet(re"()\\)", builtinMyInt, "mi")
+
+	var _ []int = make() //@rank(re"()\\)", builtinSliceType, builtinMapType)
+
+	type myStruct struct{}  //@item(builtinStructType, "myStruct", "struct{...}", "struct")
+	var _ *myStruct = new() //@rank(re"()\\)", builtinStructType, int)
+
+	for k := range a { //@rank(re"() {", builtinSlice, builtinInt),rank(re"() {", builtinString, builtinInt),rank(re"() {", builtinChan, builtinInt),rank(re"() {", builtinArray, builtinInt),rank(re"() {", builtinArrayPtr, builtinInt),rank(re"() {", builtinMap, builtinInt),
+	}
+
+	for k, v := range a { //@rank(re"() {", builtinSlice, builtinChan)
+	}
+
+	<-a //@rank(re"() \\/\\/", builtinChan, builtinInt)
+}
+
+-- builtin_types.go --
+package builtins
+
+func _() {
+	var _ []bool //@item(builtinBoolSliceType, "[]bool", "[]bool", "type")
+
+	var _ []bool = make() //@rank(re"()\\)", builtinBoolSliceType, int)
+
+	var _ []bool = make([], 0) //@rank(re"(),", bool, int)
+
+	var _ [][]bool = make([][], 0) //@rank(re"(),", bool, int)
+}
+
+-- builtins.go --
+package builtins
+
+// Definitions of builtin completion items that are still used in tests.
+
+/* bool */ //@item(bool, "bool", "", "type")
+/* complex(r float64, i float64) */ //@item(complex, "complex", "func(r float64, i float64) complex128", "func")
+/* float32 */ //@item(float32, "float32", "", "type")
+/* float64 */ //@item(float64, "float64", "", "type")
+/* imag(c complex128) float64 */ //@item(imag, "imag", "func(c complex128) float64", "func")
+/* int */ //@item(int, "int", "", "type")
+/* iota */ //@item(iota, "iota", "", "const")
+/* string */ //@item(string, "string", "", "type")
+/* true */ //@item(_true, "true", "", "const")
+
+-- constants.go --
+package builtins
+
+func _() {
+	const (
+		foo = iota //@complete(re"() \\/\\/", iota)
+	)
+
+	iota //@complete(re"() \\/\\/")
+
+	var iota int //@item(iotaVar, "iota", "int", "var")
+
+	iota //@complete(re"() \\/\\/", iotaVar)
+}
+
+func _() {
+	var twoRedUpEnd bool //@item(TRUEVar, "twoRedUpEnd", "bool", "var")
+
+	var _ bool = true //@rank(re"() \\/\\/", _true, TRUEVar)
+}

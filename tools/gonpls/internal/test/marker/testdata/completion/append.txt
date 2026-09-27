@@ -1,0 +1,58 @@
+This test checks behavior of completion within append expressions.
+
+-- flags --
+-ignore_extra_diags
+
+-- go.mod --
+module golang.org/lsptests/append
+
+go 1.18
+
+-- append.go --
+package append
+
+func foo([]string)  {}
+func bar(...string) {}
+
+func _() {
+	var (
+		aInt     []int    //@item(appendInt, "aInt", "[]int", "var")
+		aStrings []string //@item(appendStrings, "aStrings", "[]string", "var")
+		aString  string   //@item(appendString, "aString", "string", "var")
+	)
+
+	append(aStrings, a)                     //@rank(re"()\\)", appendString, appendInt)
+	var _ any = append(aStrings, a) //@rank(re"()\\)", appendString, appendInt)
+	var _ []string = append(oops, a)        //@rank(re"()\\)", appendString, appendInt)
+
+	foo(append())                  //@rank(re"()\\)\\)", appendStrings, appendInt),rank(re"()\\)\\)", appendStrings, appendString)
+	foo(append([]string{}, a))     //@rank(re"()\\)\\)", appendStrings, appendInt),rank(re"()\\)\\)", appendString, appendInt),snippet(re"()\\)\\)", appendStrings, "aStrings...")
+	foo(append([]string{}, "", a)) //@rank(re"()\\)\\)", appendString, appendInt),rank(re"()\\)\\)", appendString, appendStrings)
+
+	// Don't add "..." to append() argument.
+	bar(append()) //@snippet(re"()\\)\\)", appendStrings, "aStrings")
+
+	type baz struct{}
+	baz{}                       //@item(appendBazLiteral, "baz{}", "", "var")
+	var bazzes []baz            //@item(appendBazzes, "bazzes", "[]baz", "var")
+	var bazzy baz               //@item(appendBazzy, "bazzy", "baz", "var")
+	bazzes = append(bazzes, ba) //@rank(re"()\\)", appendBazzy, appendBazLiteral, appendBazzes)
+
+	var b struct{ b []baz }
+	b.b                  //@item(appendNestedBaz, "b.b", "[]baz", "field")
+	b.b = append(b.b, b) //@rank(re"()\\)", appendBazzy, appendBazLiteral, appendNestedBaz)
+
+	var aStringsPtr *[]string  //@item(appendStringsPtr, "aStringsPtr", "*[]string", "var")
+	foo(append([]string{}, a)) //@snippet(re"()\\)\\)", appendStringsPtr, "*aStringsPtr...")
+
+	foo(append([]string{}, *a)) //@snippet(re"()\\)\\)", appendStringsPtr, "aStringsPtr...")
+}
+
+-- append2.go --
+package append
+
+func _() {
+	_ = append(a, struct) //@complete(re"()\\)", structs)
+}
+
+//@item(structs, "structs", `"structs"`)

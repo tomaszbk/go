@@ -1,0 +1,46 @@
+This test basic gopls functionality in a workspace with a godebug
+directive in its modfile.
+
+We use panicnil from go1.21 as an arbitrary GODEBUG; if it goes away,
+pick another from https://go.dev/doc/godebug#history.
+
+-- flags --
+-min_go_command=go1.23
+
+-- go.mod --
+module example.com/m
+
+go 1.23
+
+godebug (
+	panicnil=0
+)
+godebug panicnil=1
+
+-- a/a.go --
+package a
+
+import "example.com/m/b"
+
+const A = b.B //@def("B", B)
+
+-- b/b.go --
+package b
+
+const B = 42 //@loc(B, "B")
+
+-- format/go.mod --
+module example.com/m/format //@format(formatted)
+
+godebug (
+panicnil=0
+)
+godebug      panicnil=1
+-- @formatted --
+module example.com/m/format //@format(formatted)
+
+godebug (
+	panicnil=0
+)
+
+godebug panicnil=1

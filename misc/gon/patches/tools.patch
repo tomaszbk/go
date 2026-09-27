@@ -1,0 +1,862 @@
+--- a/go/analysis/passes/lostcancel/lostcancel.go
++++ b/go/analysis/passes/lostcancel/lostcancel.go
+@@ -218,22 +218,29 @@
+ 	// uses reports whether stmts contain a "use" of variable v.
+ 	uses := func(pass *analysis.Pass, v *types.Var, stmts []ast.Node) bool {
+ 		found := false
++		var visit func(ast.Node) bool
++		visit = func(n ast.Node) bool {
++			switch n := n.(type) {
++			case *ast.ErrorExpr:
++				// The handler has its own CFG blocks. A use there does
++				// not imply that the success path uses the variable.
++				ast.Inspect(n.X, visit)
++				return false
++			case *ast.Ident:
++				if pass.TypesInfo.Uses[n] == v {
++					found = true
++				}
++			case *ast.ReturnStmt:
++				// A naked return statement counts as a use
++				// of the named result variables.
++				if n.Results == nil && vIsNamedResult {
++					found = true
++				}
++			}
++			return !found
++		}
+ 		for _, stmt := range stmts {
+-			ast.Inspect(stmt, func(n ast.Node) bool {
+-				switch n := n.(type) {
+-				case *ast.Ident:
+-					if pass.TypesInfo.Uses[n] == v {
+-						found = true
+-					}
+-				case *ast.ReturnStmt:
+-					// A naked return statement counts as a use
+-					// of the named result variables.
+-					if n.Results == nil && vIsNamedResult {
+-						found = true
+-					}
+-				}
+-				return !found
+-			})
++			ast.Inspect(stmt, visit)
+ 		}
+ 		return found
+ 	}
+--- a/go/ast/astutil/enclosing.go
++++ b/go/ast/astutil/enclosing.go
+@@ -239,6 +239,13 @@
+ 	case *ast.BranchStmt:
+ 		children = append(children,
+ 			tok(n.TokPos, len(n.Tok.String())))
++
++	case *ast.ErrorExpr:
++		width := 1
++		if n.Body != nil {
++			width = 2
++		}
++		children = append(children, tok(n.OpPos, width))
+ 
+ 	case *ast.CallExpr:
+ 		children = append(children,
+@@ -537,6 +544,11 @@
+ 		case token.FALLTHROUGH:
+ 			return "fall-through statement"
+ 		}
++	case *ast.ErrorExpr:
++		if n.Body == nil {
++			return "error propagation"
++		}
++		return "local error handler"
+ 	case *ast.CallExpr:
+ 		if len(n.Args) == 1 && !n.Ellipsis.IsValid() {
+ 			return "function call (or conversion)"
+--- a/go/ast/astutil/rewrite.go
++++ b/go/ast/astutil/rewrite.go
+@@ -271,6 +271,11 @@
+ 	case *ast.CallExpr:
+ 		a.apply(n, "Fun", nil, n.Fun)
+ 		a.applyList(n, "Args")
++
++	case *ast.ErrorExpr:
++		a.apply(n, "X", nil, n.X)
++		a.apply(n, "Err", nil, n.Err)
++		a.apply(n, "Body", nil, n.Body)
+ 
+ 	case *ast.StarExpr:
+ 		a.apply(n, "X", nil, n.X)
+--- a/go/ast/edge/edge.go
++++ b/go/ast/edge/edge.go
+@@ -166,6 +166,10 @@
+ 	ValueSpec_Type
+ 	ValueSpec_Values
+ 
++	ErrorExpr_X
++	ErrorExpr_Err
++	ErrorExpr_Body
++
+ 	maxKind
+ )
+ 
+@@ -191,6 +195,9 @@
+ }
+ 
+ var fieldInfos = [...]fieldInfo{
++	ErrorExpr_X:           info[*ast.ErrorExpr]("X"),
++	ErrorExpr_Err:         info[*ast.ErrorExpr]("Err"),
++	ErrorExpr_Body:        info[*ast.ErrorExpr]("Body"),
+ 	Invalid:               {},
+ 	ArrayType_Elt:         info[*ast.ArrayType]("Elt"),
+ 	ArrayType_Len:         info[*ast.ArrayType]("Len"),
+--- /dev/null
++++ b/go/ast/inspector/errorhandling_test.go
+@@ -0,0 +1,71 @@
++// Copyright 2026 The Go Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style
++// license that can be found in the LICENSE file.
++
++package inspector
++
++import (
++	"go/ast"
++	"go/parser"
++	"go/token"
++	"testing"
++
++	"golang.org/x/tools/go/ast/edge"
++)
++
++func TestErrorHandling(t *testing.T) {
++	f, err := parser.ParseFile(token.NewFileSet(), "p.go", `package p
++func f() error {
++ x := read()!
++ y := read() or err { return err }
++ _, _ = x, y
++ return nil
++}`, 0)
++	if err != nil {
++		t.Fatal(err)
++	}
++	in := New([]*ast.File{f})
++	count := 0
++	for cursor := range in.Root().Preorder((*ast.ErrorExpr)(nil)) {
++		count++
++		expr := cursor.Node().(*ast.ErrorExpr)
++		children := []struct {
++			kind edge.Kind
++			node ast.Node
++		}{{edge.ErrorExpr_X, expr.X}}
++		if expr.Body != nil {
++			children = append(children, struct {
++				kind edge.Kind
++				node ast.Node
++			}{edge.ErrorExpr_Err, expr.Err}, struct {
++				kind edge.Kind
++				node ast.Node
++			}{edge.ErrorExpr_Body, expr.Body})
++		}
++		for _, child := range children {
++			c := cursor.ChildAt(child.kind, -1)
++			if c.Node() != child.node || c.ParentEdgeKind() != child.kind || child.kind.Get(expr, -1) != child.node {
++				t.Errorf("incorrect %s edge", child.kind)
++			}
++		}
++	}
++	if count != 2 {
++		t.Fatalf("found %d error expressions, want 2", count)
++	}
++	var want, got []ast.Node
++	ast.Inspect(f, func(n ast.Node) bool {
++		if n != nil {
++			want = append(want, n)
++		}
++		return true
++	})
++	in.Preorder(nil, func(n ast.Node) { got = append(got, n) })
++	if len(got) != len(want) {
++		t.Fatalf("visited %d nodes, want %d", len(got), len(want))
++	}
++	for i := range want {
++		if got[i] != want[i] {
++			t.Errorf("node %d: got %T, want %T", i, got[i], want[i])
++		}
++	}
++}
+--- a/go/ast/inspector/typeof.go
++++ b/go/ast/inspector/typeof.go
+@@ -71,6 +71,7 @@
+ 	nTypeSwitchStmt
+ 	nUnaryExpr
+ 	nValueSpec
++	nErrorExpr
+ )
+ 
+ // typeOf returns a distinct single-bit value that represents the type of n.
+@@ -117,6 +118,8 @@
+ 		return 1 << nBlockStmt
+ 	case *ast.BranchStmt:
+ 		return 1 << nBranchStmt
++	case *ast.ErrorExpr:
++		return 1 << nErrorExpr
+ 	case *ast.CallExpr:
+ 		return 1 << nCallExpr
+ 	case *ast.CaseClause:
+--- a/go/ast/inspector/walk.go
++++ b/go/ast/inspector/walk.go
+@@ -110,6 +110,15 @@
+ 		walk(v, edge.CallExpr_Fun, -1, n.Fun)
+ 		walkList(v, edge.CallExpr_Args, n.Args)
+ 
++	case *ast.ErrorExpr:
++		walk(v, edge.ErrorExpr_X, -1, n.X)
++		if n.Err != nil {
++			walk(v, edge.ErrorExpr_Err, -1, n.Err)
++		}
++		if n.Body != nil {
++			walk(v, edge.ErrorExpr_Body, -1, n.Body)
++		}
++
+ 	case *ast.StarExpr:
+ 		walk(v, edge.StarExpr_X, -1, n.X)
+ 
+--- a/go/cfg/builder.go
++++ b/go/cfg/builder.go
+@@ -501,6 +501,33 @@
+ }
+ 
+ func (b *builder) add(n ast.Node) {
++	// Error handling can branch or return while evaluating an expression.
++	// Keep those paths in the CFG, without entering nested function bodies.
++	// As with ordinary expressions, this graph conservatively ignores the
++	// short-circuiting of && and ||.
++	ast.Inspect(n, func(node ast.Node) bool {
++		switch e := node.(type) {
++		case *ast.FuncLit:
++			return false
++		case *ast.ErrorExpr:
++			b.add(e.X)
++			handler := b.newBlock(KindErrorHandler, nil)
++			done := b.newBlock(KindErrorDone, nil)
++			b.ifelse(handler, done)
++			b.current = handler
++			if e.Body != nil {
++				b.stmt(e.Body)
++			} else {
++				// A non-nil results list distinguishes propagation (which
++				// zeros named results) from an ordinary naked return.
++				b.stmt(&ast.ReturnStmt{Return: e.OpPos, Results: []ast.Expr{}})
++			}
++			b.jump(done)
++			b.current = done
++			return false
++		}
++		return true
++	})
+ 	b.current.Nodes = append(b.current.Nodes, n)
+ }
+ 
+--- a/go/cfg/cfg.go
++++ b/go/cfg/cfg.go
+@@ -108,6 +108,8 @@
+ 	KindSwitchCaseBody  // body of CaseClause
+ 	KindSwitchDone      // block after {Type.}SwitchStmt
+ 	KindSwitchNextCase  // secondary expression of a multi-expression CaseClause
++	KindErrorHandler    // error path of ErrorExpr; Stmt=nil
++	KindErrorDone       // continuation after ErrorExpr; Stmt=nil
+ )
+ 
+ func (kind BlockKind) String() string {
+@@ -132,6 +134,8 @@
+ 		KindSwitchCaseBody:  "SwitchCaseBody",
+ 		KindSwitchDone:      "SwitchDone",
+ 		KindSwitchNextCase:  "SwitchNextCase",
++		KindErrorHandler:    "ErrorHandler",
++		KindErrorDone:       "ErrorDone",
+ 	}[kind]
+ }
+ 
+--- /dev/null
++++ b/go/cfg/errorhandling_test.go
+@@ -0,0 +1,40 @@
++// Copyright 2026 The Go Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style
++// license that can be found in the LICENSE file.
++
++package cfg
++
++import (
++	"go/ast"
++	"go/parser"
++	"go/token"
++	"testing"
++)
++
++func TestErrorHandlingControlFlow(t *testing.T) {
++	for _, test := range []struct {
++		body     string
++		noReturn bool
++	}{
++		{`f()!; panic(0)`, false},
++		{`f() or err { return }; panic(0)`, false},
++		{`f() or err { panic(err) }; panic(0)`, true},
++		{`f() or err {}; return`, false},
++		{`_ = func() { f()! }; panic(0)`, true},
++		{`g(f()!)!; panic(0)`, false},
++	} {
++		t.Run(test.body, func(t *testing.T) {
++			file, err := parser.ParseFile(token.NewFileSet(), "test.go", "package p; func test() {"+test.body+"}", 0)
++			if err != nil {
++				t.Fatal(err)
++			}
++			g := New(file.Decls[0].(*ast.FuncDecl).Body, func(call *ast.CallExpr) bool {
++				id, ok := call.Fun.(*ast.Ident)
++				return !ok || id.Name != "panic"
++			})
++			if g.NoReturn() != test.noReturn {
++				t.Fatalf("NoReturn = %v, want %v\n%s", g.NoReturn(), test.noReturn, g.Format(token.NewFileSet()))
++			}
++		})
++	}
++}
+--- a/go/ssa/builder.go
++++ b/go/ssa/builder.go
+@@ -623,6 +623,9 @@
+ 
+ func (b *builder) expr0(fn *Function, e ast.Expr, tv types.TypeAndValue) Value {
+ 	switch e := e.(type) {
++	case *ast.ErrorExpr:
++		return b.errorExpr(fn, e)[0]
++
+ 	case *ast.BasicLit:
+ 		panic("non-constant BasicLit") // unreachable
+ 
+@@ -1077,6 +1080,10 @@
+ 	// multiple return values (MRV), they are flattened out into
+ 	// args; a suffix of them may end up in a varargs slice.
+ 	for _, arg := range e.Args {
++		if e, ok := ast.Unparen(arg).(*ast.ErrorExpr); ok {
++			args = append(args, b.errorExpr(fn, e)...)
++			continue
++		}
+ 		v := b.expr(fn, arg)
+ 		if ttuple, ok := v.Type().(*types.Tuple); ok { // MRV chain
+ 			for i, n := 0, ttuple.Len(); i < n; i++ {
+@@ -1175,12 +1182,12 @@
+ 
+ 	default:
+ 		// e.g. var x, y = pos()
+-		tuple := b.exprN(fn, spec.Values[0])
++		values := b.exprList(fn, spec.Values[0])
+ 		for i, id := range spec.Names {
+ 			if !isBlankIdent(id) {
+ 				emitLocalVar(fn, identVar(fn, id))
+ 				lhs := b.addr(fn, id, false) // non-escaping
+-				lhs.store(fn, emitExtract(fn, tuple, i))
++				lhs.store(fn, values[i])
+ 			}
+ 		}
+ 	}
+@@ -1221,10 +1228,18 @@
+ 		sb.emit(fn)
+ 	} else {
+ 		// e.g. x, y = pos()
+-		tuple := b.exprN(fn, rhss[0])
+-		emitDebugRef(fn, rhss[0], tuple, false)
++		var values []Value
++		if e, ok := ast.Unparen(rhss[0]).(*ast.ErrorExpr); ok {
++			values = b.errorExpr(fn, e)
++		} else {
++			tuple := b.exprN(fn, rhss[0])
++			emitDebugRef(fn, rhss[0], tuple, false)
++			for i := 0; i < tuple.Type().(*types.Tuple).Len(); i++ {
++				values = append(values, emitExtract(fn, tuple, i))
++			}
++		}
+ 		for i, lval := range lvals {
+-			lval.store(fn, emitExtract(fn, tuple, i))
++			lval.store(fn, values[i])
+ 		}
+ 	}
+ }
+@@ -2705,7 +2720,11 @@
+ 		goto start // effectively: tailcall stmt(fn, s.Stmt, label)
+ 
+ 	case *ast.ExprStmt:
+-		b.expr(fn, s.X)
++		if e, ok := ast.Unparen(s.X).(*ast.ErrorExpr); ok {
++			b.errorExpr(fn, e)
++		} else {
++			b.expr(fn, s.X)
++		}
+ 
+ 	case *ast.SendStmt:
+ 		chtyp := typeparams.CoreType(fn.typeOf(s.Chan)).(*types.Chan)
+@@ -2843,12 +2862,8 @@
+ 	// Convert return operands to result type.
+ 	if len(s.Results) == 1 && sig.Results().Len() > 1 {
+ 		// Return of one expression in a multi-valued function.
+-		tuple := b.exprN(fn, s.Results[0])
+-		ttuple := tuple.Type().(*types.Tuple)
+-		for i, n := 0, ttuple.Len(); i < n; i++ {
+-			results = append(results,
+-				emitConv(fn, emitExtract(fn, tuple, i),
+-					sig.Results().At(i).Type()))
++		for i, v := range b.exprList(fn, s.Results[0]) {
++			results = append(results, emitConv(fn, v, sig.Results().At(i).Type()))
+ 		}
+ 	} else {
+ 		// 1:1 return, or no-arg return in non-void function.
+@@ -2858,6 +2873,11 @@
+ 		}
+ 	}
+ 
++	b.returnValues(fn, s, results)
++}
++
++// returnValues also handles returns from Gon propagation, including range-over-func.
++func (b *builder) returnValues(fn *Function, s *ast.ReturnStmt, results []Value) {
+ 	// Store the results.
+ 	for i, r := range results {
+ 		var result Value // fn.source.result[i] conceptually
+--- /dev/null
++++ b/go/ssa/gon.go
+@@ -0,0 +1,54 @@
++package ssa
++
++import (
++	"go/ast"
++	"go/token"
++	"go/types"
++)
++
++// exprList keeps the successful components of a Gon expression as separate
++// SSA values. The operand's trailing error must not leak into calls or returns.
++func (b *builder) exprList(fn *Function, e ast.Expr) []Value {
++	if e, ok := ast.Unparen(e).(*ast.ErrorExpr); ok {
++		return b.errorExpr(fn, e)
++	}
++	tuple := b.exprN(fn, e)
++	emitDebugRef(fn, e, tuple, false)
++	values := make([]Value, tuple.Type().(*types.Tuple).Len())
++	for i := range values {
++		values[i] = emitExtract(fn, tuple, i)
++	}
++	return values
++}
++
++func (b *builder) errorExpr(fn *Function, e *ast.ErrorExpr) []Value {
++	var values []Value
++	if _, ok := fn.typeOf(e.X).(*types.Tuple); ok {
++		values = b.exprList(fn, e.X)
++	} else {
++		values = []Value{b.expr(fn, e.X)}
++	}
++	err := values[len(values)-1]
++	failed := fn.newBasicBlock("error.handler")
++	done := fn.newBasicBlock("error.done")
++	emitIf(fn, emitCompare(fn, token.NEQ, err, zeroConst(err.Type()), e.OpPos), failed, done)
++	fn.currentBlock = failed
++	if e.Body != nil {
++		if !isBlankIdent(e.Err) {
++			addr := emitLocalVar(fn, identVar(fn, e.Err))
++			emitStore(fn, addr, err, e.OpPos)
++			emitDebugRef(fn, e.Err, addr, true)
++		}
++		b.stmt(fn, e.Body)
++		emitJump(fn, done)
++	} else {
++		results := make([]Value, fn.source.Signature.Results().Len())
++		for i := range results {
++			results[i] = zeroConst(fn.typ(fn.source.Signature.Results().At(i).Type()))
++		}
++		results[len(results)-1] = err
++		b.returnValues(fn, &ast.ReturnStmt{Return: e.OpPos}, results)
++	}
++	fn.currentBlock = done
++	return values[:len(values)-1]
++}
+--- /dev/null
++++ b/go/ssa/gon_test.go
+@@ -0,0 +1,22 @@
++package ssa_test
++import (
++ "testing"
++ "go/ast"
++ "go/parser"
++ "go/token"
++ "go/types"
++ "os"
++ "path/filepath"
++ "golang.org/x/tools/go/ssa"
++ "golang.org/x/tools/go/ssa/ssautil"
++ "golang.org/x/tools/go/ssa/interp"
++)
++func TestGonErrorFlow(t *testing.T) {
++ root:=os.Getenv("GON_ROOT"); if root=="" { t.Skip("set GON_ROOT to run compiler/analysis executable pairs") }
++ for _,name:=range []string{"legacy","modern"} { t.Run(name,func(t *testing.T) {
++ fset:=token.NewFileSet()
++ f,err:=parser.ParseFile(fset,filepath.Join(root,"misc/gon/analysisfixtures",name+".go"),nil,parser.SkipObjectResolution); if err!=nil {t.Fatal(err)}
++ p,_,err:=ssautil.BuildPackage(&types.Config{},fset,types.NewPackage("main","main"),[]*ast.File{f},ssa.SanityCheckFunctions | ssa.InstantiateGenerics | ssa.GlobalDebug); if err!=nil {t.Fatal(err)}
++ if code:=interp.Interpret(p,0,types.SizesFor("gc","arm64"),"main",nil); code!=0 {t.Fatalf("SSA execution failed: %d",code)}
++ }) }
++}
+--- a/internal/gcimporter/ureader.go
++++ b/internal/gcimporter/ureader.go
+@@ -629,11 +629,26 @@
+ 				})
+ 			}
+ 
+-			for i, n := 0, r.Len(); i < n; i++ {
+-				named.AddMethod(r.method())
+-			}
+-
+ 			if r.Version().Has(pkgbits.GenericMethods) {
++				// V4 (go1.27.0) emitted all non-generic methods
++				// before all generic ones, discarding source
++				// order: a bug (go.dev/issue/81188).
++				// V5 (go1.27.x) fixes it by emitting an explicit
++				// index along with each method.
++				type indexedMethod struct {
++					index int // (or -1 in V4)
++					fn    *types.Func
++				}
++
++				var methods []indexedMethod
++
++				// ordinary methods
++				for range r.Len() {
++					idx, m := r.method()
++					methods = append(methods, indexedMethod{idx, m})
++				}
++
++				// generic methods
+ 				for range r.Len() {
+ 					// Careful: objIdx is used to read in package-scoped declarations, which
+ 					// methods are not. Instead, decode it here. This makes it easier to
+@@ -648,11 +663,31 @@
+ 					pkg, name := r.selector()
+ 					rtparams := r.typeParamNames(true)
+ 					recv := r.param()
++					methodIdx := -1
++					if r.Version().Has(pkgbits.PreserveMethodOrder) {
++						methodIdx = r.Len()
++					}
+ 					tparams := r.typeParamNames(false)
+ 					sig := r.signature(recv, rtparams, tparams)
+ 
+ 					pr.retireReader(r)
+-					named.AddMethod(types.NewFunc(pos, pkg, name, sig))
++					methods = append(methods, indexedMethod{methodIdx, types.NewFunc(pos, pkg, name, sig)})
++				}
++
++				if r.Version().Has(pkgbits.PreserveMethodOrder) {
++					sort.Slice(methods, func(i, j int) bool {
++						return methods[i].index < methods[j].index
++					})
++				}
++
++				for _, m := range methods {
++					named.AddMethod(m.fn)
++				}
++
++			} else {
++				for range r.Len() {
++					_, m := r.method()
++					named.AddMethod(m)
+ 				}
+ 			}
+ 
+@@ -766,8 +801,12 @@
+ 	return tparams
+ }
+ 
+-func (r *reader) method() *types.Func {
++func (r *reader) method() (int, *types.Func) {
+ 	r.Sync(pkgbits.SyncMethod)
++	idx := -1
++	if r.Version().Has(pkgbits.PreserveMethodOrder) {
++		idx = r.Len()
++	}
+ 	pos := r.pos()
+ 	pkg, name := r.selector()
+ 
+@@ -775,7 +814,7 @@
+ 	sig := r.signature(r.param(), rparams, nil)
+ 
+ 	_ = r.pos() // TODO(mdempsky): Remove; this is a hacker for linker.go.
+-	return types.NewFunc(pos, pkg, name, sig)
++	return idx, types.NewFunc(pos, pkg, name, sig)
+ }
+ 
+ func (r *reader) qualifiedIdent() (*types.Package, string) { return r.ident(pkgbits.SyncSym) }
+--- a/internal/pkgbits/version.go
++++ b/internal/pkgbits/version.go
+@@ -36,6 +36,10 @@
+ 
+ 	// V4: encodes generic methods as standalone function objects
+ 	V4
++
++	// V5: encodes the index of methods to preserve relative order
++	// of nongeneric and generic methods (go.dev/issue/81188).
++	V5
+ 
+ 	numVersions = iota
+ )
+@@ -76,6 +80,10 @@
+ 	// Generic methods may appear as standalone function objects.
+ 	GenericMethods
+ 
++	// Method index is encoded to preserve relative order of
++	// nongeneric and generic methods.
++	PreserveMethodOrder
++
+ 	numFields = iota
+ )
+ 
+@@ -85,6 +93,7 @@
+ 	AliasTypeParamNames: V2,
+ 	CompactCompLiterals: V3,
+ 	GenericMethods:      V4,
++	PreserveMethodOrder: V5,
+ }
+ 
+ // removed is the version a field was removed in or 0 for fields
+--- a/internal/typesinternal/errorcode.go
++++ b/internal/typesinternal/errorcode.go
+@@ -1557,4 +1557,64 @@
+ 	// compiled for a language version before go1.20.
+ 	_ // not used anymore
+ 
++	// The codes below match internal/types/errors of the Gon toolchain,
++	// including InvalidErrorHandling for postfix ! and "or name { }".
++
++	// InvalidClear occurs when clear is called with an argument
++	// that is not of map or slice type.
++	//
++	// Example:
++	//  func _(x int) {
++	//  	clear(x)
++	//  }
++	InvalidClear
++
++	// TypeTooLarge occurs if unsafe.Sizeof or unsafe.Offsetof is
++	// called with an expression whose type is too large.
++	//
++	// Example:
++	//  import "unsafe"
++	//
++	//  type E [1 << 31 - 1]int
++	//  var a [1 << 31]E
++	//  var _ = unsafe.Sizeof(a)
++	//
++	// Example:
++	//  import "unsafe"
++	//
++	//  type E [1 << 31 - 1]int
++	//  var s struct {
++	//  	_ [1 << 31]E
++	//  	x int
++	//  }
++	// var _ = unsafe.Offsetof(s.x)
++	TypeTooLarge
++
++	// InvalidMinMaxOperand occurs if min or max is called
++	// with an operand that cannot be ordered because it
++	// does not support the < operator.
++	//
++	// Example:
++	//  const _ = min(true)
++	//
++	// Example:
++	//  var s, t []byte
++	//  var _ = max(s, t)
++	InvalidMinMaxOperand
++
++	// TooNew indicates that, through build tags or a go.mod file,
++	// a source file requires a version of Go that is newer than
++	// the logic of the type checker. As a consequence, the type
++	// checker may produce spurious errors or fail to report real
++	// errors. The solution is to rebuild the application with a
++	// newer Go release.
++	TooNew
++
++	// InvalidErrorHandling occurs when a postfix error propagation or local
++	// error handler uses an invalid operand, enclosing function, or handler.
++	//
++	// Example:
++	//  func f() int { return 1 }
++	//  func g() error { f()!; return nil }
++	InvalidErrorHandling
+ )
+--- a/internal/typesinternal/errorcode_string.go
++++ b/internal/typesinternal/errorcode_string.go
+@@ -155,15 +155,22 @@
+ 	_ = x[MisplacedTypeParam-144]
+ 	_ = x[InvalidUnsafeSliceData-145]
+ 	_ = x[InvalidUnsafeString-146]
++	_ = x[InvalidClear-148]
++	_ = x[TypeTooLarge-149]
++	_ = x[InvalidMinMaxOperand-150]
++	_ = x[TooNew-151]
++	_ = x[InvalidErrorHandling-152]
+ }
+ 
+ const (
+ 	_ErrorCode_name_0 = "InvalidSyntaxTree"
+ 	_ErrorCode_name_1 = "TestBlankPkgNameMismatchedPkgNameInvalidPkgUseBadImportPathBrokenImportImportCRenamedUnusedImportInvalidInitCycleDuplicateDeclInvalidDeclCycleInvalidTypeCycleInvalidConstInitInvalidConstValInvalidConstTypeUntypedNilUseWrongAssignCountUnassignableOperandNoNewVarMultiValAssignOpInvalidIfaceAssignInvalidChanAssignIncompatibleAssignUnaddressableFieldAssignNotATypeInvalidArrayLenBlankIfaceMethodIncomparableMapKeyInvalidIfaceEmbedInvalidPtrEmbedBadRecvInvalidRecvDuplicateFieldAndMethodDuplicateMethodInvalidBlankInvalidIotaMissingInitBodyInvalidInitSigInvalidInitDeclInvalidMainDeclTooManyValuesNotAnExprTruncatedFloatNumericOverflowUndefinedOpMismatchedTypesDivByZeroNonNumericIncDecUnaddressableOperandInvalidIndirectionNonIndexableOperandInvalidIndexSwappedSliceIndicesNonSliceableOperandInvalidSliceExprInvalidShiftCountInvalidShiftOperandInvalidReceiveInvalidSendDuplicateLitKeyMissingLitKeyInvalidLitIndexOversizeArrayLitMixedStructLitInvalidStructLitMissingLitFieldDuplicateLitFieldUnexportedLitFieldInvalidLitFieldUntypedLitInvalidLitAmbiguousSelectorUndeclaredImportedNameUnexportedNameUndeclaredNameMissingFieldOrMethodBadDotDotDotSyntaxNonVariadicDotDotDotMisplacedDotDotDotInvalidDotDotDotOperandInvalidDotDotDotUncalledBuiltinInvalidAppendInvalidCapInvalidCloseInvalidCopyInvalidComplexInvalidDeleteInvalidImagInvalidLenSwappedMakeArgsInvalidMakeInvalidRealInvalidAssertImpossibleAssertInvalidConversionInvalidUntypedConversionBadOffsetofSyntaxInvalidOffsetofUnusedExprUnusedVarMissingReturnWrongResultCountOutOfScopeResultInvalidCondInvalidPostDeclInvalidChanRangeInvalidIterVarInvalidRangeExprMisplacedBreakMisplacedContinueMisplacedFallthroughDuplicateCaseDuplicateDefaultBadTypeKeywordInvalidTypeSwitchInvalidExprSwitchInvalidSelectCaseUndeclaredLabelDuplicateLabelMisplacedLabelUnusedLabelJumpOverDeclJumpIntoBlockInvalidMethodExprWrongArgCountInvalidCallUnusedResultsInvalidDeferInvalidGoBadDeclRepeatedDeclInvalidUnsafeAddInvalidUnsafeSliceUnsupportedFeatureNotAGenericTypeWrongTypeArgCountCannotInferTypeArgsInvalidTypeArgInvalidInstanceCycleInvalidUnionMisplacedConstraintIfaceInvalidMethodTypeParamsMisplacedTypeParamInvalidUnsafeSliceDataInvalidUnsafeString"
++	_ErrorCode_name_2 = "InvalidClearTypeTooLargeInvalidMinMaxOperandTooNewInvalidErrorHandling"
+ )
+ 
+ var (
+ 	_ErrorCode_index_1 = [...]uint16{0, 4, 16, 33, 46, 59, 71, 85, 97, 113, 126, 142, 158, 174, 189, 205, 218, 234, 253, 261, 277, 295, 312, 330, 354, 362, 377, 393, 411, 428, 443, 450, 461, 484, 499, 511, 522, 537, 551, 566, 581, 594, 603, 617, 632, 643, 658, 667, 683, 703, 721, 740, 752, 771, 790, 806, 823, 842, 856, 867, 882, 895, 910, 926, 940, 956, 971, 988, 1006, 1021, 1031, 1041, 1058, 1080, 1094, 1108, 1128, 1146, 1166, 1184, 1207, 1223, 1238, 1251, 1261, 1273, 1284, 1298, 1311, 1322, 1332, 1347, 1358, 1369, 1382, 1398, 1415, 1439, 1456, 1471, 1481, 1490, 1503, 1519, 1535, 1546, 1561, 1577, 1591, 1607, 1621, 1638, 1658, 1671, 1687, 1701, 1718, 1735, 1752, 1767, 1781, 1795, 1806, 1818, 1831, 1848, 1861, 1872, 1885, 1897, 1906, 1913, 1925, 1941, 1959, 1977, 1992, 2009, 2028, 2042, 2062, 2074, 2098, 2121, 2139, 2161, 2180}
++	_ErrorCode_index_2 = [...]uint8{0, 12, 24, 44, 50, 70}
+ )
+ 
+ func (i ErrorCode) String() string {
+@@ -173,6 +180,9 @@
+ 	case 1 <= i && i <= 146:
+ 		i -= 1
+ 		return _ErrorCode_name_1[_ErrorCode_index_1[i]:_ErrorCode_index_1[i+1]]
++	case 148 <= i && i <= 152:
++		i -= 148
++		return _ErrorCode_name_2[_ErrorCode_index_2[i]:_ErrorCode_index_2[i+1]]
+ 	default:
+ 		return "ErrorCode(" + strconv.FormatInt(int64(i), 10) + ")"
+ 	}
+--- /dev/null
++++ b/internal/typesinternal/gon_errorcode_test.go
+@@ -0,0 +1,34 @@
++package typesinternal_test
++
++import (
++	"path/filepath"
++	"runtime"
++	"testing"
++
++	"golang.org/x/tools/internal/typesinternal"
++)
++
++// TestGonErrorCodes checks, unlike the skipped upstream test, that every
++// type-checker code of the selected toolchain has the same value here, so
++// that gonpls reports stable code names such as InvalidErrorHandling.
++func TestGonErrorCodes(t *testing.T) {
++	std, err := loadCodes(filepath.Join(runtime.GOROOT(), "src", "internal", "types", "errors", "codes.go"))
++	if err != nil {
++		t.Fatal(err)
++	}
++	local, err := loadCodes("errorcode.go")
++	if err != nil {
++		t.Fatal(err)
++	}
++	if _, ok := std["InvalidErrorHandling"]; !ok {
++		t.Fatal("the selected GOROOT is not a Gon toolchain")
++	}
++	for name, value := range std {
++		if got, ok := local[name]; !ok || got != value {
++			t.Errorf("%s: got %d (present %v), toolchain has %d", name, got, ok, value)
++		}
++	}
++	if got := typesinternal.ErrorCode(std["InvalidErrorHandling"]).String(); got != "InvalidErrorHandling" {
++		t.Errorf("String() = %q", got)
++	}
++}
+--- /dev/null
++++ b/refactor/satisfy/errorhandling_test.go
+@@ -0,0 +1,54 @@
++// Copyright 2026 The Go Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style
++// license that can be found in the LICENSE file.
++
++package satisfy
++
++import (
++	"go/ast"
++	"go/parser"
++	"go/token"
++	"go/types"
++	"testing"
++)
++
++func TestErrorHandling(t *testing.T) {
++	fset := token.NewFileSet()
++	f, err := parser.ParseFile(fset, "p.go", `package p
++ type I interface{ M() }
++ type T struct{}
++ func (T) M() {}
++ func sink(I) {}
++ func pair() (int, string, error) { return 1, "", nil }
++ func read() (int, error) { return 1, nil }
++ func save() error { return nil }
++ func f() error {
++  a, b := pair()!
++  _, _ = a, b
++  c := read() or err { sink(T{}); return err }
++  _ = c
++  save()!
++  save() or err { sink(T{}) }
++  return nil
++ }
++`, 0)
++	if err != nil {
++		t.Fatal(err)
++	}
++	info := &types.Info{
++		Types:      make(map[ast.Expr]types.TypeAndValue),
++		Defs:       make(map[*ast.Ident]types.Object),
++		Uses:       make(map[*ast.Ident]types.Object),
++		Selections: make(map[*ast.SelectorExpr]*types.Selection),
++	}
++	pkg, err := new(types.Config).Check("p", fset, []*ast.File{f}, info)
++	if err != nil {
++		t.Fatal(err)
++	}
++	var finder Finder
++	finder.Find(info, []*ast.File{f})
++	constraint := Constraint{LHS: pkg.Scope().Lookup("I").Type(), RHS: pkg.Scope().Lookup("T").Type()}
++	if !finder.Result[constraint] {
++		t.Fatal("interface assignment inside error handler was not visited")
++	}
++}
+--- a/refactor/satisfy/find.go
++++ b/refactor/satisfy/find.go
+@@ -130,6 +130,9 @@
+ 	switch e := e.(type) {
+ 	case *ast.ParenExpr:
+ 		return f.exprN(e.X)
++
++	case *ast.ErrorExpr:
++		f.errorExpr(e)
+ 
+ 	case *ast.CallExpr:
+ 		// x, err := f(args)
+@@ -333,6 +336,18 @@
+ 	}
+ }
+ 
++// errorExpr visits the call and handler in the containing function.
++func (f *Finder) errorExpr(e *ast.ErrorExpr) {
++	if _, tuple := f.info.Types[e.X].Type.(*types.Tuple); tuple {
++		f.exprN(e.X)
++	} else {
++		f.expr(e.X)
++	}
++	if e.Body != nil {
++		f.stmt(e.Body)
++	}
++}
++
+ // expr visits a true expression (not a type or defining ident)
+ // and returns its type.
+ func (f *Finder) expr(e ast.Expr) types.Type {
+@@ -361,6 +376,9 @@
+ 		if e.Elt != nil {
+ 			f.expr(e.Elt)
+ 		}
++
++	case *ast.ErrorExpr:
++		f.errorExpr(e)
+ 
+ 	case *ast.FuncLit:
+ 		saved := f.sig

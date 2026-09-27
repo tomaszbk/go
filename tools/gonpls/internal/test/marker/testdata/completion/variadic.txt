@@ -1,0 +1,67 @@
+This test checks completion related to variadic functions.
+
+-- flags --
+-ignore_extra_diags
+
+-- variadic.go --
+package variadic
+
+func foo(i int, strs ...string) {}
+
+func bar() []string { //@item(vFunc, "bar", "func() []string", "func")
+	return nil
+}
+
+func _() {
+	var (
+		i  int        //@item(vInt, "i", "int", "var")
+		s  string     //@item(vStr, "s", "string", "var")
+		ss []string   //@item(vStrSlice, "ss", "[]string", "var")
+		v any //@item(vIntf, "v", "any", "var")
+	)
+
+	foo()           //@rank(re"()\\)", vInt, vStr),rank(re"()\\)", vInt, vStrSlice)
+	foo(123, )      //@rank(re"()\\)", vStr, vInt),rank(re"()\\)", vStrSlice, vInt)
+	foo(123, "", )  //@rank(re"()\\)", vStr, vInt),rank(re"()\\)", vStr, vStrSlice)
+	foo(123, s, "") //@rank(re"(), \"", vStr, vStrSlice)
+
+  // snippet will add the "..." for you
+	foo(123, ) //@snippet(re"()\\)", vStrSlice, "ss..."),snippet(re"()\\)", vFunc, "bar()..."),snippet(re"()\\)", vStr, "s")
+
+	// don't add "..." for any
+	foo(123, ) //@snippet(re"()\\)", vIntf, "v")
+}
+
+func qux(...func()) {}
+func f()            {} //@item(vVarArg, "f", "func()", "func")
+
+func _() {
+	qux(f) //@snippet(re"()\\)", vVarArg, "f")
+}
+
+func _() {
+	foo(0, []string{}...) //@complete(re"()\\)")
+}
+
+-- variadic_intf.go --
+package variadic
+
+type baz interface {
+	baz()
+}
+
+func wantsBaz(...baz) {}
+
+type bazImpl int
+
+func (bazImpl) baz() {}
+
+func _() {
+	var (
+		impls []bazImpl //@item(vImplSlice, "impls", "[]bazImpl", "var")
+		impl  bazImpl   //@item(vImpl, "impl", "bazImpl", "var")
+		bazes []baz     //@item(vIntfSlice, "bazes", "[]baz", "var")
+	)
+
+	wantsBaz() //@rank(re"()\\)", vImpl, vImplSlice),rank(re"()\\)", vIntfSlice, vImplSlice)
+}

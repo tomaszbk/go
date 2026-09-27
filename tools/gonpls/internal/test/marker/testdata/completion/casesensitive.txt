@@ -1,0 +1,24 @@
+This test exercises the caseSensitive completion matcher.
+
+-- flags --
+-ignore_extra_diags
+
+-- settings.json --
+{
+	"completeUnimported": false,
+	"matcher": "caseSensitive"
+}
+
+-- casesensitive.go --
+package casesensitive
+
+func _() {
+	var lower int //@item(lower, "lower", "int", "var")
+	var Upper int //@item(upper, "Upper", "int", "var")
+
+	l //@complete(re"() \\/\\/", lower)
+	U //@complete(re"() \\/\\/", upper)
+
+	L //@complete(re"() \\/\\/")
+	u //@complete(re"() \\/\\/")
+}

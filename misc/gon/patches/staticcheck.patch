@@ -1,0 +1,205 @@
+--- a/go/ir/builder.go
++++ b/go/ir/builder.go
+@@ -659,6 +659,9 @@
+ 
+ func (b *builder) expr0(fn *Function, e ast.Expr, tv types.TypeAndValue) Value {
+ 	switch e := e.(type) {
++	case *ast.ErrorExpr:
++		return b.errorExpr(fn, e)[0]
++
+ 	case *ast.BasicLit:
+ 		panic("non-constant BasicLit") // unreachable
+ 
+@@ -1094,6 +1097,10 @@
+ 	// multiple return values (MRV), they are flattened out into
+ 	// args; a suffix of them may end up in a varargs slice.
+ 	for _, arg := range e.Args {
++		if e, ok := unparen(arg).(*ast.ErrorExpr); ok {
++			args = append(args, b.errorExpr(fn, e)...)
++			continue
++		}
+ 		v := b.expr(fn, arg)
+ 		if ttuple, ok := v.Type().(*types.Tuple); ok { // MRV chain
+ 			for i, n := 0, ttuple.Len(); i < n; i++ {
+@@ -1191,12 +1198,12 @@
+ 
+ 	default:
+ 		// e.g. var x, y = pos()
+-		tuple := b.exprN(fn, spec.Values[0])
++		values := b.exprList(fn, spec.Values[0])
+ 		for i, id := range spec.Names {
+ 			if !isBlankIdent(id) {
+ 				emitLocalVar(fn, identVar(fn, id), id)
+ 				lhs := b.addr(fn, id, false) // non-escaping
+-				lhs.store(fn, emitExtract(fn, tuple, i, id), id)
++				lhs.store(fn, values[i], id)
+ 			}
+ 		}
+ 	}
+@@ -1237,10 +1244,18 @@
+ 		sb.emit(fn)
+ 	} else {
+ 		// e.g. x, y = pos()
+-		tuple := b.exprN(fn, rhss[0])
+-		emitDebugRef(fn, rhss[0], tuple, false)
++		var values []Value
++		if e, ok := unparen(rhss[0]).(*ast.ErrorExpr); ok {
++			values = b.errorExpr(fn, e)
++		} else {
++			tuple := b.exprN(fn, rhss[0])
++			emitDebugRef(fn, rhss[0], tuple, false)
++			for i := 0; i < tuple.Type().(*types.Tuple).Len(); i++ {
++				values = append(values, emitExtract(fn, tuple, i, rhss[0]))
++			}
++		}
+ 		for i, lval := range lvals {
+-			lval.store(fn, emitExtract(fn, tuple, i, source), source)
++			lval.store(fn, values[i], source)
+ 		}
+ 	}
+ }
+@@ -2982,7 +2997,11 @@
+ 		goto start // effectively: tailcall stmt(fn, s.Stmt, label)
+ 
+ 	case *ast.ExprStmt:
+-		b.expr(fn, s.X)
++		if e, ok := unparen(s.X).(*ast.ErrorExpr); ok {
++			b.errorExpr(fn, e)
++		} else {
++			b.expr(fn, s.X)
++		}
+ 
+ 	case *ast.SendStmt:
+ 		instr := &Send{
+@@ -3129,12 +3148,8 @@
+ 	// Convert return operands to result type.
+ 	if len(s.Results) == 1 && sig.Results().Len() > 1 {
+ 		// Return of one expression in a multi-valued function.
+-		tuple := b.exprN(fn, s.Results[0])
+-		ttuple := tuple.Type().(*types.Tuple)
+-		for i, n := 0, ttuple.Len(); i < n; i++ {
+-			results = append(results,
+-				emitConv(fn, emitExtract(fn, tuple, i, s),
+-					sig.Results().At(i).Type(), s))
++		for i, v := range b.exprList(fn, s.Results[0]) {
++			results = append(results, emitConv(fn, v, sig.Results().At(i).Type(), s))
+ 		}
+ 	} else {
+ 		// 1:1 return, or no-arg return in non-void function.
+@@ -3144,6 +3159,11 @@
+ 		}
+ 	}
+ 
++	b.returnValues(fn, s, results)
++}
++
++// returnValues also handles returns from Gon propagation, including range-over-func.
++func (b *builder) returnValues(fn *Function, s *ast.ReturnStmt, results []Value) {
+ 	// Store the results.
+ 	for i, r := range results {
+ 		var result Value // fn.sourceFn.result[i] conceptually
+--- /dev/null
++++ b/go/ir/gon.go
+@@ -0,0 +1,54 @@
++package ir
++
++import (
++	"go/ast"
++	"go/token"
++	"go/types"
++)
++
++// exprList keeps the successful components of a Gon expression as separate
++// SSA values. The operand's trailing error must not leak into calls or returns.
++func (b *builder) exprList(fn *Function, e ast.Expr) []Value {
++	if e, ok := unparen(e).(*ast.ErrorExpr); ok {
++		return b.errorExpr(fn, e)
++	}
++	tuple := b.exprN(fn, e)
++	emitDebugRef(fn, e, tuple, false)
++	values := make([]Value, tuple.Type().(*types.Tuple).Len())
++	for i := range values {
++		values[i] = emitExtract(fn, tuple, i, e)
++	}
++	return values
++}
++
++func (b *builder) errorExpr(fn *Function, e *ast.ErrorExpr) []Value {
++	var values []Value
++	if _, ok := fn.typeOf(e.X).(*types.Tuple); ok {
++		values = b.exprList(fn, e.X)
++	} else {
++		values = []Value{b.expr(fn, e.X)}
++	}
++	err := values[len(values)-1]
++	failed := fn.newBasicBlock("error.handler")
++	done := fn.newBasicBlock("error.done")
++	emitIf(fn, emitCompare(fn, token.NEQ, err, zeroConst(err.Type(), e), e), failed, done, e)
++	fn.currentBlock = failed
++	if e.Body != nil {
++		if !isBlankIdent(e.Err) {
++			addr := emitLocalVar(fn, identVar(fn, e.Err), e)
++			emitStore(fn, addr, err, e)
++			emitDebugRef(fn, e.Err, addr, true)
++		}
++		b.stmt(fn, e.Body)
++		emitJump(fn, done, e)
++	} else {
++		results := make([]Value, fn.source.Signature.Results().Len())
++		for i := range results {
++			results[i] = zeroConst(fn.typ(fn.source.Signature.Results().At(i).Type()), e)
++		}
++		results[len(results)-1] = err
++		b.returnValues(fn, &ast.ReturnStmt{Return: e.OpPos}, results)
++	}
++	fn.currentBlock = done
++	return values[:len(values)-1]
++}
+--- /dev/null
++++ b/go/ir/gon_test.go
+@@ -0,0 +1,21 @@
++package ir_test
++import (
++ "testing"
++ "go/ast"
++ "go/parser"
++ "go/token"
++ "go/types"
++ "os"
++ "path/filepath"
++ "honnef.co/go/tools/go/ir"
++ "honnef.co/go/tools/go/ir/irutil"
++)
++func TestGonErrorFlow(t *testing.T) {
++ root:=os.Getenv("GON_ROOT"); if root=="" { t.Skip("set GON_ROOT to run compiler/analysis executable pairs") }
++ for _,name:=range []string{"legacy","modern"} { t.Run(name,func(t *testing.T) {
++ fset:=token.NewFileSet()
++ f,err:=parser.ParseFile(fset,filepath.Join(root,"misc/gon/analysisfixtures",name+".go"),nil,parser.SkipObjectResolution); if err!=nil {t.Fatal(err)}
++ p,_,err:=irutil.BuildPackage(&types.Config{},fset,types.NewPackage("main","main"),[]*ast.File{f},ir.SanityCheckFunctions | ir.InstantiateGenerics | ir.GlobalDebug); if err!=nil {t.Fatal(err)}
++ if p.Func("main")==nil {t.Fatal("missing main IR")}
++ }) }
++}
+--- a/staticcheck/sa4006/sa4006.go
++++ b/staticcheck/sa4006/sa4006.go
+@@ -116,7 +116,11 @@
+ 				// Either a function call with multiple return values,
+ 				// or a comma-ok assignment
+ 
+-				val, _ := fn.ValueForExpr(assign.Rhs[0])
++				rhs := assign.Rhs[0]
++				if e, ok := ast.Unparen(rhs).(*ast.ErrorExpr); ok {
++					rhs = e.X
++				}
++				val, _ := fn.ValueForExpr(rhs)
+ 				if val == nil {
+ 					return true
+ 				}
+@@ -126,7 +130,7 @@
+ 				}
+ 				for _, ref := range *refs {
+ 					ex, ok := ref.(*ir.Extract)
+-					if !ok {
++					if !ok || ex.Index >= len(assign.Lhs) {
+ 						continue
+ 					}
+ 					if !hasUse(ex, nil) {

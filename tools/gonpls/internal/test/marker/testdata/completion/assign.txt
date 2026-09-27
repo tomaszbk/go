@@ -1,0 +1,47 @@
+This test checks that completion considers assignability when ranking results.
+
+-- flags --
+-ignore_extra_diags
+
+-- go.mod --
+module golang.org/lsptests/assign
+
+go 1.18
+
+-- settings.json --
+{
+	"completeUnimported": false
+}
+
+-- assign.go --
+package assign
+
+import "golang.org/lsptests/assign/internal/secret"
+
+func _() {
+	secret.Hello()
+	var (
+		myInt int //@item(assignInt, "myInt", "int", "var")
+		myStr string //@item(assignStr, "myStr", "string", "var")
+	)
+
+	var _ string = my //@rank(re"() \\/\\/", assignStr, assignInt)
+	var _ string = //@rank(re"() \\/\\/", assignStr, assignInt)
+}
+
+func _() {
+	var a string = a //@complete(re"() \\/\\/")
+}
+
+func _() {
+	fooBar := fooBa //@complete(re"() \\/\\/"),item(assignFooBar, "fooBar", "", "var")
+	abc, fooBar := 123, fooBa //@complete(re"() \\/\\/", assignFooBar)
+	{
+		fooBar := fooBa //@complete(re"() \\/\\/", assignFooBar)
+	}
+}
+
+-- internal/secret/secret.go --
+package secret
+
+func Hello() {}
