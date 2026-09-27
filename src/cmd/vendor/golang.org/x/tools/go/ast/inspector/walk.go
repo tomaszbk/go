@@ -110,6 +110,15 @@ func walk(v *visitor, ek edge.Kind, index int, node ast.Node) {
 		walk(v, edge.CallExpr_Fun, -1, n.Fun)
 		walkList(v, edge.CallExpr_Args, n.Args)
 
+	case *ast.ErrorExpr:
+		walk(v, edge.ErrorExpr_X, -1, n.X)
+		if n.Err != nil {
+			walk(v, edge.ErrorExpr_Err, -1, n.Err)
+		}
+		if n.Body != nil {
+			walk(v, edge.ErrorExpr_Body, -1, n.Body)
+		}
+
 	case *ast.StarExpr:
 		walk(v, edge.StarExpr_X, -1, n.X)
 

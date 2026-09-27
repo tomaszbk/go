@@ -87,7 +87,7 @@ func (s *Scope) String() string {
 type Object struct {
 	Kind ObjKind
 	Name string // declared name
-	Decl any    // corresponding Field, XxxSpec, FuncDecl, LabeledStmt, AssignStmt, Scope; or nil
+	Decl any    // corresponding Field, XxxSpec, FuncDecl, LabeledStmt, AssignStmt, ErrorExpr, Scope; or nil
 	Data any    // object-specific data; or nil
 	Type any    // placeholder for type information; may be nil
 }
@@ -131,6 +131,10 @@ func (obj *Object) Pos() token.Pos {
 	case *LabeledStmt:
 		if d.Label.Name == name {
 			return d.Label.Pos()
+		}
+	case *ErrorExpr:
+		if d.Err != nil && d.Err.Name == name {
+			return d.Err.Pos()
 		}
 	case *AssignStmt:
 		for _, x := range d.Lhs {

@@ -388,6 +388,8 @@ func (c *DeepCopier) CopyExpr(e syntax.Expr) syntax.Expr {
 		newE = &syntax.TypeSwitchGuard{Lhs: c.CopyName(e.Lhs, true), X: c.CopyExpr(e.X)}
 	case *syntax.Operation:
 		newE = &syntax.Operation{Op: e.Op, X: c.CopyExpr(e.X), Y: c.CopyExpr(e.Y)}
+	case *syntax.ErrorExpr:
+		newE = &syntax.ErrorExpr{X: c.CopyExpr(e.X), Err: c.CopyName(e.Err, true), Body: c.CopyBlockStmt(e.Body)}
 	case *syntax.CallExpr:
 		newCall := &syntax.CallExpr{
 			Fun:     c.CopyExpr(e.Fun),

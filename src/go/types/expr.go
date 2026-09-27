@@ -268,6 +268,7 @@ func (check *Checker) updateExprType(x ast.Expr, typ Type, final bool) {
 	switch x := x.(type) {
 	case *ast.BadExpr,
 		*ast.FuncLit,
+		*ast.ErrorExpr,
 		*ast.CompositeLit,
 		*ast.IndexExpr,
 		*ast.SliceExpr,
@@ -1149,6 +1150,9 @@ func (check *Checker) exprInternal(T *target, x *operand, e ast.Expr) exprKind {
 		check.typeAssertion(e, x, T, false)
 		x.mode_ = commaok
 		x.typ_ = T
+
+	case *ast.ErrorExpr:
+		return check.errorExpr(x, e)
 
 	case *ast.CallExpr:
 		return check.callExpr(x, e)

@@ -1,0 +1,7 @@
+pkg go/ast, method (*ErrorExpr) End() token.Pos
+pkg go/ast, method (*ErrorExpr) Pos() token.Pos
+pkg go/ast, type ErrorExpr struct
+pkg go/ast, type ErrorExpr struct, Body *BlockStmt
+pkg go/ast, type ErrorExpr struct, Err *Ident
+pkg go/ast, type ErrorExpr struct, OpPos token.Pos
+pkg go/ast, type ErrorExpr struct, X Expr

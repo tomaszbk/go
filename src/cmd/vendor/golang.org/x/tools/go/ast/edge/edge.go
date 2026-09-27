@@ -166,6 +166,10 @@ const (
 	ValueSpec_Type
 	ValueSpec_Values
 
+	ErrorExpr_X
+	ErrorExpr_Err
+	ErrorExpr_Body
+
 	maxKind
 )
 
@@ -191,6 +195,9 @@ func info[N ast.Node](fieldName string) fieldInfo {
 }
 
 var fieldInfos = [...]fieldInfo{
+	ErrorExpr_X:           info[*ast.ErrorExpr]("X"),
+	ErrorExpr_Err:         info[*ast.ErrorExpr]("Err"),
+	ErrorExpr_Body:        info[*ast.ErrorExpr]("Body"),
 	Invalid:               {},
 	ArrayType_Elt:         info[*ast.ArrayType]("Elt"),
 	ArrayType_Len:         info[*ast.ArrayType]("Len"),

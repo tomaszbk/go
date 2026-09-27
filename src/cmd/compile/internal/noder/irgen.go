@@ -204,6 +204,8 @@ recheck:
 		dumpSyntax(pkg, info, files, "midway after recheck")
 	}
 
+	prepareErrorPropagation(pkg, info, files)
+
 	// Rewrite range over function to explicit function calls
 	// with the loop bodies converted into new implicit closures.
 	// We do this now, before serialization to unified IR, so that if the

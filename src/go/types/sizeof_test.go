@@ -45,7 +45,7 @@ func TestSizeof(t *testing.T) {
 		{Nil{}, 36, 72},
 
 		// Misc
-		{Scope{}, 48, 96},
+		{Scope{}, 56, 112}, // includes signature and body position for Eval
 		{Package{}, 44, 88},
 		{_TypeSet{}, 28, 56},
 	}

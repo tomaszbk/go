@@ -29,6 +29,8 @@ type Scope struct {
 	pos, end    syntax.Pos               // scope extent; may be invalid
 	comment     string                   // for debugging only
 	isFunc      bool                     // set if this is a function scope (internal use only)
+	funcSig     *Signature               // signature for a function body, if any
+	funcBodyPos syntax.Pos               // start of that body
 	sortedNames atomic.Pointer[[]string] // lazy cache of Names(), cleared during mutation
 }
 

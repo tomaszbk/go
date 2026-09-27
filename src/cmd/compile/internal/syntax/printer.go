@@ -425,6 +425,14 @@ func (p *printer) printRawNode(n Node) {
 		}
 		p.print(n.X, _Dot, _Lparen, _Type, _Rparen)
 
+	case *ErrorExpr:
+		p.print(n.X)
+		if n.Body == nil {
+			p.print(Not)
+		} else {
+			p.print(blank, _Name, "or", blank, n.Err, blank, n.Body)
+		}
+
 	case *CallExpr:
 		p.print(n.Fun, _Lparen)
 		p.printExprList(n.ArgList)

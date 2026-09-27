@@ -1965,6 +1965,15 @@ func (w *writer) expr(expr syntax.Expr) {
 	default:
 		w.p.unexpected("expression", expr)
 
+	case *syntax.ErrorExpr:
+		w.Code(exprError)
+		w.pos(expr)
+		w.expr(expr.X)
+		w.openScope(expr.Pos())
+		w.assign(expr.Err)
+		w.blockStmt(expr.Body)
+		w.closeScope(expr.Body.Rbrace)
+
 	case *syntax.CompositeLit:
 		w.Code(exprCompLit)
 		w.compLit(expr)

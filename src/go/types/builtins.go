@@ -684,10 +684,8 @@ func (check *Checker) builtin(x *operand, call *ast.CallExpr, id builtinId) (_ b
 
 	case _Panic:
 		// panic(x)
-		// record panic call if inside a function with result parameters
-		// (for use in Checker.isTerminating)
-		if check.sig != nil && check.sig.results.Len() > 0 {
-			// function has result parameters
+		// Record panic calls for function and error-handler termination checks.
+		if check.sig != nil {
 			p := check.isPanic
 			if p == nil {
 				// allocate lazily

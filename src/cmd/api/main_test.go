@@ -184,6 +184,9 @@ func Check(t *testing.T) {
 	for _, file := range nextFiles {
 		required = append(required, fileFeatures(file, true)...)
 	}
+	// This fork's additive API is tracked independently from proposals
+	// approved by the upstream Go project.
+	required = append(required, fileFeatures(filepath.Join(testenv.GOROOT(t), "api/fork.txt"), false)...)
 	exception := fileFeatures(filepath.Join(testenv.GOROOT(t), "api/except.txt"), false)
 
 	if exitCode == 1 {

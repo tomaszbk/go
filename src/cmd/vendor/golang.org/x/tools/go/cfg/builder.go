@@ -501,6 +501,33 @@ func (b *builder) newBlock(kind BlockKind, stmt ast.Stmt) *Block {
 }
 
 func (b *builder) add(n ast.Node) {
+	// Error handling can branch or return while evaluating an expression.
+	// Keep those paths in the CFG, without entering nested function bodies.
+	// As with ordinary expressions, this graph conservatively ignores the
+	// short-circuiting of && and ||.
+	ast.Inspect(n, func(node ast.Node) bool {
+		switch e := node.(type) {
+		case *ast.FuncLit:
+			return false
+		case *ast.ErrorExpr:
+			b.add(e.X)
+			handler := b.newBlock(KindErrorHandler, nil)
+			done := b.newBlock(KindErrorDone, nil)
+			b.ifelse(handler, done)
+			b.current = handler
+			if e.Body != nil {
+				b.stmt(e.Body)
+			} else {
+				// A non-nil results list distinguishes propagation (which
+				// zeros named results) from an ordinary naked return.
+				b.stmt(&ast.ReturnStmt{Return: e.OpPos, Results: []ast.Expr{}})
+			}
+			b.jump(done)
+			b.current = done
+			return false
+		}
+		return true
+	})
 	b.current.Nodes = append(b.current.Nodes, n)
 }
 

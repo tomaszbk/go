@@ -967,6 +967,18 @@ func (p *printer) expr1(expr ast.Expr, prec1, depth int) {
 		p.setPos(x.Rbrack)
 		p.print(token.RBRACK)
 
+	case *ast.ErrorExpr:
+		p.expr1(x.X, token.HighestPrec, depth)
+		p.setPos(x.OpPos)
+		if x.Body == nil {
+			p.print(token.NOT)
+		} else {
+			p.print(blank, "or", blank)
+			p.expr(x.Err)
+			p.print(blank)
+			p.block(x.Body, 1)
+		}
+
 	case *ast.CallExpr:
 		if len(x.Args) > 1 {
 			depth++

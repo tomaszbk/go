@@ -37,6 +37,8 @@ func (check *Checker) funcBody(decl *declInfo, name string, sig *Signature, body
 		sig:     sig,
 	}
 	check.indent = 0
+	sig.scope.funcSig = sig
+	sig.scope.funcBodyPos = body.Pos()
 
 	check.stmtList(0, body.List)
 

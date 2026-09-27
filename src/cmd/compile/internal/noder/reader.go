@@ -2242,6 +2242,9 @@ func (r *reader) expr() (res ir.Node) {
 		typ := r.typ()
 		return ir.NewZero(pos, typ)
 
+	case exprError:
+		return r.errorExpr()
+
 	case exprCompLit:
 		return r.compLit()
 
@@ -3128,6 +3131,17 @@ func (r *reader) multiExpr() []ir.Node {
 
 		results := make([]ir.Node, r.Len())
 		as := ir.NewAssignListStmt(pos, ir.OAS2, nil, []ir.Node{expr})
+		var init ir.Nodes
+		// Error expressions already have individual result temporaries. Unpack
+		// them before typechecking the assignment, whose multi-result path is
+		// otherwise reserved for actual calls.
+		if inl, ok := expr.(*ir.InlinedCallExpr); ok {
+			as.Rhs = inl.ReturnVars
+			// Keep executable effects outside OAS2.Init: pre-ordering
+			// passes (notably deadlocals) only expect declarations there.
+			init.Append(inl.Init()...)
+			init.Append(inl.Body...)
+		}
 		as.Def = true
 		for i := range results {
 			tmp := r.temp(pos, r.typ())
@@ -3146,7 +3160,8 @@ func (r *reader) multiExpr() []ir.Node {
 		}
 
 		// TODO(mdempsky): Could use ir.InlinedCallExpr instead?
-		results[0] = ir.InitExpr([]ir.Node{typecheck.Stmt(as)}, results[0])
+		init.Append(typecheck.Stmt(as))
+		results[0] = ir.InitExpr(init, results[0])
 		return results
 	}
 

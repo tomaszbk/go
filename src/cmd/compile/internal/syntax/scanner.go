@@ -342,6 +342,7 @@ redo:
 		}
 		s.op, s.prec = Not, 0
 		s.tok = _Operator
+		s.nlsemi = true
 
 	case '~':
 		s.nextch()

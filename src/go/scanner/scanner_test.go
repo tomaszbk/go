@@ -415,7 +415,12 @@ var semicolonTests = [...]struct{ input, want string }{
 	{"<\n", "<"},
 	{">\n", ">"},
 	{"=\n", "="},
-	{"!\n", "!"},
+	{"!\n", "! ;"},
+	{"!", "! ;"},
+	{"! // trailing\n", "! COMMENT ;"},
+	{"! /* trailing */\n", "! COMMENT ;"},
+	{"! /* line\nbreak */", "! COMMENT ;"},
+	{"! true\n", "! IDENT ;"},
 
 	{"!=\n", "!="},
 	{"<=\n", "<="},

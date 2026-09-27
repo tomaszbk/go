@@ -87,6 +87,14 @@ func CheckExpr(fset *token.FileSet, pkg *Package, pos token.Pos, expr ast.Expr, 
 	check := NewChecker(nil, fset, pkg, info)
 	check.scope = scope
 	check.exprPos = pos
+	// Error expressions can return from the enclosing function. Recover the
+	// innermost actual body, skipping handler blocks and function types.
+	for s := scope; s != nil; s = s.parent {
+		if s.funcSig != nil && cmpPos(s.funcBodyPos, pos) <= 0 {
+			check.sig = s.funcSig
+			break
+		}
+	}
 	defer check.handleBailout(&err)
 
 	// evaluate node

@@ -133,6 +133,9 @@ func (f *Finder) exprN(e ast.Expr) types.Type {
 	case *ast.ParenExpr:
 		return f.exprN(e.X)
 
+	case *ast.ErrorExpr:
+		f.errorExpr(e)
+
 	case *ast.CallExpr:
 		// x, err := f(args)
 		if sig := hasUnderlyingTermOf[*types.Signature](f.expr(e.Fun)); sig != nil {
@@ -342,6 +345,19 @@ func (f *Finder) compare(x, y types.Type) {
 	}
 }
 
+// errorExpr visits the call and the local handler while retaining the
+// containing function signature for returns from that handler.
+func (f *Finder) errorExpr(e *ast.ErrorExpr) {
+	if _, tuple := f.info.Types[e.X].Type.(*types.Tuple); tuple {
+		f.exprN(e.X)
+	} else {
+		f.expr(e.X)
+	}
+	if e.Body != nil {
+		f.stmt(e.Body)
+	}
+}
+
 // expr visits a true expression (not a type or defining ident)
 // and returns its type.
 func (f *Finder) expr(e ast.Expr) types.Type {
@@ -371,6 +387,9 @@ func (f *Finder) expr(e ast.Expr) types.Type {
 		if e.Elt != nil {
 			f.expr(e.Elt)
 		}
+
+	case *ast.ErrorExpr:
+		f.errorExpr(e)
 
 	case *ast.FuncLit:
 		saved := f.sig

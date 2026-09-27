@@ -163,6 +163,15 @@ func (w walker) node(n Node) {
 			w.node(n.Y)
 		}
 
+	case *ErrorExpr:
+		w.node(n.X)
+		if n.Err != nil {
+			w.node(n.Err)
+		}
+		if n.Body != nil {
+			w.node(n.Body)
+		}
+
 	case *CallExpr:
 		w.node(n.Fun)
 		w.exprList(n.ArgList)

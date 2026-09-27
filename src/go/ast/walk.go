@@ -120,6 +120,15 @@ func Walk(v Visitor, node Node) {
 		Walk(v, n.Fun)
 		walkList(v, n.Args)
 
+	case *ErrorExpr:
+		Walk(v, n.X)
+		if n.Err != nil {
+			Walk(v, n.Err)
+		}
+		if n.Body != nil {
+			Walk(v, n.Body)
+		}
+
 	case *StarExpr:
 		Walk(v, n.X)
 

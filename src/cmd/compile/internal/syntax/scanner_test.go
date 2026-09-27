@@ -136,7 +136,7 @@ func TestEmbeddedTokens(t *testing.T) {
 				t.Errorf("%s: got prec %d; want %d", src, got.prec, want.prec)
 				continue
 			}
-			nlsemi = want.tok == _IncOp
+			nlsemi = want.tok == _IncOp || want.tok == _Operator && want.op == Not
 
 		case _Rparen, _Rbrack, _Rbrace, _Break, _Continue, _Fallthrough, _Return:
 			nlsemi = true

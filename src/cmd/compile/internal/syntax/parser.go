@@ -1117,6 +1117,42 @@ loop:
 	for {
 		pos := p.pos()
 		switch p.tok {
+		case _Operator:
+			if p.op != Not {
+				break loop
+			}
+			t := new(ErrorExpr)
+			t.pos, t.X = pos, x
+			p.next()
+			x = t
+
+		case _Name:
+			// or remains an ordinary identifier everywhere except immediately
+			// after a call expression.
+			if p.lit != "or" {
+				break loop
+			}
+			if _, ok := Unparen(x).(*CallExpr); !ok {
+				break loop
+			}
+			t := new(ErrorExpr)
+			t.pos, t.X = pos, x
+			p.next()
+			t.Err = p.name()
+			errcnt := p.errcnt
+			p.xnest++
+			t.Body = p.blockStmt("error binding")
+			p.xnest--
+			// A handler is a control-flow boundary for branches, but not a
+			// function boundary: returns and defers belong to the caller.
+			if p.mode&CheckBranches != 0 && errcnt == p.errcnt {
+				checkBranches(t.Body, func(err error) {
+					e := err.(Error)
+					p.errorAt(e.Pos, e.Msg)
+				})
+			}
+			x = t
+
 		case _Dot:
 			p.next()
 			switch p.tok {
@@ -1261,7 +1297,7 @@ loop:
 // isValue reports whether x syntactically must be a value (and not a type) expression.
 func isValue(x Expr) bool {
 	switch x := x.(type) {
-	case *BasicLit, *CompositeLit, *FuncLit, *SliceExpr, *AssertExpr, *TypeSwitchGuard, *CallExpr:
+	case *BasicLit, *CompositeLit, *FuncLit, *SliceExpr, *AssertExpr, *TypeSwitchGuard, *CallExpr, *ErrorExpr:
 		return true
 	case *Operation:
 		return x.Op != Mul || x.Y != nil // *T may be a type

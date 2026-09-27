@@ -269,6 +269,7 @@ func (check *Checker) updateExprType(x syntax.Expr, typ Type, final bool) {
 	switch x := x.(type) {
 	case *syntax.BadExpr,
 		*syntax.FuncLit,
+		*syntax.ErrorExpr,
 		*syntax.CompositeLit,
 		*syntax.IndexExpr,
 		*syntax.SliceExpr,
@@ -1166,6 +1167,9 @@ func (check *Checker) exprInternal(T *target, x *operand, e syntax.Expr) exprKin
 		check.error(e, InvalidSyntaxTree, "use of .(type) outside type switch")
 		check.use(e.X)
 		goto Error
+
+	case *syntax.ErrorExpr:
+		return check.errorExpr(x, e)
 
 	case *syntax.CallExpr:
 		return check.callExpr(x, e)

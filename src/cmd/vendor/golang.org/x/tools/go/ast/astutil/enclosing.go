@@ -240,6 +240,13 @@ func childrenOf(n ast.Node) []ast.Node {
 		children = append(children,
 			tok(n.TokPos, len(n.Tok.String())))
 
+	case *ast.ErrorExpr:
+		width := 1
+		if n.Body != nil {
+			width = 2
+		}
+		children = append(children, tok(n.OpPos, width))
+
 	case *ast.CallExpr:
 		children = append(children,
 			tok(n.Lparen, len("(")),
@@ -537,6 +544,11 @@ func NodeDescription(n ast.Node) string {
 		case token.FALLTHROUGH:
 			return "fall-through statement"
 		}
+	case *ast.ErrorExpr:
+		if n.Body == nil {
+			return "error propagation"
+		}
+		return "local error handler"
 	case *ast.CallExpr:
 		if len(n.Args) == 1 && !n.Ellipsis.IsValid() {
 			return "function call (or conversion)"

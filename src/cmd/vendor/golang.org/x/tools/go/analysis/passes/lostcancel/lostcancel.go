@@ -219,22 +219,29 @@ func lostCancelPath(pass *analysis.Pass, g *cfg.CFG, v *types.Var, stmt ast.Node
 	// uses reports whether stmts contain a "use" of variable v.
 	uses := func(pass *analysis.Pass, v *types.Var, stmts []ast.Node) bool {
 		found := false
-		for _, stmt := range stmts {
-			ast.Inspect(stmt, func(n ast.Node) bool {
-				switch n := n.(type) {
-				case *ast.Ident:
-					if pass.TypesInfo.Uses[n] == v {
-						found = true
-					}
-				case *ast.ReturnStmt:
-					// A naked return statement counts as a use
-					// of the named result variables.
-					if n.Results == nil && vIsNamedResult {
-						found = true
-					}
+		var visit func(ast.Node) bool
+		visit = func(n ast.Node) bool {
+			switch n := n.(type) {
+			case *ast.ErrorExpr:
+				// The handler has its own CFG blocks. A use there does
+				// not imply that the success path uses the variable.
+				ast.Inspect(n.X, visit)
+				return false
+			case *ast.Ident:
+				if pass.TypesInfo.Uses[n] == v {
+					found = true
 				}
-				return !found
-			})
+			case *ast.ReturnStmt:
+				// A naked return statement counts as a use
+				// of the named result variables.
+				if n.Results == nil && vIsNamedResult {
+					found = true
+				}
+			}
+			return !found
+		}
+		for _, stmt := range stmts {
+			ast.Inspect(stmt, visit)
 		}
 		return found
 	}

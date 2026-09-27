@@ -48,7 +48,8 @@ type environment struct {
 	hasCallOrRecv bool                   // set if an expression contains a function call or channel receive operation
 
 	// go/types only
-	exprPos token.Pos // if valid, identifiers are looked up as if at position pos (used by CheckExpr, Eval)
+	exprPos   token.Pos // if valid, identifiers are looked up as if at position pos (used by CheckExpr, Eval)
+	exprScope *Scope    // outer scope of a new Eval handler; its local scopes use normal lexical lookup
 }
 
 // lookupScope looks up name in the current environment and if an object
@@ -60,8 +61,13 @@ type environment struct {
 // time (see Scope.Insert). This can only happen for dot-imported objects
 // whose parent is the scope of the package that exported them.
 func (env *environment) lookupScope(name string) (*Scope, Object) {
+	// Local scopes inside a newly evaluated error handler use their own
+	// source positions. Its outer scopes retain Eval's original-position
+	// cutoff. Other Eval expressions retain the cutoff in every scope.
+	usePos := env.exprScope == nil
 	for s := env.scope; s != nil; s = s.parent {
-		if obj := s.Lookup(name); obj != nil && (!env.exprPos.IsValid() || cmpPos(obj.scopePos(), env.exprPos) <= 0) {
+		usePos = usePos || s == env.exprScope
+		if obj := s.Lookup(name); obj != nil && (!usePos || !env.exprPos.IsValid() || cmpPos(obj.scopePos(), env.exprPos) <= 0) {
 			return s, obj
 		}
 	}

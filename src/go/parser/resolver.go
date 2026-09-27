@@ -326,6 +326,15 @@ func (r *resolver) Visit(node ast.Node) ast.Visitor {
 		r.walkFuncType(n.Type)
 		r.walkBody(n.Body)
 
+	case *ast.ErrorExpr:
+		ast.Walk(r, n.X)
+		if n.Body != nil {
+			r.openScope(n.Body.Pos())
+			defer r.closeScope()
+			r.declare(n, nil, r.topScope, ast.Var, n.Err)
+			r.walkStmts(n.Body.List)
+		}
+
 	case *ast.SelectorExpr:
 		ast.Walk(r, n.X)
 		// Note: don't try to resolve n.Sel, as we don't support qualified

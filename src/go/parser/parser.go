@@ -1715,6 +1715,23 @@ func (p *parser) parsePrimaryExpr(x ast.Expr) ast.Expr {
 	for n = 1; ; n++ {
 		incNestLev(p)
 		switch p.tok {
+		case token.NOT:
+			pos := p.pos
+			p.next()
+			x = &ast.ErrorExpr{X: x, OpPos: pos}
+		case token.IDENT:
+			if _, call := ast.Unparen(x).(*ast.CallExpr); p.lit != "or" || !call {
+				return x
+			}
+			pos := p.pos
+			p.next()
+			err := p.parseIdent()
+			// The handler is a statement block even in an if/for header.
+			level := p.exprLev
+			p.exprLev = 0
+			body := p.parseBlockStmt()
+			p.exprLev = level
+			x = &ast.ErrorExpr{X: x, OpPos: pos, Err: err, Body: body}
 		case token.PERIOD:
 			p.next()
 			switch p.tok {

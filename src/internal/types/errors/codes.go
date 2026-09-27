@@ -1478,4 +1478,12 @@ const (
 	// errors. The solution is to rebuild the application with a
 	// newer Go release.
 	TooNew
+
+	// InvalidErrorHandling occurs when a postfix error propagation or local
+	// error handler uses an invalid operand, enclosing function, or handler.
+	//
+	// Example:
+	//  func f() int { return 1 }
+	//  func g() error { f()!; return nil }
+	InvalidErrorHandling
 )

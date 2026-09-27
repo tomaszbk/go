@@ -395,6 +395,16 @@ type (
 		Rparen   token.Pos // position of ")"
 	}
 
+	// An ErrorExpr handles the final error result of a function call.
+	// With a nil Body it represents postfix ! propagation. Otherwise Err
+	// names the error within the local handler Body introduced by "or".
+	ErrorExpr struct {
+		X     Expr       // function call, possibly parenthesized
+		OpPos token.Pos  // position of "!" or "or"
+		Err   *Ident     // handler error binding; nil for propagation
+		Body  *BlockStmt // local error handler; nil for propagation
+	}
+
 	// A StarExpr node represents an expression of the form "*" Expression.
 	// Semantically it could be a unary "*" expression, or a pointer type.
 	//
@@ -510,6 +520,7 @@ func (x *IndexListExpr) Pos() token.Pos  { return x.X.Pos() }
 func (x *SliceExpr) Pos() token.Pos      { return x.X.Pos() }
 func (x *TypeAssertExpr) Pos() token.Pos { return x.X.Pos() }
 func (x *CallExpr) Pos() token.Pos       { return x.Fun.Pos() }
+func (x *ErrorExpr) Pos() token.Pos      { return x.X.Pos() }
 func (x *StarExpr) Pos() token.Pos       { return x.Star }
 func (x *UnaryExpr) Pos() token.Pos      { return x.OpPos }
 func (x *BinaryExpr) Pos() token.Pos     { return x.X.Pos() }
@@ -552,12 +563,18 @@ func (x *IndexListExpr) End() token.Pos  { return x.Rbrack + 1 }
 func (x *SliceExpr) End() token.Pos      { return x.Rbrack + 1 }
 func (x *TypeAssertExpr) End() token.Pos { return x.Rparen + 1 }
 func (x *CallExpr) End() token.Pos       { return x.Rparen + 1 }
-func (x *StarExpr) End() token.Pos       { return x.X.End() }
-func (x *UnaryExpr) End() token.Pos      { return x.X.End() }
-func (x *BinaryExpr) End() token.Pos     { return x.Y.End() }
-func (x *KeyValueExpr) End() token.Pos   { return x.Value.End() }
-func (x *ArrayType) End() token.Pos      { return x.Elt.End() }
-func (x *StructType) End() token.Pos     { return x.Fields.End() }
+func (x *ErrorExpr) End() token.Pos {
+	if x.Body != nil {
+		return x.Body.End()
+	}
+	return x.OpPos + 1
+}
+func (x *StarExpr) End() token.Pos     { return x.X.End() }
+func (x *UnaryExpr) End() token.Pos    { return x.X.End() }
+func (x *BinaryExpr) End() token.Pos   { return x.Y.End() }
+func (x *KeyValueExpr) End() token.Pos { return x.Value.End() }
+func (x *ArrayType) End() token.Pos    { return x.Elt.End() }
+func (x *StructType) End() token.Pos   { return x.Fields.End() }
 func (x *FuncType) End() token.Pos {
 	if x.Results != nil {
 		return x.Results.End()
@@ -583,6 +600,7 @@ func (*IndexListExpr) exprNode()  {}
 func (*SliceExpr) exprNode()      {}
 func (*TypeAssertExpr) exprNode() {}
 func (*CallExpr) exprNode()       {}
+func (*ErrorExpr) exprNode()      {}
 func (*StarExpr) exprNode()       {}
 func (*UnaryExpr) exprNode()      {}
 func (*BinaryExpr) exprNode()     {}

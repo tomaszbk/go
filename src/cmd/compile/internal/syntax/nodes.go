@@ -261,6 +261,15 @@ type (
 		expr
 	}
 
+	// X! or X or Err { Body }. X must be a function or method call.
+	// A nil Body propagates the error; otherwise Err binds the error in Body.
+	ErrorExpr struct {
+		X    Expr
+		Err  *Name
+		Body *BlockStmt
+		expr
+	}
+
 	// ElemList[0], ElemList[1], ...
 	ListExpr struct {
 		ElemList []Expr

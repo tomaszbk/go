@@ -108,6 +108,8 @@ const (
 	KindSwitchCaseBody  // body of CaseClause
 	KindSwitchDone      // block after {Type.}SwitchStmt
 	KindSwitchNextCase  // secondary expression of a multi-expression CaseClause
+	KindErrorHandler    // error path of ErrorExpr; Stmt=nil
+	KindErrorDone       // continuation after ErrorExpr; Stmt=nil
 )
 
 func (kind BlockKind) String() string {
@@ -132,6 +134,8 @@ func (kind BlockKind) String() string {
 		KindSwitchCaseBody:  "SwitchCaseBody",
 		KindSwitchDone:      "SwitchDone",
 		KindSwitchNextCase:  "SwitchNextCase",
+		KindErrorHandler:    "ErrorHandler",
+		KindErrorDone:       "ErrorDone",
 	}[kind]
 }
 
