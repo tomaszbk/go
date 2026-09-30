@@ -1058,28 +1058,6 @@ func (p *Package) rewriteCall(f *File, call *Call) (string, bool) {
 	return sb.String(), needsUnsafe
 }
 
-// findErrorExpr returns the first error propagation or local handler
-// expression in x that belongs to the function containing x,
-// or nil if there is none. It does not look inside function literals,
-// which are their own propagation boundary.
-func findErrorExpr(x ast.Expr) *ast.ErrorExpr {
-	var found *ast.ErrorExpr
-	ast.Inspect(x, func(n ast.Node) bool {
-		if found != nil {
-			return false
-		}
-		switch n := n.(type) {
-		case *ast.FuncLit:
-			return false
-		case *ast.ErrorExpr:
-			found = n
-			return false
-		}
-		return true
-	})
-	return found
-}
-
 // needsPointerCheck reports whether the type t needs a pointer check.
 // This is true if t is a pointer and if the value to which it points
 // might contain a pointer.

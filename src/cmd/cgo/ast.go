@@ -354,6 +354,9 @@ func (f *File) walk(x any, context astContext, visit func(*File, any, astContext
 
 	// everything else just recurs
 	default:
+		if f.walkErrorExpr(x, visit) {
+			break
+		}
 		error_(token.NoPos, "unexpected type %T in walk", x)
 		panic("unexpected type")
 
@@ -412,17 +415,6 @@ func (f *File) walk(x any, context astContext, visit func(*File, any, astContext
 			f.walk(&n.Fun, ctxCall, visit)
 		}
 		f.walk(n.Args, ctxExpr, visit)
-	case *ast.ErrorExpr:
-		// x! and x or err { ... } consume the final error result of a
-		// call. For a C call that is cgo's errno two-result form, exactly
-		// as if the call were assigned to two variables.
-		f.walk(&n.X, ctxAssign2, visit)
-		if n.Err != nil {
-			f.walk(n.Err, ctxExpr, visit)
-		}
-		if n.Body != nil {
-			f.walk(n.Body, ctxStmt, visit)
-		}
 	case *ast.StarExpr:
 		f.walk(&n.X, context, visit)
 	case *ast.UnaryExpr:
