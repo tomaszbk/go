@@ -1,7 +1,3 @@
-// Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Support for pidfd was added during the course of a few Linux releases:
 //  v5.1: pidfd_send_signal syscall;
 //  v5.2: CLONE_PIDFD flag for clone syscall;

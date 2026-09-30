@@ -2,9 +2,6 @@
 
 //go:build !js && !wasip1 && gc
 
-// Copyright 2026 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Execute both spellings of the same scenarios and compare their checked traces.
 // Set GO_ERROR_HANDLING_BASELINE to a compatible unmodified go executable to

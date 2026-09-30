@@ -1,7 +1,3 @@
-// Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Note: run 'go generate' (which will run 'go test -generate') to update the "Supported metrics" list.
 //go:generate go test -run=Docs -generate
 

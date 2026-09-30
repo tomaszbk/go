@@ -1,7 +1,3 @@
-// Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This file contains constant-time, 64-bit assembly implementation of
 // P256. The optimizations performed here are described in detail in:
 // S.Gueron and V.Krasnov, "Fast prime field elliptic-curve cryptography with

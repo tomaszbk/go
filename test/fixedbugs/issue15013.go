@@ -1,8 +1,5 @@
 // compile
 
-// Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // CL 21202 introduced a compiler crash in the handling of a varargs
 // function in the same recursive group as a function that calls it.

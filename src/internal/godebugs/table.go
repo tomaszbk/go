@@ -1,7 +1,3 @@
-// Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package godebugs provides a table of known GODEBUG settings,
 // for use by a variety of other packages, including internal/godebug,
 // runtime, runtime/metrics, and cmd/go/internal/load.

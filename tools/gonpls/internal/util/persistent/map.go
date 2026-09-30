@@ -1,7 +1,3 @@
-// Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // The persistent package defines various persistent data structures;
 // that is, data structures that can be efficiently copied and modified
 // in sublinear time.

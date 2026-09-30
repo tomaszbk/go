@@ -1,7 +1,3 @@
-// Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This file and importx_test.go make it possible to write tests in the runtime
 // package, which is generally more convenient for testing runtime internals.
 // For tests that mostly touch public APIs, it's generally easier to write them

@@ -1,7 +1,3 @@
-// Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package fingerprint defines a function to [Encode] types as strings
 // with the property that identical types have equal string encodings,
 // in most cases. In the remaining cases (mostly involving generic

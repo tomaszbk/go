@@ -1,8 +1,5 @@
 // compile
 
-// Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Some indirect uses of types crashed gccgo, because it assumed that
 // the size of the type was known before it had been computed.

@@ -1,7 +1,3 @@
-// Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 /*
 Package rangefunc rewrites range-over-func to code that doesn't use range-over-funcs.
 Rewriting the construct in the front end, before noder, means the functions generated during

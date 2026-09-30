@@ -1,7 +1,3 @@
-// Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package pkix contains shared, low level structures used for ASN.1 parsing
 // and serialization of X.509 certificates, CRL and OCSP.
 package pkix

@@ -1,7 +1,3 @@
-// Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // DO NOT EDIT (use 'go test -v -update-expected' instead.)
 // See cmd/compile/internal/inline/inlheur/testdata/props/README.txt
 // for more information on the format of this file.

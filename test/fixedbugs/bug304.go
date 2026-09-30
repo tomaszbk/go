@@ -1,8 +1,5 @@
 // compile
 
-// Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Caused a gccgo crash on compilation.
 // bug304.go: In function ‘p.f’:

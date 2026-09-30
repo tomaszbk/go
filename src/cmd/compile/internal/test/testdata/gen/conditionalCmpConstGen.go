@@ -1,7 +1,3 @@
-// Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This program generates tests to verify that conditional comparisons
 // with constants are properly optimized by the compiler through constant folding.
 // The generated test should be compiled with a known working version of Go.

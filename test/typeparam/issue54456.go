@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // The Go 1.18 frontend failed to disambiguate instantiations of
 // different, locally defined generic types with the same name.

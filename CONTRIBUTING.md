@@ -30,6 +30,10 @@ For change proposals, see [Proposing Changes To Go](https://go.dev/s/proposal-pr
 
 Please read the [Contribution Guidelines](https://golang.org/doc/contribute.html) before sending patches.
 
-Unless otherwise noted, the Go source files are distributed under
-the BSD-style license found in the LICENSE file.
+This repository includes source code originated by The Go Authors under the
+BSD-style license found in the LICENSE file.
 
+Per-file boilerplate comments ("// Copyright [YEAR] The Go Authors...") have been
+removed to reduce token consumption during automated LLM analysis and code generation.
+The license terms, copyright ownership, and disclaimer in the root LICENSE file
+remain fully applicable and intact.

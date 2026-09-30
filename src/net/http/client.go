@@ -1,7 +1,3 @@
-// Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // HTTP client. See RFC 7230 through 7235.
 //
 // This is the high-level Client interface.

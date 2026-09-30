@@ -1,8 +1,5 @@
 // errorcheck -0 -d=ssa/mem2reg/debug=4
 
-// Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Test for variables accessed through pointers that can
 // be promoted to register by the mem2reg pass.

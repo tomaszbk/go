@@ -1,7 +1,3 @@
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package filelock provides a platform-independent API for advisory file
 // locking. Calls to functions in this package on platforms that do not support
 // advisory locks will return errors for which IsNotSupported returns true.

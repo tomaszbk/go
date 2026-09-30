@@ -1,7 +1,3 @@
-// Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // cgo shouldn't crash if there is an extra argument with a C reference.
 
 package main

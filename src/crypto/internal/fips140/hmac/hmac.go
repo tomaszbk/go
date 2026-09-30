@@ -1,7 +1,3 @@
-// Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package hmac implements HMAC according to [FIPS 198-1].
 //
 // [FIPS 198-1]: https://doi.org/10.6028/NIST.FIPS.198-1

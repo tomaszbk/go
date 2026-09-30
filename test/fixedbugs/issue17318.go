@@ -1,8 +1,5 @@
 // errorcheck -0 -N -m -l
 
-// Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // The escape analyzer needs to run till its root set settles
 // (this is not that often, it turns out).

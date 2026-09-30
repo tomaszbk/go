@@ -1,7 +1,3 @@
-// Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package gif implements a GIF image decoder and encoder.
 //
 // The GIF specification is at https://www.w3.org/Graphics/GIF/spec-gif89a.txt.

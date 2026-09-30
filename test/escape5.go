@@ -1,8 +1,5 @@
 // errorcheck -0 -m -l
 
-// Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Test, using compiler diagnostic flags, that the escape analysis is working.
 // Compiles but does not run.  Inlining is disabled.

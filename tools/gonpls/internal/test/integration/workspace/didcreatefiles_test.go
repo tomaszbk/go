@@ -1,7 +1,3 @@
-// Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 package workspace
 
 import (
@@ -38,9 +34,6 @@ license that can be found in the LICENSE file. */
 package license
 
 -- license1/license.go --
-// Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 package license1
 
@@ -86,10 +79,7 @@ package license
 		{
 			name:    "new file in folder with go file that contains license comment",
 			newfile: "license1/newfile.go",
-			want: `// Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
+			want: `
 package license1
 `,
 		},

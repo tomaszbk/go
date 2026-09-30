@@ -1,7 +1,3 @@
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 package sysrand
 
 // The maximum buffer size for crypto.getRandomValues is 65536 bytes.

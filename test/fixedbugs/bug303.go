@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Issue 1011.  Removing either #1 or #3 avoided the crash at #2.
 

@@ -1,8 +1,5 @@
 // compile
 
-// Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // This code failed on arm64 in the register allocator.
 // See issue 33355.

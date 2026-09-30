@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Some derived-type expressions require the compiler to synthesize
 // function literals to plumb sub-dictionaries appropriately.

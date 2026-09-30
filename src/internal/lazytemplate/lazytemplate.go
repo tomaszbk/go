@@ -1,7 +1,3 @@
-// Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package lazytemplate is a thin wrapper over text/template, allowing the use
 // of global template variables without forcing them to be parsed at init.
 package lazytemplate

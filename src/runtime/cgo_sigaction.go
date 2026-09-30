@@ -1,7 +1,3 @@
-// Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Support for sanitizers. See runtime/cgo/sigaction.go.
 // Also used on linux/386 to clear the SA_RESTORER flag
 // when using cgo; see issue #75253.

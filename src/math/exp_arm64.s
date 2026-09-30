@@ -1,7 +1,3 @@
-// Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 #define	Ln2Hi	6.93147180369123816490e-01
 #define	Ln2Lo	1.90821492927058770002e-10
 #define	Log2e	1.44269504088896338700e+00

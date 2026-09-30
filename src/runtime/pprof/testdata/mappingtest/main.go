@@ -1,7 +1,3 @@
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This program outputs a CPU profile that includes
 // both Go and Cgo stacks. This is used by the mapping info
 // tests in runtime/pprof.

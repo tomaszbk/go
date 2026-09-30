@@ -1,7 +1,3 @@
-// Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Test that we can access dynamically imported variables.
 // We ues mach_task_self_ from darwin's system library.
 // Check that loading the variable from C and Go gets the

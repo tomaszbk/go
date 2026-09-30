@@ -1,7 +1,3 @@
-// Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package tzdata provides an embedded copy of the timezone database.
 // If this package is imported anywhere in the program, then if
 // the time package cannot find tzdata files on the system,

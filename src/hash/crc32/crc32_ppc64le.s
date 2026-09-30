@@ -1,7 +1,3 @@
-// Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // The vectorized implementation found below is a derived work
 // from code written by Anton Blanchard <anton@au.ibm.com> found
 // at https://github.com/antonblanchard/crc32-vpmsum.  The original

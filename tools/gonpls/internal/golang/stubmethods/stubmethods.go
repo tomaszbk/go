@@ -1,7 +1,3 @@
-// Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package stubmethods provides the analysis logic for the quick fix
 // to "Declare missing methods of TYPE" errors. (The fix logic lives
 // in golang.stubMethodsFixer.)

@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Comparing a wrapped product difference against zero must respect the
 // sign of the wrapped value, even when it wraps to MinInt.

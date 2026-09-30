@@ -1,7 +1,3 @@
-// Copyright 2026 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This file checks error messages for cases where function types were inferred from context.
 //
 // The function doc strings refer to the type checker functions that contain the relevant

@@ -1,7 +1,3 @@
-// Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package godebug makes the settings in the $GODEBUG environment variable
 // available to other packages. These settings are often used for compatibility
 // tweaks, when we need to change a default behavior but want to let users

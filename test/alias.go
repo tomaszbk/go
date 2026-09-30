@@ -1,8 +1,5 @@
 // errorcheck
 
-// Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Test that error messages say what the source file says
 // (uint8 vs byte, int32 vs. rune).

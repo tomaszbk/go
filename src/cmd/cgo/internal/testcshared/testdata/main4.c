@@ -1,7 +1,3 @@
-// Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Test that a signal handler that uses up stack space does not crash
 // if the signal is delivered to a thread running a goroutine.
 // This is a lot like ../testcarchive/main2.c.

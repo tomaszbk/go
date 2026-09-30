@@ -1,7 +1,3 @@
-// Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // RISC-V's atomic operations have two bits, aq ("acquire") and rl ("release"),
 // which may be toggled on and off. Their precise semantics are defined in
 // section 6.3 of the specification, but the basic idea is as follows:

@@ -2,9 +2,6 @@
 
 //go:build !goexperiment.cgocheck2
 
-// Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Issue 20250: liveness differed with concurrent compilation
 // due to propagation of addrtaken to outer variables for

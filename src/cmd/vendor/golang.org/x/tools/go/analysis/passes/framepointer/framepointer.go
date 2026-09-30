@@ -1,7 +1,3 @@
-// Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package framepointer defines an Analyzer that reports assembly code
 // that clobbers the frame pointer before saving it.
 package framepointer

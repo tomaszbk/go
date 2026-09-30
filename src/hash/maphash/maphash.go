@@ -1,7 +1,3 @@
-// Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package maphash provides hash functions on byte sequences and comparable values.
 // It also defines [Hasher], the interface between a hash function and a hash table.
 //

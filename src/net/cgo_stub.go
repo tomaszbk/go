@@ -1,7 +1,3 @@
-// Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This file holds stub versions of the cgo functions called on Unix systems.
 // We build this file:
 // - if using the netgo build tag on a Unix system

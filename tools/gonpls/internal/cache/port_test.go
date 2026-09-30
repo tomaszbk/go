@@ -1,7 +1,3 @@
-// Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 package cache
 
 import (
@@ -89,9 +85,6 @@ func matchingPreferredPorts(tb testing.TB, fh file.Handle, trimContent bool) map
 func BenchmarkMatchingPreferredPorts(b *testing.B) {
 	// Copy of robustio_posix.go
 	const src = `
-// Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 //go:build unix
 // +build unix

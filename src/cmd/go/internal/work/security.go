@@ -1,7 +1,3 @@
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Checking of compiler and linker flags.
 // We must avoid flags like -fplugin=, which can allow
 // arbitrary code execution during the build.

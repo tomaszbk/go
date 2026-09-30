@@ -1,7 +1,3 @@
-// Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package elliptic implements the standard NIST P-224, P-256, P-384, and P-521
 // elliptic curves over prime fields.
 //

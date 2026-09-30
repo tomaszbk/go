@@ -1,7 +1,3 @@
-// Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This test only uses MethodByName() with constant names
 // of methods to look up. These methods need to be kept,
 // but other methods must be eliminated.

@@ -7,9 +7,6 @@ require "rsc.io/sampler" v1.3.0
 -- .info --
 {"Version":"v0.0.0-20180628003336-dd9747d19b04","Name":"dd9747d19b041365fbddf0399ddba6bff5eb1b3e","Short":"dd9747d19b04","Time":"2018-06-28T00:33:36Z"}
 -- buggy/buggy_test.go --
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 package buggy
 
@@ -23,9 +20,6 @@ module "rsc.io/quote"
 
 require "rsc.io/sampler" v1.3.0
 -- quote.go --
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Package quote collects pithy sayings.
 package quote // import "rsc.io/quote"
@@ -56,9 +50,6 @@ func Opt() string {
 	return "If a program is too slow, it must have a loop."
 }
 -- quote_test.go --
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 package quote
 

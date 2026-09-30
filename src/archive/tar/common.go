@@ -1,7 +1,3 @@
-// Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package tar implements access to tar archives.
 //
 // Tape archives (tar) are a file format for storing a sequence of files that

@@ -1,7 +1,3 @@
-// Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This file is for validation errors only, i.e., errors reported by the validate function.
 // Negative test cases for errors generated earlier in the assembler's preprocess stage
 // should be added to riscv64error.s.  If they are added to this file, they will prevent

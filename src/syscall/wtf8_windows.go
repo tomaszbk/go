@@ -1,7 +1,3 @@
-// Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Windows UTF-16 strings can contain unpaired surrogates, which can't be
 // decoded into a valid UTF-8 string. This file defines a set of functions
 // that can be used to encode and decode potentially ill-formed UTF-16 strings

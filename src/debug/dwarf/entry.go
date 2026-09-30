@@ -1,7 +1,3 @@
-// Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // DWARF debug information entry parser.
 // An entry is a sequence of data items of a given format.
 // The first word in the entry is an index into what DWARF

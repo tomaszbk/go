@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Internally a map holds elements in up to 255 bytes of key+value.
 // When key or value or both are too large, it uses pointers to key+value

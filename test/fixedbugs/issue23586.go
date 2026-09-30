@@ -1,8 +1,5 @@
 // errorcheck
 
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Test that we type-check deferred/go functions even
 // if they are not called (a common error). Specifically,

@@ -1,7 +1,3 @@
-// Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package hkdf implements the HMAC-based Extract-and-Expand Key Derivation
 // Function (HKDF) as defined in RFC 5869.
 //

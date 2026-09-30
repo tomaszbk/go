@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Issue 11987. The ppc64 SRADCC instruction was misassembled in a way
 // lost bit 5 of the immediate so v>>32 was assembled as v>>0.  SRADCC

@@ -1,7 +1,3 @@
-// Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Test that a PE rsrc section is handled correctly, when the object files
 // have been created by llvm-rc or msvc's rc.exe, which means there's the
 // @feat.00 symbol as well as split .rsrc$00 and .rsrc$01 section to deal with.

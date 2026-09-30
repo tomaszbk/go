@@ -1,7 +1,3 @@
-// Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Divisibility checks (x%c == 0 or x%c != 0) convert to multiply, rotate, compare.
 // The opt pass rewrote x%c to x-(x/c)*c
 // and then also rewrote x-(x/c)*c == 0 to x == (x/c)*c.

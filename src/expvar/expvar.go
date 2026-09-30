@@ -1,7 +1,3 @@
-// Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package expvar provides a standardized interface to public variables, such
 // as operation counters in servers. It exposes these variables via HTTP at
 // /debug/vars in JSON format. As of Go 1.22, the /debug/vars request must

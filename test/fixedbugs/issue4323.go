@@ -1,8 +1,5 @@
 // compile
 
-// Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Issue 4323: inlining of functions with local variables
 // forgets to typecheck the declarations in the inlined copy.

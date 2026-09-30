@@ -1,7 +1,3 @@
-// Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package x509 implements a subset of the X.509 standard.
 //
 // It allows parsing and generating certificates, certificate signing

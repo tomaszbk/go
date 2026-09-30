@@ -1,7 +1,3 @@
-// Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 //go:build 386 || arm || mips || mipsle || wasm || (gccgo && (ppc || s390))
 
 // wasm is a treated as a 32-bit architecture for the purposes of the page

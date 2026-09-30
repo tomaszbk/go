@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Package slices provides functions for basic operations on
 // slices of any element type.

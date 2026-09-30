@@ -1,7 +1,3 @@
-// Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 /*
 Package loong64 implements an LoongArch64 assembler. Go assembly syntax is different from
 GNU LoongArch64 syntax, but we can still follow the general rules to map between them.

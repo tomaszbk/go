@@ -1,7 +1,3 @@
-// Copyright 2026 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // browserbridge runs the crypto/internal/fips140test WebAssembly module in a
 // web browser, driven from the host. It relays the BoringSSL acvptool module
 // wrapper protocol for ACVP algorithm testing, and runs the FIPS 140-3

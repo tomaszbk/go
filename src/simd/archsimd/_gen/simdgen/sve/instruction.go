@@ -1,7 +1,3 @@
-// Copyright 2026 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package sve loads ARM64 SVE / SVE2 instruction definitions from the ARM A64
 // ISA XML files and emits them as simdgen unify values.
 // TODO: merge with the arm64 package, the approach taken here should take over

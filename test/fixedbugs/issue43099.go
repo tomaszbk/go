@@ -1,8 +1,5 @@
 // compile
 
-// Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Check to make sure we don't try to constant fold a divide by zero.
 // This is a tricky test, as we need a value that's not recognized as 0

@@ -1,7 +1,3 @@
-// Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Go 1.28 and later requires Go 1.26.0 as the minimum bootstrap toolchain.
 // If cmd/dist is built using an earlier Go version, this file will be
 // included in the build and cause an error like:

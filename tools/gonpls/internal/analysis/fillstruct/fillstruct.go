@@ -1,7 +1,3 @@
-// Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package fillstruct defines an Analyzer that automatically
 // fills in a struct declaration with zero value elements for each field.
 //

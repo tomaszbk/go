@@ -1,7 +1,3 @@
-// Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 /*
 Asm, typically invoked as “go tool asm”, assembles the source file into an object
 file named for the basename of the argument source file with a .o suffix. The

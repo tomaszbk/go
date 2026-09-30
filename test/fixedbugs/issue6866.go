@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // WARNING: GENERATED FILE - DO NOT MODIFY MANUALLY!
 // (To generate, in go/types directory: go test -run=Hilbert -H=2 -out="h2.src")

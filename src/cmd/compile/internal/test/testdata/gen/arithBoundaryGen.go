@@ -1,7 +1,3 @@
-// Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This program generates a test to verify that the standard arithmetic
 // operators properly handle some special cases. The test file should be
 // generated with a known working version of go.

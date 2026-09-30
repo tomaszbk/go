@@ -1,7 +1,3 @@
-// Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This file implements sysSocket for platforms that provide a fast path for
 // setting SetNonblock and CloseOnExec, but don't necessarily support it.
 // Support for SOCK_* flags as part of the type parameter was added to Oracle

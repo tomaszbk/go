@@ -1,7 +1,3 @@
-// Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // data holds the application state, of Go type splitpkg.ResultJSON.
 // Each reload() replaces it by the current server state.
 var data = null;

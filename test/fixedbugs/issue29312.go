@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // This test is not for a fix of 29312 proper, but for the patch that
 // makes sure we at least don't have a security hole because of 29312.

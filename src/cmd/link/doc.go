@@ -1,7 +1,3 @@
-// Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 /*
 Link, typically invoked as “go tool link”, reads the Go archive or object
 for a package main, along with its dependencies, and combines them

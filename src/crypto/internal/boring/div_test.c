@@ -1,7 +1,3 @@
-// Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This file is a self-contained test for a copy of
 // the division algorithm in build-goboring.sh,
 // to verify that is correct. The real algorithm uses u128

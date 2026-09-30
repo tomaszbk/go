@@ -1,7 +1,3 @@
-// Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package sha3 implements the SHA-3 fixed-output-length hash functions and
 // the SHAKE variable-output-length functions defined by [FIPS 202], as well as
 // the cSHAKE extendable-output-length functions defined by [SP 800-185].

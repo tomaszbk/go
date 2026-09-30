@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Gccgo incorrectly executed functions multiple times when they
 // appeared in a composite literal that required a conversion between

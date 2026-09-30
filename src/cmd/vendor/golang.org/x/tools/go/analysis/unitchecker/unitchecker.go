@@ -1,7 +1,3 @@
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // The unitchecker package defines the main function for an analysis
 // driver that analyzes a single compilation unit during a build.
 // It is invoked by a build system such as "go vet":

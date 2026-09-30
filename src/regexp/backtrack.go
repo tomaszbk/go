@@ -1,7 +1,3 @@
-// Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // backtrack is a regular expression search with submatch
 // tracking for small regular expressions and texts. It allocates
 // a bit vector with (length of input) * (length of prog) bits,

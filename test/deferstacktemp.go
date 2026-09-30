@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2026 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // This tests an SSA-able stack temporary whose address must refer to its stack
 // slot. Without the addrtaken mark, (*state).addr returns &runtime.zerobase and

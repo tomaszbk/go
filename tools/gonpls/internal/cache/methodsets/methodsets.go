@@ -1,7 +1,3 @@
-// Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package methodsets defines an incremental, serializable index of
 // method-set information that allows efficient 'implements' queries
 // across packages of the workspace without using the type checker.

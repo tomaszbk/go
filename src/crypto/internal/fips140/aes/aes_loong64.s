@@ -1,7 +1,3 @@
-// Copyright 2026 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // AES for loong64 using LSX VSHUFB-based software S-box lookup.
 // No hardware AES instructions exist on LoongArch (as of LA464/LA664).
 //

@@ -1,7 +1,3 @@
-// Copyright 2026 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Issue 81303: a plugin has its own copies of the itabs of the host.
 // The runtime added these copies to the itab table as second entries
 // for the same interface/type pairs. After the table grew, a lookup

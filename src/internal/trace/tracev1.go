@@ -1,7 +1,3 @@
-// Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This file implements conversion from v1 (Go 1.11–Go 1.21) traces to the v2
 // format (Go 1.22+).
 //

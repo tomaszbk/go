@@ -1,7 +1,3 @@
-// Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 TEXT errors(SB),$0
 	CSRC	X5, TU				// ERROR "unknown CSR"
 	CSRC	(X5), CYCLE			// ERROR "integer register or immediate expected for 1st operand"

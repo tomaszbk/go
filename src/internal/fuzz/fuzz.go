@@ -1,7 +1,3 @@
-// Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package fuzz provides common fuzzing functionality for tests built with
 // "go test" and for programs that use fuzzing functionality in the testing
 // package.

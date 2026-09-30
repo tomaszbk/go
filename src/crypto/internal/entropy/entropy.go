@@ -1,7 +1,3 @@
-// Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package entropy provides the passive entropy source for the FIPS 140-3
 // module. It is only used in FIPS mode by [crypto/internal/fips140/drbg.Read]
 // from the FIPS 140-3 Go Cryptographic Module v1.0.0.

@@ -1,7 +1,3 @@
-// Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 /*
 An example of wrapping a C library in Go. This is the GNU
 multiprecision library gmp's integer type mpz_t wrapped to look like

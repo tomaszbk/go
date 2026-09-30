@@ -1,7 +1,3 @@
-// Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Test cases that were invalid because of cycles before the respective language change.
 // Some are still invalid, but not because of cycles.
 

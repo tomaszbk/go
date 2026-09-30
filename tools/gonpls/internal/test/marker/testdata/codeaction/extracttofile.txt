@@ -276,9 +276,6 @@ func F() {} //@codeaction("func", "refactor.extract.toNewFile", edit=blank_impor
 -}
 -
 -- copyright.go --
-// Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 package main
 
@@ -322,9 +319,6 @@ const C = "" //@codeaction("const", "refactor.extract.toNewFile", edit=buildcons
 +// docs
 +const C = ""
 -- copyrightandbuildconstraint.go --
-// Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 //go:build go1.18
 

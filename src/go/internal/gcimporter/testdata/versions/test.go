@@ -1,7 +1,3 @@
-// Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // To create a test case for a new export format version,
 // build this package with the latest compiler and store
 // the resulting .a file appropriately named in the versions

@@ -1,7 +1,3 @@
-// Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package parser implements a parser for Go source files.
 //
 // The [ParseFile] function reads file input from a string, []byte, or

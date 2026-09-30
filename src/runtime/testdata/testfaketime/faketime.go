@@ -1,7 +1,3 @@
-// Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Test faketime support. This is its own test program because we have
 // to build it with custom build tags and hence want to minimize
 // dependencies.

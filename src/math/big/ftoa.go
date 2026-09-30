@@ -1,7 +1,3 @@
-// Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This file implements Float-to-string conversion functions.
 // It is closely following the corresponding implementation
 // in internal/strconv/ftoa.go, but modified and simplified for Float.

@@ -1,7 +1,3 @@
-// Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package tls13 implements the TLS 1.3 Key Schedule as specified in RFC 8446,
 // Section 7.1 and allowed by FIPS 140-3 IG 2.4.B Resolution 7.
 package tls13

@@ -1,7 +1,3 @@
-// Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Linkname builtin symbols (that is not already linknamed,
 // e.g. mapaccess1) is not allowed.
 

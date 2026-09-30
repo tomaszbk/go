@@ -1,7 +1,3 @@
-// Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 /*
 Package ppc64 implements a PPC64 assembler that assembles Go asm into
 the corresponding PPC64 instructions as defined by the Power ISA 3.0B.

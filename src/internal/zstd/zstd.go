@@ -1,7 +1,3 @@
-// Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package zstd provides a decompressor for zstd streams,
 // described in RFC 8878. It does not support dictionaries.
 package zstd

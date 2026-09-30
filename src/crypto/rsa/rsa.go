@@ -1,7 +1,3 @@
-// Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package rsa implements RSA encryption as specified in PKCS #1 and RFC 8017.
 //
 // RSA is a single, fundamental operation that is used in this package to

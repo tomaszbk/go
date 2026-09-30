@@ -5,9 +5,6 @@
 go test example1_test.go example2_test.go
 
 -- example1_test.go --
-// Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Make sure that go test runs Example_z before Example_a, preserving source order.
 
@@ -29,9 +26,6 @@ func Example_a() {
 	// Output: 2
 }
 -- example2_test.go --
-// Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Make sure that go test runs Example_y before Example_b, preserving source order.
 

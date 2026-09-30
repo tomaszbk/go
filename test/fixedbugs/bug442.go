@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Used to crash generating hash and == functions for struct
 // with leading _ field.  Issue 3607.

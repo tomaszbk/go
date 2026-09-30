@@ -1,7 +1,3 @@
-// Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package saferio provides I/O functions that avoid allocating large
 // amounts of memory unnecessarily. This is intended for packages that
 // read data from an [io.Reader] where the size is part of the input

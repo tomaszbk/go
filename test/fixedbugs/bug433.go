@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Test that initializing struct fields out of order still runs
 // functions in the right order.  This failed with gccgo.

@@ -1,8 +1,5 @@
 // errorcheck
 
-// Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // 6g accepts the program below even though it is syntactically incorrect:
 // Each statement in the list of statements for each case clause must be

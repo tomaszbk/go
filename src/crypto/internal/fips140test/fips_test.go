@@ -1,7 +1,3 @@
-// Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package fipstest collects external tests that would ordinarily live in
 // crypto/internal/fips140/... packages. That tree gets snapshot at each
 // validation, while we want tests to evolve and still apply to all versions of

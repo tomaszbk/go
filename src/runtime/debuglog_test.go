@@ -1,7 +1,3 @@
-// Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // TODO(austin): All of these tests are skipped if the debuglog build
 // tag isn't provided. That means we basically never test debuglog.
 // There are two potential ways around this:

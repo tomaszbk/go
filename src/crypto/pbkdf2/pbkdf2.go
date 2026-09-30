@@ -1,7 +1,3 @@
-// Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package pbkdf2 implements the key derivation function PBKDF2 as defined in
 // RFC 8018 (PKCS #5 v2.1).
 //

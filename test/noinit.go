@@ -1,9 +1,6 @@
 // run
 //go:build !gcflags_noopt
 
-// Copyright 2010 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Test that many initializations can be done at link time and
 // generate no executable init functions.

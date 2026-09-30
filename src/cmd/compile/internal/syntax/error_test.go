@@ -1,7 +1,3 @@
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This file implements a regression test harness for syntax errors.
 // The files in the testdata directory are parsed and the reported
 // errors are compared against the errors declared in those files.

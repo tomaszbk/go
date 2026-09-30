@@ -1,7 +1,3 @@
-// Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // FIXED_FRAME defines the size of the fixed part of a stack frame. A stack
 // frame looks like this:
 //

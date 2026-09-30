@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Issue 4138: bug in floating-point registers numbering.
 // Makes 6g unable to use more than 11 registers.

@@ -1,7 +1,3 @@
-// Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package drbg provides cryptographically secure random bytes
 // usable by FIPS code. In FIPS mode it uses an SP 800-90A Rev. 1
 // Deterministic Random Bit Generator (DRBG). Otherwise,

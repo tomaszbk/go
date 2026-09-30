@@ -2,9 +2,6 @@
 
 //go:build !nacl && !js && disabled_see_issue_18589
 
-// Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Test is disabled because it flakes when run in all.bash
 // on some platforms, but is useful standalone to verify

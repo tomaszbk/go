@@ -1,7 +1,3 @@
-// Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 TEXT errors(SB),$0
 	MOVW	(F0), R1           // ERROR "illegal base register"
 	MOVB	(F0), R1           // ERROR "illegal base register"

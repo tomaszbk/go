@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // absdiff example using a function argument rather than attaching an
 // Abs method to a structure containing base types.

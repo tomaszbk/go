@@ -1,7 +1,3 @@
-// Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package rttype allows the compiler to share type information with
 // the runtime. The shared type information is stored in
 // internal/abi. This package translates those types from the host

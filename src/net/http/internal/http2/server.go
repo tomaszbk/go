@@ -1,7 +1,3 @@
-// Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // TODO (maybe): add a mechanism for Handlers to going into
 // half-closed-local mode (rw.(io.Closer) test?) but not exit their
 // handler, and continue to be able to read from the

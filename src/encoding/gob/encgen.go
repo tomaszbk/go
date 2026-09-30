@@ -1,7 +1,3 @@
-// Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 //go:build ignore
 
 // encgen writes the helper functions for encoding. Intended to be
@@ -184,9 +180,6 @@ func printMaps(b *bytes.Buffer, upperClass string) {
 }
 
 const header = `
-// Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 package gob
 

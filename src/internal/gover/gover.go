@@ -1,7 +1,3 @@
-// Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package gover implements support for Go toolchain versions like 1.21.0 and 1.21rc1.
 // (For historical reasons, Go does not use semver for its toolchains.)
 // This package provides the same basic analysis that golang.org/x/mod/semver does for semver.

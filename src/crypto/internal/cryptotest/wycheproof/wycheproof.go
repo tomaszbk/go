@@ -1,7 +1,3 @@
-// Copyright 2026 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package wycheproof provides helper utilities for writing tests that
 // rely on Wycheproof test vector schemas and JSON vector data.
 // See https://github.com/C2SP/wycheproof for more information.

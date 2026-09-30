@@ -1,7 +1,3 @@
-// Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 /*
 Package runtime contains operations that interact with Go's runtime system,
 such as functions to control goroutines. It also includes the low-level type information

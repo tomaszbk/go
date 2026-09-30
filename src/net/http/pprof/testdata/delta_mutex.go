@@ -1,7 +1,3 @@
-// Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This binary collects a 1s delta mutex profile and dumps it to os.Stdout.
 //
 // This is in a subprocess because we want the base mutex profile to be empty

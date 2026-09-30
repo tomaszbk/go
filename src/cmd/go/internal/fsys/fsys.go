@@ -1,7 +1,3 @@
-// Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package fsys implements a virtual file system that the go command
 // uses to read source file trees. The virtual file system redirects some
 // OS file paths to other OS file paths, according to an overlay file.

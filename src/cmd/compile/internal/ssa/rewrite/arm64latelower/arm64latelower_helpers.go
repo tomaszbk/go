@@ -1,7 +1,3 @@
-// Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 package arm64latelower
 
 // isARM64addcon reports whether x can be encoded as the immediate value in an ADD or SUB instruction.

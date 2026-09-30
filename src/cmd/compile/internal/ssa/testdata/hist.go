@@ -1,7 +1,3 @@
-// Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This is the input program for an end-to-end test of the DWARF produced
 // by the compiler. It is compiled with various flags, then the resulting
 // binary is "debugged" under the control of a harness.  Because the compile+debug

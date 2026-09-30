@@ -1,7 +1,3 @@
-// Copyright 2026 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // The fix package defines the suite of analyzers used by cmd/fix,
 // the default analysis tool run by "go fix".
 // Its behavior is equivalent to:

@@ -1,8 +1,5 @@
 // asmcheck
 
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Make sure a pointer variable and a zero-sized variable
 // aren't allocated to the same stack slot.

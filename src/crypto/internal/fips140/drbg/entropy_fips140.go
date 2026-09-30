@@ -1,7 +1,3 @@
-// Copyright 2026 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Entropy generation in FIPS 140-3 mode uses a scratch buffer in the BSS
 // section (see below), which usually doesn't cost much, except on Wasm, due to
 // the way the linear memory works. FIPS 140-3 mode is not supported on Wasm, so

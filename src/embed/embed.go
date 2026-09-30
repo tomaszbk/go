@@ -1,7 +1,3 @@
-// Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package embed provides access to files embedded in the running Go program.
 //
 // Go source files that import "embed" can use the //go:embed directive

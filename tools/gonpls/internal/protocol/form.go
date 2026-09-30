@@ -1,7 +1,3 @@
-// Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This file defines types for an experimental feature (golang/go#76331,
 // microsoft/language-server-protocol#1164). As an experimental feature,
 // these types are not yet included in tsprotocol.go.

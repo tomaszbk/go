@@ -2,9 +2,6 @@
 
 //go:build linux || darwin
 
-// Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // This is an optimization check. We want to make sure that we compare
 // string lengths, and other scalar fields, before checking string

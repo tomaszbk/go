@@ -1,7 +1,3 @@
-// Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 #ifdef GOOS_windows
 // Offset of the TEB's ThreadLocalStoragePointer field, which points to the
 // array of module TLS blocks indexed by _tls_index.

@@ -1,7 +1,3 @@
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package fmtsort provides a general stable ordering mechanism
 // for maps, on behalf of the fmt and text/template packages.
 // It is not guaranteed to be efficient and works only for types

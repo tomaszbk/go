@@ -1,8 +1,5 @@
 // -lang=go1.27
 
-// Copyright 2026 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // This is a replica of compliterals1.go at Go 1.27 to ensure error
 // messages are reported as expected.

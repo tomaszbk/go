@@ -1,7 +1,3 @@
-// Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Copied literally from src/internal/diff/diff.go so gentools does not
 // import internal/diff (which is forbidden when built outside the std module
 // using a release Go toolchain).

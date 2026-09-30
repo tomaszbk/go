@@ -1,7 +1,3 @@
-// Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package stdversion reports uses of standard library symbols that are
 // "too new" for the Go version in force in the referring file.
 package stdversion

@@ -1,6 +1,3 @@
-// Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 //
 // System calls and other sys.stuff for 386, FreeBSD
 // /usr/src/sys/kern/syscalls.master for syscall numbers.

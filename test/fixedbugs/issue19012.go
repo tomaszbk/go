@@ -1,8 +1,5 @@
 // errorcheck
 
-// Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Issue 19012: if we have any unknown type at a call site,
 // we must ensure that we return to the user a suppressed

@@ -4,9 +4,6 @@ go test -run Example example1_test.go
 stdout '^ok'
 
 -- example1_test.go --
-// Copyright 2013 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Make sure that go test runs Example_z before Example_a, preserving source order.
 

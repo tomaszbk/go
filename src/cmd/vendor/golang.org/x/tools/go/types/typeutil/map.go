@@ -1,7 +1,3 @@
-// Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package typeutil defines various utilities for types, such as [Map],
 // a hash table that maps [types.Type] to any value.
 package typeutil

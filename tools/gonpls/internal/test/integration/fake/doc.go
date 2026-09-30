@@ -1,7 +1,3 @@
-// Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package fake provides a fake implementation of an LSP-enabled
 // text editor, its LSP client plugin, and a Sandbox environment for
 // use in integration tests.

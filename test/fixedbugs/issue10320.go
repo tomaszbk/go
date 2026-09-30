@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Issue 10320: 7g failed to compile a program because it attempted
 // to use ZR as register. Other programs compiled but failed to

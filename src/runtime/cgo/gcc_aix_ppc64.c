@@ -1,7 +1,3 @@
-// Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 /*
  * On AIX, call to _cgo_topofstack and Go main are forced to be a longcall.
  * Without it, ld might add trampolines in the middle of .text section

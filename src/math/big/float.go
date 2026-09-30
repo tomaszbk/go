@@ -1,7 +1,3 @@
-// Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This file implements multi-precision floating-point numbers.
 // Like in the GNU MPFR library (https://www.mpfr.org/), operands
 // can be of mixed precision. Unlike MPFR, the rounding mode is

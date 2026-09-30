@@ -1,8 +1,5 @@
 // asmcheck
 
-// Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // These tests check that atomic instructions without dynamic checks are
 // generated for architectures that support them

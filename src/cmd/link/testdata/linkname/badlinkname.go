@@ -1,7 +1,3 @@
-// Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Existing pull linknames in the wild are allowed _for now_,
 // for legacy reason. Test a function, a method, and an
 // assembly symbol.

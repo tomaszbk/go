@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2017 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // This test makes sure that itabs are unique.
 // More explicitly, we require that only one itab structure exists for the pair of

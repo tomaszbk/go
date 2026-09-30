@@ -1,7 +1,3 @@
-// Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package chacha20 implements the ChaCha20 and XChaCha20 encryption algorithms
 // as specified in RFC 8439 and draft-irtf-cfrg-xchacha-01.
 package chacha20

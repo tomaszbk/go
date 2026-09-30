@@ -1,7 +1,3 @@
-// Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package sha3 implements the SHA-3 hash algorithms and the SHAKE extendable
 // output functions defined in FIPS 202.
 package sha3

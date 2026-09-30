@@ -1,7 +1,3 @@
-// Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This file implements a typechecker test harness. The packages specified
 // in tests are typechecked. Error messages reported by the typechecker are
 // compared against the errors expected in the test files.

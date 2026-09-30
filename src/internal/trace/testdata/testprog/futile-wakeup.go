@@ -1,7 +1,3 @@
-// Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Tests to make sure the runtime doesn't generate futile wakeups. For example,
 // it makes sure that a block on a channel send that unblocks briefly only to
 // immediately go back to sleep (in such a way that doesn't reveal any useful

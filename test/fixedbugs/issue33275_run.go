@@ -2,9 +2,6 @@
 
 //go:build !nacl && !js && !wasip1 && !gccgo
 
-// Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Make sure we don't get an index out of bounds error
 // while trying to print a map that is concurrently modified.

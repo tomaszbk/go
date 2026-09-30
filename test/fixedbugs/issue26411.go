@@ -2,9 +2,6 @@
 
 //go:build !nacl && !js && !wasip1
 
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Ensure that label redefinition errors print out
 // a column number that matches the start of the current label's

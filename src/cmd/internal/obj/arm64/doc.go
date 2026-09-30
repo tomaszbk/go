@@ -1,7 +1,3 @@
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 /*
 Package arm64 implements an ARM64 assembler. Go assembly syntax is different from GNU ARM64
 syntax, but we can still follow the general rules to map between them.

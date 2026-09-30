@@ -1,7 +1,3 @@
-// Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This file contains rules used by flagalloc and addressingmodes to
 // split a flag-generating merged load op into separate load and op.
 // Unlike with the other rules files, not all of these

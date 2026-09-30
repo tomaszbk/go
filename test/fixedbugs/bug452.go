@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Issue 3835: 8g tries to optimize arithmetic involving integer
 // constants, but can run out of registers in the process.

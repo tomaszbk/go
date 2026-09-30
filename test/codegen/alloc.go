@@ -1,8 +1,5 @@
 // asmcheck
 
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // These tests check that allocating a 0-size object does not
 // introduce a call to runtime.newobject.

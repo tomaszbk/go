@@ -1,7 +1,3 @@
-// Copyright 2011 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package fnv implements FNV-1 and FNV-1a, non-cryptographic hash functions
 // created by Glenn Fowler, Landon Curt Noll, and Phong Vo.
 // See

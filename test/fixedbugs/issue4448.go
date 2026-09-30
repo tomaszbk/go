@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Issue 4448: 64-bit indices that are statically known
 // to be bounded make 5g and 8g generate a dangling branch.

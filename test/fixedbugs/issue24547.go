@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // When computing method sets with shadowed methods, make sure we
 // compute whether a method promotion involved a pointer traversal

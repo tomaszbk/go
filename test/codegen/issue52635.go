@@ -1,8 +1,5 @@
 // asmcheck
 
-// Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Test that optimized range memclr works when the clear target has a stable
 // address. Pointer and slice fields must remain ordinary loops because their

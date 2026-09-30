@@ -1,7 +1,3 @@
-// Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // simdgen is an experiment in generating Go <-> asm SIMD mappings.
 //
 // Usage: simdgen [-arch=amd64|arm64|sve] [-xedPath=path] [-arm64Path=path] [-q=query] input.yaml...

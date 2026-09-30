@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Make sure we use the deferreturn live map instead of
 // the entry live map when handling a segv in a function

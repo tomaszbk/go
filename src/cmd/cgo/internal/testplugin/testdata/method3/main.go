@@ -1,7 +1,3 @@
-// Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // An unexported method can be reachable from the plugin via interface
 // when a package is shared. So it need to be live.
 

@@ -1,4 +1,3 @@
-
 # Regression test case for bug #72810. Uses a build with
 # Go source files and assembly source files.
 
@@ -9,9 +8,6 @@ module uses.asm
 
 go 1.25
 -- a.go --
-// Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 package main
 
 func main() {
@@ -529,9 +525,6 @@ func t253()
 func t254()
 
 -- a.s --
-// Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 TEXT ·t0(SB),0,$0
 	RET
 
@@ -1305,9 +1298,6 @@ N=255
 function cophdr() {
     local F=$1
     cat > $F <<EOF
-// Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 EOF
 }
 #

@@ -1,7 +1,3 @@
-// Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package fips140 provides information about the FIPS 140-3 Go Cryptographic
 // Module and FIPS 140-3 mode.
 //

@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2026 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Issue 79182: SHLQconst/SHLLconst rewrite rule for (x+x)<<c
 // missed a bounds check on c, causing c+1 to overflow the valid

@@ -1,7 +1,3 @@
-// Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package gen is used to generate command bindings from the gopls command
 // interface.
 package gen
@@ -18,10 +14,7 @@ import (
 	"golang.org/x/tools/internal/typesinternal"
 )
 
-const src = `// Copyright 2024 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
+const src = `
 // Don't include this file during code generation, or it will break the build
 // if existing interface methods have been modified.
 //go:build !generate

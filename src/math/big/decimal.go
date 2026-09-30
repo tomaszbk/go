@@ -1,7 +1,3 @@
-// Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This file implements multi-precision decimal numbers.
 // The implementation is for float to decimal conversion only;
 // not general purpose use.

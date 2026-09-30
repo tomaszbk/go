@@ -1,7 +1,3 @@
-// Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package constraint implements parsing and evaluation of build constraint lines.
 // See https://golang.org/cmd/go/#hdr-Build_constraints for documentation about build constraints themselves.
 //

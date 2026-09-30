@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Test that s[len(s):] - which can point past the end of the allocated block -
 // does not confuse the garbage collector.

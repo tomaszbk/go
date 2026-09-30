@@ -1,7 +1,3 @@
-// Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // The metadata package defines types and functions for working with package
 // metadata, which describes Go packages and their relationships.
 //

@@ -1,7 +1,3 @@
-// Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // System calls and other system stuff for Linux s390x; see
 // /usr/include/asm/unistd.h for the syscall number definitions.
 

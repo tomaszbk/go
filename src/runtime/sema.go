@@ -1,7 +1,3 @@
-// Copyright 2009 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Semaphore implementation exposed to Go.
 // Intended use is provide a sleep and wakeup
 // primitive that can be used in the contended case

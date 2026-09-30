@@ -1,7 +1,3 @@
-// Copyright 2025 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package cursorutil provides utility functions for working with [inspector.Cursor].
 //
 // It should create no additional dependencies beyond those of Cursor

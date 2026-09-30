@@ -1,7 +1,3 @@
-// Copyright 2020 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This test case contains two static temps (the array literals)
 // with same contents but different sizes. The linker should not
 // report a hash collision. The linker can (and actually does)

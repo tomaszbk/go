@@ -2,9 +2,6 @@
 
 //go:build !goexperiment.newinliner
 
-// Copyright 2015 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Test, using compiler diagnostic flags, that inlining is working.
 // Compiles but does not run.

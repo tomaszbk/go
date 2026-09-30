@@ -1,7 +1,3 @@
-// Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package buildcfg provides access to the build configuration
 // described by the current environment. It is for use by build tools
 // such as cmd/go or cmd/compile and for setting up go/build's Default context.

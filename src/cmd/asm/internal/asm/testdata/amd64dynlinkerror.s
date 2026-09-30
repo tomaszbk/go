@@ -1,7 +1,3 @@
-// Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Test to make sure that if we use R15 after it is clobbered by
 // a global variable access while dynamic linking, we get an error.
 // See issue 43661.

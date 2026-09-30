@@ -11,9 +11,6 @@ module "rsc.io/sampler"
 
 require "golang.org/x/text" v0.0.0-20170915032832-14c0d48ead0c
 -- hello.go --
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Translations by Google Translate.
 
@@ -27,9 +24,6 @@ Spanish: es: Hola Mundo.
 
 `)
 -- hello_test.go --
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 package sampler
 
@@ -62,9 +56,6 @@ func TestHello(t *testing.T) {
 	}
 }
 -- sampler.go --
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Package sampler shows simple texts.
 package sampler // import "rsc.io/sampler"

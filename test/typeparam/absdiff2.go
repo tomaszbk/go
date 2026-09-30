@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // absdiff example in which an Abs method is attached to a generic type, which is a
 // structure with a single field that may be a list of possible basic types.

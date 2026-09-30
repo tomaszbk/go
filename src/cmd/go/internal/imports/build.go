@@ -1,7 +1,3 @@
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Copied from Go distribution src/go/build/build.go, syslist.go.
 // That package does not export the ability to process raw file data,
 // although we could fake it with an appropriate build.Context

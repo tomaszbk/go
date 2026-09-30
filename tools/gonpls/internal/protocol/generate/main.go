@@ -1,7 +1,3 @@
-// Copyright 2022 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // The generate command generates Go declarations from VSCode's
 // description of the Language Server Protocol.
 //
@@ -328,10 +324,7 @@ func fileHeader(model *Model) string {
 		log.Fatalf("githash cannot be recovered from %s", fname)
 	}
 
-	format := `// Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
+	format := `
 // Code generated for LSP. DO NOT EDIT.
 
 package protocol

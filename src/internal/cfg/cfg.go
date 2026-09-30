@@ -1,7 +1,3 @@
-// Copyright 2019 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // Package cfg holds configuration shared by the Go command and internal/testenv.
 // Definitions that don't need to be exposed outside of cmd/go should be in
 // cmd/go/internal/cfg instead of this package.

@@ -2,9 +2,6 @@
 
 //go:build goexperiment.simd && amd64
 
-// Copyright 2026 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Test that blocks created by the critical pass to split critical
 // edges inherit the CPU features of the edge they sit on, so that

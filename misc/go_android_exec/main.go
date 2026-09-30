@@ -1,7 +1,3 @@
-// Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // This wrapper uses syscall.Flock to prevent concurrent adb commands,
 // so for now it only builds on platforms that support that system call.
 // TODO(#33974): use a more portable library for file locking.

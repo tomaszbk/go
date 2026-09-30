@@ -1,8 +1,5 @@
 // run
 
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 
 // Loads of 8 byte go.strings cannot use DS relocation
 // in case the alignment is not a multiple of 4.

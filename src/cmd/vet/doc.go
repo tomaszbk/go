@@ -1,7 +1,3 @@
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 /*
 Vet examines Go source code and reports suspicious constructs, such as Printf
 calls whose arguments do not align with the format string. Vet uses heuristics

@@ -1,7 +1,3 @@
-// Copyright 2018 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 // TODO: This test could be implemented on all (most?) UNIXes if we
 // added syscall.Tgkill more widely.
 
