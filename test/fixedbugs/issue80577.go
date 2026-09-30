@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 80577: on riscv64, sign extensions were elided after
 // 32-bit instructions that architecturally sign-extend their
 // result, but an unsigned-typed value spilled across a call is

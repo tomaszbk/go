@@ -1,6 +1,5 @@
 // run
 
-
 // Test cases where a main dictionary is needed inside a generic function/method, because
 // we are calling a method on a fully-instantiated type or a fully-instantiated function.
 // (probably not common situations, of course)

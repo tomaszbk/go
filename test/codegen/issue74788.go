@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 func fa(a [2]int) (r [2]int) {

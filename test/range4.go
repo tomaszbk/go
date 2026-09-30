@@ -1,6 +1,5 @@
 // run
 
-
 // Test the 'for range' construct ranging over functions.
 
 package main

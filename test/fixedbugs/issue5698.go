@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 5698: can define a key type with slices.
 
 package main

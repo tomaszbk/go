@@ -1,6 +1,5 @@
 // run
 
-
 // https://golang.org/issue/843
 
 package main

@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 // This used to print 0, because x was incorrectly captured by value.

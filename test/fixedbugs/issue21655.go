@@ -1,6 +1,5 @@
 // compile
 
-
 // Make sure assembly offsets don't get too large.
 
 // To trigger issue21655, the index offset needs to be small

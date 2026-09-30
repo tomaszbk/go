@@ -2,7 +2,6 @@
 
 //go:build amd64 && (linux || darwin)
 
-
 package main
 
 import (

@@ -1,6 +1,5 @@
 // run
 
-
 // Test simple arithmetic conversion.
 
 package main

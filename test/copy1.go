@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that copy arguments requirements are enforced by the
 // compiler.
 

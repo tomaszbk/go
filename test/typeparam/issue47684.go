@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 func f[G any]() int {

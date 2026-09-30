@@ -2,7 +2,6 @@
 
 //go:build !(386 || arm || mips || mipsle)
 
-
 package main
 
 const N = 2e6

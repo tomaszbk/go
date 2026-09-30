@@ -2,7 +2,6 @@
 
 //go:build !goexperiment.cgocheck2
 
-
 package codegen
 
 // This file contains code generation tests related to the handling of

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 21988: panic on switch case with invalid value
 
 package p

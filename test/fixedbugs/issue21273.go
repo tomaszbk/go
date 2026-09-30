@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package main
 
 type T0 T0 // ERROR "invalid recursive type"

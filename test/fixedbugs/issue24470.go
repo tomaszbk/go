@@ -1,6 +1,5 @@
 // errorcheck -d=panic
 
-
 // Verify that we get "use of .(type) outside type switch"
 // before any other (misleading) errors. Test case from issue.
 

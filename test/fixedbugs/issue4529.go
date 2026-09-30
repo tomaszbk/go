@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 4529: escape analysis crashes on "go f(g())"
 // when g has multiple returns.
 

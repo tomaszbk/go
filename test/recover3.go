@@ -1,6 +1,5 @@
 // run
 
-
 // Test recovering from runtime errors.
 
 package main

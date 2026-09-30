@@ -1,6 +1,5 @@
 // -lang=go1.19
 
-
 package p
 
 func f1[_ comparable]()              {}

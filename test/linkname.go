@@ -1,6 +1,5 @@
 // errorcheckandrundir -0 -m -l=4
 
-
 // Tests that linknames are included in export data (issue 18167).
 package ignored
 

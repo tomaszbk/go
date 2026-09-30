@@ -1,6 +1,5 @@
 // compile
 
-
 package main
 
 type Value[T any] interface {

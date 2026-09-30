@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 1811.
 // gccgo failed to compile this.
 

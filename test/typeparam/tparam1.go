@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Basic type parameter list type-checking (not syntax) errors.
 
 package tparam1

@@ -1,6 +1,5 @@
 // compile -d=ssa/check/on
 
-
 package p
 
 type S struct {

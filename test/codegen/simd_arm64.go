@@ -1,6 +1,5 @@
 // asmcheck
 
-
 // These tests check ARM64 SIMD code generation and peephole optimizations.
 
 //go:build goexperiment.simd && arm64

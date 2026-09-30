@@ -1,4 +1,3 @@
 // errorcheckdir
 
-
 package ignored

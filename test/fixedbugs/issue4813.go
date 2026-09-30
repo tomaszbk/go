@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 4813: use of constant floats as indices.
 
 package main

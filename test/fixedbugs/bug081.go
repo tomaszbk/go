@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package main
 
 const x x = 2 // ERROR "loop|type|cycle"

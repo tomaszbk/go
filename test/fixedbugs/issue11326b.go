@@ -4,7 +4,6 @@
 // exponent size.
 //go:build !gccgo
 
-
 package main
 
 // Tests for golang.org/issue/11326.

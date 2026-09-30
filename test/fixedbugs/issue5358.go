@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // issue 5358: incorrect error message when using f(g()) form on ... args.
 
 package main

@@ -2,7 +2,6 @@
 
 //go:build !nacl && !js && !wasip1 && !android && gc
 
-
 package main
 
 import (

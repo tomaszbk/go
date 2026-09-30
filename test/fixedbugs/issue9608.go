@@ -1,6 +1,5 @@
 // rundir
 
-
 // Issue 9608: dead code elimination in switch statements.
 
 // This has to be done as a package rather than as a file,

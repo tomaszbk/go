@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 4173
 
 package main

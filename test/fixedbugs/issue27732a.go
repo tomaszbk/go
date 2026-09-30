@@ -1,6 +1,5 @@
 // errorcheck -0 -m -l -smallframes
 
-
 // This checks that the -smallframes flag forces a large variable to heap.
 
 package main

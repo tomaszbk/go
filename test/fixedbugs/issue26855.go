@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that we get the correct (T vs &T) literal specification
 // in the error message.
 

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package p
 
 // Verify that the compiler complains even if the array

@@ -1,6 +1,5 @@
 // run
 
-
 // Test that predeclared names can be redeclared by the user.
 
 package main

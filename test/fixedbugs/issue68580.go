@@ -1,6 +1,5 @@
 // compile
 
-
 package main
 
 type A[P any] = struct{ _ P }

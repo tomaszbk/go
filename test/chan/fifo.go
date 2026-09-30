@@ -1,6 +1,5 @@
 // run
 
-
 // Test that unbuffered channels act as pure fifos.
 
 package main

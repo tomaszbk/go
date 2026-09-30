@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 func genfunc[T any](f func(c T)) {

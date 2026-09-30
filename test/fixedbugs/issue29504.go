@@ -1,6 +1,5 @@
 // run
 
-
 // Make sure that in code involving indexing, the bounds
 // check always fails at the line number of the '[' token.
 

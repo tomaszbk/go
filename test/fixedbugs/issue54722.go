@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 type G[T any] struct {

@@ -1,6 +1,5 @@
 // run
 
-
 // Test string literal syntax.
 
 package main

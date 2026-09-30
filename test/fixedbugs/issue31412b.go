@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // This code was incorrectly accepted by gccgo.
 
 package main

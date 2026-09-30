@@ -1,6 +1,5 @@
 // errorcheck -e
 
-
 package p
 
 type T struct{}

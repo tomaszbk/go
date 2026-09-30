@@ -1,6 +1,5 @@
 // run
 
-
 // Simple test of the garbage collector.
 
 package main

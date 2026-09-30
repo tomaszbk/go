@@ -1,6 +1,5 @@
 // compile
 
-
 // issue 8074.
 // was "cannot take the address of 1"
 

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 11737 - invalid == not being caught until generated switch code was compiled
 
 package p

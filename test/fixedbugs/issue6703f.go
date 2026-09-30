@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Check for cycles in the method call of a value literal.
 
 package litmethcall

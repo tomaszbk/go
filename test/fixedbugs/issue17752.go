@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 func f(m map[string]int) int {

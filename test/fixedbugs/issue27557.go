@@ -1,6 +1,5 @@
 // errorcheck -0 -l -m
 
-
 package p
 
 var sink interface{}

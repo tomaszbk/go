@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 55242: gofrontend crash calling function that returns
 // trailing empty struct.
 

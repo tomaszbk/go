@@ -1,6 +1,5 @@
 // run
 
-
 // PR61258: gccgo crashed when deleting a zero-sized key from a map.
 
 package main

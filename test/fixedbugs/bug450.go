@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 3899: 8g incorrectly thinks a variable is
 // "set and not used" and elides an assignment, causing
 // variables to end up with wrong data.

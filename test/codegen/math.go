@@ -1,6 +1,5 @@
 // asmcheck -gcflags=-d=converthash=qy
 
-
 package codegen
 
 import "math"

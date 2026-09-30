@@ -1,6 +1,5 @@
 // errorcheck -0 -m -l
 
-
 // Tests escape analysis for range of arrays.
 // Compiles but need not run.  Inlining is disabled.
 

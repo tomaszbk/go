@@ -1,6 +1,5 @@
 // build
 
-
 // Issue 73716: cmd/compile: unnamed functions missing FuncInfo
 
 package main

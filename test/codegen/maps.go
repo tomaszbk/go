@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 // This file contains code generation tests related to the handling of

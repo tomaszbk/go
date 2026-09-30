@@ -1,6 +1,5 @@
 // run
 
-
 // Test for a garbage collection bug involving not
 // marking x as having its address taken by &x[0]
 // when x is an array value.

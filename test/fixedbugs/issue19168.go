@@ -1,6 +1,5 @@
 // errorcheck -0 -l -d=wb
 
-
 package p
 
 import (

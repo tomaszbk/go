@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 2582
 package main
 

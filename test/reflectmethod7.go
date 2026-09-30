@@ -1,6 +1,5 @@
 // run
 
-
 // See issue 44207.
 
 package main

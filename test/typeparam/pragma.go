@@ -1,6 +1,5 @@
 // errorcheck -0 -m
 
-
 // Make sure the go:noinline pragma makes it from a
 // generic function to any of its stenciled instances.
 

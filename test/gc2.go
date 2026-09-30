@@ -2,7 +2,6 @@
 
 //go:build !nacl && !js
 
-
 // Test that buffered channels are garbage collected properly.
 // An interesting case because they have finalizers and used to
 // have self loops that kept them from being collected.

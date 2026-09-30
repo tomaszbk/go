@@ -1,6 +1,5 @@
 // run
 
-
 // Test that pointer bitmaps of types with large scalar tails are
 // correctly repeated when unrolled into the heap bitmap.
 

@@ -2,7 +2,6 @@
 
 //go:build !nacl && !js && !wasip1 && gc
 
-
 // Check for compile or link error.
 
 package main

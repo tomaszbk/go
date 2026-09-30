@@ -1,6 +1,5 @@
 // errorcheck -lang=go1.17
 
-
 package p
 
 type _ interface {

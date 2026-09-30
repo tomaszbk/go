@@ -1,6 +1,5 @@
 // run
 
-
 // issue 4066: return values not being spilled eagerly enough
 
 package main

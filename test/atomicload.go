@@ -1,6 +1,5 @@
 // run
 
-
 // Check that we do loads exactly once. The SSA backend
 // once tried to do the load in f twice, once sign extended
 // and once zero extended.  This can cause problems in

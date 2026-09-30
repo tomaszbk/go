@@ -1,6 +1,5 @@
 // errorcheck
 
-
 //go:build amd64 || arm64
 
 // Issue 78355: map element or key type too large should not cause ICE.

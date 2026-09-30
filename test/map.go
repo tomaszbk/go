@@ -1,6 +1,5 @@
 // run
 
-
 // Test maps, almost exhaustively.
 // Complexity (linearity) test is in maplinear.go.
 

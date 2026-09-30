@@ -1,6 +1,5 @@
 //go:build arm
 
-
 // Make sure we can compile assembly with DIV and MOD in it.
 // They get rewritten to runtime calls on GOARM=5.
 

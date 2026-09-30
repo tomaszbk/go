@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Tests for golang.org/issue/13471
 
 package main

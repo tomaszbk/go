@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 3937: unhelpful typechecking loop message
 // for identifiers wrongly used as types.
 

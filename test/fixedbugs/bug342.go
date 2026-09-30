@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 1871.
 
 package p

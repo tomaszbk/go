@@ -1,6 +1,5 @@
 // run
 
-
 // Test that the half multiply resulting from a division
 // by a constant generates correct code.
 

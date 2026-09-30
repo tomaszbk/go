@@ -1,6 +1,5 @@
 // run
 
-
 // Test the cap predeclared function applied to channels.
 
 package main

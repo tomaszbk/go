@@ -1,6 +1,5 @@
 // errorcheck -lang=go1.22
 
-
 // This file has been changed from its original version as
 // //go:build file versions below 1.21 set the language version to 1.21.
 // The original tested a -lang version of 1.21 with a file version of

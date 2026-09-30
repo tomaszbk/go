@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 7272: test builtin functions in statement context and in
 // go/defer functions.
 

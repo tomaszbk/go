@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 import "runtime"
@@ -13,7 +12,7 @@ func main() {
 			_, file, line, _ = runtime.Caller(1)
 		}()
 	}() // this is the expected line
-	const EXPECTED = 15
+	const EXPECTED = 14
 	if line != EXPECTED {
 		println("Expected line =", EXPECTED, "but got line =", line, "and file =", file)
 	}

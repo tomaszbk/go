@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 4614: slicing of nil slices confuses the compiler
 // with a uintptr(nil) node.
 

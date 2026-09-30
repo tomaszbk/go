@@ -1,6 +1,5 @@
 // asmcheck
 
-
 // These tests check that allocating a 0-size object does not
 // introduce a call to runtime.newobject.
 

@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 81266: check that we generate correct code when
 // using the subroutine mechanism in the equality/hash generator.
 

@@ -1,6 +1,5 @@
 // run
 
-
 // Test simple boolean and numeric constants.
 
 package main

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 4359: wrong handling of broken struct fields
 // causes "internal compiler error: lookdot badwidth".
 

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package main
 
 var a = twoResults()       // ERROR "assignment mismatch: 1 variable but twoResults returns 2 values|multiple-value twoResults\(\) .*in single-value context"

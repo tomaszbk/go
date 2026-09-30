@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 func foo(a []int) int {

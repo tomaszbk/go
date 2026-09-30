@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 // Make sure we remove both inline marks in the following code.

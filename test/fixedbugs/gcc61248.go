@@ -1,6 +1,5 @@
 // compile
 
-
 // PR61248: Transformations to recover calls made them fail typechecking in gccgo.
 
 package main

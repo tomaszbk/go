@@ -1,6 +1,5 @@
 // run
 
-
 // Test interfaces on basic types.
 
 package main

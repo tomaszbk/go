@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that pointers and interface types cannot be method receivers.
 // Does not compile.
 

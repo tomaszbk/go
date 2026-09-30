@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 54638: composite literal assignment with
 // alignment > PtrSize causes ICE.
 

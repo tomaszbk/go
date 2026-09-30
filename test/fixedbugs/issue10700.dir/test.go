@@ -1,6 +1,5 @@
 // errorcheck -0 -m -l
 
-
 package main
 
 import "./other"

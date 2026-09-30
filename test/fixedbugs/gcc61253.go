@@ -1,6 +1,5 @@
 // compile
 
-
 // PR61253: gccgo incorrectly parsed the
 // `RecvStmt = ExpressionList "=" RecvExpr` production.
 

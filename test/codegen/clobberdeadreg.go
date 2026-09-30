@@ -2,7 +2,6 @@
 
 //go:build amd64
 
-
 package codegen
 
 type S struct {

@@ -1,6 +1,5 @@
 // compile
 
-
 package main
 
 type T[A, B, C any] int

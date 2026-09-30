@@ -1,6 +1,5 @@
 // run
 
-
 // Torture test for goroutines.
 // Make a lot of goroutines, threaded together, and tear them down cleanly.
 

@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 // Derived and simplified from (TestSkimageLabToRGBOutOfGamut):

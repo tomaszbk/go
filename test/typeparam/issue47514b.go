@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 func Do[T any](do func() (T, string)) {

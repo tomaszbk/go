@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 52846: gofrontend crashed with alias as map key type
 
 package p

@@ -1,6 +1,5 @@
 // run
 
-
 // Semi-exhaustive test for the append predeclared function.
 
 package main

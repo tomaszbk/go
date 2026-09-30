@@ -1,6 +1,5 @@
 // asmcheck -gcflags=-d=ssa/check/on
 
-
 package codegen
 
 // amd64:-"MOVQ"

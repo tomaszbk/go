@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 7153: array invalid index error duplicated on successive bad values
 
 package p

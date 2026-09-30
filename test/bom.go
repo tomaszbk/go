@@ -1,6 +1,5 @@
 // runoutput
 
-
 // Test source file beginning with a byte order mark.
 
 package main

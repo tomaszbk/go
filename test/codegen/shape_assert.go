@@ -1,6 +1,5 @@
 // asmcheck
 
-
 // Test that type assertions and type switch cases that are impossible
 // based on shape type analysis are eliminated from generated code.
 

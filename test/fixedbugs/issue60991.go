@@ -1,6 +1,5 @@
 // build
 
-
 package p
 
 import "math"

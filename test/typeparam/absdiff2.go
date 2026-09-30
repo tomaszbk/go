@@ -1,6 +1,5 @@
 // run
 
-
 // absdiff example in which an Abs method is attached to a generic type, which is a
 // structure with a single field that may be a list of possible basic types.
 

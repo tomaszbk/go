@@ -1,6 +1,5 @@
 // run -gcflags="-l"
 
-
 // Test situations where functions/methods are not
 // immediately called and we need to capture the dictionary
 // required for later invocation.

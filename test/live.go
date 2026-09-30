@@ -7,7 +7,6 @@
 //
 // For register ABI, liveness info changes slightly. See live_regabi.go.
 
-
 // liveness tests with inlining disabled.
 // see also live2.go.
 

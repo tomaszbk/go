@@ -1,6 +1,5 @@
 // run
 
-
 // very long strings, string concatenation
 
 package main

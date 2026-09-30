@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 type Src[T any] func() Src[T]

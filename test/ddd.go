@@ -1,6 +1,5 @@
 // run
 
-
 // Test variadic functions and calls (dot-dot-dot).
 
 package main

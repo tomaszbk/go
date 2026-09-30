@@ -1,6 +1,5 @@
 // run
 
-
 // Test initialization of package-level variables.
 
 package main

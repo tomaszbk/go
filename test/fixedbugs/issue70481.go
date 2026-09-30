@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 const maxUint64 = (1 << 64) - 1

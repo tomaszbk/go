@@ -1,6 +1,5 @@
 // run
 
-
 // Test that type parameter methods are handled correctly, even when
 // the instantiating type argument has additional methods.
 

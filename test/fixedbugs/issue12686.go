@@ -1,6 +1,5 @@
 // compile
 
-
 // golang.org/issue/12686.
 // interesting because it's a non-constant but ideal value
 // and we used to incorrectly attach a constant Val to the Node.

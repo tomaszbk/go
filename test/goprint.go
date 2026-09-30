@@ -1,6 +1,5 @@
 // run
 
-
 // Test that println can be the target of a go statement.
 
 package main

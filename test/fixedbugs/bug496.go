@@ -1,6 +1,5 @@
 // compile
 
-
 // Gccgo used to give an error:
 // <built-in>: error: redefinition of ‘s$F$hash’
 // <built-in>: note: previous definition of ‘s$F$hash’ was here

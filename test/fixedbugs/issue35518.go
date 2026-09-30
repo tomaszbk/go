@@ -1,6 +1,5 @@
 // errorcheck -0 -l -m=2
 
-
 // This test makes sure that -m=2's escape analysis diagnostics don't
 // go into an infinite loop when handling negative dereference
 // cycles. The critical thing being tested here is that compilation

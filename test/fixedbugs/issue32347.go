@@ -3,7 +3,6 @@
 // This code relies on pre-1.28 string(integer) conversion rules.
 //go:build !go1.28
 
-
 // Issue 32347: gccgo compiler crashes with int-to-string conversion
 // with large integer constant operand.
 

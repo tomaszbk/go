@@ -1,6 +1,5 @@
 // errorcheck -0 -m
 
-
 // Test that inlining works with generic functions.
 
 package testcase

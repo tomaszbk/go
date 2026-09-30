@@ -1,6 +1,5 @@
 // runoutput
 
-
 // terribly slow on wasm
 //go:build !wasm
 

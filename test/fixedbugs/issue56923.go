@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 type Eq[T any] interface {

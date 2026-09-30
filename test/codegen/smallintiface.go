@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 func booliface() interface{} {

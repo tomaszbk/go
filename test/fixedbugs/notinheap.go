@@ -1,6 +1,5 @@
 // errorcheck -+
 
-
 // Test type-checking errors for not-in-heap types.
 
 //go:build cgo

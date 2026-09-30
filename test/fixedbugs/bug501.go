@@ -1,6 +1,5 @@
 // run
 
-
 // Gccgo got a compiler crash compiling the addition of more than five
 // strings with mixed constants and variables.
 

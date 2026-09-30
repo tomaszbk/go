@@ -1,6 +1,5 @@
 // run
 
-
 // This test computes the precision of the compiler's internal multiprecision floats.
 
 package main

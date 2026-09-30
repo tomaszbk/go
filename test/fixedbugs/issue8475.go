@@ -1,6 +1,5 @@
 // build
 
-
 // Issue 8745: comma-ok assignments should produce untyped bool as 2nd result.
 
 package main

@@ -1,6 +1,5 @@
 // compile
 
-
 // Test case for issue 475. This file should compile.
 
 package main

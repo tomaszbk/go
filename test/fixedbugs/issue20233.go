@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 20233: panic while formatting an error message
 
 package p

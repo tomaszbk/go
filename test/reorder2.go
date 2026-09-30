@@ -1,6 +1,5 @@
 // run
 
-
 // Test reorderings; derived from fixedbugs/bug294.go.
 
 package main

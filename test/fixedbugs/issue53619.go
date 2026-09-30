@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 var c = b

@@ -1,6 +1,5 @@
 // errorcheckdir
 
-
 // Issue 1284
 
 package bug313

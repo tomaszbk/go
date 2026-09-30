@@ -2,7 +2,6 @@
 
 //go:build !wasm
 
-
 package main
 
 import "fmt"

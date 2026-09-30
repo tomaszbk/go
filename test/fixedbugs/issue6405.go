@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 6405: spurious 'not enough arguments to return' error
 
 package p

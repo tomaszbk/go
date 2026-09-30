@@ -1,6 +1,5 @@
 // compile
 
-
 // Used to leak registers on 8g.
 
 package p

@@ -1,6 +1,5 @@
 // -lang=go1.19
 
-
 // Check Go language version-specific errors.
 
 package p

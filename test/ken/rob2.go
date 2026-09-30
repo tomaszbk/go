@@ -1,6 +1,5 @@
 // run
 
-
 // Test general operation using s-list.
 // First Go program ever run (although not in this exact form).
 

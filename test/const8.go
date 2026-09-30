@@ -1,6 +1,5 @@
 // run
 
-
 // Test that identifiers in implicit (omitted) RHS
 // expressions of constant declarations are resolved
 // in the correct context; see issues #49157, #53585.

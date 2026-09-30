@@ -1,6 +1,5 @@
 // run
 
-
 // Make sure return values aren't scanned until they
 // are initialized, when calling functions and methods
 // via reflect.

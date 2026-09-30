@@ -1,6 +1,5 @@
 // run
 
-
 // Test integer modulus by constants.
 
 package main

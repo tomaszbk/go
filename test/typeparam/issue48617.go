@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 type Foo[T any] interface {

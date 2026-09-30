@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Tests that errors are reported for misuse of linkname.
 package p
 
@@ -19,7 +18,7 @@ func F[T any](T) {}
 // ERROR "duplicate //go:linkname for x"
 // ERROR "//go:linkname reference of an instantiation is not allowed"
 
-//line linkname3.go:17
+//line linkname3.go:16
 //go:linkname nonexist nonexist
 //go:linkname t notvarfunc
 //go:linkname x duplicate

@@ -1,6 +1,5 @@
 // compile -d=ssa/check/on
 
-
 // Issue 25993: SSA check fails on ARM.
 
 package p

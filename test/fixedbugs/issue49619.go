@@ -1,6 +1,5 @@
 // build
 
-
 // This testcase caused a linker crash in DWARF generation.
 
 package main

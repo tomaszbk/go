@@ -1,6 +1,5 @@
 // run
 
-
 // This tests an SSA-able stack temporary whose address must refer to its stack
 // slot. Without the addrtaken mark, (*state).addr returns &runtime.zerobase and
 // runtime.deferprocStack follows a corrupted _defer record.

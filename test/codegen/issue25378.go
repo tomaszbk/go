@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 var wsp = [256]bool{

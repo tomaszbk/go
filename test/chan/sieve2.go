@@ -1,6 +1,5 @@
 // run
 
-
 // Test concurrency primitives: prime sieve of Eratosthenes.
 
 // Generate primes up to 100 using channels, checking the results.

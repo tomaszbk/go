@@ -1,6 +1,5 @@
 // run
 
-
 // Test simple arithmetic and assignment for complex numbers.
 
 package main

@@ -1,6 +1,5 @@
 // build
 
-
 package p
 
 func F(a, b map[float32]int) int {

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 22063: panic on interface switch case with invalid name
 
 package p

@@ -1,6 +1,5 @@
 // run
 
-
 // Gccgo did not make a copy of a value receiver when using a
 // goroutine to call a method.
 

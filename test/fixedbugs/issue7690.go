@@ -1,6 +1,5 @@
 // run
 
-
 // issue 7690 - Stack and other routines did not back up initial PC
 // into CALL instruction, instead reporting line number of next instruction,
 // which might be on a different line.

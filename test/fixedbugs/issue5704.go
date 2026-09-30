@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 5704: Conversions of empty strings to byte
 // or rune slices return empty but non-nil slices.
 

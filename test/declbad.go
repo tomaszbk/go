@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Test that incorrect short declarations and redeclarations are detected.
 // Does not compile.
 

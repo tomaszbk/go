@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify compiler complains about missing implicit methods.
 // Does not compile.
 

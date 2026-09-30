@@ -1,6 +1,5 @@
 // errorcheck -0 -m
 
-
 // Test inlining of variadic functions.
 // See issue #18116.
 

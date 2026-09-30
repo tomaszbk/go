@@ -1,6 +1,5 @@
 // run
 
-
 // Do not panic on conversion to anonymous interface, which
 // is similar-looking interface types in different packages.
 

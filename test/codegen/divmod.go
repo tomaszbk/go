@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 // Div and mod rewrites, testing cmd/compile/internal/ssa/_gen/divmod.rules.

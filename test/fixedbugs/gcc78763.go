@@ -1,6 +1,5 @@
 // compile
 
-
 // The gccgo compiler crashed while compiling this code.
 // https://gcc.gnu.org/PR78763.
 

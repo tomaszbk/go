@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 8048. Incorrect handling of liveness when walking stack
 // containing faulting frame.
 

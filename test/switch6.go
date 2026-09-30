@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Check the compiler's switch handling that happens
 // at typechecking time.
 // This must be separate from other checks,

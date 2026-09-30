@@ -1,6 +1,5 @@
 // compile
 
-
 // Using a multi-result function as an argument to
 // append should compile successfully. Previously there
 // was a missing *int -> interface{} conversion that caused

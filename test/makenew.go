@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that make and new arguments requirements are enforced by the
 // compiler.
 

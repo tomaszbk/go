@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 17918: slice out-of-bounds in ssa/cse
 
 package dead

@@ -1,6 +1,5 @@
 // compiledir
 
-
 // https://gcc.gnu.org/PR67968
 
 // gccgo compiler crash building the equality and hash functions for a

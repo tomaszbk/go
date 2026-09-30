@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 // Zero returns the zero value of T

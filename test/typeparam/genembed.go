@@ -1,6 +1,5 @@
 // run
 
-
 // Test wrappers/interfaces for generic type embedding another generic type.
 
 package main

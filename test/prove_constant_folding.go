@@ -2,7 +2,6 @@
 
 //go:build amd64 || arm64
 
-
 package main
 
 func f0i(x int) int {

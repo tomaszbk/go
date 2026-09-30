@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 24503: Handle == and != of addresses taken of symbols consistently.
 
 package main

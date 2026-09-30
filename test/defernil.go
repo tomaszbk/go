@@ -1,6 +1,5 @@
 // run
 
-
 // Check that deferring a nil function causes a proper
 // panic when the deferred function is invoked (not
 // when the function is deferred).

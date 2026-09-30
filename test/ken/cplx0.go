@@ -1,6 +1,5 @@
 // run
 
-
 // Test trivial, bootstrap-level complex numbers, including printing.
 
 package main

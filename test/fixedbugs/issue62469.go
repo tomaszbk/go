@@ -1,6 +1,5 @@
 // run
 
-
 // Comparing a wrapped product difference against zero must respect the
 // sign of the wrapped value, even when it wraps to MinInt.
 

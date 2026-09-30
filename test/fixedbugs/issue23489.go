@@ -1,6 +1,5 @@
 // run
 
-
 // Caused gccgo to issue a spurious compilation error.
 
 package main

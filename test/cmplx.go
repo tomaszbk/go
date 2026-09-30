@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that incorrect invocations of the complex predeclared function are detected.
 // Does not compile.
 

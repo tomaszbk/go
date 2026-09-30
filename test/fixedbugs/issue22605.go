@@ -1,6 +1,5 @@
 // run
 
-
 // We were picking up a special noalg type from typelinks.
 
 package main

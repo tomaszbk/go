@@ -1,6 +1,5 @@
 // run
 
-
 // Smoke test for reverse type inference.
 // The type checker has more expansive tests.
 

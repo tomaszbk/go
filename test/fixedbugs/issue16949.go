@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Ensure that typed non-integer len and cap make arguments are not accepted.
 
 package main

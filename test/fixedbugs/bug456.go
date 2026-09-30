@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 3907: out of fixed registers in nested byte multiply.
 // Used to happen with both 6g and 8g.
 

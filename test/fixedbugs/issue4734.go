@@ -1,6 +1,5 @@
 // compile
 
-
 // Caused gccgo to emit multiple definitions of the same symbol.
 
 package p

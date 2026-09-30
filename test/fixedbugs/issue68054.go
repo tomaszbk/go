@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 type Seq[V any] = func(yield func(V) bool)

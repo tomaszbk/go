@@ -2,7 +2,6 @@
 
 //go:build race && cgo
 
-
 package main
 
 /*

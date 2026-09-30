@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Test various correct and incorrect permutations of send-only,
 // receive-only, and bidirectional channels.
 // Does not compile.

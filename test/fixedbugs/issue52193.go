@@ -1,6 +1,5 @@
 // errorcheck -0 -m
 
-
 package p
 
 // Test that inlining doesn't break if devirtualization exposes a new

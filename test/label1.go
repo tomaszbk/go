@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that erroneous labels are caught by the compiler.
 // This set is caught by pass 2. That's why this file is label1.go.
 // Does not compile.

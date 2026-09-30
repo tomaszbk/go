@@ -1,6 +1,5 @@
 // build
 
-
 package main
 
 const a = 0

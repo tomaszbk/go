@@ -1,6 +1,5 @@
 // run
 
-
 // Test that goroutines and garbage collection run during init.
 
 package main

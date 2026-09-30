@@ -1,6 +1,5 @@
 // errorcheck -0 -d=checkptr -m
 
-
 // Test that we can inline the receiver arguments for
 // reflect.Value.UnsafeAddr/Pointer, even in checkptr mode.
 

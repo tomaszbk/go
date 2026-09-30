@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Test various valid and invalid struct assignments and conversions.
 // Does not compile.
 

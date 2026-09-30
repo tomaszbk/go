@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 6500: missing error when fallthrough appears in a block.
 
 package main

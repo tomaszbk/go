@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 38515: failed to mark the method wrapper
 // reflect.Type.Method itself as REFLECTMETHOD.
 

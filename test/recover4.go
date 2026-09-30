@@ -2,7 +2,6 @@
 
 //go:build linux || darwin
 
-
 // Test that if a slice access causes a fault, a deferred func
 // sees the most recent value of the variables it accesses.
 // This is true today; the role of the test is to ensure it stays true.

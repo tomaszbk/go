@@ -2,7 +2,6 @@
 
 // NOTE: the actual tests to run are rotate[0123].go
 
-
 // Generate test of shift and rotate by constants.
 // The output is compiled and run.
 //

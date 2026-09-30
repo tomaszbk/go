@@ -1,6 +1,5 @@
 // run -gcflags='all=-N -l'
 
-
 package main
 
 import "os"

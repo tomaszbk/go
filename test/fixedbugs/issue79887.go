@@ -1,6 +1,5 @@
 // build
 
-
 package a
 
 import "math/bits"

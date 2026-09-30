@@ -1,6 +1,5 @@
 // run
 
-
 // This file tests the splitting of constants into
 // multiple immediates on arm.
 

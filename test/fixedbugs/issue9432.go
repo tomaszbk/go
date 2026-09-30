@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // gc used to recurse infinitely when dowidth is applied
 // to a broken recursive type again.
 // See golang.org/issue/9432.

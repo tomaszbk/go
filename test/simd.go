@@ -2,7 +2,6 @@
 
 //go:build goexperiment.simd && amd64
 
-
 package foo
 
 import (

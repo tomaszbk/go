@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 type T struct { // big enough to be an unSSAable type

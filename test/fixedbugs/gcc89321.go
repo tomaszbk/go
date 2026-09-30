@@ -1,6 +1,5 @@
 // compile
 
-
 // https://gcc.gnu.org/PR89321
 // gccgo compiler crash building map literals with a zero-sized value type.
 

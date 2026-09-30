@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that we have a line number for this error.
 
 package main

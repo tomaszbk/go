@@ -1,6 +1,5 @@
 // run
 
-
 // Conversion between identical interfaces.
 // Issue 1647.
 

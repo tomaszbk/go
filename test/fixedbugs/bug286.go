@@ -1,6 +1,5 @@
 // run
 
-
 // Test case for issue 849.
 
 package main

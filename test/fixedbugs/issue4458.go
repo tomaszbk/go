@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 4458: gc accepts invalid method expressions
 // like (**T).Method.
 

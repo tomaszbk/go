@@ -1,6 +1,5 @@
 // run
 
-
 // Test that the compiler's noder uses the correct type
 // for RHS shift operands that are untyped. Must compile;
 // run for good measure.

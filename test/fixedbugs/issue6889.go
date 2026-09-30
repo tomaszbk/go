@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 6889: confusing error message: ovf in mpaddxx
 
 package main

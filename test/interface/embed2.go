@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Test methods derived from embedded interface and *interface values.
 
 package main

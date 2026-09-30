@@ -2,7 +2,6 @@
 
 //go:build !js && !wasip1 && gc
 
-
 // Execute both spellings of the same scenarios and compare their checked traces.
 // Set GO_ERROR_HANDLING_BASELINE to a compatible unmodified go executable to
 // additionally verify the legacy program against the upstream language.

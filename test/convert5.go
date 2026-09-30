@@ -1,6 +1,5 @@
 // run -gcflags=-d=converthash=qy
 
-
 //go:build !wasm && !386 && !arm && !mips && !mipsle
 
 // TODO fix this to work for wasm and 32-bit architectures.

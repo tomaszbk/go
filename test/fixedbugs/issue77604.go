@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 77604: compiler crash when source and destination
 // of copy are the same address.
 

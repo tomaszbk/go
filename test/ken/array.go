@@ -1,6 +1,5 @@
 // run
 
-
 // Test arrays and slices.
 
 package main

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package p
 
 var _ chan [0x2FFFF]byte         // ERROR "channel element type too large"

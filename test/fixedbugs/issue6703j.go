@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Check for cycles in an embedded struct literal's method call.
 
 package embedlitmethcall

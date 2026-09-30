@@ -1,6 +1,5 @@
 // errorcheck -0 -m
 
-
 package escape
 
 const globalConstSize = 128

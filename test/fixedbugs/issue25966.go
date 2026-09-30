@@ -1,6 +1,5 @@
 // compile -N
 
-
 // Issue 25966: liveness code complains autotmp live on
 // function entry.
 

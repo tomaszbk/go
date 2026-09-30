@@ -1,6 +1,5 @@
 // compile
 
-
 // This code was incorrectly flagged as erroneous by gccgo.
 
 package main

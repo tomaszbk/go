@@ -1,6 +1,5 @@
 // run
 
-
 // TODO: disable test for ppc64le/dynlink? See cmd/compile/internal/reader/noder.go:addTailCall.
 
 package main

@@ -1,6 +1,5 @@
 // run
 
-
 // issue 8132. stack walk handling of panic stack was confused
 // about what was legal.
 

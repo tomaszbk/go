@@ -1,6 +1,5 @@
 // run
 
-
 // Test internal print routines that are generated
 // by the print builtin.  This test is not exhaustive,
 // we're just checking that the formatting is correct.

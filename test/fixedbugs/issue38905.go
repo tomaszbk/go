@@ -1,6 +1,5 @@
 // compile
 
-
 // Make sure that literal value can be passed to struct
 // blank field with expressions where candiscard(value)
 // returns false, see #38905.

@@ -1,6 +1,5 @@
 // run
 
-
 // Make sure println() prints a blank line.
 
 package main

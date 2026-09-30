@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that a label named like a package is recognized
 // as a label rather than a package and that the package
 // remains unused.

@@ -1,6 +1,5 @@
 // rundir
 
-
 // This test failed when the compiler didn't use the
 // correct code to identify the type reflect.Method.
 // The failing code relied on Type.String() which had

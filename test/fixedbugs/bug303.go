@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 1011.  Removing either #1 or #3 avoided the crash at #2.
 
 package main

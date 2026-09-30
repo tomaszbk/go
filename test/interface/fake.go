@@ -1,6 +1,5 @@
 // run
 
-
 // Test interface comparisons using types hidden
 // inside reflected-on structs.
 

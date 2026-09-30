@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 type S[T comparable] struct {

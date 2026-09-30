@@ -1,6 +1,5 @@
 // run
 
-
 // Checks that conversion of CMP(x,-y) -> CMN(x,y) is only applied in correct context.
 
 package main

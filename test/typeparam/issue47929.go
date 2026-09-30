@@ -1,6 +1,5 @@
 // compile -p=p
 
-
 package v4
 
 var sink interface{}

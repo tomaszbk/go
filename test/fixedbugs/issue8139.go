@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 8139. The x.(T) assertions used to write 1 (unexpected)
 // return byte for the 0-byte return value T.
 

@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 func dgemmSerialNotNot(m, n, k int, a []float64, lda int, b []float64, ldb int, c []float64, ldc int, alpha float64) {

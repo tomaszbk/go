@@ -1,6 +1,5 @@
 // compile
 
-
 package main
 
 func f[T int](t T) {

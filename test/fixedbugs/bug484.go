@@ -1,6 +1,5 @@
 // run
 
-
 // The liveness code used to say that, in func g, s was live
 // starting at its declaration, because it appears to have its
 // address taken by the closure (different s, but the parser

@@ -1,6 +1,5 @@
 // run
 
-
 // Test that closures inside a generic function are not exported,
 // even though not themselves generic.
 

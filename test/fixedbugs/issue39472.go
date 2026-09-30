@@ -1,6 +1,5 @@
 // compile -N
 
-
 package p
 
 func f(x float64) bool {

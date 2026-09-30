@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 13821.  Compiler rejected "bool(true)" as not a constant.
 
 package p

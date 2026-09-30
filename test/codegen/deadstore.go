@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 type S struct {

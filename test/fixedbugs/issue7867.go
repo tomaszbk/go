@@ -1,6 +1,5 @@
 // runoutput
 
-
 // Issue 7867.
 
 package main

@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 func divUint64(b uint64) uint64 {

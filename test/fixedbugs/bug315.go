@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 1368.
 
 package main

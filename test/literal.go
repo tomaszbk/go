@@ -1,6 +1,5 @@
 // run
 
-
 // Test literal syntax for basic types.
 
 package main

@@ -1,6 +1,5 @@
 // compile -l
 
-
 package p
 
 func f() int {

@@ -1,6 +1,5 @@
 // run
 
-
 // Test the situation in which two cases of a select can
 // both end up running. See http://codereview.appspot.com/180068.
 

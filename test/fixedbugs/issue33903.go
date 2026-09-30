@@ -1,6 +1,5 @@
 // compile
 
-
 // Check that the shortcircuit pass correctly handles infinite loops.
 
 package p

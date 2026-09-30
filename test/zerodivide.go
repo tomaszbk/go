@@ -1,6 +1,5 @@
 // run
 
-
 // Test that zero division causes a panic.
 
 package main

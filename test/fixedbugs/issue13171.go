@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 // Make sure the compiler knows that DUFFCOPY clobbers X0

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package main
 
 var bits1 uint = 10

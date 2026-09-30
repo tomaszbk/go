@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that the Go compiler will not
 // die after running into an undefined
 // type in the argument list for a

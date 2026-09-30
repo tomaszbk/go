@@ -1,6 +1,5 @@
 // -lang=go1.17
 
-
 // Parser accepts type parameters but the type checker
 // needs to report any operations that are not permitted
 // before Go 1.18.

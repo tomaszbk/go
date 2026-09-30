@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 10135: append a slice with zero-sized element used
 // to always return a slice with the same data pointer as the
 // old slice, even if it's nil, so this program used to panic

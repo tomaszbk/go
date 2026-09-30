@@ -1,6 +1,5 @@
 // compile
 
-
 // Crashed gccgo.
 
 package p

@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 type S [5]*byte

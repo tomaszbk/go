@@ -1,6 +1,5 @@
 // run
 
-
 // Test select when discarding a value.
 
 package main

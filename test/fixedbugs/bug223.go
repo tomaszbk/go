@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // check that initialization cycle is diagnosed
 // and that closure cannot be used to hide it.
 // error message is not standard format, so no errchk above.

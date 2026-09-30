@@ -1,6 +1,5 @@
 // compile
 
-
 // Test case that gccgo failed to compile.
 
 package p

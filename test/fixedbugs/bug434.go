@@ -1,6 +1,5 @@
 // run
 
-
 // Test that typed and untyped negative zero floating point constants
 // are treated as equivalent to zero constants.
 

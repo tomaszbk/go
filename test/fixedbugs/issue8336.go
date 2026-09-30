@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 8336. Order of evaluation of receive channels in select.
 
 package main

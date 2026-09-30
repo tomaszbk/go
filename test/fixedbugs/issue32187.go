@@ -1,6 +1,5 @@
 // run
 
-
 // short-circuiting interface-to-concrete comparisons
 // will not miss panics
 

@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 8036. Stores necessary for stack scan being eliminated as redundant by optimizer.
 
 package main

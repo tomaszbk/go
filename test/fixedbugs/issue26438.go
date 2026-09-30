@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 26438: arm64 backend may use 64-bit TST for
 // "if uint32(a)&uint32(b) == 0", which should be
 // 32-bit TSTW

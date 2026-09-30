@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 61992, inconsistent 'mem' juggling in expandCalls
 
 package p

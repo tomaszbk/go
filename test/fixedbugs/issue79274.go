@@ -1,6 +1,5 @@
 // compile
 
-
 package main
 
 import "math/big"

@@ -1,6 +1,5 @@
 // run fake-arg-to-force-use-of-go-run
 
-
 //go:build cgo
 
 package main

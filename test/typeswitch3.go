@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that erroneous type switches are caught by the compiler.
 // Issue 2700, among other things.
 // Does not compile.

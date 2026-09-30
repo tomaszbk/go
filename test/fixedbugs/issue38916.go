@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 func f(b bool, c complex128) func(complex128) complex128 {

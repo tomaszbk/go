@@ -1,6 +1,5 @@
 // run
 
-
 // issue 6269: name collision on method names for function local types.
 
 package main

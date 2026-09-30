@@ -1,6 +1,5 @@
 // runoutput
 
-
 // Test source files and strings containing \r and \r\n.
 
 package main

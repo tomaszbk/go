@@ -1,6 +1,5 @@
 // compile
 
-
 // /tmp/x.go:3: internal error: f &p (type *int) recorded as live on entry
 
 package p

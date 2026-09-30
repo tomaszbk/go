@@ -1,6 +1,5 @@
 // run
 
-
 // Gccgo got confused when a type was used both for a map bucket type
 // and for a map key type.
 

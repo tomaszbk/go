@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 type Float64Slice []float64

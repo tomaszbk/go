@@ -2,7 +2,6 @@
 
 //go:build !nacl && !js && !wasip1 && gc
 
-
 // Run the linkx test.
 
 package main

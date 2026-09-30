@@ -2,7 +2,6 @@
 
 //go:build darwin || linux
 
-
 // Test that dequeuing from a pending channel doesn't
 // take linear time.
 

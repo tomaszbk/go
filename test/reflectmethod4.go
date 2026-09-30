@@ -1,6 +1,5 @@
 // run
 
-
 // The linker can prune methods that are not directly called or
 // assigned to interfaces, but only if reflect.Value.Method is
 // never used. Test it here.

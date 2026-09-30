@@ -1,6 +1,5 @@
 // run
 
-
 // Test method calls on type parameters
 
 package main

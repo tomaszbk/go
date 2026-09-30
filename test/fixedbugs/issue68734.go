@@ -1,6 +1,5 @@
 // compile
 
-
 // The gofrontend had a bug handling panic of an untyped constant expression.
 
 package issue68734

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package p
 
 func f() [2]int {

@@ -1,6 +1,5 @@
 // run
 
-
 // Make sure runtime.panicmakeslice* are called.
 
 package main

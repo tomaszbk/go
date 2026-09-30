@@ -1,6 +1,5 @@
 // compile
 
-
 package j
 
 func f(try func() int, shouldInc func() bool, N func(int) int) {

@@ -2,7 +2,6 @@
 
 //go:build amd64 && !gcflags_noopt
 
-
 // Test that the compiler does bounds check elimination as expected.
 // This avoids accidental regressions.
 

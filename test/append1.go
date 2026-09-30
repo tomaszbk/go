@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that append arguments requirements are enforced by the
 // compiler.
 

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Test basic restrictions on type aliases.
 
 package p

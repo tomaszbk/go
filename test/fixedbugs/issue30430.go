@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 30430: isGoConst returned true for non-const variables,
 // resulting in ICE.
 

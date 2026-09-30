@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 79182: SHLQconst/SHLLconst rewrite rule for (x+x)<<c
 // missed a bounds check on c, causing c+1 to overflow the valid
 // shift range and producing incorrect results on amd64.

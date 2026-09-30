@@ -1,6 +1,5 @@
 // run -gcflags=-d=ssa/check/on
 
-
 // As of 2019-06, bug affects/ed amd64 and s390x.
 
 package main

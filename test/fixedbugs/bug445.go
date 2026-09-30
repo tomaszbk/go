@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 3765
 
 package main

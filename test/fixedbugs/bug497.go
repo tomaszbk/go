@@ -1,6 +1,5 @@
 // run
 
-
 // Gccgo used to miscompile passing a global variable with a
 // zero-sized type to a function.
 

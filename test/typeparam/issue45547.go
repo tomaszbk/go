@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 func f[T any]() (f, g T) { return f, g }

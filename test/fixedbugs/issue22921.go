@@ -1,6 +1,5 @@
 // errorcheck -d=panic
 
-
 package main
 
 import "bytes"

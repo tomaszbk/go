@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that renamed identifiers no longer have their old meaning.
 // Does not compile.
 

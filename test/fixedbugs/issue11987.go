@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 11987. The ppc64 SRADCC instruction was misassembled in a way
 // lost bit 5 of the immediate so v>>32 was assembled as v>>0.  SRADCC
 // is only ever inserted by peep so it's hard to be sure when it will

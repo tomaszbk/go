@@ -1,6 +1,5 @@
 // runoutput
 
-
 // Issue 7316
 // This test exercises all types of numeric conversions, which was one
 // of the sources of etype mismatch during register allocation in 8g.

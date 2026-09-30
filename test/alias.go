@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Test that error messages say what the source file says
 // (uint8 vs byte, int32 vs. rune).
 // Does not compile.

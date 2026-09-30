@@ -1,6 +1,5 @@
 // compile
 
-
 // Failed to compile with gccgo.
 
 package p

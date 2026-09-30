@@ -2,7 +2,6 @@
 
 //go:build cgo
 
-
 package main
 
 // #include <stdlib.h>

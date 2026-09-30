@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Check for cycles in the call of a pointer method expression.
 
 package ptrmethexprcall

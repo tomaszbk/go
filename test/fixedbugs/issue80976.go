@@ -1,6 +1,5 @@
 // run
 
-
 // Instantiated method type arguments might refer to a type instantiation that
 // ends with the method name. Here, Set is instantiated using a type which
 // refers to HashSet[int].

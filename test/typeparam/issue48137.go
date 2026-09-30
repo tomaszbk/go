@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 type Constraint[T any] interface {

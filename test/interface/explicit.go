@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify compiler messages about erroneous static interface conversions.
 // Does not compile.
 

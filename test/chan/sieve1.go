@@ -1,6 +1,5 @@
 // run
 
-
 // Test concurrency primitives: classical inefficient concurrent prime sieve.
 
 // Generate primes up to 100 using channels, checking the results.

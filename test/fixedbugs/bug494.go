@@ -1,6 +1,5 @@
 // run
 
-
 // Gccgo incorrectly executed functions multiple times when they
 // appeared in a composite literal that required a conversion between
 // different interface types.

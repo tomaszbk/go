@@ -1,6 +1,5 @@
 // compile
 
-
 // gofrontend crashed converting unnamed bool type to any.
 
 package p

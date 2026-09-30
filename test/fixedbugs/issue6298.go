@@ -3,7 +3,6 @@
 // golang.org/issue/6298.
 // Used to cause "internal error: typename ideal bool"
 
-
 package main
 
 func main() {

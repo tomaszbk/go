@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 4518. In some circumstances "return F(...)"
 // where F has multiple returns is miscompiled by 6g due to
 // bold assumptions in componentgen.

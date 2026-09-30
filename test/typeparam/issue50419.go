@@ -1,6 +1,5 @@
 // run
 
-
 // Test that type substitution works correctly even for a method of a generic type
 // that has multiple blank type params.
 

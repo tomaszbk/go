@@ -1,6 +1,5 @@
 // compile
 
-
 package main
 
 var g *uint64

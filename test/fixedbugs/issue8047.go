@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 8047.  Stack copier shouldn't crash if there
 // is a nil defer.
 

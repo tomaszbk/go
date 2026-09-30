@@ -1,6 +1,5 @@
 // run
 
-
 // Test len constants and non-constants, https://golang.org/issue/3244.
 
 package main

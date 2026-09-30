@@ -1,6 +1,5 @@
 // run
 
-
 // Test integer division and modulus.
 
 package main

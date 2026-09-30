@@ -1,6 +1,5 @@
 // compile
 
-
 // Make sure we don't dead code eliminate a label.
 
 package p

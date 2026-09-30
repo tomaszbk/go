@@ -1,6 +1,5 @@
 // run
 
-
 // Test for cases where certain instantiations of a generic function (F in this
 // example) will always fail on a type assertion or mismatch on a type case.
 

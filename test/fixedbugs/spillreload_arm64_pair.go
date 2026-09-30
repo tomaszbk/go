@@ -1,6 +1,5 @@
 // run
 
-
 // Regression coverage for the late spill/reload pair coalescer on arm64
 // (cmd/compile/internal/arm64.pairSpills). When the coalescer fused two
 // adjacent AMOVD reloads into a single LDP, paths that branched directly to

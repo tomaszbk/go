@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 func boolInt32(b bool) int32 {

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // issue 8311.
 // error for x++ should say x++ not x += 1
 

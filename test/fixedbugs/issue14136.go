@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Test that > 10 non-syntax errors on the same line
 // don't lead to early exit. Specifically, here test
 // that we see the initialization error for variable

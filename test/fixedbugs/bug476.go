@@ -1,6 +1,5 @@
 // compile
 
-
 // Logical operation on named boolean type returns the same type,
 // supporting an implicit conversion to an interface type.  This used
 // to crash gccgo.

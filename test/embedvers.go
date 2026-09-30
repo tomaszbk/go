@@ -1,6 +1,5 @@
 // errorcheck -lang=go1.15
 
-
 package p
 
 import _ "embed"

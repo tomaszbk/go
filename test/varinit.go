@@ -1,6 +1,5 @@
 // run
 
-
 // Test var x = x + 1 works.
 
 package main

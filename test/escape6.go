@@ -1,6 +1,5 @@
 // errorcheck -0 -m -l
 
-
 // Tests for escaping variable-sized allocations.
 // In particular, we need to make sure things assigned into
 // variable-sized allocations escape even when the variable-sized

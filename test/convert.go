@@ -1,6 +1,5 @@
 // run
 
-
 // Test types of constant expressions, using reflect.
 
 package main

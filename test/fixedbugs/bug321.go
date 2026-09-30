@@ -1,6 +1,5 @@
 // run
 
-
 // Troublesome floating point constants. Issue 1463.
 
 package main

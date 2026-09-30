@@ -1,6 +1,5 @@
 // run
 
-
 // Test equality and inequality operations.
 
 package main

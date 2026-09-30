@@ -1,6 +1,5 @@
 // run
 
-
 // Test evaluation order.
 
 package main

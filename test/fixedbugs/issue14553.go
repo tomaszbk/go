@@ -1,6 +1,5 @@
 // run
 
-
 // This test checks if the compiler's internal constant
 // arithmetic correctly rounds denormal float32 values.
 

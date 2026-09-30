@@ -1,6 +1,5 @@
 // compile
 
-
 // Verify that gotos across non-variable declarations
 // are accepted.
 

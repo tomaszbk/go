@@ -1,6 +1,5 @@
 // -lang=go1.8
 
-
 package aliasTypes
 
 type _ = /* ERROR "type alias requires go1.9 or later" */ int

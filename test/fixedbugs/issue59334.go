@@ -1,6 +1,5 @@
 // run -tags=purego -gcflags=all=-d=checkptr
 
-
 package main
 
 import "crypto/subtle"

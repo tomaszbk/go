@@ -1,6 +1,5 @@
 // errorcheck -0 -m -l
 
-
 package p
 
 func f(...*int) {}

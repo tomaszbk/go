@@ -1,6 +1,5 @@
 // compile
 
-
 // Make sure CSE of multi-output opcodes works correctly
 // with select0/1 operations.
 

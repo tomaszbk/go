@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that incorrect comparisons are detected.
 // Does not compile.
 

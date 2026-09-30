@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 8047. Defer setup during panic shouldn't crash for nil defer.
 
 package main

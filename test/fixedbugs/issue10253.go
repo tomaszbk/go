@@ -1,6 +1,5 @@
 // run
 
-
 // issue 10253: cmd/7g: bad codegen, probably regopt related
 
 package main

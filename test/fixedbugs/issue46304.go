@@ -1,6 +1,5 @@
 // run
 
-
 // This testcase caused a crash when the register ABI was in effect,
 // on amd64 (problem with register allocation).
 

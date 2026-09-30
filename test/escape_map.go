@@ -1,6 +1,5 @@
 // errorcheck -0 -m -l
 
-
 // Test escape analysis for maps.
 
 package escape

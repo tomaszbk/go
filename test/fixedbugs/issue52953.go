@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 52953: miscompilation for composite literal assignment
 // when LHS is address-taken.
 

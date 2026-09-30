@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 2821
 package main
 

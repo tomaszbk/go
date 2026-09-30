@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Check for cycles in the method value of a value returned from a function call.
 
 package funcmethvalue

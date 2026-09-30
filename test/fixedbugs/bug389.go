@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 2563
 package foo
 

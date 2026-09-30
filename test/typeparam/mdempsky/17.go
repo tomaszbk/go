@@ -1,6 +1,5 @@
 // run
 
-
 // Test that implicit conversions of derived types to interface type
 // in range loops work correctly.
 

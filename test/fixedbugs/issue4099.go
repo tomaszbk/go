@@ -2,7 +2,6 @@
 
 //go:build !goexperiment.newinliner
 
-
 // Check go:noescape annotations.
 
 package p

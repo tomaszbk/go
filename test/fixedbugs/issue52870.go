@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 52870: gofrontend gave incorrect error when incorrectly
 // compiling ambiguous promoted method.
 

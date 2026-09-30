@@ -1,6 +1,5 @@
 // runoutput
 
-
 // Issue 3866
 // runtime.equal failed to take padding between arguments and
 // return values into account, so in certain cases gc-generated

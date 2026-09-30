@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 type Chan[T any] chan Chan[T]

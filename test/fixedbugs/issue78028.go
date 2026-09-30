@@ -1,6 +1,5 @@
 // compile
 
-
 package main
 
 var z = map[int]int{0: 1}

@@ -1,6 +1,5 @@
 // compile
 
-
 // https://golang.org/issue/806
 // triggered out of registers on 8g
 

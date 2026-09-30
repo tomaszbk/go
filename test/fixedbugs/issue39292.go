@@ -1,6 +1,5 @@
 // errorcheck -0 -m -l
 
-
 package p
 
 type t [20000]*int

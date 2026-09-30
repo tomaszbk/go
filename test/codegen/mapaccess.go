@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 // These tests check that mapaccess calls are not used.

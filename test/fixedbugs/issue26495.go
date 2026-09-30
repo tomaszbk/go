@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 26495: gccgo produces incorrect order of evaluation
 // for expressions involving &&, || subexpressions.
 

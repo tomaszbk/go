@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 type big1 struct {

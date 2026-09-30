@@ -1,6 +1,5 @@
 // -lang=go1.20
 
-
 package p
 
 type T[P any] interface{}

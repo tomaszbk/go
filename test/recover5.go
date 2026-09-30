@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that recover arguments requirements are enforced by the
 // compiler.
 

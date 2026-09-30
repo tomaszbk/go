@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 func combine2string(p *[2]string, a, b string) {

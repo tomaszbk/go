@@ -1,6 +1,5 @@
 // run
 
-
 // Check static composite literal reports wrong for struct
 // field.
 

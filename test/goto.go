@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify goto semantics.
 // Does not compile.
 //

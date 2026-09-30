@@ -1,6 +1,5 @@
 // errorcheck -lang=go1.12
 
-
 package p
 
 // numeric literals

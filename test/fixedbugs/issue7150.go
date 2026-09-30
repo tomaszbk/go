@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // issue 7150: array index out of bounds error off by one
 
 package main

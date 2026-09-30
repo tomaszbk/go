@@ -1,6 +1,5 @@
 // run
 
-
 // Test to make sure that we don't try using larger loads for
 // generated equality functions on architectures that can't do
 // unaligned loads.

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // issue 5089: gc allows methods on non-locals if symbol already exists
 
 package p

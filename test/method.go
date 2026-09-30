@@ -1,6 +1,5 @@
 // run
 
-
 // Test simple methods of various types, with pointer and
 // value receivers.
 

@@ -1,6 +1,5 @@
 // run
 
-
 // Check closure in const declaration group can be compiled
 // and set correct value
 

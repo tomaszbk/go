@@ -1,6 +1,5 @@
 // run
 
-
 // Dead-store elimination must use the AuxInt byte count of OpMove,
 // not the size of its Aux type. The "inline runtime.memmove" rewrite
 // emits Move {uint8} [N]; if DSE treats that as a 1-byte write, a

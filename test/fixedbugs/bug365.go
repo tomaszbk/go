@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // check that compiler doesn't stop reading struct def
 // after first unknown type.
 

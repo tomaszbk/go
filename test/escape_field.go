@@ -1,6 +1,5 @@
 // errorcheck -0 -m -l
 
-
 // Test escape analysis with respect to field assignments.
 
 package escape

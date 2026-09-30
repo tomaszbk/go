@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 6902: confusing printing of large floating point constants
 
 package main

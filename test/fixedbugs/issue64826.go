@@ -1,6 +1,5 @@
 // build
 
-
 package main
 
 func main() {

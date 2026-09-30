@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 var a [10]int

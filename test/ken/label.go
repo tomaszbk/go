@@ -1,6 +1,5 @@
 // run
 
-
 // Test goto and labels.
 
 package main

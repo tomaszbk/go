@@ -1,6 +1,5 @@
 // run
 
-
 // Test run-time error detection for interface values containing types
 // that cannot be compared for equality.
 

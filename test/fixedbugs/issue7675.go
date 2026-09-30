@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 7675: fewer errors for wrong argument count
 
 package p

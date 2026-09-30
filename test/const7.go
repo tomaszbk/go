@@ -1,6 +1,5 @@
 // run
 
-
 // Check that the compiler refuses excessively long constants.
 
 package main

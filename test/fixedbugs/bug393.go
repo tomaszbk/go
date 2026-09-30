@@ -1,6 +1,5 @@
 // compile
 
-
 // issue 2672
 // was trying binary search with an interface type
 

@@ -1,6 +1,5 @@
 // -lang=go1.21
 
-
 // Check Go language version-specific errors.
 
 //go:build go1.19

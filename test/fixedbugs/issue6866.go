@@ -1,6 +1,5 @@
 // run
 
-
 // WARNING: GENERATED FILE - DO NOT MODIFY MANUALLY!
 // (To generate, in go/types directory: go test -run=Hilbert -H=2 -out="h2.src")
 

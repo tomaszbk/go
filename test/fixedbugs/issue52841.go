@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 52841: gofrontend crashed writing export data
 
 package p

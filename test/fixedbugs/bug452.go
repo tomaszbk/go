@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 3835: 8g tries to optimize arithmetic involving integer
 // constants, but can run out of registers in the process.
 

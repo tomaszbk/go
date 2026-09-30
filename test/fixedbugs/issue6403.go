@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 6403: fix spurious 'const initializer is not a constant' error
 
 package p

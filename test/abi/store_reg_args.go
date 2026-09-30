@@ -1,6 +1,5 @@
 // run
 
-
 // When the function Store an Arg and also use it in another place,
 // be sure not to generate duplicated OpArgXXXReg values, which confuses
 // the register allocator.

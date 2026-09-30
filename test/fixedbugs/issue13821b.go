@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 13821.  Additional regress tests.
 
 package p

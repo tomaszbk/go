@@ -1,6 +1,5 @@
 // run
 
-
 // Check that these do not use "by value" capturing,
 // because changes are made to the value during the closure.
 

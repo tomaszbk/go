@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Check for cycles in a pointer value's method value.
 
 package ptrmethvalue

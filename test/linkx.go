@@ -1,6 +1,5 @@
 // skip
 
-
 // Test the -X facility of the gc linker (6l etc.).
 // This test is run by linkx_run.go.
 

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package p
 
 var x int = three() // ERROR "assignment mismatch: 1 variable but three returns 3 values|multiple-value function call in single-value context|multiple-value "

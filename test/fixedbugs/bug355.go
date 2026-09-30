@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 var f = func() int {

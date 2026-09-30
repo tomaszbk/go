@@ -1,6 +1,5 @@
 // compile
 
-
 package bug
 
 func example(n int) (rc int) {

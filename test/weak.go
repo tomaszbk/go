@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Test weak pointers.
 
 package p

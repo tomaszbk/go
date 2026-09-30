@@ -1,6 +1,5 @@
 // run
 
-
 // comparisons of type parameters to interfaces
 
 package main

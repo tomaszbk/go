@@ -1,6 +1,5 @@
 // compile
 
-
 // Valid program, gccgo reported an error.
 // bug307.go:14:6: error: complex arguments must have identical types
 

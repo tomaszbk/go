@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 type T [2][2]int64

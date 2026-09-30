@@ -1,6 +1,5 @@
 // errorcheck -0 -d=ssa/check_bce/debug=1
 
-
 package x
 
 func Found(x []string) string {

@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 10320: 7g failed to compile a program because it attempted
 // to use ZR as register. Other programs compiled but failed to
 // execute correctly because they clobbered the g register.

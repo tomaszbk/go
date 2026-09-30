@@ -1,6 +1,5 @@
 // run
 
-
 // Test that heavy recursion works. Simple torture test for
 // segmented stacks: do math in unary by recursion.
 

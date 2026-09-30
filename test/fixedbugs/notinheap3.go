@@ -1,6 +1,5 @@
 // errorcheck -+ -0 -l -d=wb
 
-
 // Test write barrier elimination for notinheap.
 
 //go:build cgo

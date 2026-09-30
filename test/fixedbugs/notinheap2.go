@@ -1,6 +1,5 @@
 // errorcheck -+
 
-
 // Test walk errors for not-in-heap.
 
 //go:build cgo

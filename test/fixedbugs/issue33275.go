@@ -1,6 +1,5 @@
 // skip
 
-
 package main
 
 import (

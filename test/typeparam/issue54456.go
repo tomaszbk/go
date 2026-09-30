@@ -1,6 +1,5 @@
 // run
 
-
 // The Go 1.18 frontend failed to disambiguate instantiations of
 // different, locally defined generic types with the same name.
 //

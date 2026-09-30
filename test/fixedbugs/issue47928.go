@@ -1,6 +1,5 @@
 // run -goexperiment fieldtrack
 
-
 package main
 
 func main() {

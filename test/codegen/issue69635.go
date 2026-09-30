@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 func calc(a uint64) uint64 {

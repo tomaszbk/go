@@ -2,7 +2,6 @@
 
 //go:build !386 && !arm && !mips && !mipsle && !amd64p32
 
-
 // Issue 6036: 6g's backend generates OINDREG with
 // offsets larger than 32-bit.
 

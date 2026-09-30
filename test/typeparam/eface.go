@@ -1,6 +1,5 @@
 // run
 
-
 // Make sure we handle instantiated empty interfaces.
 
 package main

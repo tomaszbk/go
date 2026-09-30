@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 44823: miscompilation with store combining.
 
 package main

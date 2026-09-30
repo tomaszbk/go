@@ -1,6 +1,5 @@
 // compile
 
-
 package y
 
 type symSet []int

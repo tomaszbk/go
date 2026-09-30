@@ -2,7 +2,6 @@
 
 //go:build goexperiment.simd && amd64
 
-
 // Test that blocks created by the critical pass to split critical
 // edges inherit the CPU features of the edge they sit on, so that
 // later consumers (e.g. regalloc-inserted shuffle copies) can use

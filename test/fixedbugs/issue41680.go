@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 func F(s string) bool {

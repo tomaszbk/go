@@ -1,6 +1,5 @@
 // run
 
-
 // Test Implicit methods for embedded types and
 // mixed pointer and non-pointer receivers.
 

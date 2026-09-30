@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that concrete/interface comparisons are
 // typechecked correctly by the compiler.
 

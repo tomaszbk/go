@@ -1,6 +1,5 @@
 // compile
 
-
 package a
 
 type X[T any] int

@@ -1,6 +1,5 @@
 // run -gcflags=-d=checkptr
 
-
 package main
 
 import (

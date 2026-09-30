@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 30977: write barrier call clobbers volatile
 // value when there are multiple uses of the value.
 

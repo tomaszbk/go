@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 // From issue #77720: cmd/compile: field access on struct-returning method copies entire struct

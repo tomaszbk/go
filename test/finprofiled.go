@@ -1,6 +1,5 @@
 // run
 
-
 // Test that tiny allocations with finalizers are correctly profiled.
 // Previously profile special records could have been processed prematurely
 // (while the object is still live).

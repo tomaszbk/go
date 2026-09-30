@@ -2,7 +2,6 @@
 
 //go:build amd64 && goexperiment.simd
 
-
 // Test case for rematerialization ignoring the register constraint
 // during regalloc's shuffle phase.
 

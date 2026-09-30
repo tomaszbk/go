@@ -2,7 +2,6 @@
 
 //go:build !nacl && !js && gc && !wasip1
 
-
 // Test the compiler -linkobj flag.
 
 package main

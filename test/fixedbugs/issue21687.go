@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 21687: cmd/compile evaluates x twice in "x op= y", which was
 // detectable if evaluating y affects x.
 

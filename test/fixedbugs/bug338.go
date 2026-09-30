@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 1787.
 
 package main

@@ -1,6 +1,5 @@
 // run
 
-
 // Semi-exhaustive test for the copy predeclared function.
 
 package main

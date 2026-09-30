@@ -1,6 +1,5 @@
 // compile
 
-
 // Mention of field with large offset in struct literal causes crash
 package p
 

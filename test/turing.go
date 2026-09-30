@@ -1,6 +1,5 @@
 // run
 
-
 // Test simulating a Turing machine, sort of.
 
 package main

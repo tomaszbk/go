@@ -2,7 +2,6 @@
 
 //go:build amd64p32
 
-
 package main
 
 import (

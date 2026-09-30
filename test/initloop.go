@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that initialization loops are caught
 // and that the errors print correctly.
 

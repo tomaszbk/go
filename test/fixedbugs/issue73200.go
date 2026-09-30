@@ -1,6 +1,5 @@
 // build
 
-
 package main
 
 var g bool

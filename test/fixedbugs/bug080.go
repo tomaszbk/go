@@ -1,6 +1,5 @@
 // compile
 
-
 package main
 
 func f1() (x int, y float64) {

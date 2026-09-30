@@ -1,6 +1,5 @@
 // run
 
-
 // Test order of evaluation in tuple assignments.
 
 package main

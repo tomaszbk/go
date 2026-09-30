@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 func F[T, U int]() interface{} {

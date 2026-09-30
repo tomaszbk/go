@@ -1,6 +1,5 @@
 // run
 
-
 // Test slicing and re-slicing.
 
 package main

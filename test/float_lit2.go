@@ -2,7 +2,6 @@
 
 // Check conversion of constant to float32/float64 near min/max boundaries.
 
-
 package main
 
 import (

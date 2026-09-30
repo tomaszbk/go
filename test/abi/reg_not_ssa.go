@@ -2,7 +2,6 @@
 
 //go:build !wasm
 
-
 package main
 
 // small enough for registers, too large for SSA

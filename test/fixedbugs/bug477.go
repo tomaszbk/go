@@ -1,6 +1,5 @@
 // compile
 
-
 // Test multiple identical unnamed structs with methods.  This caused
 // a compilation error with gccgo.
 

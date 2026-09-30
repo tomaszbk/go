@@ -2,7 +2,6 @@
 
 //go:build !js && !wasip1
 
-
 // Ensure that runtime traceback does not infinite loop for
 // the testcase below.
 

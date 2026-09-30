@@ -1,6 +1,5 @@
 // errorcheck -goexperiment fieldtrack
 
-
 package main
 
 type Fooer interface {

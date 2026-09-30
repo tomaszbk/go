@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 func MatchLog(input string) bool {

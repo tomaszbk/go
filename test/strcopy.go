@@ -1,6 +1,5 @@
 // run
 
-
 // Test that string([]byte(string)) makes a copy and doesn't reduce to
 // nothing. (Issue 25834)
 

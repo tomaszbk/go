@@ -1,6 +1,5 @@
 // run -gcflags=-l=4
 
-
 package main
 
 import (

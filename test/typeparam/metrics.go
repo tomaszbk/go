@@ -1,6 +1,5 @@
 // run
 
-
 // Package metrics provides tracking arbitrary metrics composed of
 // values of comparable types.
 package main

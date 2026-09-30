@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 21887: println(^uint(0)) fails to compile
 
 package main

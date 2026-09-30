@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 7129: inconsistent "wrong arg type" error for multivalued g in f(g())
 
 package main

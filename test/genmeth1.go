@@ -1,6 +1,5 @@
 // run
 
-
 // Verify that generic methods order type arguments correctly.
 
 package main

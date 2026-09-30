@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 11362: prints empty canonical import path
 
 package main

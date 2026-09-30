@@ -1,6 +1,5 @@
 // errorcheck -0 -l -d=wb
 
-
 // Test where write barriers are and are not emitted.
 
 package p

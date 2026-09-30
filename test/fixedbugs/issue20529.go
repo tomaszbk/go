@@ -2,7 +2,6 @@
 
 //go:build amd64
 
-
 // Issue 20529: Large stack frames caused compiler panics.
 // Only tested on amd64 because the test only makes sense
 // on a 64 bit system, and it is platform-agnostic,

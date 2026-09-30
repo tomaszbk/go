@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 4545: untyped constants are incorrectly coerced
 // to concrete types when used in interface{} context.
 

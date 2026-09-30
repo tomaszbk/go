@@ -1,6 +1,5 @@
 // run
 
-
 // Test that when a function recovers from a panic, it
 // returns the correct results to the caller (in particular,
 // setting the result registers correctly).

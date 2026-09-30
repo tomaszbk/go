@@ -1,6 +1,5 @@
 // run
 
-
 // Code was miscompiled on ppc64le due to incorrect zero-extension
 // that was CSE'd.
 

@@ -1,6 +1,5 @@
 // compile
 
-
 // The gccgo compiler had a bug: mentioning a function type in an
 // expression in a function literal messed up the list of variables
 // referenced in enclosing functions.

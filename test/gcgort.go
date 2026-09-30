@@ -1,6 +1,5 @@
 // run
 
-
 // Test independent goroutines modifying a comprehensive
 // variety of vars during aggressive garbage collection.
 

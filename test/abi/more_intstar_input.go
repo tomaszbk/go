@@ -2,7 +2,6 @@
 
 //go:build !wasm
 
-
 // wasm is excluded because the compiler chatter about register abi pragma ends up
 // on stdout, and causes the expected output to not match.
 

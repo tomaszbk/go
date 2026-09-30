@@ -2,5 +2,4 @@
 
 //go:build !nacl
 
-
 package ignored

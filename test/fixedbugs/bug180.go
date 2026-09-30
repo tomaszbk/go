@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 func shift(x int) int { return 1 << (1 << (1 << (uint(x)))) }

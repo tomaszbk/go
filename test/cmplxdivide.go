@@ -1,6 +1,5 @@
 // run cmplxdivide1.go
 
-
 // Driver for complex division table defined in cmplxdivide1.go
 // For details, see the comment at the top of cmplxdivide.c.
 

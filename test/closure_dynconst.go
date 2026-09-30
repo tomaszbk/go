@@ -1,6 +1,5 @@
 // run
 
-
 // Test that a closure that captures a variable holding a constant still
 // observes the right value once inlining made several copies of it, each
 // capturing a different constant.

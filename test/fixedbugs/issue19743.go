@@ -1,6 +1,5 @@
 // errorcheck -0 -m -l
 
-
 package foo
 
 // Escape analysis needs to treat the uintptr-typed reflect.*Header fields as pointers.

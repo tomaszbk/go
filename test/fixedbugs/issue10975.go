@@ -1,6 +1,5 @@
 // errorcheck -lang=go1.17
 
-
 // Issue 10975: Returning an invalid interface would cause
 // `internal compiler error: getinarg: not a func`.
 

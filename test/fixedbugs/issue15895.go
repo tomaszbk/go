@@ -1,6 +1,5 @@
 // compile
 
-
 // func bad used to fail to compile.
 
 package p

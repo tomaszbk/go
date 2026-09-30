@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 var F func(int)

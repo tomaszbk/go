@@ -1,6 +1,5 @@
 // compile
 
-
 // Ensure that late expansion correctly handles an OpLoad with type interface{}
 
 package p

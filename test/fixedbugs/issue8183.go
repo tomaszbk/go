@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Tests correct reporting of line numbers for errors involving iota,
 // Issue #8183.
 package foo

@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 //go:noinline

@@ -1,6 +1,5 @@
 // run
 
-
 // Test that inlining a function that calls recover does not change
 // recover semantics: gorecover counts logical (inline-expanded)
 // frames between gopanic and gorecover, so an inlined recover must

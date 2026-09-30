@@ -1,6 +1,5 @@
 // run
 
-
 // Check print/println(f()) is allowed where f() is multi-value.
 
 package main

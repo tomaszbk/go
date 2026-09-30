@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 27143: cmd/compile: erroneous application of walkinrange
 // optimization for const over 2**63
 

@@ -1,6 +1,5 @@
 // errorcheck -+ -p=runtime
 
-
 // Test go:nowritebarrier and related directives.
 // This must appear to be in package runtime so the compiler
 // recognizes "systemstack".

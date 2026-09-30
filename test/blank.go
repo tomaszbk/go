@@ -1,6 +1,5 @@
 // run
 
-
 // Test behavior of the blank identifier (_).
 
 package main

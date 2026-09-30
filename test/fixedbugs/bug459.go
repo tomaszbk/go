@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 3890: missing detection of init cycle involving
 // method calls in function bodies.
 

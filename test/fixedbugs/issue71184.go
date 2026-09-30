@@ -1,6 +1,5 @@
 // compile
 
-
 package x
 
 func F[T int32]() {

@@ -1,6 +1,5 @@
 // compile
 
-
 // issue 1016
 
 package bug309

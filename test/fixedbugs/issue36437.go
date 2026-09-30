@@ -2,7 +2,6 @@
 
 //go:build !nacl && !js && !wasip1 && gc
 
-
 // Tests that when non-existent files are passed to the
 // compiler, such as in:
 //    go tool compile foo

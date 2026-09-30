@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 27961: some optimizations generate OffPtr with wrong
 // types, which causes invalid bytecode on Wasm.
 

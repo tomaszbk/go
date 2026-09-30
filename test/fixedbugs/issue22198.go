@@ -1,6 +1,5 @@
 // compile
 
-
 package issue22198
 
 func f(a *bool, b bool) {

@@ -2,7 +2,6 @@
 
 //go:build amd64 || arm64 || loong64
 
-
 package codegen
 
 type T [2]*int // contain pointer, not SSA-able (so locals are not registerized)

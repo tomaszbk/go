@@ -2,7 +2,6 @@
 
 //go:build !386
 
-
 // Issue 12411. Loss of AX during %.
 
 package main

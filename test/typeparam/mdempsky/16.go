@@ -1,6 +1,5 @@
 // run
 
-
 // Test that type assertion panics mention the real interface type,
 // not their shape type.
 

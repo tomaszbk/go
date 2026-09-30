@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 77303: compiler crash on array of zero-size ASPECIAL elements.
 
 package p

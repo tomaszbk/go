@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 var v1 = T1(1)

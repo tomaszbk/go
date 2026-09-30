@@ -1,6 +1,5 @@
 // skip
 
-
 // Generate test of index and slice bounds checks.
 // The actual tests are index0.go, index1.go, index2.go.
 

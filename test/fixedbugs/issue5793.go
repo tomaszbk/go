@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 5793: calling 2-arg builtin with multiple-result f() call expression gives
 // spurious error.
 

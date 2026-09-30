@@ -2,7 +2,6 @@
 
 //go:build goexperiment.runtimefreegc
 
-
 // Test recognizing certain patterns of usage,
 // currently focused on whether a slice is aliased.
 

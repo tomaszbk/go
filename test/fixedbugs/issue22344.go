@@ -1,6 +1,5 @@
 // compile
 
-
 // Test iota inside a function in a ConstSpec is accepted
 package main
 

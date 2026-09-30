@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that follow-on errors due to conflicting
 // struct field and method names are suppressed.
 

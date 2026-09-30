@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 func f_ssa(x int, p *int) {

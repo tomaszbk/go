@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package p
 
 var _ = int8(4) * 300         // ERROR "overflows int8"

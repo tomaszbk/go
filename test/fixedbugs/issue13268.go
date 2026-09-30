@@ -2,7 +2,6 @@
 
 //go:build gc
 
-
 // Test error message when EOF is encountered in the
 // middle of a BOM.
 //

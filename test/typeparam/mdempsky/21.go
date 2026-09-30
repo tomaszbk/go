@@ -1,6 +1,5 @@
 // run
 
-
 // Test that devirtualization doesn't introduce spurious type
 // assertion failures due to shaped and non-shaped interfaces having
 // distinct itabs.

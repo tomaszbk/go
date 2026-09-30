@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 20227: panic while constructing constant "1i/1e-600000000"
 
 package p

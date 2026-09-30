@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 2627 -- unsafe.Pointer type isn't handled nicely in some errors
 
 package main

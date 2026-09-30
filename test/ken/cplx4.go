@@ -1,6 +1,5 @@
 // run
 
-
 // Test complex numbers,including fmt support.
 // Used to crash.
 

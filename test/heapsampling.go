@@ -1,6 +1,5 @@
 // run
 
-
 // Test heap sampling logic.
 
 package main

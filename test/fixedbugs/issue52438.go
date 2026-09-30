@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 const c1 = iota

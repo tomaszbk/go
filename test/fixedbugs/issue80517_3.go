@@ -1,6 +1,5 @@
 // run
 
-
 // Same time-traveling prove bug as issue80517_2.go, but the victims are a
 // signed division and a signed modulo. make([]byte, n) teaches prove that
 // n >= 0 only after it runs; a buggy prove lets that fact travel back and

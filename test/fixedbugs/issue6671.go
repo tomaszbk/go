@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 6671: Logical operators should produce untyped bool for untyped operands.
 
 package p

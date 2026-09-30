@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 func foo[T any](d T) {

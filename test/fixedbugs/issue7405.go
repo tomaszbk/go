@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 7405: the equality function for struct with many
 // embedded fields became more complex after fixing issue 7366,
 // leading to out of registers on 386.

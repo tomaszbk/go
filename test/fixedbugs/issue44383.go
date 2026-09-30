@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 44383: gofrontend internal compiler error
 
 package main

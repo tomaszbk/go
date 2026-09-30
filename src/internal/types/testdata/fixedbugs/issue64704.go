@@ -1,6 +1,5 @@
 // -lang=go1.21
 
-
 package p
 
 func _() {

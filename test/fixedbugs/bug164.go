@@ -1,6 +1,5 @@
 // compile
 
-
 package main
 
 // Multi-line string literal now allowed.

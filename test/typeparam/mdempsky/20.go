@@ -1,6 +1,5 @@
 // run
 
-
 // Test that method expressions with a derived receiver type and
 // promoted methods work correctly.
 

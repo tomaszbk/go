@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Don't crash in export of oversized integer constant.
 
 package p

@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 type Cache[K any] struct{}

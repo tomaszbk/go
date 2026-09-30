@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // issue 2343
 
 package main

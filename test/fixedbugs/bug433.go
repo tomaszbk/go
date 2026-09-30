@@ -1,6 +1,5 @@
 // run
 
-
 // Test that initializing struct fields out of order still runs
 // functions in the right order.  This failed with gccgo.
 

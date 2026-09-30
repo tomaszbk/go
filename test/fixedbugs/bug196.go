@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 var m = map[int]int{0: 0, 1: 0}

@@ -1,6 +1,5 @@
 // compile
 
-
 // /tmp/x.go:5: cannot use _ as value
 
 package p

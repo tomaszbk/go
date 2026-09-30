@@ -1,6 +1,5 @@
 // compile
 
-
 // Make sure dead write barriers are handled correctly.
 
 package main

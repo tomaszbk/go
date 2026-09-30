@@ -1,6 +1,5 @@
 // run
 
-
 // Test that we can convert type parameters to both empty
 // and nonempty interfaces, and named and nonnamed versions
 // thereof.

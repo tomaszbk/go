@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 4138: bug in floating-point registers numbering.
 // Makes 6g unable to use more than 11 registers.
 

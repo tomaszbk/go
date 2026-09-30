@@ -1,6 +1,5 @@
 // compile
 
-
 // issue 7366: generates a temporary with ideal type
 // during comparison of small structs.
 

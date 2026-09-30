@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 8325: corrupted byte operations during optimization
 // pass.
 

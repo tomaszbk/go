@@ -1,6 +1,5 @@
 // run
 
-
 // Test evaluation order in if condition.
 
 package main

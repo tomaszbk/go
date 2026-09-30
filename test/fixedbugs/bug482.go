@@ -1,6 +1,5 @@
 // compile
 
-
 // Using the same name for a field in a composite literal and for a
 // global variable that depends on the variable being initialized
 // caused gccgo to erroneously report "variable initializer refers to

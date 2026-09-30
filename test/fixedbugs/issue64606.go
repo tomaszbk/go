@@ -2,7 +2,6 @@
 
 //go:build race
 
-
 package main
 
 func main() {

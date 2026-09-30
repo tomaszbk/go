@@ -1,6 +1,5 @@
 // compile
 
-
 // Make sure that literal value can be passed to struct
 // blank field of array/struct type, see issue #38690.
 

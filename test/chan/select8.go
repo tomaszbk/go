@@ -1,6 +1,5 @@
 // run
 
-
 // Test break statements in a select.
 // Gccgo had a bug in handling this.
 // Test 1,2,3-case selects, so it covers both the general

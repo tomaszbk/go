@@ -1,6 +1,5 @@
 // compile
 
-
 // Gccgo used to incorrectly give an error when compiling this.
 
 package p

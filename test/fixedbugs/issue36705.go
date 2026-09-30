@@ -2,7 +2,6 @@
 
 //go:build cgo && !windows
 
-
 package main
 
 // #include <stdlib.h>

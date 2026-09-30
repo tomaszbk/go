@@ -1,6 +1,5 @@
 // run
 
-
 // Test all the different interface conversion runtime functions.
 
 package main

@@ -1,6 +1,5 @@
 // runoutput
 
-
 // Test run-time behavior of 3-index slice expressions.
 
 package main

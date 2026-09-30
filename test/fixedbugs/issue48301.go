@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Don't crash while reporting the error.
 
 package p

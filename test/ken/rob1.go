@@ -1,6 +1,5 @@
 // run
 
-
 // Test general operation using a list implementation.
 
 package main

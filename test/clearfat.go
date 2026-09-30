@@ -1,6 +1,5 @@
 // runoutput
 
-
 // Check that {5,6,8,9}g/ggen.c:clearfat is zeroing the entire object.
 
 package main

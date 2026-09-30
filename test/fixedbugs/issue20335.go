@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 20335: don't reorder loads with stores.
 // This test should fail on the ssacheck builder
 // without the fix in the CL that added this file.

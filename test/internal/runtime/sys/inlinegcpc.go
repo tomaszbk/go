@@ -1,6 +1,5 @@
 // errorcheck -0 -+ -p=internal/runtime/sys -m
 
-
 package sys
 
 // A function that calls sys.GetCallerPC or sys.GetCallerSP

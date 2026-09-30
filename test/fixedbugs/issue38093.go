@@ -2,7 +2,6 @@
 
 //go:build js
 
-
 // Test race condition between timers and wasm calls that led to memory corruption.
 
 package main

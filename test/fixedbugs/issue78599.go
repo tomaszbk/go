@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 78599: compiler ICE (DwarfFixupTable has orphaned fixup)
 // when wrapping iter.Seq2[K, ZeroSize] into iter.Seq[K].
 

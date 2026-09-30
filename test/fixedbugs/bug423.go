@@ -1,6 +1,5 @@
 // run
 
-
 // gc used to overflow a counter when a variable was
 // mentioned 256 times, and generate stack corruption.
 

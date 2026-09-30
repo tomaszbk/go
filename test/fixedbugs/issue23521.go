@@ -1,6 +1,5 @@
 // errorcheck -0 -m
 
-
 // Issue 23521: improve early DCE for if without explicit else.
 
 package p

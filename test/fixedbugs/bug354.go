@@ -1,6 +1,5 @@
 // compile
 
-
 // issue 2086
 // was calling makeclosure twice on the closure
 

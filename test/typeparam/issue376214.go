@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 func add[S ~string | ~[]byte](buf *[]byte, s S) {

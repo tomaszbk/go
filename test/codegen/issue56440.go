@@ -1,6 +1,5 @@
 // asmcheck
 
-
 // Check to make sure that we recognize when the length of an append
 // is constant. We check this by making sure that the constant length
 // is folded into a load offset.

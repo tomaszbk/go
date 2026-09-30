@@ -1,6 +1,5 @@
 // compile
 
-
 // issue 8073.
 // was "internal compiler error: overflow: float64 integer constant"
 

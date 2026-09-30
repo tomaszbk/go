@@ -1,6 +1,5 @@
 // compile
 
-
 // Ensure that late expansion correctly set OpLoad argument type interface{}
 
 package p

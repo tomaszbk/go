@@ -2,7 +2,6 @@
 
 //go:build amd64
 
-
 // Test that inlining of math/bits.RotateLeft* treats those calls as intrinsics.
 
 package p

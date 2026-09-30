@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 type T[_ any] struct{}

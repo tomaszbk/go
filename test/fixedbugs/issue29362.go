@@ -1,6 +1,5 @@
 // run
 
-
 // Verify that we don't consider a Go'd function's
 // arguments as pointers when they aren't.
 

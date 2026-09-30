@@ -2,7 +2,6 @@
 
 //go:build !nacl && !js && !wasip1 && gc
 
-
 // Issue 11771: Magic comments should ignore carriage returns.
 
 package main

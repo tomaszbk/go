@@ -1,6 +1,5 @@
 // run -gcflags=-d=checkptr
 
-
 // Test that reflect.Value.UnsafeAddr/Pointer is handled
 // correctly by -d=checkptr
 

@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 22305: gccgo failed to compile this file.
 
 package main

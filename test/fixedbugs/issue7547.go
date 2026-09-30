@@ -1,6 +1,5 @@
 // compile
 
-
 package main
 
 func f() map[string]interface{} {

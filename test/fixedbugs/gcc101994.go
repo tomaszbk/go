@@ -1,6 +1,5 @@
 // compile
 
-
 // https://gcc.gnu.org/PR101994
 // gccgo compiler crash with zero-sized result.
 

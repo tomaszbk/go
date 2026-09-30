@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 45693: ICE with register args.
 
 package p

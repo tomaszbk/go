@@ -1,6 +1,5 @@
 // run
 
-
 // Test simultaneous assignment.
 
 package main

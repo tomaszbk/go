@@ -1,6 +1,5 @@
 // errorcheck -0 -m -l
 
-
 // Test escape analysis for struct function parameters.
 // Note companion strict_param1 checks *struct function parameters with similar tests.
 

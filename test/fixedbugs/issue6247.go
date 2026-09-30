@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 6247: 5g used to be confused by the numbering
 // of floating-point registers.
 

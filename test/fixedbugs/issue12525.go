@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 12525: confusing error trying to increment boolean value
 
 package main

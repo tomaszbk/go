@@ -1,6 +1,5 @@
 // run
 
-
 // Test that interface conversion fails when method is missing.
 
 package main

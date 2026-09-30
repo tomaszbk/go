@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 52788: miscompilation for boolean comparison on ARM64.
 
 package main

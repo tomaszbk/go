@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 func fn(setText []rune, negate bool) int {

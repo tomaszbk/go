@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // issue 13365: confusing error message (array vs slice)
 
 package main

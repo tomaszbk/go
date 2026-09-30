@@ -1,6 +1,5 @@
 // runoutput
 
-
 // Generate test of channel operations and simple selects.
 // The output of this program is compiled and run to do the
 // actual test.

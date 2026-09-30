@@ -1,6 +1,5 @@
 // compile
 
-
 // Triggers a double walk of the (inlined) switch in il
 
 package p

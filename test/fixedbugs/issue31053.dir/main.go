@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package p
 
 import "./f1"

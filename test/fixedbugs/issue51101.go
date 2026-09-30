@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 51101: on RISCV64, difference of two pointers
 // was marked as pointer and crashes GC.
 

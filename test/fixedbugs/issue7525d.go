@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 7525: self-referential array types.
 
 package main

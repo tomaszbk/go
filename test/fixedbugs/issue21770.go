@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 21770: gccgo incorrectly accepts "p.f = 0" where p is **struct
 
 package p

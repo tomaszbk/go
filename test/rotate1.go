@@ -1,6 +1,5 @@
 // runoutput ./rotate.go
 
-
 // Generate test of bit rotations.
 // The output is compiled and run.
 

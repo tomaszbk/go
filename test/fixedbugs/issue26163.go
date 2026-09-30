@@ -1,6 +1,5 @@
 // compile -N -d=softfloat
 
-
 // Issue 26163: dead store generated in late opt messes
 // up store chain calculation.
 

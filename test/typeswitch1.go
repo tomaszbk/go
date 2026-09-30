@@ -1,6 +1,5 @@
 // run
 
-
 // Test simple type switches on basic types.
 
 package main

@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 4156: out of fixed registers when chaining method calls.
 // Used to happen with 6g.
 

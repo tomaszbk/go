@@ -1,6 +1,5 @@
 // run
 
-
 // This test makes sure the text output for bounds check failures is as expected.
 
 package main

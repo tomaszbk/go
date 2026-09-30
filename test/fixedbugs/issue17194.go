@@ -1,6 +1,5 @@
 // compile
 
-
 package foo
 
 func f(x []interface{}) (err error) {

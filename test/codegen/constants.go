@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 // A uint16 or sint16 constant shifted left.

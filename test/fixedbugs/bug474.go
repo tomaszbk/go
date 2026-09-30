@@ -1,6 +1,5 @@
 // run
 
-
 // Bug in method values: escape analysis was off.
 
 package main

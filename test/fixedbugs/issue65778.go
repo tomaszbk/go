@@ -1,6 +1,5 @@
 // compile -godebug gotypesalias=1
 
-
 package p
 
 type A = int

@@ -1,6 +1,5 @@
 // build
 
-
 // Test general operation by solving a peg solitaire game.
 // A version of this is in the Go playground.
 // Don't run it - produces too much output.

@@ -1,6 +1,5 @@
 // run
 
-
 // Issue #43480: ICE on large uint64 constants in switch cases.
 
 package main

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Test illegal shifts.
 // Issue 1708, illegal cases.
 // Does not compile.

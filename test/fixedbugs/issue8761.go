@@ -1,6 +1,5 @@
 // compile
 
-
 // issue 8761
 // used to confuse code generator into using temporary before initialization.
 // caused 'variable live at entry' error in liveness analysis.

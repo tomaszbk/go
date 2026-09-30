@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that constant definition loops are caught during
 // typechecking and that the errors print correctly.
 

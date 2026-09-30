@@ -1,6 +1,5 @@
 // compile
 
-
 package main
 
 func f(x int, b bool) int {

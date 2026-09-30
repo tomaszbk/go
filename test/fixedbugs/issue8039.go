@@ -1,6 +1,5 @@
 // run
 
-
 // issue 8039. defer copy(x, <-c) did not rewrite <-c properly.
 
 package main

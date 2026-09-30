@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 const B32 = 1<<32 - 1

@@ -1,6 +1,5 @@
 // run
 
-
 // Test basic operations of slices and arrays.
 
 package main

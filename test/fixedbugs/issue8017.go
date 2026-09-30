@@ -1,6 +1,5 @@
 // compile
 
-
 // Issues 8017 and 8058: walk modifies nodes generated
 // by slicelit and causes an internal error afterwards
 // when gen_as_init parses it back.

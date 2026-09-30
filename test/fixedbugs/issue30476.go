@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 30476: KeepAlive didn't keep stack object alive.
 
 package main

@@ -1,6 +1,5 @@
 // run
 
-
 // Test switch statements.
 
 package main

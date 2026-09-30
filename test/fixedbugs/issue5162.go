@@ -1,6 +1,5 @@
 // runoutput
 
-
 // issue 5162: bad array equality when multiple comparisons
 // happen in the same expression.
 

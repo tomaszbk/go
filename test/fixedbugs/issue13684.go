@@ -1,6 +1,5 @@
 // run
 
-
 // Verify that a label name matching a constant name
 // is permitted.
 

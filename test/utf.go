@@ -1,6 +1,5 @@
 // run
 
-
 // Test UTF-8 in strings and character constants.
 
 package main

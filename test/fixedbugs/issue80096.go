@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 var M map[float64]string

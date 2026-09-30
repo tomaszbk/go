@@ -1,6 +1,5 @@
 // compile
 
-
 // Caused a gofrontend crash.
 
 //go:build gccgo

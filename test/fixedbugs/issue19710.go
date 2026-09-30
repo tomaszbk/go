@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 19710: mishandled defer delete(...)
 
 package main

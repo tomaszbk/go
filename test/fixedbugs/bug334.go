@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 1716
 
 package main

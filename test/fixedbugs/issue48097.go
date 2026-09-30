@@ -1,6 +1,5 @@
 // errorcheck -complete
 
-
 package p
 
 func F() // ERROR "missing function body"

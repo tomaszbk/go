@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 3757: unhelpful typechecking loop message
 // for constants that refer to themselves.
 

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that erroneous initialization expressions are caught by the compiler
 // Does not compile.
 

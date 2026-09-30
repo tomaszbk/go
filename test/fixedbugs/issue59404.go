@@ -1,6 +1,5 @@
 // build -gcflags=-l=4
 
-
 package p
 
 type Interface interface {

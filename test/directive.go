@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that misplaced directives are diagnosed.
 
 //go:noinline // ERROR "misplaced compiler directive"

@@ -2,7 +2,6 @@
 
 //go:build wasm
 
-
 // Test that nil checks are removed.
 // Optimization is enabled.
 

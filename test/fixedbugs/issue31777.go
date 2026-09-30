@@ -1,6 +1,5 @@
 // compile
 
-
 // Compile with static map literal.
 
 package p

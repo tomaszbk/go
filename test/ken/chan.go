@@ -1,6 +1,5 @@
 // run
 
-
 // Test communication operations including select.
 
 package main

@@ -1,7 +1,6 @@
 // run
 //go:build !gcflags_noopt
 
-
 // Test that many initializations can be done at link time and
 // generate no executable init functions.
 // Also test that trivial func init are optimized away.

@@ -1,6 +1,5 @@
 //run
 
-
 package main
 
 //go:noinline

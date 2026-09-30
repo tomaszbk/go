@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 20185: type switching on untyped values (e.g. nil or consts)
 // caused an internal compiler error.
 

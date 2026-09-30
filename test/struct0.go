@@ -1,6 +1,5 @@
 // run
 
-
 // Test zero length structs.
 // Used to not be evaluated.
 // Issue 2232.

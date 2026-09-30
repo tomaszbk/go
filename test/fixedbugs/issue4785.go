@@ -1,6 +1,5 @@
 // run
 
-
 // issue 4785: used to fail to compile
 
 package main

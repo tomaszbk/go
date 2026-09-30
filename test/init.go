@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that erroneous use of init is detected.
 // Does not compile.
 

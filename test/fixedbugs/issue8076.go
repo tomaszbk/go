@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 8076. nilwalkfwd walked forward forever
 // on the instruction loop following the dereference.
 

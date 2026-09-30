@@ -1,6 +1,5 @@
 // errorcheck -0 -l -d=defer
 
-
 // check that open-coded defers are used in expected situations
 
 package main

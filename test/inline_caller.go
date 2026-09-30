@@ -1,6 +1,5 @@
 // run -gcflags -l=4
 
-
 package main
 
 import (
@@ -21,22 +20,22 @@ var (
 )
 
 func f() {
-	g() // line 24
+	g() // line 23
 }
 
 func g() {
-	h() // line 28
+	h() // line 27
 }
 
 func h() {
 	x := &globalFrame
-	x.pc, x.file, x.line, x.ok = runtime.Caller(skip) // line 33
+	x.pc, x.file, x.line, x.ok = runtime.Caller(skip) // line 32
 }
 
 //go:noinline
 func testCaller(skp int) frame {
 	skip = skp
-	f() // line 39
+	f() // line 38
 	frame := globalFrame
 	if !frame.ok {
 		panic(fmt.Sprintf("skip=%d runtime.Caller failed", skp))
@@ -51,18 +50,18 @@ type wantFrame struct {
 
 // -1 means don't care
 var expected = []wantFrame{
-	0: {"main.h", 33},
-	1: {"main.g", 28},
-	2: {"main.f", 24},
-	3: {"main.testCaller", 39},
-	4: {"main.main", 65},
+	0: {"main.h", 32},
+	1: {"main.g", 27},
+	2: {"main.f", 23},
+	3: {"main.testCaller", 38},
+	4: {"main.main", 64},
 	5: {"runtime.main", -1},
 	6: {"runtime.goexit", -1},
 }
 
 func main() {
 	for i := 0; i <= 6; i++ {
-		frame := testCaller(i) // line 65
+		frame := testCaller(i) // line 64
 		fn := runtime.FuncForPC(frame.pc)
 		if expected[i].line >= 0 && frame.line != expected[i].line {
 			panic(fmt.Sprintf("skip=%d expected line %d, got line %d", i, expected[i].line, frame.line))

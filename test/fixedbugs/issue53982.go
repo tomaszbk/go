@@ -1,6 +1,5 @@
 // build
 
-
 package main
 
 type S[K, V any] struct {

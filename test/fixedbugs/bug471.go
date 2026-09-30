@@ -1,6 +1,5 @@
 // compile
 
-
 // Caused an internal compiler error in gccgo.
 
 package p

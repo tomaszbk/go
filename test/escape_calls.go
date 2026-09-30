@@ -1,6 +1,5 @@
 // errorcheck -0 -m -l
 
-
 // Test escape analysis for function parameters.
 
 // In this test almost everything is BAD except the simplest cases

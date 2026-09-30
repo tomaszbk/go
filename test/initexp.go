@@ -1,6 +1,5 @@
 // errorcheck -t 10
 
-
 package p
 
 // The init cycle diagnosis used to take exponential time

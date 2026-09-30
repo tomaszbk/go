@@ -1,6 +1,5 @@
 // run
 
-
 // Smoke test for constraint literals with elided interface
 // per issue #48424.
 

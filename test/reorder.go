@@ -1,6 +1,5 @@
 // run
 
-
 // Test reordering of assignments.
 
 package main

@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 // Test for correct heap-moving of escaped variables.

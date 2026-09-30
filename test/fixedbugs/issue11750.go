@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 11750: mkdotargslice: typecheck failed
 
 package main

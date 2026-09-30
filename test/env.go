@@ -1,6 +1,5 @@
 // run
 
-
 // Test that environment variables are accessible through
 // package os.
 

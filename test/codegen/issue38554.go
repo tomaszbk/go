@@ -1,6 +1,5 @@
 // asmcheck
 
-
 // Test that we are zeroing directly instead of
 // copying a large zero value. Issue 38554.
 

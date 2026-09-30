@@ -1,6 +1,5 @@
 // compile
 
-
 // Returning an index into a conversion from string to slice caused a
 // compilation error when using gccgo.
 

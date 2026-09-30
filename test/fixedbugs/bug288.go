@@ -1,6 +1,5 @@
 // compile
 
-
 // Used to run out of registers on 8g.  Issue 868.
 
 package main

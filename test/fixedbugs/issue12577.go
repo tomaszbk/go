@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 12577: Test that there are no -0 floating-point constants.
 
 package main

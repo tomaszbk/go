@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 // issue 2337

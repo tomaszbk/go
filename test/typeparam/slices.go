@@ -1,6 +1,5 @@
 // run
 
-
 // Package slices provides functions for basic operations on
 // slices of any element type.
 package main

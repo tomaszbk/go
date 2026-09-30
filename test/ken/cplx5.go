@@ -1,6 +1,5 @@
 // run
 
-
 // Test compound types made of complex numbers.
 
 package main

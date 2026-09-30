@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Check for cycles in a pointer literal's method value.
 
 package ptrlitmethvalue

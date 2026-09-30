@@ -1,6 +1,5 @@
 // run
 
-
 // Test methods on slices.
 
 package main

@@ -1,6 +1,5 @@
 // run
 
-
 // Test case for https://golang.org/issue/692
 
 package main

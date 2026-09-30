@@ -2,7 +2,6 @@
 
 //go:build aix
 
-
 // Test that nil checks are removed.
 // Optimization is enabled.
 

@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 7742: cannot use &autotmp_0001 (type *map[string]string) as type *string in function argument
 
 package main

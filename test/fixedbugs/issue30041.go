@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 30041: copying results of a reflect-generated
 // call on stack should not have write barrier.
 

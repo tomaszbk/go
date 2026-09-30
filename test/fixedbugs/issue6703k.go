@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Check for cycles in a method value.
 
 package methvalue

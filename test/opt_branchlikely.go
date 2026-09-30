@@ -3,7 +3,6 @@
 
 //go:build amd64
 
-
 // Test that branches have some prediction properties.
 package foo
 

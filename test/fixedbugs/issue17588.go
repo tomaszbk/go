@@ -1,6 +1,5 @@
 // errorcheck -d=panic
 
-
 // Issue 17588: internal compiler error in typecheckclosure()
 // because in case of Func.Nname.Type == nil, Decldepth
 // is not initialized in typecheckfunc(). This test

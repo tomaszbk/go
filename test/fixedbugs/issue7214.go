@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 7214: No duplicate key error for maps with interface{} key type
 
 package p

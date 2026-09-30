@@ -1,6 +1,5 @@
 // compile
 
-
 // This is a test case for issue 788.
 
 package main

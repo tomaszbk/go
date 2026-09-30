@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that built-in types don't get printed with
 // (empty) package qualification.
 

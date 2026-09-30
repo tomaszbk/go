@@ -1,6 +1,5 @@
 // runindir
 
-
 // Issue 11656: runtime: jump to bad PC missing good traceback
 
 // windows doesn't work, because Windows exception handling

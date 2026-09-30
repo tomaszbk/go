@@ -1,6 +1,5 @@
 // compile
 
-
 // Make sure floating point operations that generate flags
 // are scheduled correctly on s390x.
 

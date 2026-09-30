@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 20923: gccgo failed to compile parenthesized select case expressions.
 
 package p

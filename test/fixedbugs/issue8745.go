@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Check that the error says s[2] is a byte, not a uint8.
 
 package p

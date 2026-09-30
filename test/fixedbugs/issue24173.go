@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 type arrayAlias = [10]int

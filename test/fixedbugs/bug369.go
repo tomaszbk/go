@@ -2,7 +2,6 @@
 
 //go:build !nacl && !js && !wasip1 && gc
 
-
 // Test that compiling with optimization turned on produces faster code.
 
 package main

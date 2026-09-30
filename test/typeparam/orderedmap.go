@@ -1,6 +1,5 @@
 // run
 
-
 // Package orderedmap provides an ordered map, implemented as a binary tree.
 package main
 

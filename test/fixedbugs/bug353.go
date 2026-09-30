@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // issue 2089 - internal compiler error
 
 package main

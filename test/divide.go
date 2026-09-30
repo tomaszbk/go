@@ -1,6 +1,5 @@
 // run
 
-
 // Test divide corner cases.
 
 package main

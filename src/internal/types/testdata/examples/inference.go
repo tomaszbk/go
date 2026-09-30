@@ -1,6 +1,5 @@
 // -lang=go1.20
 
-
 // This file shows some examples of type inference.
 
 package p

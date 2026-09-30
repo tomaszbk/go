@@ -1,6 +1,5 @@
 // run
 
-
 // Test integer division by constants.
 
 package main

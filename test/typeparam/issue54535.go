@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 type node[T any] struct {

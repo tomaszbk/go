@@ -1,6 +1,5 @@
 // asmcheck
 
-
 // Make sure we reuse large constant loads, if we can.
 // See issue 33580.
 

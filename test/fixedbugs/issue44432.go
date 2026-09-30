@@ -1,6 +1,5 @@
 // errorcheck -d=panic
 
-
 package p
 
 var m = map[string]int{

@@ -1,6 +1,5 @@
 // run
 
-
 // issue 16985: intrinsified AMD64 atomic ops should clobber flags
 
 package main

@@ -1,6 +1,5 @@
 // compile
 
-
 // This program results in a loop inferred to increment
 // j by 0, causing bounds check elimination to attempt
 // something%0, which panics (in the bug).

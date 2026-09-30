@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Check for cycles in the method value of a value literal.
 
 package litmethvalue

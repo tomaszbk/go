@@ -1,6 +1,5 @@
 // build
 
-
 // Test that the compiler does not crash during compilation.
 
 package main

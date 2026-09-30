@@ -2,7 +2,6 @@
 
 //go:build amd64 || arm64 || s390x || ppc64le || riscv64
 
-
 package a
 
 func knownBitsPhiAnd(cond bool) int {

@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 func f[T []byte | []rune]() {

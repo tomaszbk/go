@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 45344: expand_calls does not handle direct interface
 // typed argument well.
 

@@ -1,6 +1,5 @@
 // run
 
-
 // Test simple type switches, including chans, maps etc.
 
 package main

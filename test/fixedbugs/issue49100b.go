@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 func r(j int) {

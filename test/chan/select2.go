@@ -1,6 +1,5 @@
 // run
 
-
 // Test that selects do not consume undue memory.
 
 package main

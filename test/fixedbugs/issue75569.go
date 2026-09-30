@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 func fff(a []int, b bool, p, q *int) {

@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue #44344: a crash in DWARF scope generation (trying to
 // scope the PCs of a function that was inlined away).
 

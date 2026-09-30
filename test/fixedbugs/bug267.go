@@ -1,6 +1,5 @@
 // compile
 
-
 package bug267
 
 type T []int

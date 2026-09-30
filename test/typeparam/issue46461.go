@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 type T[U interface{ M() T[U] }] int

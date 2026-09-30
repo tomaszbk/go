@@ -1,6 +1,5 @@
 // compile
 
-
 // Triggers a bug in writebarrier, which inserts one
 // between (first block) OpAddr x and (second block) a VarDef x,
 // which are then in the wrong order and unable to be

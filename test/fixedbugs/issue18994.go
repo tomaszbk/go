@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 18994: SSA didn't handle DOT STRUCTLIT for zero-valued
 // STRUCTLIT.
 

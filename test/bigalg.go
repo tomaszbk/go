@@ -1,6 +1,5 @@
 // run
 
-
 // Test the internal "algorithms" for objects larger than a word: hashing, equality etc.
 
 package main

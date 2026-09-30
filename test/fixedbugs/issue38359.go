@@ -1,6 +1,5 @@
 // compile
 
-
 // Make sure NaN-NaN compiles correctly.
 
 package p

@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 // Make sure we use ADDQ instead of LEAQ when we can.

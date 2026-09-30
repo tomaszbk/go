@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package p
 
 func _(a, b, c int) {

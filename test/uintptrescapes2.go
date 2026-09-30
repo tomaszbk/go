@@ -1,6 +1,5 @@
 // errorcheck -0 -l -m -live
 
-
 // Test escape analysis and liveness inferred for uintptrescapes functions.
 
 package p

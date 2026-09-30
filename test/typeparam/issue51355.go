@@ -1,6 +1,5 @@
 // compile
 
-
 package main
 
 type Cache[E comparable] struct {

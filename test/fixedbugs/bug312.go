@@ -1,6 +1,5 @@
 // run
 
-
 // issue 1172
 
 package main

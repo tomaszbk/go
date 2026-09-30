@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 26248: gccgo miscompiles interface field expression.
 // In G().M where G returns an interface, G() is evaluated twice.
 

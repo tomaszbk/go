@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 // The rotate amounts are only rewritten on 32-bit platforms,

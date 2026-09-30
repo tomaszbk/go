@@ -1,6 +1,5 @@
 // run
 
-
 // Bad AND/BTR combination rule.
 
 package main

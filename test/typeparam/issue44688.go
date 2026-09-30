@@ -1,6 +1,5 @@
 // run
 
-
 // derived & expanded from cmd/compile/internal/types2/testdata/fixedbugs/issue44688.go2
 
 package main

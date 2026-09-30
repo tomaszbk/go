@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // No double error on ideal -> float{32,64} conversion overflow
 
 package issue19947

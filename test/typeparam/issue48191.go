@@ -1,6 +1,5 @@
 // compile -c=2
 
-
 package main
 
 type I1 interface {

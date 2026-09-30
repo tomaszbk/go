@@ -2,7 +2,6 @@
 
 //go:build !js && !wasip1 && gc
 
-
 package main
 
 import (

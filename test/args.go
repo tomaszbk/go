@@ -1,6 +1,5 @@
 // run arg1 arg2
 
-
 // Test os.Args.
 
 package main

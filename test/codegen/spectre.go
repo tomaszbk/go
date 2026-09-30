@@ -2,7 +2,6 @@
 
 //go:build amd64
 
-
 package codegen
 
 func IndexArray(x *[10]int, i int) int {

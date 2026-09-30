@@ -1,6 +1,5 @@
 // run
 
-
 // Verify that //line directives with filenames
 // containing ':' (Windows) are correctly parsed.
 // (For a related issue, see test/fixedbugs/bug305.go)

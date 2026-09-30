@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 7944:
 // Liveness bitmaps said b was live at call to g,
 // but no one told the register optimizer.

@@ -1,6 +1,5 @@
 // compile
 
-
 // Ensure that late expansion correctly handles an OpIData with type interface{}
 
 package p

@@ -1,6 +1,5 @@
 // compile
 
-
 package foo
 
 type T struct {

@@ -1,6 +1,5 @@
 // run
 
-
 // Test that when the compiler expands append inline it does not
 // overwrite a value before it needs it (issue 3369).
 

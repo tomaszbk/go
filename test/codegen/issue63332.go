@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 func issue63332(c chan int) {

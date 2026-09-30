@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 func returnOption[T any](n int) Option[T] {

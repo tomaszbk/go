@@ -1,6 +1,5 @@
 // errorcheck -0 -m -l
 
-
 // Test, using compiler diagnostic flags, that bounds check elimination
 // is eliminating the correct checks.
 

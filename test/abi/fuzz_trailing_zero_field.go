@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 var p0exp = S1{

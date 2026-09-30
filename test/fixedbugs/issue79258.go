@@ -1,6 +1,5 @@
 // errorcheck -std
 
-
 package main
 
 func main() {

@@ -1,6 +1,5 @@
 // -lang=go1.26
 
-
 package p
 
 type Foo struct {

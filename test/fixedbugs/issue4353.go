@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 4353. An optimizer bug in 8g triggers a runtime fault
 // instead of an out of bounds panic.
 

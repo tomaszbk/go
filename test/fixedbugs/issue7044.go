@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 7044: bad AMOVFD and AMOVDF assembly generation on
 // arm for registers above 7.
 

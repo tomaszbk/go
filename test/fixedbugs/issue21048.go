@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 21048: s390x merged address generation into stores
 // to unaligned global variables. This resulted in an illegal
 // instruction.

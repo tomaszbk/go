@@ -1,6 +1,5 @@
 // run
 
-
 // Package list provides a doubly linked list of some element type
 // (generic form of the "container/list" package).
 

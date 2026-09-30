@@ -1,6 +1,5 @@
 // run
 
-
 //go:build cgo
 
 package main

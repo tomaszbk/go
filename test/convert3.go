@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify allowed and disallowed conversions.
 // Does not compile.
 

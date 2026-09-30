@@ -1,6 +1,5 @@
 // run
 
-
 // Multiple inlined calls to a function that causes
 // redundant address loads.
 

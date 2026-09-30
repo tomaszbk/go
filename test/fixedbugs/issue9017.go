@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 9017: Method selector shouldn't automatically dereference a named pointer type.
 
 package main

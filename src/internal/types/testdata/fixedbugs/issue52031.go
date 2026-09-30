@@ -1,6 +1,5 @@
 // -lang=go1.12
 
-
 package p
 
 type resultFlags uint

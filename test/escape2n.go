@@ -1,6 +1,5 @@
 // errorcheck -0 -N -m -l
 
-
 // Test, using compiler diagnostic flags, that the escape analysis is working.
 // Compiles but does not run.  Inlining is disabled.
 // Registerization is disabled too (-N), which should

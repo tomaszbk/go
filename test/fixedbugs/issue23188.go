@@ -1,6 +1,5 @@
 // run
 
-
 // Test order of evaluation of index operations.
 
 package main

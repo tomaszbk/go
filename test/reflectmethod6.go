@@ -1,6 +1,5 @@
 // run
 
-
 // Similar to reflectmethod5.go, but for reflect.Type.MethodByName.
 
 package main

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 4847: initialization cycle is not detected.
 
 package p

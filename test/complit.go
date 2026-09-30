@@ -1,6 +1,5 @@
 // run
 
-
 // Test composite literals.
 
 package main

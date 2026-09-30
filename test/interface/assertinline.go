@@ -1,6 +1,5 @@
 // errorcheck -0 -d=typeassert
 
-
 package p
 
 func assertptr(x interface{}) *int {

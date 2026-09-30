@@ -1,6 +1,5 @@
 // errorcheck -0 -d=wb
 
-
 // Make sure we don't introduce write barriers where we
 // don't need them. These cases are writing pointers to
 // globals to zeroed memory.

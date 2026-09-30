@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 10654: Failure to use generated temps
 // for function calls etc. in boolean codegen.
 

@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 17551: inrange optimization failed to preserve type information.
 
 package main

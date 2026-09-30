@@ -1,6 +1,5 @@
 // run
 
-
 // Test for declaration and use of a parameterized embedded field.
 
 package main

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that error messages print meaningful values
 // for various extreme floating-point constants.
 

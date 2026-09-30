@@ -1,7 +1,6 @@
 // run
 //go:build !nacl && !js && !wasip1 && !gccgo
 
-
 // ensure that panic(x) where x is a numeric type displays a readable number
 package main
 

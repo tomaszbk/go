@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 var bar = f(13579)

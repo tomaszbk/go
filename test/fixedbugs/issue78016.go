@@ -1,6 +1,5 @@
 // compile
 
-
 package main
 
 var a, b, c interface{} = func() (_, _, _ int) { return 1, 2, 3 }()

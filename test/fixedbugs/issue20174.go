@@ -1,6 +1,5 @@
 // compile -c=2
 
-
 // Issue 20174: failure to typecheck contents of *T in the frontend.
 
 package p

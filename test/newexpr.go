@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 // Issue #45624 is the proposal to accept new(expr) in go1.26.

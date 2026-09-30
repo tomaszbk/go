@@ -2,7 +2,6 @@
 
 //go:build darwin || linux
 
-
 // Test that maps don't go quadratic for NaNs and other values.
 
 package main

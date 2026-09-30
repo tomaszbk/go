@@ -1,6 +1,5 @@
 // errorcheck -+
 
-
 package p
 
 func f(x int) func(int) int {

@@ -2,7 +2,6 @@
 
 //go:build !wasm && !aix
 
-
 // Test that nil checks are removed.
 // Optimization is enabled.
 

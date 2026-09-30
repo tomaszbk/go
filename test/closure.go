@@ -1,6 +1,5 @@
 // run
 
-
 // Test the behavior of closures.
 
 package main

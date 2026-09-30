@@ -2,7 +2,6 @@
 
 //go:build goexperiment.simd && amd64
 
-
 // Test case for issue #78413.
 
 package main

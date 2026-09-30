@@ -1,6 +1,5 @@
 // compile
 
-
 package main
 
 type Vector[V any] interface {

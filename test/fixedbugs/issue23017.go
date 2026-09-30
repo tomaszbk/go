@@ -1,6 +1,5 @@
 // run
 
-
 // assignment order in multiple assignments.
 // See issue #23017
 

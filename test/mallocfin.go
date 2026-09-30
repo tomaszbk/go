@@ -1,6 +1,5 @@
 // run
 
-
 // Test basic operation of finalizers.
 
 package main

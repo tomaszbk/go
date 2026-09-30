@@ -1,6 +1,5 @@
 // compile
 
-
 // Check to make sure we don't try to constant fold a divide by zero.
 // This is a tricky test, as we need a value that's not recognized as 0
 // until lowering (otherwise it gets handled in a different path).

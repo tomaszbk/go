@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 51401: bad inline info in generated interface method wrapper
 // causes infinite loop in stack unwinding.
 

@@ -1,6 +1,5 @@
 // run
 
-
 // Ensure that range loops over maps with delete statements
 // have the requisite side-effects.
 

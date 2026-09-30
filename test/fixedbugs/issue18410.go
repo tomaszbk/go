@@ -1,6 +1,5 @@
 // run
 
-
 // This checks partially initialized structure literals
 // used to create value.method functions have their
 // non-initialized fields properly zeroed/nil'd

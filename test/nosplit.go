@@ -2,7 +2,6 @@
 
 //go:build !nacl && !js && !aix && !openbsd && !wasip1 && !gcflags_noopt && gc
 
-
 package main
 
 import (

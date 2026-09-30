@@ -2,7 +2,6 @@
 
 //go:build (amd64 && !gcflags_noopt) || (arm64 && !gcflags_noopt)
 
-
 package main
 
 import "strings"

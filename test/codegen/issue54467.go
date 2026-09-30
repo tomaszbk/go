@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 func f1(x *[4]int, y *[4]int) {

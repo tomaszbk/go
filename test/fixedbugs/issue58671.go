@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 func g[P any](...P) P { var zero P; return zero }

@@ -1,6 +1,5 @@
 // errorcheck -goexperiment fieldtrack
 
-
 package p
 
 func f(interface{ m() }) {}

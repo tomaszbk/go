@@ -1,6 +1,5 @@
 // compile
 
-
 // PR61265: The gccgo middle-end failed to represent array composite literals
 // where the elements are zero-sized values.
 // This is a reduction of a program reported by GoSmith.

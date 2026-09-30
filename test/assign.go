@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify simple assignment errors are caught by the compiler.
 // Does not compile.
 

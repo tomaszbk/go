@@ -1,6 +1,5 @@
 // run
 
-
 // Test that float -> integer conversion doesn't clobber
 // flags.
 

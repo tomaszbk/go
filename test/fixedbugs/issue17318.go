@@ -1,6 +1,5 @@
 // errorcheck -0 -N -m -l
 
-
 // The escape analyzer needs to run till its root set settles
 // (this is not that often, it turns out).
 // This test is likely to become stale because the leak depends

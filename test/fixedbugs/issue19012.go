@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 19012: if we have any unknown type at a call site,
 // we must ensure that we return to the user a suppressed
 // error message saying instead of including <T> in

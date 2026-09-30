@@ -1,6 +1,5 @@
 // run
 
-
 // Used to be miscompiled by gccgo, due to a bug in handling
 // initialization ordering.
 

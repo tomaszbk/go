@@ -1,6 +1,5 @@
 // run
 
-
 // Test of recover for run-time errors.
 
 // TODO(rsc):

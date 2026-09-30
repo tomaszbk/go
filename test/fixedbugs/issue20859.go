@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 var sink *[16]byte

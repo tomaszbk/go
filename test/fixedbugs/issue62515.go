@@ -1,6 +1,5 @@
 // compile
 
-
 // Unified frontend generated unnecessary temporaries for expressions
 // within unsafe.Sizeof, etc functions.
 

@@ -1,6 +1,5 @@
 // errorcheck -lang=go1.26
 
-
 package main
 
 type t1 struct {

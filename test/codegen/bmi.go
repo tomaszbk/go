@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 func andn64(x, y int64) int64 {

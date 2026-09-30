@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Complex literal comparison
 
 package p

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 8385: provide a more descriptive error when a method expression
 // is called without a receiver.
 

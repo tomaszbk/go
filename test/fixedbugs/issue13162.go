@@ -1,6 +1,5 @@
 // run
 
-
 // Ensure that range loops over a string have the requisite side-effects.
 
 package main

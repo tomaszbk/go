@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that comparisons of slice/map/func values against converted nil
 // values are properly rejected.
 

@@ -1,6 +1,5 @@
 // errorcheckoutput
 
-
 // Test source files and strings containing NUL and invalid UTF-8.
 
 package main

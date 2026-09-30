@@ -1,6 +1,5 @@
 //compile
 
-
 // Gccgo had a bug comparing a struct or array value with an interface
 // values, when the struct or array was not addressable.
 

@@ -1,6 +1,5 @@
 // run
 
-
 // Test that an interface conversion error panics with an "interface
 // conversion" run-time error. It was (incorrectly) panicking with a
 // "nil pointer dereference."

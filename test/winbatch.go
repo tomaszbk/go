@@ -1,6 +1,5 @@
 // run
 
-
 // Check that batch files are maintained as CRLF files (consistent
 // behavior on all operating systems). See golang.org/issue/37791.
 

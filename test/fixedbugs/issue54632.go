@@ -1,6 +1,5 @@
 // run
 
-
 // The inliner would erroneously scan the caller function's body for
 // reassignments *before* substituting the inlined function call body,
 // which could cause false positives in deciding when it's safe to

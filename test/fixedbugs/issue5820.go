@@ -1,6 +1,5 @@
 // run
 
-
 // issue 5820: register clobber when clearfat and 64 bit arithmetic is interleaved.
 
 package main

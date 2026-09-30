@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 5231: method values lose their variadic property.
 
 package p

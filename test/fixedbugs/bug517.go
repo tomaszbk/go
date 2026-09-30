@@ -1,6 +1,5 @@
 // run
 
-
 // The gofrontend used to mishandle this code due to a pass ordering issue.
 // It was inconsistent as to whether unsafe.Sizeof(byte(0)) was a constant,
 // and therefore as to whether it was a direct-iface type.

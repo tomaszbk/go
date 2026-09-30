@@ -1,7 +1,6 @@
 // asmcheck
 //go:build goexperiment.simd
 
-
 package codegen
 
 import "simd/archsimd"

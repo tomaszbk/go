@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 6140: compiler incorrectly rejects method values
 // whose receiver has an unnamed interface type.
 

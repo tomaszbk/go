@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 import (
@@ -20,19 +19,19 @@ type Impl2 struct{}
 func (*Impl2) A() {}
 
 func main() {
-	shouldNilPanic(25, func() {
+	shouldNilPanic(24, func() {
 		var v A
 		v.A()
 		v = &Impl{}
 	})
-	shouldNilPanic(33, func() {
+	shouldNilPanic(32, func() {
 		var v A
 		defer func() {
 			v = &Impl{}
 		}()
 		v.A()
 	})
-	shouldNilPanic(40, func() {
+	shouldNilPanic(39, func() {
 		var v A
 		f := func() {
 			v = &Impl{}
@@ -43,7 +42,7 @@ func main() {
 
 	// Make sure that both devirtualized and non devirtualized
 	// variants have the panic at the same line.
-	shouldNilPanic(52, func() {
+	shouldNilPanic(51, func() {
 		var v A
 		defer func() {
 			v = &Impl{}
@@ -51,7 +50,7 @@ func main() {
 		v. // A() is on a separate line
 			A()
 	})
-	shouldNilPanic(61, func() {
+	shouldNilPanic(60, func() {
 		var v A
 		defer func() {
 			v = &Impl{}

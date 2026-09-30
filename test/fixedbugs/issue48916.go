@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 48916: expand_calls pass crashes due to a (dead)
 // use of an OpInvalid value.
 

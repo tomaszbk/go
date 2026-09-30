@@ -1,6 +1,5 @@
 // build
 
-
 package main
 
 type someType struct{}

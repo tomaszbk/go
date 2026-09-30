@@ -1,6 +1,5 @@
 // run
 
-
 // Test that returning &T{} from a function causes an allocation.
 
 package main

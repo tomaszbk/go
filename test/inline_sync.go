@@ -2,7 +2,6 @@
 
 //go:build !nacl && !386 && !wasm && !arm && !gcflags_noopt
 
-
 // Test, using compiler diagnostic flags, that inlining of functions
 // imported from the sync package is working.
 // Compiles but does not run.

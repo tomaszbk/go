@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that pointer method calls are caught during typechecking.
 // Reproducer extracted and adapted from method.go
 

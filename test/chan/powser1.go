@@ -1,6 +1,5 @@
 // run
 
-
 // Test concurrency primitives: power series.
 
 // Power series package

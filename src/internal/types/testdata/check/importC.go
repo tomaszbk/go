@@ -1,6 +1,5 @@
 // -fakeImportC
 
-
 package importC
 
 import "C"

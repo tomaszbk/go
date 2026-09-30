@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 // Test to make sure that (CMPQ (ANDQ x y) [0]) does not get rewritten to

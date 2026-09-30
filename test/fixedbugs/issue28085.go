@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package p
 
 var _ = map[interface{}]int{

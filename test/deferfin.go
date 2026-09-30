@@ -1,6 +1,5 @@
 // run
 
-
 // Test that defers do not prevent garbage collection.
 
 package main

@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 5607: generation of init() function incorrectly
 // uses initializers of blank variables inside closures.
 

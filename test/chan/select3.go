@@ -1,6 +1,5 @@
 // run
 
-
 // Test the semantics of the select statement
 // for basic empty/non-empty cases.
 

@@ -1,6 +1,5 @@
 // run
 
-
 // Test simple switch.
 
 package main

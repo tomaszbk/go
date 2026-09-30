@@ -1,6 +1,5 @@
 // run
 
-
 // Testing various generic uses of indexing, both for reads and writes.
 
 package main

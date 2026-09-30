@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 26120: INDEX of 1-element but non-SSAable array
 // is mishandled when building SSA.
 

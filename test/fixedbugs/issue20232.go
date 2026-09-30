@@ -1,6 +1,5 @@
 // errorcheck -d=panic
 
-
 package main
 
 const x = 6e5518446744 // ERROR "malformed constant: 6e5518446744"

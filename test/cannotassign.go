@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Test "cannot assign" errors
 
 package main

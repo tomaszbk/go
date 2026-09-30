@@ -1,6 +1,5 @@
 // run
 
-
 // Test the run-time behavior of escape analysis-related optimizations.
 
 package main

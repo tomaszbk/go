@@ -2,7 +2,6 @@
 
 //go:build !nacl && !js && !wasip1 && !gccgo
 
-
 // Make sure we don't get an index out of bounds error
 // while trying to print a map that is concurrently modified.
 // The runtime might complain (throw) if it detects the modification,

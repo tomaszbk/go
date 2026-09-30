@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 50671: sign extension eliminated incorrectly on MIPS64.
 
 package main

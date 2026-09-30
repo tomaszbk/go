@@ -1,6 +1,5 @@
 // run
 
-
 // For #45062, miscompilation of open defer of method invocation
 
 package main

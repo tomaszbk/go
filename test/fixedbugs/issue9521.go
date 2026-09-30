@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Test that an incorrect use of the blank identifier is caught.
 // Does not compile.
 

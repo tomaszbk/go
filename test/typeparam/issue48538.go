@@ -1,6 +1,5 @@
 // compile
 
-
 // Testing composite literal for a type param constrained to be a struct or a map.
 
 package p

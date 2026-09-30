@@ -1,6 +1,5 @@
 // errorcheck -0 -l -m
 
-
 // Issue 21709: range expression overly escapes.
 
 package p

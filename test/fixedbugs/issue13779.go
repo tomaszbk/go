@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 13779: provide better error message when directly assigning to struct field in map
 
 package main

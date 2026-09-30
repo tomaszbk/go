@@ -1,6 +1,5 @@
 // run
 
-
 // absdiff example using a function argument rather than attaching an
 // Abs method to a structure containing base types.
 

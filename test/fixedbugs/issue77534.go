@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 77534: compiler crash when >4 fields, but only one nonempty pointer field.
 
 package p

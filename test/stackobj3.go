@@ -1,6 +1,5 @@
 // run
 
-
 // This test makes sure that ambiguously live arguments work correctly.
 
 package main

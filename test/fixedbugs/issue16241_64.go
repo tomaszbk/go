@@ -2,7 +2,6 @@
 
 // errorcheck -0 -m -l
 
-
 package foo
 
 import "sync/atomic"

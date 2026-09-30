@@ -1,6 +1,5 @@
 // run
 
-
 // Make sure unsigned shift results get sign-extended correctly.
 package main
 

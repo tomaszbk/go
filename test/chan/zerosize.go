@@ -1,6 +1,5 @@
 // run
 
-
 // Test making channels of a zero-sized type.
 
 package main

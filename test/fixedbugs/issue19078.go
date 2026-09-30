@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 19078: liveness & zero-initialization of results
 // when there is a defer.
 package main

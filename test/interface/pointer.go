@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Test that interface{M()} = *interface{M()} produces a compiler error.
 // Does not compile.
 

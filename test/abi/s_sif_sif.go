@@ -2,7 +2,6 @@
 
 //go:build !wasm
 
-
 package main
 
 // Test ensures that abi information producer and consumer agree about the

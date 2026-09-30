@@ -1,6 +1,5 @@
 // compile
 
-
 // Make sure we can correctly compile method expressions
 // where the method is implicitly declared.
 

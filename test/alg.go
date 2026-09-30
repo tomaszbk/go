@@ -1,6 +1,5 @@
 // build
 
-
 // This file tests that required algs are generated,
 // even when similar types have been marked elsewhere
 // as not needing algs. See CLs 19769 and 19770.

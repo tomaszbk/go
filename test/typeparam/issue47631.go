@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 func g[T any]() {

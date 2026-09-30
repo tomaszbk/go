@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 8620. Used to fail with -race.
 
 package main

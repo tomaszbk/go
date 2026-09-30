@@ -1,6 +1,5 @@
 // run
 
-
 // Scenario that used to leak arbitrarily many SudoG structs.
 // See golang.org/issue/9110.
 

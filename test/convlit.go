@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that illegal assignments with both explicit and implicit conversions of literals are detected.
 // Does not compile.
 

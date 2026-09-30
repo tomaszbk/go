@@ -1,6 +1,5 @@
 // compile
 
-
 // Make sure that the compiler can analyze non-reflect
 // Type.{Method,MethodByName} calls.
 

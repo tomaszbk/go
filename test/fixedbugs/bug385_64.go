@@ -2,7 +2,6 @@
 
 //go:build amd64
 
-
 // Issue 2444
 // Issue 4666: issue with arrays of exactly 4GB.
 

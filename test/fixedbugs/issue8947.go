@@ -1,6 +1,5 @@
 // run
 
-
 // Some uses of zeroed constants in non-assignment
 // expressions broke with our more aggressive zeroing
 // of assignments (internal compiler errors).

@@ -1,6 +1,5 @@
 // compile
 
-
 // Non-constant duplicate keys/cases should not be reported
 // as errors by the compiler.
 

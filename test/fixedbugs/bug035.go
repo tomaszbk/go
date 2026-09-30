@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package main
 
 func f9(a int) (i int, f float64) {

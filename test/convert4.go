@@ -1,6 +1,5 @@
 // run
 
-
 // Test conversion from slice to array pointer.
 
 package main

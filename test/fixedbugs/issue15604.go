@@ -1,6 +1,5 @@
 // compile
 
-
 package bug
 
 import "os"

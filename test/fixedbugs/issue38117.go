@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // cmd/compile erroneously rejected conversions of constant values
 // between int/float and complex types.
 

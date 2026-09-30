@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 31419: race in getitab when two goroutines try
 // to do the same failed interface conversion.
 

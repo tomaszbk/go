@@ -1,6 +1,5 @@
 // asmcheck
 
-
 // These tests check that atomic instructions without dynamic checks are
 // generated for architectures that support them
 

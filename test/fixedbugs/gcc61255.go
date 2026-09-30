@@ -1,6 +1,5 @@
 // compile
 
-
 // PR61255: gccgo failed to compile IncDec statements on variadic functions.
 
 package main

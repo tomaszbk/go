@@ -1,6 +1,5 @@
 // compile
 
-
 // Make sure VARDEF can be a top-level statement.
 
 package p

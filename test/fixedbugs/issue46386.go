@@ -1,6 +1,5 @@
 // compile -p=main
 
-
 package main
 
 type I interface {

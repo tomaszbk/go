@@ -1,7 +1,6 @@
 // errorcheck -0 -m -d=closure
 //go:build !goexperiment.newinliner
 
-
 // Test that closures do not capture variables that hold a constant, and
 // stop being closures if they capture nothing else.
 

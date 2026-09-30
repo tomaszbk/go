@@ -1,6 +1,5 @@
 // compile
 
-
 // Used to crash when compiling functions containing
 // forward refs in dead code.
 

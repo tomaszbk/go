@@ -1,6 +1,5 @@
 // run
 
-
 // The prove pass must not use a fact that only becomes valid after a
 // later value executes to simplify an earlier value. Here make([]byte, n)
 // teaches prove that n >= 0, but that is only true after the make runs.

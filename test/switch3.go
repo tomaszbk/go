@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that erroneous switch statements are detected by the compiler.
 // Does not compile.
 

@@ -1,6 +1,5 @@
 // asmcheck
 
-
 // Make sure this code doesn't generate spill/restore.
 
 package codegen

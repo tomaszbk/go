@@ -1,6 +1,5 @@
 // compile
 
-
 // Make sure we can compile "_" functions without crashing.
 
 package main

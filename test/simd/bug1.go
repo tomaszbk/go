@@ -2,7 +2,6 @@
 
 //go:build amd64 && goexperiment.simd
 
-
 // Test case for ICE on picking the wrong type for the spill slot.
 
 package p

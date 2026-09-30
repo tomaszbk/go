@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package main
 
 type T []int

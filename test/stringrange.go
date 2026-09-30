@@ -1,6 +1,5 @@
 // run
 
-
 // Test range over strings.
 
 package main

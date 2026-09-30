@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 // This checks for incorrect application of CMP(-x,y) -> CMN(x,y) in arm and arm64

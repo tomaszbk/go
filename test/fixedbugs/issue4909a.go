@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 4909: compiler incorrectly accepts unsafe.Offsetof(t.x)
 // where x is a field of an embedded pointer field.
 

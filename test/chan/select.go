@@ -1,6 +1,5 @@
 // run
 
-
 // Test simple select.
 
 package main

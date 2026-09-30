@@ -1,6 +1,5 @@
 // run -gcflags=-d=softfloat
 
-
 package main
 
 import (

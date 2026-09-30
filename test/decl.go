@@ -1,6 +1,5 @@
 // run
 
-
 // Test correct short declarations and redeclarations.
 
 package main

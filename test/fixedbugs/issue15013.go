@@ -1,6 +1,5 @@
 // compile
 
-
 // CL 21202 introduced a compiler crash in the handling of a varargs
 // function in the same recursive group as a function that calls it.
 // Nothing in the standard library caught the problem, so adding a test.

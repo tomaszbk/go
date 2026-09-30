@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 const W = 32 << (^uintptr(0) >> 63) // 32 or 64

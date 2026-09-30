@@ -2,7 +2,6 @@
 
 //go:build linux && !ppc64 && gc && cgo
 
-
 // Test that a -B option is passed through when using both internal
 // and external linking mode.
 

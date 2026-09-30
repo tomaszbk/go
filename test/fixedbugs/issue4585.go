@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 4585: comparisons and hashes process blank
 // fields and padding in structs.
 

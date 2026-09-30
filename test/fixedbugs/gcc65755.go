@@ -1,6 +1,5 @@
 // run
 
-
 // PR65755: Incorrect type descriptor for type defined within method.
 
 package main

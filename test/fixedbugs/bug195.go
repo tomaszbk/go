@@ -1,6 +1,5 @@
 // errorcheck -lang=go1.17
 
-
 package main
 
 type I1 interface{ I2 } // ERROR "interface"

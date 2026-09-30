@@ -1,6 +1,5 @@
 // run
 
-
 // Test channel operations that test for blocking.
 // Use several sizes and types of operands.
 

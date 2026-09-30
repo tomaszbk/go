@@ -2,7 +2,6 @@
 
 //go:build (386 || amd64 || arm64 || ppc64le || s390x) && !gcflags_noopt
 
-
 // Similar to inline.go, but only for architectures that can merge loads.
 
 package foo

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Ensure that typed non-integer, negative and too large
 // values are not accepted as size argument in make for
 // maps.

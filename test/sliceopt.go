@@ -1,6 +1,5 @@
 // errorcheck -0 -d=append,slice
 
-
 // Check optimization results for append and slicing.
 
 package main

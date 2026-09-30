@@ -3,7 +3,6 @@
 // Used to emit a spurious "invalid recursive type" error.
 // See golang.org/issue/5581.
 
-
 package main
 
 import "fmt"

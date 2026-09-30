@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // selector expression resolves incorrectly for defined
 // pointer types.
 

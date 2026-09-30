@@ -2,7 +2,6 @@
 
 //go:build !goexperiment.newinliner
 
-
 // Test, using compiler diagnostic flags, that inlining is working.
 // Compiles but does not run.
 

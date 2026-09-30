@@ -1,6 +1,5 @@
 // run
 
-
 // Some derived-type expressions require the compiler to synthesize
 // function literals to plumb sub-dictionaries appropriately.
 // However, when these expressions are inlined, we were constructing

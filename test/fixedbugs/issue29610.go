@@ -1,6 +1,5 @@
 // rundir
 
-
 // Issue 29610: Symbol import and initialization order caused function
 // symbols to be recorded as non-function symbols.
 

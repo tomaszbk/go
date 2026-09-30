@@ -1,6 +1,5 @@
 // run
 
-
 // Gccgo used to crash compiling this.
 
 package main

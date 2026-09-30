@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Checking that line number is correct in error message.
 
 package main

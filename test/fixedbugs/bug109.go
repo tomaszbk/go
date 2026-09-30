@@ -1,6 +1,5 @@
 // compile
 
-
 package bug109
 
 func f(a float64) float64 {

@@ -1,6 +1,5 @@
 // run
 
-
 // Gccgo chose the wrong embedded method when the same type appeared
 // at different levels and the correct choice was not the first
 // appearance of the type in a depth-first search.

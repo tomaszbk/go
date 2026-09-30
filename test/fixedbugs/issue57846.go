@@ -1,6 +1,5 @@
 // compile
 
-
 package main
 
 func Float64D3(list [][][]float64, value float64) int {

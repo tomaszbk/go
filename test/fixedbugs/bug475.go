@@ -1,6 +1,5 @@
 // compile
 
-
 // Variable in enclosing function with same name as field in struct
 // composite literal confused gccgo.
 

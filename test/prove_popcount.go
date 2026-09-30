@@ -2,7 +2,6 @@
 
 //go:build amd64.v3 || arm64
 
-
 // FIXME(@Jorropo): this file exists because I haven't yet bothered to
 // make prove work on the pure go function call fallback.
 // My idea was to wait until CL 637936 is merged, then we can always emit

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Internal compiler crash used to stop errors during second copy.
 
 package main

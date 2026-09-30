@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // issue 8507
 // used to call algtype on invalid recursive type and get into infinite recursion
 

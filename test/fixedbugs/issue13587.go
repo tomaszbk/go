@@ -1,6 +1,5 @@
 // errorcheck -0 -l -d=wb
 
-
 // Test write barrier for implicit assignments to result parameters
 // that have escaped to the heap.
 

@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 func mask1(a, b uint64) uint64 {

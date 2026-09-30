@@ -1,6 +1,5 @@
 // run
 
-
 // Test defer.
 
 package main

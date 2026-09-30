@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 11674: cmd/compile: does not diagnose constant division by
 // zero
 

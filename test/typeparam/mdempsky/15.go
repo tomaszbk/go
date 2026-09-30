@@ -1,6 +1,5 @@
 // run -goexperiment fieldtrack
 
-
 // Test that generics, promoted methods, and //go:nointerface
 // interoperate as expected.
 

@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 type myifacer[T any] interface{ do(T) error }

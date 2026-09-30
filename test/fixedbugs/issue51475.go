@@ -1,6 +1,5 @@
 // compile
 
-
 // gofrontend incorrectly gave an error for this code.
 
 package p

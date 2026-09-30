@@ -1,6 +1,5 @@
 // compile
 
-
 // This file checks that basic importing works in -G mode.
 
 package p

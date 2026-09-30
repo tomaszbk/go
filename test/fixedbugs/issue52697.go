@@ -1,6 +1,5 @@
 // errorcheck
 
-
 //go:build !386 && !amd64p32 && !arm && !mips && !mipsle
 
 package main

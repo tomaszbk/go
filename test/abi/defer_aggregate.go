@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 const p0exp = "foo"

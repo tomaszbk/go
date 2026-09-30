@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package p
 
 func f1(x *[1<<30 - 1e6]byte) byte {

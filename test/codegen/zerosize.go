@@ -1,6 +1,5 @@
 // asmcheck
 
-
 // Make sure a pointer variable and a zero-sized variable
 // aren't allocated to the same stack slot.
 // See issue 24993.

@@ -1,6 +1,5 @@
 // errorcheck -0 -live -wb=0
 
-
 // liveness tests with inlining ENABLED
 // see also live.go.
 

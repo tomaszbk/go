@@ -1,6 +1,5 @@
 // run
 
-
 // Test various safe uses of indirection.
 
 package main

@@ -1,6 +1,5 @@
 // compile
 
-
 package bug250
 
 type I1 interface {

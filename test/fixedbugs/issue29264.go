@@ -1,6 +1,5 @@
 // run
 
-
 // Verify that we emit a valid type descriptor for
 // a fairly deeply nested type.
 

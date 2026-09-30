@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 func a(n string) bool {

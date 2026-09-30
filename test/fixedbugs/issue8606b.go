@@ -2,7 +2,6 @@
 
 //go:build linux || darwin
 
-
 // This is an optimization check. We want to make sure that we compare
 // string lengths, and other scalar fields, before checking string
 // contents.  There's no way to verify this in the language, and

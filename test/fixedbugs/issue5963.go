@@ -1,6 +1,5 @@
 // run
 
-
 // Used to die in runtime due to init goroutine exiting while
 // locked to main thread.
 

@@ -1,6 +1,5 @@
 // compile
 
-
 // A couple of aliases cases that gccgo incorrectly gave errors for.
 
 package p

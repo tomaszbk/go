@@ -1,6 +1,5 @@
 // -lang=go1.23
 
-
 package aliasTypes
 
 type _ = int

@@ -1,6 +1,5 @@
 // compile -d=ssa/check/on
 
-
 package p
 
 func f()

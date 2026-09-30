@@ -1,6 +1,5 @@
 // run
 
-
 // Make sure FuncForPC won't panic when given a pc which
 // lies between two functions.
 

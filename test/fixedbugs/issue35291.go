@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Check error message for duplicated index in slice literal
 
 package p

@@ -1,4 +1,3 @@
 // runindir
 
-
 package ignored

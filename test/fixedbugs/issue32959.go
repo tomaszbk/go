@@ -1,6 +1,5 @@
 // compile
 
-
 // Test escape analysis with shifting constant
 
 package main

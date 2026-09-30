@@ -1,6 +1,5 @@
 // run
 
-
 // Make sure the runtime can scan args of an unstarted goroutine
 // which starts with a reflect-generated function.
 

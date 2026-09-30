@@ -1,6 +1,5 @@
 // run
 
-
 // This test case stress tests a number of subtle cases involving
 // nested type-parameterized declarations. At a high-level, it
 // declares a generic function that contains a generic type

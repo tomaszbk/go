@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 6402: spurious 'use of untyped nil' error
 
 package p

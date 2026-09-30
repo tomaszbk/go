@@ -1,6 +1,5 @@
 // run
 
-
 // Test string operations including printing.
 
 package main

@@ -2,7 +2,6 @@
 
 //go:build arm64
 
-
 package main
 
 var (

@@ -2,7 +2,6 @@
 
 //go:build !nacl && !js && !wasip1
 
-
 // Ensure that label redefinition errors print out
 // a column number that matches the start of the current label's
 // definition instead of the label delimiting token ":"

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Checks to make sure that the compiler can catch a specific invalid
 // method type expression. NB: gccgo and gc have slightly different
 // error messages, hence the generic test for 'method' and not something

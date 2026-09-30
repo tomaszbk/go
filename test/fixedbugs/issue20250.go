@@ -2,7 +2,6 @@
 
 //go:build !goexperiment.cgocheck2
 
-
 // Issue 20250: liveness differed with concurrent compilation
 // due to propagation of addrtaken to outer variables for
 // closure variables.

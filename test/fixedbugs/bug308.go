@@ -1,6 +1,5 @@
 // compile
 
-
 // issue 1136
 
 package main

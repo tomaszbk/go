@@ -1,6 +1,5 @@
 // errorcheck -e=0
 
-
 // Issue 20298: "imported and not used" error report order was non-deterministic.
 // This test works by limiting the number of errors (-e=0)
 // and checking that the errors are all at the beginning.

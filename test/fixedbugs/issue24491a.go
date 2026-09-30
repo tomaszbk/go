@@ -1,6 +1,5 @@
 // run
 
-
 // This test makes sure unsafe-uintptr arguments are handled correctly.
 
 package main

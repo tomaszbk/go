@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 16804: internal error for math.Sqrt as statement
 //              rather than expression
 

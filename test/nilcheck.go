@@ -1,6 +1,5 @@
 // errorcheck -0 -N -d=nil
 
-
 // Test that nil checks are inserted.
 // Optimization is disabled, so redundant checks are not removed.
 

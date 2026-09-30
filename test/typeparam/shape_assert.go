@@ -1,6 +1,5 @@
 // run
 
-
 // Test that type assertions and type switches in generic functions
 // produce correct results when the compiler eliminates impossible
 // cases based on shape type analysis.

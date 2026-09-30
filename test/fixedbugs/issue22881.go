@@ -1,6 +1,5 @@
 // run
 
-
 // Test to make sure RHS is evaluated before map insert is started.
 // The RHS panics in all of these cases.
 

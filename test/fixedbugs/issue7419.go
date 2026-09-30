@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 7419: odd behavior for float constants underflowing to 0
 
 package main

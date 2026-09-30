@@ -2,7 +2,6 @@
 
 //go:build !js && !wasip1 && gc
 
-
 // Verify the impact of line directives on error positions and position formatting.
 
 package main

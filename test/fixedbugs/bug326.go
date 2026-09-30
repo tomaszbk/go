@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package p
 
 func f() (_ int, err error) {

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Check for cycles in a function call.
 
 package funccall

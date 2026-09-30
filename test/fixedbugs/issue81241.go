@@ -1,6 +1,5 @@
 // errorcheck
 
-
 //go:build linux && 386
 
 package p

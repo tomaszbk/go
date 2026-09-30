@@ -1,6 +1,5 @@
 // errorcheck -0 -m
 
-
 // Test escape analysis for functions with variadic arguments
 
 package foo

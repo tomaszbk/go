@@ -1,6 +1,5 @@
 // compile
 
-
 package reorder
 
 type Element struct {

@@ -1,6 +1,5 @@
 // asmcheck -race
 
-
 package codegen
 
 // Check that we elide racefuncenter/racefuncexit for

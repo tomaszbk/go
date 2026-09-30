@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 19977: multiple error messages when type switching on an undefined
 
 package foo

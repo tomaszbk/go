@@ -2,7 +2,6 @@
 
 //go:build cgo && linux && amd64
 
-
 // Test that CL 281293 doesn't interfere with race detector
 // instrumentation.
 

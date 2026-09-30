@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 9083: map/chan error messages show non-explicit capacity.
 
 package main

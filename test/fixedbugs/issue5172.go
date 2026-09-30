@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // issue 5172: spurious warn about type conversion on broken type inside go and defer
 
 package main

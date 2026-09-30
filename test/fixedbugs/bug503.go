@@ -1,6 +1,5 @@
 // compile
 
-
 // gccgo crashed compiling this file, due to failing to correctly emit
 // the type descriptor for a named alias.
 

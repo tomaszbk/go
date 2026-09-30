@@ -1,6 +1,5 @@
 // compile -B
 
-
 // Make sure that we can at least compile this code
 // successfully with -B. We can't ever produce the right
 // answer at runtime with -B, as the access must panic.

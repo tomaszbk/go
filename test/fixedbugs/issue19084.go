@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 19084: SSA doesn't handle CONVNOP STRUCTLIT
 
 package p

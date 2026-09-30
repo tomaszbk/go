@@ -1,6 +1,5 @@
 //errorcheck -0 -m -m
 
-
 package p
 
 func f() { // ERROR ""

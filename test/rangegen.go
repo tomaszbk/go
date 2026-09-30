@@ -1,6 +1,5 @@
 // runoutput
 
-
 // Torture test for range-over-func.
 //
 // cmd/internal/testdir runs this like

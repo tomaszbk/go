@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 func hashBytesRaw(b0, b1, b2, b3, b7 byte) uint64 {

@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 26153. The write to ps was incorrectly
 // removed by the dead auto elimination pass.
 

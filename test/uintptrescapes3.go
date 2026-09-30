@@ -1,6 +1,5 @@
 // run
 
-
 // Test that //go:uintptrescapes works for methods.
 
 package main

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 1411.
 
 package main

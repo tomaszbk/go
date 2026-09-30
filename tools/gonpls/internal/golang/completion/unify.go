@@ -11,7 +11,6 @@
 // The code has been modified to compile without introducing any key functionality changes.
 //
 
-
 // This file implements type unification.
 //
 // Type unification attempts to make two types x and y structurally

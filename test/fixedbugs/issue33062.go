@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 33062: gccgo generates incorrect type equality
 // functions.
 

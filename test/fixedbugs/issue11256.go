@@ -1,6 +1,5 @@
 // run
 
-
 // Test that stack barriers are reset when a goroutine exits without
 // returning.
 

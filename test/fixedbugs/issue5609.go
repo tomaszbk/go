@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // issue 5609: overflow when calculating array size
 
 package pkg

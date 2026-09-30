@@ -1,6 +1,5 @@
 // run
 
-
 // Test 'for range' on arrays, slices, and maps.
 
 package main

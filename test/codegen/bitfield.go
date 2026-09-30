@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 // This file contains codegen tests related to bit field

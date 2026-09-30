@@ -1,6 +1,5 @@
 // compile
 
-
 // This tickles (a version of) the PPC64 back end to
 // emit a BVS instruction.
 

@@ -1,6 +1,5 @@
 // compile
 
-
 // This file tests built-in calls on generic types.
 
 // derived and expanded from cmd/compile/internal/types2/testdata/check/builtins.go2

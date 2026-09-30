@@ -1,6 +1,5 @@
 // run
 
-
 // Test of basic recover functionality.
 
 package main

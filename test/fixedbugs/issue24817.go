@@ -1,6 +1,5 @@
 // run
 
-
 // Check all ways to compare a non-constant string to the empty string.
 
 package main

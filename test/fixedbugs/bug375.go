@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 2423
 
 package main

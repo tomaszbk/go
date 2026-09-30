@@ -1,6 +1,5 @@
 // run
 
-
 // Verify that generic methods are assembled correctly.
 
 package main

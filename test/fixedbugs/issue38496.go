@@ -1,6 +1,5 @@
 // run
 
-
 // Make sure bounds check elision isn't confused with nil check elision.
 
 package main

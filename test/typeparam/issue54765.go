@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Test that not-in-heap types cannot be used as type
 // arguments. (pointer-to-nih types are okay though.)
 

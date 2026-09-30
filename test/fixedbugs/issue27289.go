@@ -1,6 +1,5 @@
 // run
 
-
 // Make sure we don't prove that the bounds check failure branch is unreachable.
 
 package main

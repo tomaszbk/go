@@ -1,6 +1,5 @@
 // asmcheck
 
-
 // This test makes sure that we statically load a type from an itab, instead
 // of doing a indirect load from thet itab.
 

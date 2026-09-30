@@ -1,6 +1,5 @@
 // compile
 
-
 // Test that when import gives multiple names
 // to a single type, they still all refer to the same type.
 

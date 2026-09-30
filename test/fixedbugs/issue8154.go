@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 8154: cmd/5g: ICE in walkexpr walk.c
 
 package main

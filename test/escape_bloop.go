@@ -1,6 +1,5 @@
 // errorcheck -0 -m
 
-
 // Test b.Loop escape analysis behavior.
 
 package bloop

@@ -1,6 +1,5 @@
 // compile
 
-
 // https://golang.org/issue/990
 
 package main

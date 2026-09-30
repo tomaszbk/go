@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 type T [16]byte

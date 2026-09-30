@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 59169: caused gofrontend crash.
 
 package p

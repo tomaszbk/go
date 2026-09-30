@@ -2,5 +2,4 @@
 
 //go:build !goexperiment.newinliner
 
-
 package ignored

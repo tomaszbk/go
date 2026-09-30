@@ -1,6 +1,5 @@
 // run
 
-
 // Testing that AddrTaken logic doesn't cause problems for function instantiations
 
 package main

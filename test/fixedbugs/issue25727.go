@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package main
 
 import "net/http"

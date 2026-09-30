@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 func G[U any]() (u U) { return }

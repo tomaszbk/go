@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue #43677: ICE during compilation of dynamic initializers for
 // composite blank variables.
 

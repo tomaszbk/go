@@ -2,7 +2,6 @@
 
 //go:build !windows && !js && !wasip1
 
-
 // Test escape analysis and liveness inferred for uintptrkeepalive functions.
 //
 // This behavior is enabled automatically for function declarations with no

@@ -1,6 +1,5 @@
 // asmcheck
 
-
 // These tests check code generation of switch statements.
 
 package codegen

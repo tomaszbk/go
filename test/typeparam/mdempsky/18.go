@@ -1,6 +1,5 @@
 // run
 
-
 // Test that implicit conversions to interface type in a select/case
 // clause are compiled correctly.
 

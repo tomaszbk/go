@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Make sure we're compiling "_" functions at least enough
 // to get to an error which is generated during walk.
 

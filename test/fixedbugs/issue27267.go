@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 // 1st test case from issue

@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 23546: type..eq function not generated when
 // DWARF is disabled.
 

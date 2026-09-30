@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 23545: gccgo didn't lower array comparison to
 // proper equality function in some case.
 

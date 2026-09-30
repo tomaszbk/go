@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 19246: Failed to evaluate some zero-sized values
 // when converting them to interfaces.
 

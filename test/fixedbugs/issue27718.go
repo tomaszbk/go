@@ -1,6 +1,5 @@
 // run
 
-
 // (-0)+0 should be 0, not -0.
 
 package main

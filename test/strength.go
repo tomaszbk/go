@@ -1,6 +1,5 @@
 // runoutput
 
-
 // Generate test of strength reduction for multiplications
 // with constants. Especially useful for amd64/386.
 

@@ -1,6 +1,5 @@
 // compile
 
-
 // Test legal shifts.
 // Issue 1708, legal cases.
 // Compiles but does not run.

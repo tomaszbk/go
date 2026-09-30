@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 var x = [4]int32{-0x7fffffff, 0x7fffffff, 2, 4}

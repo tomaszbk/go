@@ -1,6 +1,5 @@
 // compile
 
-
 // Used to crash when a type switch was present in dead code
 // in an inlineable function.
 

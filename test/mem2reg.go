@@ -1,6 +1,5 @@
 // errorcheck -0 -d=ssa/mem2reg/debug=4
 
-
 // Test for variables accessed through pointers that can
 // be promoted to register by the mem2reg pass.
 

@@ -1,6 +1,5 @@
 // run
 
-
 // Test that generic interface-interface comparisons resulting from
 // value switch statements are handled correctly.
 

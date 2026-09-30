@@ -1,6 +1,5 @@
 // errorcheck -0 -d=escapedebug=1
 
-
 // Test the data word used for interface conversions
 // that might otherwise allocate.
 

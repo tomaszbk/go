@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that method redeclarations are caught by the compiler.
 // Does not compile.
 

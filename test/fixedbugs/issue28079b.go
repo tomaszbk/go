@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Non-Go-constant but constant values aren't ok for array sizes.
 
 package p

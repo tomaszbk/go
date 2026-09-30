@@ -1,15 +1,15 @@
 // errorcheck
 
-
-// Use //line to set the line number of the next line to 17.
-//line fixedbugs/bug305.go:17
+// Use //line to set the line number of the next line to 16.
+//line fixedbugs/bug305.go:16
 
 package p
 
-// Introduce an error which should be reported on line 21.
+// Introduce an error which should be reported on line 20.
 var a int = "bogus"
 
-// Line 12 of file.
+// Line 11 of file.
+// 12
 // 13
 // 14
 // 15
@@ -17,5 +17,4 @@ var a int = "bogus"
 // 17
 // 18
 // 19
-// 20
 // ERROR "cannot|incompatible"

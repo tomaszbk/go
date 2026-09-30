@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 func f[T ~chan E, E any](e E) T {

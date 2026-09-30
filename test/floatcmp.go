@@ -1,6 +1,5 @@
 // run
 
-
 // Test floating-point comparison involving NaN.
 
 package main

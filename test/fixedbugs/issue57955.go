@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 57955: ARM assembler fails to handle certain cases.
 
 package main

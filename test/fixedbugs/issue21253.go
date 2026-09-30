@@ -1,6 +1,5 @@
 // compile
 
-
 // Gccgo crashed compiling this code due to failing to finalize
 // interfaces in the right order.
 

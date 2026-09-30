@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package main
 
 func main(int)  {}           // ERROR "func main must have no arguments and no return values"

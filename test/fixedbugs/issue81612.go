@@ -1,6 +1,5 @@
 // run
 
-
 // The stack-allocated slice backing store optimization must not kick in
 // when the address of a field of a slice element escapes. &s[i].f points
 // into s's backing store just like &s[i] does, so the backing store has

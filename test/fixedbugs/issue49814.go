@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package main
 
 // "must be integer" error is for 32-bit architectures

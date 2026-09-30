@@ -1,6 +1,5 @@
 // run
 
-
 // Test communication with multiple simultaneous goroutines.
 
 package main

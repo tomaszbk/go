@@ -1,6 +1,5 @@
 // run
 
-
 // When computing method sets with shadowed methods, make sure we
 // compute whether a method promotion involved a pointer traversal
 // based on the promoted method, not the shadowed method.

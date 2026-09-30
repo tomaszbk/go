@@ -1,6 +1,5 @@
 // run
 
-
 // Test nil.
 
 package main

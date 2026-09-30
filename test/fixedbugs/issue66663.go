@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 type Iterator[A any] func() (bool, A)

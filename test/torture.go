@@ -1,6 +1,5 @@
 // compile
 
-
 // Various tests for expressions with high complexity.
 
 package main

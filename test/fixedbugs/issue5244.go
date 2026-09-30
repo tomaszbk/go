@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 5244: the init order computation uses the wrong
 // order for top-level blank identifier assignments.
 // The example used to panic because it tries calling a

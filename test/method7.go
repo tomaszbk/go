@@ -1,6 +1,5 @@
 // run
 
-
 // Test forms of method expressions T.m where T is
 // a literal type.
 

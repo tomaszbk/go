@@ -1,6 +1,5 @@
 // asmcheck
 
-
 package codegen
 
 func efaceExtract(e interface{}) int {

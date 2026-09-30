@@ -2,7 +2,6 @@
 
 //go:build (linux || darwin) && !(386 || arm || mips || mipsle)
 
-
 package main
 
 import (

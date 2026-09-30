@@ -2,7 +2,6 @@
 
 //go:build !gcflags_noopt && !goexperiment.newinliner
 
-
 package foo
 
 import "bytes"

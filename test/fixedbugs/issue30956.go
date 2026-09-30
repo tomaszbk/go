@@ -1,6 +1,5 @@
 // run
 
-
 // Check for compile generated static data for literal
 // composite struct
 

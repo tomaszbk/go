@@ -1,6 +1,5 @@
 // run
 
-
 // Check the text of the panic that comes from
 // a nil pointer passed to automatically generated method wrapper.
 

@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 77435: compiler crash on clear of map resulting
 // from a map lookup (or some other syntax that is
 // non-idempotent during walk).

@@ -1,6 +1,5 @@
 // compile
 
-
 // Make sure we can linkname to memmove with an unsafe.Pointer argument.
 
 package p

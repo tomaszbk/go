@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 8028. Used to fail in -race mode with "non-orig name" error.
 
 package p

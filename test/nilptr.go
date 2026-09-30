@@ -1,6 +1,5 @@
 // run
 
-
 // Test that the implementation catches nil ptr indirection
 // in a large address space.
 

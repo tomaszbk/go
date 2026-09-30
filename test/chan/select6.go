@@ -1,6 +1,5 @@
 // run
 
-
 // Test for select: Issue 2075
 // A bug in select corrupts channel queues of failed cases
 // if there are multiple waiters on those channels and the

@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 import (
@@ -10,17 +9,17 @@ import (
 )
 
 func hello() string {
-	return "Hello World" // line 16
+	return "Hello World" // line 12
 }
 
-func foo() string { // line 19
-	x := hello() // line 20
-	y := hello() // line 21
-	return x + y // line 22
+func foo() string { // line 15
+	x := hello() // line 16
+	y := hello() // line 17
+	return x + y // line 18
 }
 
 func bar() string {
-	x := hello() // line 26
+	x := hello() // line 22
 	return x
 }
 
@@ -29,7 +28,7 @@ func funcPC(f interface{}) uintptr {
 	return reflect.ValueOf(f).Pointer()
 }
 
-// Test for issue #15453. Previously, line 26 would appear in foo().
+// Test for issue #15453. Previously, line 22 would appear in foo().
 func main() {
 	pc := funcPC(foo)
 	f := runtime.FuncForPC(pc)
@@ -38,9 +37,9 @@ func main() {
 		if line == 0 {
 			continue
 		}
-		// Line 16 can appear inside foo() because PC-line table has
+		// Line 12 can appear inside foo() because PC-line table has
 		// innermost line numbers after inlining.
-		if line != 16 && !(line >= 19 && line <= 22) {
+		if line != 12 && !(line >= 15 && line <= 18) {
 			log.Fatalf("unexpected line at PC=%d: %s:%d\n", pc, file, line)
 		}
 	}

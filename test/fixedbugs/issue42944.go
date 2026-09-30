@@ -1,6 +1,5 @@
 // errorcheck -0 -live
 
-
 // Issue 42944: address of callee args area should only be short-lived
 // and never across a call.
 

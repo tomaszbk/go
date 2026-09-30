@@ -1,6 +1,5 @@
 // run
 
-
 // Check to make sure that we compare fields in order. See issue 8606.
 
 package main

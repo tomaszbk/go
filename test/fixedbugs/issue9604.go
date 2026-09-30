@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 var x uint16 = 0xffff

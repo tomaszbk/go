@@ -1,6 +1,5 @@
 // compile
 
-
 // Used to crash when compiling assignments involving [0]T,
 // where T is not SSA-able.
 

@@ -1,6 +1,5 @@
 // run
 
-
 // part two of issue 4124. Make sure reflect doesn't mark the field as exported.
 
 package main

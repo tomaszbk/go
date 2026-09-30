@@ -1,6 +1,5 @@
 // errorcheck -0 -m=2
 
-
 // Test that we restrict inlining into very large functions.
 // See issue #26546.
 

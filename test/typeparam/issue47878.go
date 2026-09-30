@@ -1,6 +1,5 @@
 // compile
 
-
 package main
 
 type Src1[T any] func() Src1[T]

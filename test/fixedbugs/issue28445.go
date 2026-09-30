@@ -1,6 +1,5 @@
 // compile
 
-
 package p
 
 var fp = (**float64)(nil)

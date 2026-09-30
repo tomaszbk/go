@@ -1,6 +1,5 @@
 // -lang=go1.25
 
-
 package p
 
 import "strings"

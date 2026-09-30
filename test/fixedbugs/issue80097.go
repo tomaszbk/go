@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 80097: ICE "invalid heap allocated var without Heapaddr"
 // when a heap-escaping variable is declared in unreachable code.
 // Escape analysis marks the variable as heap-allocated, but because

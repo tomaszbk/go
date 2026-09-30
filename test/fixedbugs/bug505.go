@@ -1,6 +1,5 @@
 // compile
 
-
 // gccgo crashed compiling this file with a failed conversion to the
 // alias type when constructing the composite literal.
 

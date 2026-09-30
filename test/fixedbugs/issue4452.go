@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 4452. Used to print many errors, now just one.
 
 package main

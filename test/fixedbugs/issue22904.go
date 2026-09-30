@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 22904: Make sure the compiler emits a proper error message about
 // invalid recursive types rather than crashing.
 

@@ -1,6 +1,5 @@
 // errorcheck -0 -m=2
 
-
 // Test keeping statements results in testing.B.Loop alive.
 // See issue #61515, #73137.
 

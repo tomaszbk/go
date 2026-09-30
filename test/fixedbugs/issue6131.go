@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 6131: missing typecheck after reducing
 // n%1 == 0 to a constant value.
 

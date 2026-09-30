@@ -1,6 +1,5 @@
 // runoutput
 
-
 // Issue 10407: gccgo failed to remove carriage returns
 // from raw string literals.
 

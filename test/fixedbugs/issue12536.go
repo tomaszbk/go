@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 12536: compiler crashes while checking keys in a map literal for equality
 
 package p

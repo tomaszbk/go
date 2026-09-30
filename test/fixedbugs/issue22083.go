@@ -1,6 +1,5 @@
 // run
 
-
 // The compiler was panicking on the wrong line number, where
 // the panic was occurring in an inlined call.
 
@@ -26,7 +25,7 @@ func main() {
 			panic("bounds check didn't fail")
 		}
 		stk := string(debug.Stack())
-		if !strings.Contains(stk, "issue22083.go:37") {
+		if !strings.Contains(stk, "issue22083.go:36") {
 			panic("wrong stack trace: " + stk)
 		}
 	}()

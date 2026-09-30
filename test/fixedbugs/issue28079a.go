@@ -1,6 +1,5 @@
 // compile
 
-
 // Non-Go-constant but constant indexes are ok at compile time.
 
 package p

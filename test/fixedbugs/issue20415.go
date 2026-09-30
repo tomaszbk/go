@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Make sure redeclaration errors report correct position.
 
 package p

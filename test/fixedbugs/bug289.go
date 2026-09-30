@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // https://code.google.com/p/gofrontend/issues/detail?id=1
 
 package main

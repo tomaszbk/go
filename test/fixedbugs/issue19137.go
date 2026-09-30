@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 19137: folding address into load/store causes
 // odd offset on ARM64.
 

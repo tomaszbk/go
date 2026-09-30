@@ -3,7 +3,6 @@
 // This code relies on pre-1.28 string(integer) conversion rules.
 //go:build !go1.28
 
-
 // Examples from the language spec section on string conversions.
 
 package main

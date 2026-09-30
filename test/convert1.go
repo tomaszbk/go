@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that illegal conversions involving strings are detected.
 // Does not compile.
 

@@ -2,7 +2,6 @@
 
 //go:build !goexperiment.runtimefreegc
 
-
 package codegen
 
 func Append1(n int) []int {

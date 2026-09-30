@@ -1,6 +1,5 @@
 // errorcheck -0 -d=tailcall=1
 
-
 package p
 
 // Test that when generating wrappers for methods, we generate a tail call to the pointer version of

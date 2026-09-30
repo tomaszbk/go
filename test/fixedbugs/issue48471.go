@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package p
 
 type I interface{ M(int) }

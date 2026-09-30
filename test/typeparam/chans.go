@@ -1,6 +1,5 @@
 // run
 
-
 // Package chans provides utility functions for working with channels.
 package main
 

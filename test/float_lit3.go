@@ -2,7 +2,6 @@
 
 // Check flagging of invalid conversion of constant to float32/float64 near min/max boundaries.
 
-
 package main
 
 // See float_lit2.go for motivation for these values.

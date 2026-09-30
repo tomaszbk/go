@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Check that calling a function shadowing a built-in provides a good
 // error message.
 

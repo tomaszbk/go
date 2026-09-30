@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Check that we don't print duplicate errors for string ->
 // array-literal conversion
 

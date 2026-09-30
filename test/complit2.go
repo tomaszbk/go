@@ -1,6 +1,5 @@
 // run
 
-
 // Verify that composite literals using selectors for
 // embedded fields are assembled correctly.
 

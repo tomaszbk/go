@@ -1,6 +1,5 @@
 // run -gcflags=-d=maymorestack=main.mayMoreStack
 
-
 // Test the maymorestack testing hook by injecting a hook that counts
 // how many times it is called and checking that count.
 

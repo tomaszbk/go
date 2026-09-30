@@ -2,7 +2,6 @@
 
 //go:build (linux && amd64) || (linux && ppc64le) || (darwin && amd64) || (freebsd && amd64) || (netbsd && amd64) || (windows && amd64)
 
-
 package main
 
 //go:norace

@@ -1,6 +1,5 @@
 // run
 
-
 // Gccgo incorrectly rejected an assignment to multiple instances of
 // the same variable.
 

@@ -1,6 +1,5 @@
 // compile
 
-
 // PR61244: Type descriptors expressions were not traversed, causing an ICE
 // in gccgo when producing the backend representation.
 // This is a reduction of a program reported by GoSmith.

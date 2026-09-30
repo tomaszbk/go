@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 11790: Incorrect error following named pointer dereference on field
 
 package main

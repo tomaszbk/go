@@ -1,6 +1,5 @@
 // errorcheck -std
 
-
 package p
 
 //go:uintptrkeepalive

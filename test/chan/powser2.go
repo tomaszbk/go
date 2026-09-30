@@ -1,6 +1,5 @@
 // run
 
-
 // Test concurrency primitives: power series.
 
 // Like powser1.go but uses channels of interfaces.

@@ -1,6 +1,5 @@
 // compile -d=ssa/check/on
 
-
 // Issue 36723: fail to compile on PPC64 when SSA check is on.
 
 package p

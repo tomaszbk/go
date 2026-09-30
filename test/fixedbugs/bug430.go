@@ -1,6 +1,5 @@
 // compile
 
-
 // gccgo crashed compiling this.
 
 package main

@@ -1,6 +1,5 @@
 // run
 
-
 package main
 
 func F(xi, yi interface{}) uint64 {

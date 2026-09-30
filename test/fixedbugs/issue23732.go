@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 23732: Give better details about which struct
 // initializer has the wrong number of values.
 

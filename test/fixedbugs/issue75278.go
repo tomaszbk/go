@@ -1,6 +1,5 @@
 // errorcheck -0 -m=2
 
-
 package p
 
 var a, b []int

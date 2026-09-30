@@ -1,6 +1,5 @@
 // errorcheck -0 -m
 
-
 package escape
 
 type hashIface interface {

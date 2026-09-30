@@ -1,6 +1,5 @@
 // run
 
-
 // Test that dynamic interface checks treat byte=uint8
 // and rune=int or rune=int32.
 

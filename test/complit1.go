@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that illegal composite literals are detected.
 // Does not compile.
 

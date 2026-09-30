@@ -1,6 +1,5 @@
 // errorcheck -d=panic
 
-
 // Used to crash; issue 961.
 
 package main

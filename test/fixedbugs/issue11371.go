@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Issue 11371 (cmd/compile: meaningless error message "truncated to
 // integer")
 

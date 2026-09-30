@@ -1,6 +1,5 @@
 // run
 
-
 // issue 10253: cmd/gc: incorrect escape analysis of closures
 // Partial call x.foo was not promoted to heap.
 

@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // We have a limit of 1GB for stack frames.
 // Test that we extend that limit to include large argument/return areas.
 // Argument/return areas are part of the parent frame, not the frame itself,

@@ -1,6 +1,5 @@
 // asmcheck
 
-
 // Test common subexpression elimination of loads around other operations.
 
 package codegen

@@ -1,6 +1,5 @@
 //errorcheck -0 -m -m
 
-
 package main
 
 //go:norace

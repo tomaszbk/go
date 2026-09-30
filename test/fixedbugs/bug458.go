@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 4200: 6g crashes when a type is larger than 4GB.
 
 package main

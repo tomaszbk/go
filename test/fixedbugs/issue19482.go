@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Compiler rejected initialization of structs to composite literals
 // in a non-static setting (e.g. in a function)
 // when the struct contained a field named _.

@@ -2,7 +2,6 @@
 
 //go:build !nacl && !js && disabled_see_issue_18589
 
-
 // Test is disabled because it flakes when run in all.bash
 // on some platforms, but is useful standalone to verify
 // that rescheduling checks are working (and we may wish

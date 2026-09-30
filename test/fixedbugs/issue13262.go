@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 13262: cmd/compile: bogus "fallthrough
 // statement out of place" error
 

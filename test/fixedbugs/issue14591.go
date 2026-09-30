@@ -1,6 +1,5 @@
 // run
 
-
 // Test to make sure we don't think values are dead
 // when they are assigned to a PPARAMOUT slot before
 // the last GC safepoint.

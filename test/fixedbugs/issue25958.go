@@ -1,6 +1,5 @@
 // errorcheck
 
-
 package p
 
 // Verify that the "must be receive" error for "case done:" appears

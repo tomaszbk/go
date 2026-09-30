@@ -1,6 +1,5 @@
 // skip
 
-
 // Usage:
 // fibo <n>     compute fibonacci(n), n must be >= 0
 // fibo -bench  benchmark fibonacci computation (takes about 1 min)

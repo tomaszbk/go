@@ -1,6 +1,5 @@
 // run
 
-
 // The PkgPath of unexported fields of types defined in package main was incorrectly ""
 
 package main

@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 4316: the stack overflow check in the linker
 // is confused when it encounters a split-stack function
 // that needs 0 bytes of stack space.

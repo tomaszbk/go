@@ -1,6 +1,5 @@
 // compile
 
-
 // copied from cmd/compile/internal/types2/testdata/fixedbugs/issue39755.go
 
 package p

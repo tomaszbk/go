@@ -1,6 +1,5 @@
 // run
 
-
 // Test for loops.
 
 package main

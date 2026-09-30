@@ -1,6 +1,5 @@
 // errorcheck -0 -m -d=escapemutationscalls,zerocopy -l
 
-
 package p
 
 import "fmt"

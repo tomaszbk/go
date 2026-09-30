@@ -1,6 +1,5 @@
 // compile
 
-
 // Issue 4323: inlining of functions with local variables
 // forgets to typecheck the declarations in the inlined copy.
 

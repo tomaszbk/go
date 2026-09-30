@@ -1,6 +1,5 @@
 // errorcheck -d=panic
 
-
 // Verify that we get a single non-confusing error
 // message for embedded fields/interfaces that use
 // a qualified identifier with non-existing package.

@@ -1,6 +1,5 @@
 // run
 
-
 // Issue 4167: inlining of a (*T).Method expression taking
 // its arguments from a multiple return breaks the compiler.
 

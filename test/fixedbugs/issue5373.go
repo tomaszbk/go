@@ -1,6 +1,5 @@
 // run
 
-
 // Ensure that zeroing range loops have the requisite side-effects.
 
 package main

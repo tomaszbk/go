@@ -1,6 +1,5 @@
 // compile
 
-
 // gccgo gave an invalid error ("floating point constant truncated to
 // integer") compiling this.
 

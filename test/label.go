@@ -1,6 +1,5 @@
 // errorcheck
 
-
 // Verify that erroneous labels are caught by the compiler.
 // This set is caught by pass 1.
 // Does not compile.

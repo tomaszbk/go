@@ -1,6 +1,5 @@
 // compile -d=checkptr
 
-
 package main
 
 import (
