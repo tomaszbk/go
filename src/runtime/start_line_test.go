@@ -75,32 +75,32 @@ func TestStartLine(t *testing.T) {
 		{
 			name: "normal",
 			fn:   normalFunc,
-			want: 21,
+			want: 17,
 		},
 		{
 			name: "multiline-declaration",
 			fn:   multilineDeclarationFunc,
-			want: 30,
+			want: 26,
 		},
 		{
 			name: "blank-lines",
 			fn:   blankLinesFunc,
-			want: 35,
+			want: 31,
 		},
 		{
 			name: "inline",
 			fn:   inlineFunc,
-			want: 49,
+			want: 45,
 		},
 		{
 			name: "normal-closure",
 			fn:   normalClosure,
-			want: 57,
+			want: 53,
 		},
 		{
 			name: "inline-closure",
 			fn:   inlineClosure,
-			want: 64,
+			want: 60,
 		},
 	}
 

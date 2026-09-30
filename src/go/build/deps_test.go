@@ -1011,7 +1011,8 @@ func findImports(pkg string) ([]string, error) {
 		if info.parsed.Name.Name == "main" {
 			continue
 		}
-		if bytes.Contains(info.header, buildIgnore) {
+		// Without a license header, the constraint may be the first line.
+		if bytes.Contains(info.header, buildIgnore) || bytes.HasPrefix(info.header, buildIgnore[1:]) {
 			continue
 		}
 		for _, imp := range info.imports {

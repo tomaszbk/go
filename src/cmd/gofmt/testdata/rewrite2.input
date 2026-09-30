@@ -1,6 +1,5 @@
 //gofmt -r=int->bool
 
-
 package p
 
 // Slices have nil Len values in the corresponding ast.ArrayType

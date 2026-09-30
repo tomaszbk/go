@@ -28,7 +28,7 @@ L:
 
 // goto across declaration not okay
 func _() {
-	goto L /* ERROR "goto L jumps over variable declaration at line 36" */
+	goto L /* ERROR "goto L jumps over variable declaration at line 32" */
 	x := 1
 	_ = x
 L:
@@ -46,7 +46,7 @@ L:
 
 // goto across declaration after inner scope not okay
 func _() {
-	goto L /* ERROR "goto L jumps over variable declaration at line 58" */
+	goto L /* ERROR "goto L jumps over variable declaration at line 54" */
 	{
 		x := 1
 		_ = x
@@ -74,7 +74,7 @@ L: L1:
 
 // error shows first offending variable
 func _() {
-	goto L /* ERROR "goto L jumps over variable declaration at line 84" */
+	goto L /* ERROR "goto L jumps over variable declaration at line 80" */
 	x := 1
 	_ = x
 	y := 1

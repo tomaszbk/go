@@ -55,8 +55,8 @@ func TestFuncPCCompileError(t *testing.T) {
 		t.Fatalf("go tool compile did not fail")
 	}
 
-	// Expect errors in line 17, 18, 20, no errors on other lines.
-	want := []string{"x.go:17", "x.go:18", "x.go:20"}
+	// Expect errors in line 13, 14, 16, no errors on other lines.
+	want := []string{"x.go:13", "x.go:14", "x.go:16"}
 	got := strings.Split(string(out), "\n")
 	if got[len(got)-1] == "" {
 		got = got[:len(got)-1] // remove last empty line

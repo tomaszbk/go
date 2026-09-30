@@ -17,14 +17,14 @@ func goodIter(yield func(int) bool) {
 }
 
 func badIterOR(yield func(int) bool) {
-	_ = yield(1) || // want `yield may be called again \(on L25\) after returning false`
-		yield(2) || // want `yield may be called again \(on L26\) after returning false`
+	_ = yield(1) || // want `yield may be called again \(on L21\) after returning false`
+		yield(2) || // want `yield may be called again \(on L22\) after returning false`
 		yield(3)
 }
 
 func badIterSeq(yield func(int) bool) {
-	yield(1) // want `yield may be called again \(on L31\) after returning false`
-	yield(2) // want `yield may be called again \(on L32\) after returning false`
+	yield(1) // want `yield may be called again \(on L27\) after returning false`
+	yield(2) // want `yield may be called again \(on L28\) after returning false`
 	yield(3) // ok
 }
 
@@ -43,7 +43,7 @@ func goodIterLoop(yield func(int) bool) {
 }
 
 func badIterIf(yield func(int) bool) {
-	ok := yield(1) // want `yield may be called again \(on L52\) after returning false`
+	ok := yield(1) // want `yield may be called again \(on L48\) after returning false`
 	if !ok {
 		yield(2)
 	} else {
@@ -56,12 +56,12 @@ func singletonIter(yield func(int) bool) {
 }
 
 func twoArgumentYield(yield func(int, int) bool) {
-	_ = yield(1, 1) || // want `yield may be called again \(on L64\) after returning false`
+	_ = yield(1, 1) || // want `yield may be called again \(on L60\) after returning false`
 		yield(2, 2)
 }
 
 func zeroArgumentYield(yield func() bool) {
-	_ = yield() || // want `yield may be called again \(on L69\) after returning false`
+	_ = yield() || // want `yield may be called again \(on L65\) after returning false`
 		yield()
 }
 
@@ -69,7 +69,7 @@ func tricky(in io.ReadCloser) func(yield func(string, error) bool) {
 	return func(yield func(string, error) bool) {
 		scan := bufio.NewScanner(in)
 		for scan.Scan() {
-			if !yield(scan.Text(), nil) { // want `yield may be called again \(on L82\) after returning false`
+			if !yield(scan.Text(), nil) { // want `yield may be called again \(on L78\) after returning false`
 				_ = in.Close()
 				break
 			}
@@ -93,7 +93,7 @@ func shortCircuitAND(yield func(int) bool) {
 func tricky2(yield func(int) bool) {
 	cleanup := func() {}
 	ok := yield(1)          // ok
-	stop := !ok || yield(2) // want "yield may be called again .on L105"
+	stop := !ok || yield(2) // want "yield may be called again .on L101"
 	if stop {
 		cleanup()
 	} else {

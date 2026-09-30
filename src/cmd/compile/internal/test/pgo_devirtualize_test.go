@@ -147,50 +147,50 @@ func TestPGODevirtualize(t *testing.T) {
 	want := []devirtualization{
 		// ExerciseIface
 		{
-			pos:    "./devirt.go:101:20",
+			pos:    "./devirt.go:97:20",
 			callee: "mult.Mult.Multiply",
 		},
 		{
-			pos:    "./devirt.go:101:39",
+			pos:    "./devirt.go:97:39",
 			callee: "Add.Add",
 		},
 		// ExerciseFuncConcrete
 		{
-			pos:    "./devirt.go:173:36",
+			pos:    "./devirt.go:169:36",
 			callee: "AddFn",
 		},
 		{
-			pos:    "./devirt.go:173:15",
+			pos:    "./devirt.go:169:15",
 			callee: "mult.MultFn",
 		},
 		// ExerciseFuncField
 		{
-			pos:    "./devirt.go:207:35",
+			pos:    "./devirt.go:203:35",
 			callee: "AddFn",
 		},
 		{
-			pos:    "./devirt.go:207:19",
+			pos:    "./devirt.go:203:19",
 			callee: "mult.MultFn",
 		},
 		// ExerciseFuncClosure
 		// TODO(prattmic): Closure callees not implemented.
 		//{
-		//	pos:    "./devirt.go:249:27",
+		//	pos:    "./devirt.go:245:27",
 		//	callee: "AddClosure.func1",
 		//},
 		//{
-		//	pos:    "./devirt.go:249:15",
+		//	pos:    "./devirt.go:245:15",
 		//	callee: "mult.MultClosure.func1",
 		//},
 	}
 	nowant := []devirtualization{
 		// ExerciseIfaceZeroWeight
 		{
-			pos: "./devirt.go:256:29",
+			pos: "./devirt.go:252:29",
 		},
 		// ExerciseIndirCallZeroWeight
 		{
-			pos: "./devirt.go:282:37",
+			pos: "./devirt.go:278:37",
 		},
 	}
 
@@ -220,50 +220,50 @@ func TestPGOPreprocessDevirtualize(t *testing.T) {
 	want := []devirtualization{
 		// ExerciseIface
 		{
-			pos:    "./devirt.go:101:20",
+			pos:    "./devirt.go:97:20",
 			callee: "mult.Mult.Multiply",
 		},
 		{
-			pos:    "./devirt.go:101:39",
+			pos:    "./devirt.go:97:39",
 			callee: "Add.Add",
 		},
 		// ExerciseFuncConcrete
 		{
-			pos:    "./devirt.go:173:36",
+			pos:    "./devirt.go:169:36",
 			callee: "AddFn",
 		},
 		{
-			pos:    "./devirt.go:173:15",
+			pos:    "./devirt.go:169:15",
 			callee: "mult.MultFn",
 		},
 		// ExerciseFuncField
 		{
-			pos:    "./devirt.go:207:35",
+			pos:    "./devirt.go:203:35",
 			callee: "AddFn",
 		},
 		{
-			pos:    "./devirt.go:207:19",
+			pos:    "./devirt.go:203:19",
 			callee: "mult.MultFn",
 		},
 		// ExerciseFuncClosure
 		// TODO(prattmic): Closure callees not implemented.
 		//{
-		//	pos:    "./devirt.go:249:27",
+		//	pos:    "./devirt.go:245:27",
 		//	callee: "AddClosure.func1",
 		//},
 		//{
-		//	pos:    "./devirt.go:249:15",
+		//	pos:    "./devirt.go:245:15",
 		//	callee: "mult.MultClosure.func1",
 		//},
 	}
 	nowant := []devirtualization{
 		// ExerciseIfaceZeroWeight
 		{
-			pos: "./devirt.go:256:29",
+			pos: "./devirt.go:252:29",
 		},
 		// ExerciseIndirCallZeroWeight
 		{
-			pos: "./devirt.go:282:37",
+			pos: "./devirt.go:278:37",
 		},
 	}
 
@@ -304,42 +304,42 @@ func TestLookupFuncGeneric(t *testing.T) {
 	want := []devirtualization{
 		// ExerciseIface
 		{
-			pos:    "./devirt.go:101:20",
+			pos:    "./devirt.go:97:20",
 			callee: "mult.Mult.Multiply",
 		},
 		{
-			pos:    "./devirt.go:101:39",
+			pos:    "./devirt.go:97:39",
 			callee: "Add.Add",
 		},
 		// ExerciseFuncConcrete
 		{
-			pos:    "./devirt.go:173:36",
+			pos:    "./devirt.go:169:36",
 			callee: "AddFn",
 		},
 		// ExerciseFuncField
 		{
-			pos:    "./devirt.go:207:35",
+			pos:    "./devirt.go:203:35",
 			callee: "AddFn",
 		},
 		// ExerciseFuncClosure
 		// TODO(prattmic): Closure callees not implemented.
 		//{
-		//	pos:    "./devirt.go:249:27",
+		//	pos:    "./devirt.go:245:27",
 		//	callee: "AddClosure.func1",
 		//},
 		//{
-		//	pos:    "./devirt.go:249:15",
+		//	pos:    "./devirt.go:245:15",
 		//	callee: "mult.MultClosure.func1",
 		//},
 	}
 	nowant := []devirtualization{
 		// ExerciseIfaceZeroWeight
 		{
-			pos: "./devirt.go:256:29",
+			pos: "./devirt.go:252:29",
 		},
 		// ExerciseIndirCallZeroWeight
 		{
-			pos: "./devirt.go:282:37",
+			pos: "./devirt.go:278:37",
 		},
 	}
 

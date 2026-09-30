@@ -17,8 +17,8 @@ var p *byte
 //go:noinline
 func f() {
 	q := p
-	x = 11  // line 23
-	*q = 12 // line 24
+	x = 11  // line 20
+	*q = 12 // line 21
 }
 func main() {
 	defer func() {
@@ -28,8 +28,8 @@ func main() {
 		frames := runtime.CallersFrames(pcs[:n])
 		for {
 			f, more := frames.Next()
-			if f.Function == "main.f" && f.Line != 24 {
-				panic(fmt.Errorf("expected line 24, got line %d", f.Line))
+			if f.Function == "main.f" && f.Line != 21 {
+				panic(fmt.Errorf("expected line 21, got line %d", f.Line))
 			}
 			if !more {
 				break

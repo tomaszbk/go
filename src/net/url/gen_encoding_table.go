@@ -29,10 +29,6 @@ func main() {
 	var out bytes.Buffer
 	fmt.Fprintln(&out, "// Code generated from gen_encoding_table.go using 'go generate'; DO NOT EDIT.")
 	fmt.Fprintln(&out)
-	fmt.Fprintln(&out, "// Copyright 2025 The Go Authors. All rights reserved.")
-	fmt.Fprintln(&out, "// Use of this source code is governed by a BSD-style")
-	fmt.Fprintln(&out, "// license that can be found in the LICENSE file.")
-	fmt.Fprintln(&out)
 	fmt.Fprintln(&out, "package url")
 	fmt.Fprintln(&out)
 	generateEnc(&out, genSource)

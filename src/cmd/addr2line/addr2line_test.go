@@ -89,12 +89,12 @@ func testAddr2Line(t *testing.T, dbgExePath, addr string) {
 	if !os.SameFile(fi1, fi2) {
 		t.Fatalf("addr2line_test.go and %s are not same file", srcPath)
 	}
-	if want := "102"; srcLineNo != want {
+	if want := "98"; srcLineNo != want {
 		t.Fatalf("line number = %v; want %s", srcLineNo, want)
 	}
 }
 
-// This is line 101. The test depends on that.
+// This is line 97. The test depends on that.
 func TestAddr2Line(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 

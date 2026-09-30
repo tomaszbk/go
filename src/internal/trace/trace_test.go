@@ -319,7 +319,7 @@ func TestTraceStacks(t *testing.T) {
 			frames []frame
 		}
 		// mainLine is the line number of `func main()` in testprog/stacks.go.
-		const mainLine = 21
+		const mainLine = 17
 		want := []evDesc{
 			{trace.EventStateTransition, "Goroutine Running->Runnable", []frame{
 				{"runtime.Gosched", 0},

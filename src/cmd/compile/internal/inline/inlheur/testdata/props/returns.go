@@ -7,7 +7,7 @@ package returns1
 
 import "unsafe"
 
-// returns.go T_simple_allocmem 21 0 1
+// returns.go T_simple_allocmem 17 0 1
 // ResultFlags
 //   0 ResultIsAllocatedMem
 // <endpropsdump>
@@ -18,7 +18,7 @@ func T_simple_allocmem() *Bar {
 	return &Bar{}
 }
 
-// returns.go T_allocmem_two_returns 34 0 1
+// returns.go T_allocmem_two_returns 30 0 1
 // ParamFlags
 //   0 ParamFeedsIfOrSwitch
 // ResultFlags
@@ -36,7 +36,7 @@ func T_allocmem_two_returns(x int) *Bar {
 	}
 }
 
-// returns.go T_allocmem_three_returns 52 0 1
+// returns.go T_allocmem_three_returns 48 0 1
 // ParamFlags
 //   0 ParamFeedsIfOrSwitch
 // ResultFlags
@@ -58,7 +58,7 @@ func T_allocmem_three_returns(x int) []*Bar {
 	return make([]*Bar, 0, 10)
 }
 
-// returns.go T_return_nil 72 0 1
+// returns.go T_return_nil 68 0 1
 // ResultFlags
 //   0 ResultAlwaysSameConstant
 // <endpropsdump>
@@ -70,7 +70,7 @@ func T_return_nil() *Bar {
 	return nil
 }
 
-// returns.go T_multi_return_nil 84 0 1
+// returns.go T_multi_return_nil 80 0 1
 // ResultFlags
 //   0 ResultAlwaysSameConstant
 // <endpropsdump>
@@ -84,7 +84,7 @@ func T_multi_return_nil(x, y bool) *Bar {
 	return nil
 }
 
-// returns.go T_multi_return_nil_anomaly 98 0 1
+// returns.go T_multi_return_nil_anomaly 94 0 1
 // ResultFlags
 //   0 ResultIsConcreteTypeConvertedToInterface
 // <endpropsdump>
@@ -100,7 +100,7 @@ func T_multi_return_nil_anomaly(x, y bool) Itf {
 	return barnil
 }
 
-// returns.go T_multi_return_some_nil 112 0 1
+// returns.go T_multi_return_some_nil 108 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0,0],"ResultFlags":[0]}
 // <endcallsites>
@@ -113,7 +113,7 @@ func T_multi_return_some_nil(x, y bool) *Bar {
 	}
 }
 
-// returns.go T_mixed_returns 127 0 1
+// returns.go T_mixed_returns 123 0 1
 // ParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
@@ -129,7 +129,7 @@ func T_mixed_returns(x int) *Bar {
 	}
 }
 
-// returns.go T_mixed_returns_slice 143 0 1
+// returns.go T_mixed_returns_slice 139 0 1
 // ParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
@@ -150,7 +150,7 @@ func T_mixed_returns_slice(x int) []*Bar {
 	return ba[:]
 }
 
-// returns.go T_maps_and_channels 167 0 1
+// returns.go T_maps_and_channels 163 0 1
 // ResultFlags
 //   0 ResultNoInfo
 //   1 ResultNoInfo
@@ -165,7 +165,7 @@ func T_maps_and_channels(x int, b bool) (bool, map[int]int, chan bool, unsafe.Po
 	return b, make(map[int]int), make(chan bool), nil
 }
 
-// returns.go T_assignment_to_named_returns 179 0 1
+// returns.go T_assignment_to_named_returns 175 0 1
 // ParamFlags
 //   0 ParamFeedsIfOrSwitch
 // <endpropsdump>
@@ -182,7 +182,7 @@ func T_assignment_to_named_returns(x int) (r1 *uint64, r2 *uint64) {
 	return
 }
 
-// returns.go T_named_returns_but_return_explicit_values 199 0 1
+// returns.go T_named_returns_but_return_explicit_values 195 0 1
 // ParamFlags
 //   0 ParamFeedsIfOrSwitch
 // ResultFlags
@@ -202,7 +202,7 @@ func T_named_returns_but_return_explicit_values(x int) (r1 *uint64, r2 *uint64) 
 	return rx1, rx2
 }
 
-// returns.go T_return_concrete_type_to_itf 216 0 1
+// returns.go T_return_concrete_type_to_itf 212 0 1
 // ResultFlags
 //   0 ResultIsConcreteTypeConvertedToInterface
 // <endpropsdump>
@@ -213,7 +213,7 @@ func T_return_concrete_type_to_itf(x, y int) Itf {
 	return &Bar{}
 }
 
-// returns.go T_return_concrete_type_to_itfwith_copy 227 0 1
+// returns.go T_return_concrete_type_to_itfwith_copy 223 0 1
 // ResultFlags
 //   0 ResultIsConcreteTypeConvertedToInterface
 // <endpropsdump>
@@ -226,7 +226,7 @@ func T_return_concrete_type_to_itfwith_copy(x, y int) Itf {
 	return b
 }
 
-// returns.go T_return_concrete_type_to_itf_mixed 238 0 1
+// returns.go T_return_concrete_type_to_itf_mixed 234 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0,0],"ResultFlags":[0]}
 // <endcallsites>
@@ -239,7 +239,7 @@ func T_return_concrete_type_to_itf_mixed(x, y int) Itf {
 	return nil
 }
 
-// returns.go T_return_same_func 253 0 1
+// returns.go T_return_same_func 249 0 1
 // ResultFlags
 //   0 ResultAlwaysSameInlinableFunc
 // <endpropsdump>
@@ -254,7 +254,7 @@ func T_return_same_func() func(int) int {
 	}
 }
 
-// returns.go T_return_different_funcs 266 0 1
+// returns.go T_return_different_funcs 262 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":null,"ResultFlags":[0]}
 // <endcallsites>
@@ -267,14 +267,14 @@ func T_return_different_funcs() func(int) int {
 	}
 }
 
-// returns.go T_return_same_closure 286 0 1
+// returns.go T_return_same_closure 282 0 1
 // ResultFlags
 //   0 ResultAlwaysSameInlinableFunc
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":null,"ResultFlags":[32]}
 // <endcallsites>
 // <endfuncpreamble>
-// returns.go T_return_same_closure.func1 287 0 1
+// returns.go T_return_same_closure.func1 283 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":[0]}
 // <endcallsites>
@@ -288,17 +288,17 @@ func T_return_same_closure() func(int) int {
 	}
 }
 
-// returns.go T_return_different_closures 312 0 1
+// returns.go T_return_different_closures 308 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":null,"ResultFlags":[0]}
 // <endcallsites>
 // <endfuncpreamble>
-// returns.go T_return_different_closures.func1 313 0 1
+// returns.go T_return_different_closures.func1 309 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":[0]}
 // <endcallsites>
 // <endfuncpreamble>
-// returns.go T_return_different_closures.func2 317 0 1
+// returns.go T_return_different_closures.func2 313 0 1
 // ResultFlags
 //   0 ResultAlwaysSameConstant
 // <endpropsdump>
@@ -314,20 +314,20 @@ func T_return_different_closures() func(int) int {
 	}
 }
 
-// returns.go T_return_noninlinable 339 0 1
+// returns.go T_return_noninlinable 335 0 1
 // ResultFlags
 //   0 ResultAlwaysSameFunc
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":[16]}
 // <endcallsites>
 // <endfuncpreamble>
-// returns.go T_return_noninlinable.func1 340 0 1
+// returns.go T_return_noninlinable.func1 336 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":[0]}
-// callsite: returns.go:343:4|0 flagstr "" flagval 0 score 4 mask 0 maskstr ""
+// callsite: returns.go:339:4|0 flagstr "" flagval 0 score 4 mask 0 maskstr ""
 // <endcallsites>
 // <endfuncpreamble>
-// returns.go T_return_noninlinable.func1.1 341 0 1
+// returns.go T_return_noninlinable.func1.1 337 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":null,"ResultFlags":null}
 // <endcallsites>

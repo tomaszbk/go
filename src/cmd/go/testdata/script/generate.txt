@@ -13,7 +13,7 @@ stdout 'Now is the time for all good men'
 
 # Test go generate's variable substitution
 go generate './generate/substitution.go'
-stdout $GOARCH' substitution.go:7 pabc xyzp/substitution.go/123'
+stdout $GOARCH' substitution.go:4 pabc xyzp/substitution.go/123'
 
 # Test go generate's run and skip flags
 go generate -run y.s './generate/flag.go'

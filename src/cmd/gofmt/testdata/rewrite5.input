@@ -1,6 +1,5 @@
 //gofmt -r=x+x->2*x
 
-
 // Rewriting of expressions containing nodes with associated comments to
 // expressions without those nodes must also eliminate the associated
 // comments.

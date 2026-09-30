@@ -14,8 +14,7 @@ import (
 	"golang.org/x/tools/internal/typesinternal"
 )
 
-const src = `
-// Don't include this file during code generation, or it will break the build
+const src = `// Don't include this file during code generation, or it will break the build
 // if existing interface methods have been modified.
 //go:build !generate
 // +build !generate

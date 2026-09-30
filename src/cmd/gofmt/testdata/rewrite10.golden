@@ -1,6 +1,5 @@
 //gofmt -r=a->a
 
-
 // Issue 33103, 33104, and 33105.
 
 package pkg

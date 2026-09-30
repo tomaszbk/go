@@ -40,7 +40,7 @@ func TestFmaHash(t *testing.T) {
 		t.Errorf("build failed: %v\n%s", e, b)
 	}
 	s := string(b) // Looking for "GOFMAHASH triggered main.main:24"
-	re := "fmahash(0?) triggered .*fma.go:29:..;.*fma.go:18:.."
+	re := "fmahash(0?) triggered .*fma.go:25:..;.*fma.go:14:.."
 	match := regexp.MustCompile(re)
 	if !match.MatchString(s) {
 		t.Errorf("Expected to match '%s' with \n-----\n%s-----", re, s)

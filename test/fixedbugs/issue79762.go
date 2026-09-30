@@ -62,7 +62,7 @@ func test1() {
 			fmt.Println("ERROR: f1 should have panicked")
 			return
 		}
-		check(string(debug.Stack()), []string{"f1", "issue79762.go:27"}, []string{"foo"})
+		check(string(debug.Stack()), []string{"f1", "issue79762.go:24"}, []string{"foo"})
 	}()
 	f1()
 }
@@ -74,7 +74,7 @@ func test2() {
 			fmt.Println("ERROR: f2 should have panicked")
 			return
 		}
-		check(string(debug.Stack()), []string{"f2", "issue79762.go:43"}, []string{"setX"})
+		check(string(debug.Stack()), []string{"f2", "issue79762.go:40"}, []string{"setX"})
 	}()
 	f2()
 }

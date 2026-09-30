@@ -1,6 +1,5 @@
 //gofmt -r=x->x
 
-
 package main
 
 // Field tags are *ast.BasicLit nodes that are nil when the tag is

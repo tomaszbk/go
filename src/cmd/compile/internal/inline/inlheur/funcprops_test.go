@@ -351,6 +351,21 @@ func gatherPropsDumpForFile(t *testing.T, testcase string, td string) (string, e
 	return dumpfile, err
 }
 
+// splitLicenseHeader splits the lines of a testcase file into an
+// optional leading license header and the rest of the file. A license
+// header, if present, is a "// Copyright" comment of three lines
+// followed by a blank line. Testcase files are not required to have
+// one (the per-file license headers have been removed from this
+// tree), in which case the returned header is empty and rest is all
+// of lines.
+func splitLicenseHeader(lines []string) (header, rest []string) {
+	const headerLines = 4 // three comment lines plus a blank line
+	if len(lines) < headerLines || !strings.HasPrefix(lines[0], "// Copyright") {
+		return nil, lines
+	}
+	return lines[:headerLines], lines[headerLines:]
+}
+
 // genExpected reads in a given Go testcase file, strips out all the
 // unindented (column 0) commands, writes them out to a new file, and
 // returns the path of that new file. By picking out just the comments
@@ -368,7 +383,9 @@ func genExpected(td string, testcase string) (string, error) {
 		return "", err
 	}
 	lines := strings.Split(string(content), "\n")
-	for _, line := range lines[3:] {
+	// Any license header is not part of the expected dump.
+	_, lines = splitLicenseHeader(lines)
+	for _, line := range lines {
 		if !strings.HasPrefix(line, "// ") {
 			continue
 		}
@@ -421,12 +438,10 @@ func updateExpected(t *testing.T, testcase string, dentries []fnInlHeur, dcsites
 	}
 	golines := strings.Split(string(content), "\n")
 
-	// Preserve copyright.
-	ues.newgolines = append(ues.newgolines, golines[:4]...)
-	if !strings.HasPrefix(golines[0], "// Copyright") {
-		t.Fatalf("missing copyright from existing testcase")
-	}
-	golines = golines[4:]
+	// Preserve the license header, if the testcase has one.
+	var header []string
+	header, golines = splitLicenseHeader(golines)
+	ues.newgolines = append(ues.newgolines, header...)
 
 	clore := regexp.MustCompile(`.+\.func\d+[\.\d]*$`)
 

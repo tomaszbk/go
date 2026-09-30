@@ -27,23 +27,23 @@ func TestTBHelper(t *testing.T) {
 	out, _ := cmd.CombinedOutput()
 
 	want := `--- FAIL: TestTBHelper \([^)]+\)
-    helperfuncs_test.go:15: 0
-    helperfuncs_test.go:47: 1
-    helperfuncs_test.go:24: 2
-    helperfuncs_test.go:49: 3
-    helperfuncs_test.go:56: 4
+    helperfuncs_test.go:11: 0
+    helperfuncs_test.go:43: 1
+    helperfuncs_test.go:20: 2
+    helperfuncs_test.go:45: 3
+    helperfuncs_test.go:52: 4
     --- FAIL: TestTBHelper/sub \([^)]+\)
-        helperfuncs_test.go:59: 5
-        helperfuncs_test.go:24: 6
-        helperfuncs_test.go:58: 7
+        helperfuncs_test.go:55: 5
+        helperfuncs_test.go:20: 6
+        helperfuncs_test.go:54: 7
     --- FAIL: TestTBHelper/sub2 \([^)]+\)
-        helperfuncs_test.go:80: 11
-    helperfuncs_test.go:84: recover 12
-    helperfuncs_test.go:86: GenericFloat64
-    helperfuncs_test.go:87: GenericInt
-    helper_test.go:22: 8
-    helperfuncs_test.go:73: 9
-    helperfuncs_test.go:69: 10
+        helperfuncs_test.go:76: 11
+    helperfuncs_test.go:80: recover 12
+    helperfuncs_test.go:82: GenericFloat64
+    helperfuncs_test.go:83: GenericInt
+    helper_test.go:18: 8
+    helperfuncs_test.go:69: 9
+    helperfuncs_test.go:65: 10
 `
 	if !regexp.MustCompile(want).Match(out) {
 		t.Errorf("got output:\n\n%s\nwant matching:\n\n%s", out, want)
@@ -75,7 +75,7 @@ func TestTBHelperParallel(t *testing.T) {
 	if len(lines) != wantLines {
 		t.Fatalf("parallelTestHelper gave %d lines of output; want %d", len(lines), wantLines)
 	}
-	want := "helperfuncs_test.go:24: parallel"
+	want := "helperfuncs_test.go:20: parallel"
 	if got := strings.TrimSpace(lines[1]); got != want {
 		t.Errorf("got second output line %q; want %q", got, want)
 	}
@@ -95,8 +95,8 @@ func TestHelperRange(t *testing.T) {
 	cmd.Env = append(cmd.Env, "GO_WANT_HELPER_PROCESS=1")
 	out, _ := cmd.CombinedOutput()
 	want := `--- FAIL: TestHelperRange \([^)]+\)
-    helperfuncs_test.go:139: range
-    helperfuncs_test.go:139: range
+    helperfuncs_test.go:135: range
+    helperfuncs_test.go:135: range
 `
 	if !regexp.MustCompile(want).Match(out) {
 		t.Errorf("got output:\n\n%s\nwant matching:\n\n%s", out, want)

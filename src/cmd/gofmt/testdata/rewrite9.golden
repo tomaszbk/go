@@ -1,6 +1,5 @@
 //gofmt -r=a&&b!=2->a
 
-
 // Issue 18987.
 
 package p

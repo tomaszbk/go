@@ -1,6 +1,5 @@
 //gofmt -r=(x)->x
 
-
 // Rewriting of parenthesized expressions (x) -> x
 // must not drop parentheses if that would lead to
 // wrong association of the operands.

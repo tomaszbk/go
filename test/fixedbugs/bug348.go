@@ -11,7 +11,7 @@ import (
 func f() {
 	var x *string
 	
-	for _, i := range *x {  // THIS IS LINE 17
+	for _, i := range *x {  // THIS IS LINE 14
 		println(i)
 	}
 }
@@ -31,7 +31,7 @@ func main() {
 				// walk past runtime frames
 				continue
 			}
-			if line != 17 {
+			if line != 14 {
 				print("BUG: bug348: panic at ", file, ":", line, " in ", runtime.FuncForPC(pc).Name(), "\n")
 				return
 			}

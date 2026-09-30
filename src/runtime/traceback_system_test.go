@@ -132,14 +132,14 @@ func TestTracebackSystem(t *testing.T) {
 		{
 			name: "panic",
 			want: `redacted.go:0: runtime.gopanic
-traceback_system_test.go:100: runtime_test.child7: 	panic("oops")
-traceback_system_test.go:83: runtime_test.child6: 	child7() // appears in stack trace
-traceback_system_test.go:74: runtime_test.child5: 	child6() // appears in stack trace
-traceback_system_test.go:68: runtime_test.child4: 	child5()
-traceback_system_test.go:64: runtime_test.child3: 	child4()
-traceback_system_test.go:60: runtime_test.child2: 	child3()
-traceback_system_test.go:56: runtime_test.child1: 	child2()
-traceback_system_test.go:35: runtime_test.crashViaPanic.func1: 		child1()
+traceback_system_test.go:96: runtime_test.child7: 	panic("oops")
+traceback_system_test.go:79: runtime_test.child6: 	child7() // appears in stack trace
+traceback_system_test.go:70: runtime_test.child5: 	child6() // appears in stack trace
+traceback_system_test.go:64: runtime_test.child4: 	child5()
+traceback_system_test.go:60: runtime_test.child3: 	child4()
+traceback_system_test.go:56: runtime_test.child2: 	child3()
+traceback_system_test.go:52: runtime_test.child1: 	child2()
+traceback_system_test.go:31: runtime_test.crashViaPanic.func1: 		child1()
 redacted.go:0: runtime.goexit
 `,
 		},
@@ -152,10 +152,10 @@ redacted.go:0: runtime.goexit
 			want: `redacted.go:0: runtime.gopanic
 redacted.go:0: runtime.panicmem
 redacted.go:0: runtime.sigpanic
-traceback_system_test.go:114: runtime_test.trap3: 	*i = 42
-traceback_system_test.go:110: runtime_test.trap2: 	trap3(sinkPtr)
-traceback_system_test.go:104: runtime_test.trap1: 	trap2()
-traceback_system_test.go:50: runtime_test.crashViaTrap.func1: 		trap1()
+traceback_system_test.go:110: runtime_test.trap3: 	*i = 42
+traceback_system_test.go:106: runtime_test.trap2: 	trap3(sinkPtr)
+traceback_system_test.go:100: runtime_test.trap1: 	trap2()
+traceback_system_test.go:46: runtime_test.crashViaTrap.func1: 		trap1()
 redacted.go:0: runtime.goexit
 `,
 		},

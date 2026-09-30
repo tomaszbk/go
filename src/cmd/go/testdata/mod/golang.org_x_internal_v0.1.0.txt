@@ -8,6 +8,9 @@ module golang.org/x/internal
 -- go.mod --
 module golang.org/x/internal
 -- subtle/aliasing.go --
+// Copyright 2018 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
 
 // +build !appengine
 
@@ -23,6 +26,9 @@ func AnyOverlap(x, y []byte) bool {
 		uintptr(unsafe.Pointer(&y[0])) <= uintptr(unsafe.Pointer(&x[len(x)-1]))
 }
 -- subtle/aliasing_appengine.go --
+// Copyright 2018 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
 
 // +build appengine
 

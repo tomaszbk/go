@@ -5,10 +5,10 @@
 
 package returns2
 
-// returns2.go T_return_feeds_iface_call 18 0 1
+// returns2.go T_return_feeds_iface_call 14 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":null,"ResultFlags":null}
-// callsite: returns2.go:19:13|0 flagstr "" flagval 0 score 1 mask 16384 maskstr "returnFeedsConcreteToInterfaceCallAdj"
+// callsite: returns2.go:15:13|0 flagstr "" flagval 0 score 1 mask 16384 maskstr "returnFeedsConcreteToInterfaceCallAdj"
 // <endcallsites>
 // <endfuncpreamble>
 func T_return_feeds_iface_call() {
@@ -16,10 +16,10 @@ func T_return_feeds_iface_call() {
 	b.Plark()
 }
 
-// returns2.go T_multi_return_feeds_iface_call 29 0 1
+// returns2.go T_multi_return_feeds_iface_call 25 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":null,"ResultFlags":null}
-// callsite: returns2.go:30:20|0 flagstr "" flagval 0 score 3 mask 16384 maskstr "returnFeedsConcreteToInterfaceCallAdj"
+// callsite: returns2.go:26:20|0 flagstr "" flagval 0 score 3 mask 16384 maskstr "returnFeedsConcreteToInterfaceCallAdj"
 // <endcallsites>
 // <endfuncpreamble>
 func T_multi_return_feeds_iface_call() {
@@ -27,11 +27,11 @@ func T_multi_return_feeds_iface_call() {
 	b.Plark()
 }
 
-// returns2.go T_returned_inlinable_func_feeds_indirect_call 41 0 1
+// returns2.go T_returned_inlinable_func_feeds_indirect_call 37 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":null}
-// callsite: returns2.go:42:18|0 flagstr "" flagval 0 score -51 mask 8200 maskstr "passConstToIfAdj|returnFeedsInlinableFuncToIndCallAdj"
-// callsite: returns2.go:44:20|1 flagstr "" flagval 0 score -23 mask 8192 maskstr "returnFeedsInlinableFuncToIndCallAdj"
+// callsite: returns2.go:38:18|0 flagstr "" flagval 0 score -51 mask 8200 maskstr "passConstToIfAdj|returnFeedsInlinableFuncToIndCallAdj"
+// callsite: returns2.go:40:20|1 flagstr "" flagval 0 score -23 mask 8192 maskstr "returnFeedsInlinableFuncToIndCallAdj"
 // <endcallsites>
 // <endfuncpreamble>
 func T_returned_inlinable_func_feeds_indirect_call(q int) {
@@ -41,10 +41,10 @@ func T_returned_inlinable_func_feeds_indirect_call(q int) {
 	f2(q)
 }
 
-// returns2.go T_returned_noninlineable_func_feeds_indirect_call 54 0 1
+// returns2.go T_returned_noninlineable_func_feeds_indirect_call 50 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":null}
-// callsite: returns2.go:55:30|0 flagstr "" flagval 0 score -23 mask 4096 maskstr "returnFeedsFuncToIndCallAdj"
+// callsite: returns2.go:51:30|0 flagstr "" flagval 0 score -23 mask 4096 maskstr "returnFeedsFuncToIndCallAdj"
 // <endcallsites>
 // <endfuncpreamble>
 func T_returned_noninlineable_func_feeds_indirect_call(q int) {
@@ -52,10 +52,10 @@ func T_returned_noninlineable_func_feeds_indirect_call(q int) {
 	f(q)
 }
 
-// returns2.go T_multi_return_feeds_indirect_call 65 0 1
+// returns2.go T_multi_return_feeds_indirect_call 61 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":null}
-// callsite: returns2.go:66:29|0 flagstr "" flagval 0 score -21 mask 8192 maskstr "returnFeedsInlinableFuncToIndCallAdj"
+// callsite: returns2.go:62:29|0 flagstr "" flagval 0 score -21 mask 8192 maskstr "returnFeedsInlinableFuncToIndCallAdj"
 // <endcallsites>
 // <endfuncpreamble>
 func T_multi_return_feeds_indirect_call(q int) {
@@ -63,10 +63,10 @@ func T_multi_return_feeds_indirect_call(q int) {
 	f(q)
 }
 
-// returns2.go T_return_feeds_ifswitch 76 0 1
+// returns2.go T_return_feeds_ifswitch 72 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":[0]}
-// callsite: returns2.go:77:14|0 flagstr "" flagval 0 score 10 mask 2048 maskstr "returnFeedsConstToIfAdj"
+// callsite: returns2.go:73:14|0 flagstr "" flagval 0 score 10 mask 2048 maskstr "returnFeedsConstToIfAdj"
 // <endcallsites>
 // <endfuncpreamble>
 func T_return_feeds_ifswitch(q int) int {
@@ -80,10 +80,10 @@ func T_return_feeds_ifswitch(q int) int {
 	return 0
 }
 
-// returns2.go T_multi_return_feeds_ifswitch 93 0 1
+// returns2.go T_multi_return_feeds_ifswitch 89 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":[0]}
-// callsite: returns2.go:94:21|0 flagstr "" flagval 0 score 9 mask 2048 maskstr "returnFeedsConstToIfAdj"
+// callsite: returns2.go:90:21|0 flagstr "" flagval 0 score 9 mask 2048 maskstr "returnFeedsConstToIfAdj"
 // <endcallsites>
 // <endfuncpreamble>
 func T_multi_return_feeds_ifswitch(q int) int {
@@ -97,11 +97,11 @@ func T_multi_return_feeds_ifswitch(q int) int {
 	return 0
 }
 
-// returns2.go T_two_calls_feed_ifswitch 111 0 1
+// returns2.go T_two_calls_feed_ifswitch 107 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0],"ResultFlags":[0]}
-// callsite: returns2.go:115:14|0 flagstr "" flagval 0 score 25 mask 0 maskstr ""
-// callsite: returns2.go:116:14|1 flagstr "" flagval 0 score 25 mask 0 maskstr ""
+// callsite: returns2.go:111:14|0 flagstr "" flagval 0 score 25 mask 0 maskstr ""
+// callsite: returns2.go:112:14|1 flagstr "" flagval 0 score 25 mask 0 maskstr ""
 // <endcallsites>
 // <endfuncpreamble>
 func T_two_calls_feed_ifswitch(q int) int {
@@ -119,10 +119,10 @@ func T_two_calls_feed_ifswitch(q int) int {
 	return 0
 }
 
-// returns2.go T_chained_indirect_call 132 0 1
+// returns2.go T_chained_indirect_call 128 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0,0],"ResultFlags":null}
-// callsite: returns2.go:135:18|0 flagstr "" flagval 0 score -31 mask 8192 maskstr "returnFeedsInlinableFuncToIndCallAdj"
+// callsite: returns2.go:131:18|0 flagstr "" flagval 0 score -31 mask 8192 maskstr "returnFeedsInlinableFuncToIndCallAdj"
 // <endcallsites>
 // <endfuncpreamble>
 func T_chained_indirect_call(x, y int) {
@@ -131,10 +131,10 @@ func T_chained_indirect_call(x, y int) {
 	G += returnsFunc(x - y)(x + y)
 }
 
-// returns2.go T_chained_conc_iface_call 144 0 1
+// returns2.go T_chained_conc_iface_call 140 0 1
 // <endpropsdump>
 // {"Flags":0,"ParamFlags":[0,0],"ResultFlags":null}
-// callsite: returns2.go:148:8|0 flagstr "" flagval 0 score 1 mask 16384 maskstr "returnFeedsConcreteToInterfaceCallAdj"
+// callsite: returns2.go:144:8|0 flagstr "" flagval 0 score 1 mask 16384 maskstr "returnFeedsConcreteToInterfaceCallAdj"
 // <endcallsites>
 // <endfuncpreamble>
 func T_chained_conc_iface_call(x, y int) {

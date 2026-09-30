@@ -26,7 +26,7 @@ func main() {
 			panic("bounds check didn't fail")
 		}
 		stk := string(debug.Stack())
-		if !strings.Contains(stk, "issue22083.go:40") {
+		if !strings.Contains(stk, "issue22083.go:37") {
 			panic("wrong stack trace: " + stk)
 		}
 	}()

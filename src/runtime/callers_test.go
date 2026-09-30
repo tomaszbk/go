@@ -8,19 +8,19 @@ import (
 )
 
 func f1(pan bool) []uintptr {
-	return f2(pan) // line 15
+	return f2(pan) // line 11
 }
 
 func f2(pan bool) []uintptr {
-	return f3(pan) // line 19
+	return f3(pan) // line 15
 }
 
 func f3(pan bool) []uintptr {
 	if pan {
-		panic("f3") // line 24
+		panic("f3") // line 20
 	}
 	ret := make([]uintptr, 20)
-	return ret[:runtime.Callers(0, ret)] // line 27
+	return ret[:runtime.Callers(0, ret)] // line 23
 }
 
 func testCallers(t *testing.T, pcs []uintptr, pan bool) {
@@ -44,16 +44,16 @@ func testCallers(t *testing.T, pcs []uintptr, pan bool) {
 
 	var f3Line int
 	if pan {
-		f3Line = 24
+		f3Line = 20
 	} else {
-		f3Line = 27
+		f3Line = 23
 	}
 	want := []struct {
 		name string
 		line int
 	}{
-		{"f1", 15},
-		{"f2", 19},
+		{"f1", 11},
+		{"f2", 15},
 		{"f3", f3Line},
 	}
 	for _, w := range want {

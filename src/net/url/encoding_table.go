@@ -1,6 +1,5 @@
 // Code generated from gen_encoding_table.go using 'go generate'; DO NOT EDIT.
 
-
 package url
 
 type encoding uint8

@@ -180,7 +180,6 @@ func printMaps(b *bytes.Buffer, upperClass string) {
 }
 
 const header = `
-
 package gob
 
 import (

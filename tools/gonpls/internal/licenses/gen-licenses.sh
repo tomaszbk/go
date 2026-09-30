@@ -11,7 +11,6 @@ tempfile=$(mktemp)
 cd $(dirname $0)
 
 cat > $tempfile <<END
-
 //go:generate ./gen-licenses.sh licenses.go
 package licenses
 

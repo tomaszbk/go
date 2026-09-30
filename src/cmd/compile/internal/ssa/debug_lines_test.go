@@ -125,9 +125,9 @@ func TestDebugLines_74576(t *testing.T) {
 			file      string
 			wantStmts []int
 		}{
-			{"i74576a.go", []int{12, 13, 13, 14}},
-			{"i74576b.go", []int{12, 13, 13, 14}},
-			{"i74576c.go", []int{12, 13, 13, 14}},
+			{"i74576a.go", []int{8, 9, 9, 10}},
+			{"i74576b.go", []int{8, 9, 9, 10}},
+			{"i74576c.go", []int{8, 9, 9, 10}},
 		}
 		t.Parallel()
 		for _, test := range tests {

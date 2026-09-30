@@ -7,4 +7,4 @@ func _() {
 	if false {
 		_ = cancel
 	}
-} // ERROR "this return statement may be reached without using the cancel var defined on line 10"
+} // ERROR "this return statement may be reached without using the cancel var defined on line 6"

@@ -459,6 +459,12 @@ func findGorootModules(t *testing.T) []gorootModule {
 				// running time of this test anyway.)
 				return filepath.SkipDir
 			}
+			if info.IsDir() && path == filepath.Join(testenv.GOROOT(t), "tools", "gonpls") {
+				// Gon's language server is not vendored: misc/gon/build.py
+				// builds it from checksum-pinned, patched dependencies that it
+				// prepares under GOROOT/pkg.
+				return filepath.SkipDir
+			}
 			if info.IsDir() && path != root && (strings.HasPrefix(info.Name(), "_") || strings.HasPrefix(info.Name(), ".")) {
 				// _ and . prefixed directories can be used for internal modules
 				// without a vendor directory that don't contribute to the build

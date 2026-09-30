@@ -11,6 +11,9 @@ module rsc.io/quote/v2
 
 require rsc.io/sampler v1.3.0
 -- quote.go --
+// Copyright 2018 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
 
 // Package quote collects pithy sayings.
 package quote // import "rsc.io/quote"
@@ -39,6 +42,9 @@ func OptV2() string {
 	return "If a program is too slow, it must have a loop."
 }
 -- quote_test.go --
+// Copyright 2018 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
 
 package quote
 

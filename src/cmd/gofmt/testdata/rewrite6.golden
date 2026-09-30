@@ -1,6 +1,5 @@
 //gofmt -r=fun(x)->Fun(x)
 
-
 // Rewriting of calls must take the ... (ellipsis)
 // attribute for the last argument into account.
 

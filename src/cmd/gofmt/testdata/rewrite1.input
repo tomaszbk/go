@@ -1,6 +1,5 @@
 //gofmt -r=Foo->Bar
 
-
 package main
 
 type Foo int

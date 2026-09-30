@@ -10,6 +10,9 @@ require (
 -- .info --
 {"Version":"v0.0.0-20180709162816-fe488b867524","Name":"fe488b867524806e861c3f4f43ae6946a42ca3f1","Short":"fe488b867524","Time":"2018-07-09T16:28:16Z"}
 -- buggy/buggy_test.go --
+// Copyright 2018 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
 
 package buggy
 
@@ -26,6 +29,9 @@ require (
 	rsc.io/sampler v1.3.0
 )
 -- quote.go --
+// Copyright 2018 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
 
 // Package quote collects pithy sayings.
 package quote // import "rsc.io/quote"
@@ -54,6 +60,9 @@ func Opt() string {
 	return quote.OptV2()
 }
 -- quote_test.go --
+// Copyright 2018 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
 
 package quote
 

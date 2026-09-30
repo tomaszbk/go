@@ -9,6 +9,9 @@ module golang.org/x/text
 -- unused/unused.go --
 package unused
 -- language/lang.go --
+// Copyright 2018 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
 
 // This is a tiny version of golang.org/x/text.
 

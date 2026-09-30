@@ -324,8 +324,7 @@ func fileHeader(model *Model) string {
 		log.Fatalf("githash cannot be recovered from %s", fname)
 	}
 
-	format := `
-// Code generated for LSP. DO NOT EDIT.
+	format := `// Code generated for LSP. DO NOT EDIT.
 
 package protocol
 

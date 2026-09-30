@@ -39,5 +39,5 @@ func Example_wrapping() {
 	Infof(logger, "message, %s", "formatted")
 
 	// Output:
-	// level=INFO source=example_wrap_test.go:43 msg="message, formatted"
+	// level=INFO source=example_wrap_test.go:39 msg="message, formatted"
 }

@@ -20,19 +20,19 @@ type Impl2 struct{}
 func (*Impl2) A() {}
 
 func main() {
-	shouldNilPanic(28, func() {
+	shouldNilPanic(25, func() {
 		var v A
 		v.A()
 		v = &Impl{}
 	})
-	shouldNilPanic(36, func() {
+	shouldNilPanic(33, func() {
 		var v A
 		defer func() {
 			v = &Impl{}
 		}()
 		v.A()
 	})
-	shouldNilPanic(43, func() {
+	shouldNilPanic(40, func() {
 		var v A
 		f := func() {
 			v = &Impl{}
@@ -43,7 +43,7 @@ func main() {
 
 	// Make sure that both devirtualized and non devirtualized
 	// variants have the panic at the same line.
-	shouldNilPanic(55, func() {
+	shouldNilPanic(52, func() {
 		var v A
 		defer func() {
 			v = &Impl{}
@@ -51,7 +51,7 @@ func main() {
 		v. // A() is on a separate line
 			A()
 	})
-	shouldNilPanic(64, func() {
+	shouldNilPanic(61, func() {
 		var v A
 		defer func() {
 			v = &Impl{}

@@ -19,7 +19,7 @@ func F[T any](T) {}
 // ERROR "duplicate //go:linkname for x"
 // ERROR "//go:linkname reference of an instantiation is not allowed"
 
-//line linkname3.go:20
+//line linkname3.go:17
 //go:linkname nonexist nonexist
 //go:linkname t notvarfunc
 //go:linkname x duplicate

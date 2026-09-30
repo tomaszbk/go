@@ -27,8 +27,8 @@ func f() {
 
 func g() {
 	_, file, line, _ := runtime.Caller(2)
-	if !strings.HasSuffix(file, "issue5856.go") || line != 28 {
-		fmt.Printf("BUG: defer called from %s:%d, want issue5856.go:28\n", file, line)
+	if !strings.HasSuffix(file, "issue5856.go") || line != 25 {
+		fmt.Printf("BUG: defer called from %s:%d, want issue5856.go:25\n", file, line)
 		os.Exit(1)
 	}
 	os.Exit(0)

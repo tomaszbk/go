@@ -14,9 +14,9 @@ type T struct {
 }
 
 func main() {
-	defer expectError(22)
+	defer expectError(19)
 	var pT *T
-	switch pT.val { // error should be here - line 22
+	switch pT.val { // error should be here - line 19
 	case 0:
 		fmt.Println("0")
 	case 1: // used to show up here instead

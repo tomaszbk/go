@@ -11,7 +11,7 @@ import (
 func TestStartLineAsm(t *testing.T) {
 	startlinetest.CallerStartLine = callerStartLine
 
-	const wantLine = 23
+	const wantLine = 19
 	got := startlinetest.AsmFunc()
 	if got != wantLine {
 		t.Errorf("start line got %d want %d", got, wantLine)

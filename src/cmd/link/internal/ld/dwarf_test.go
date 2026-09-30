@@ -1349,13 +1349,13 @@ func TestIssue38192(t *testing.T) {
 	// - main.singleInstruction appears in the line table
 	// - more than one PC value appears the line table for
 	//   that compilation unit.
-	// - at least one row has the correct line number (8)
+	// - at least one row has the correct line number (4)
 	pcs := make(map[uint64]bool)
-	line8seen := false
+	line4seen := false
 	for _, r := range rows {
 		pcs[r.Address] = true
-		if r.Line == 8 {
-			line8seen = true
+		if r.Line == 4 {
+			line4seen = true
 		}
 	}
 	failed := false
@@ -1363,7 +1363,7 @@ func TestIssue38192(t *testing.T) {
 		failed = true
 		t.Errorf("not enough line table rows for main.singleInstruction (got %d, wanted > 1", len(pcs))
 	}
-	if !line8seen {
+	if !line4seen {
 		failed = true
 		t.Errorf("line table does not contain correct line for main.singleInstruction")
 	}

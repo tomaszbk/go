@@ -343,7 +343,7 @@ func TestPGOHash(t *testing.T) {
 	gcflag0 := fmt.Sprintf("-pgoprofile=%s -trimpath %s=>%s -d=pgoinlinebudget=160,pgoinlinecdfthreshold=90,pgodebug=1", pprof, dir, pkg)
 
 	// Check that a hash match allows PGO inlining.
-	const srcPos = "example.com/pgo/inline/inline_hot.go:81:19"
+	const srcPos = "example.com/pgo/inline/inline_hot.go:77:19"
 	const hashMatch = "pgohash triggered " + srcPos + " (inline)"
 	pgoDebugRE := regexp.MustCompile(`hot-budget check allows inlining for call .* at ` + strings.ReplaceAll(srcPos, ".", "\\."))
 	hash := "v1" // 1 matches srcPos, v for verbose (print source location)

@@ -7,6 +7,9 @@ require "golang.org/x/text" v0.0.0-20170915032832-14c0d48ead0c
 -- .info --
 {"Version":"v1.3.0","Name":"0cc034b51e57ed7832d4c67d526f75a900996e5c","Short":"0cc034b51e57","Time":"2018-02-13T19:05:03Z"}
 -- glass.go --
+// Copyright 2018 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
 
 // Translations from Frank da Cruz, Ethan Mollick, and many others.
 // See http://kermitproject.org/utf8.html.
@@ -23,6 +26,9 @@ Spanish: es: Puedo comer vidrio, no me hace daño.
 
 `)
 -- glass_test.go --
+// Copyright 2018 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
 
 package sampler
 
@@ -60,6 +66,9 @@ module "rsc.io/sampler"
 
 require "golang.org/x/text" v0.0.0-20170915032832-14c0d48ead0c
 -- hello.go --
+// Copyright 2018 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
 
 // Translations by Google Translate.
 
@@ -73,6 +82,9 @@ Spanish: es: Hola Mundo.
 
 `)
 -- hello_test.go --
+// Copyright 2018 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
 
 package sampler
 
@@ -105,6 +117,9 @@ func TestHello(t *testing.T) {
 	}
 }
 -- sampler.go --
+// Copyright 2018 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
 
 // Package sampler shows simple texts.
 package sampler // import "rsc.io/sampler"

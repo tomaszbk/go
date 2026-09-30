@@ -1,6 +1,5 @@
 //gofmt -r=interface{}->int
 
-
 // Check that literal type expression rewrites are accepted.
 // Was issue 4406.
 

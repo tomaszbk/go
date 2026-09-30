@@ -16,7 +16,7 @@ var c chan int
 
 func f() {
 	select {
-	case <-t.c:  // THIS IS LINE 22
+	case <-t.c:  // THIS IS LINE 19
 		break
 	case <-c:
 		break
@@ -36,7 +36,7 @@ func main() {
 				// walk past runtime frames
 				continue
 			}
-			if line != 22 {
+			if line != 19 {
 				print("BUG: bug347: panic at ", file, ":", line, " in ", runtime.FuncForPC(pc).Name(), "\n")
 			}
 			return

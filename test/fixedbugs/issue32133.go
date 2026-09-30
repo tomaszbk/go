@@ -9,10 +9,10 @@ package p
 // ERROR "newline in string"
 // ERROR "string not terminated"
 
-//line :10:1
+//line :7:1
 import "foo
 
-//line :19:1
+//line :16:1
 func _() {
 	0x // ERROR "hexadecimal literal has no digits"
 }
@@ -26,15 +26,15 @@ func _() {
 }
 
 func _() {
-//line :11:1
+//line :8:1
 	'
 }
 
 func _() {
-//line :12:1
+//line :9:1
 	"
 }
 
 func _() {
-//line :13:1
+//line :10:1
 	`
