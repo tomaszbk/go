@@ -6,6 +6,7 @@
 package main
 
 /*
+#include <errno.h>
 #include "clib.h"
 */
 import "C"
@@ -38,10 +39,12 @@ func describe(err error) string {
 		return "error: " + err.Error()
 	}
 	name := errno.Error()
+	// cgo returns C's errno values, which only match the syscall
+	// constants on Unix, so compare with the C constants.
 	switch errno {
-	case syscall.EDOM:
+	case syscall.Errno(C.EDOM):
 		name = "EDOM"
-	case syscall.EINVAL:
+	case syscall.Errno(C.EINVAL):
 		name = "EINVAL"
 	}
 	if err == error(errno) {
