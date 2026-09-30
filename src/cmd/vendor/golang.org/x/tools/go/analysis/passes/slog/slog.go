@@ -1,3 +1,7 @@
+// Copyright 2023 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 // TODO(jba) deduce which functions wrap the log/slog functions, and use the
 // fact mechanism to propagate this information, so we can provide diagnostics
 // for user-supplied wrappers.

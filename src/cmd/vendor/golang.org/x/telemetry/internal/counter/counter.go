@@ -1,3 +1,7 @@
+// Copyright 2023 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 // Package internal/counter implements the internals of the public counter package.
 // In addition to the public API, this package also includes APIs to parse and
 // manage the counter files, needed by the upload package.

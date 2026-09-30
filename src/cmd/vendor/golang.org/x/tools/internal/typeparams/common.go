@@ -1,3 +1,7 @@
+// Copyright 2021 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 // Package typeparams contains common utilities for writing tools that
 // interact with generic Go code, as introduced with Go 1.18. It
 // supplements the standard library APIs. Notably, the StructuralTerms

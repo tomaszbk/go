@@ -1,3 +1,7 @@
+// Copyright 2018 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 // Package objectpath defines a naming scheme for types.Objects
 // (that is, named entities in Go programs) relative to their enclosing
 // package.

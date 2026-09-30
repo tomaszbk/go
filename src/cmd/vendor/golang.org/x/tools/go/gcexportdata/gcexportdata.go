@@ -1,3 +1,7 @@
+// Copyright 2016 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 // Package gcexportdata provides functions for writing and reading
 // export data, a serialized representation of a [types.Package].
 // It describes the API of a Go package, including the names,

@@ -1,3 +1,7 @@
+// Copyright 2025 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 // Package free defines utilities for computing the free variables of
 // a syntax tree without type information. This is inherently
 // heuristic because of the T{f: x} ambiguity, in which f may or may

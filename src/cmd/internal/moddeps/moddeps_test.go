@@ -201,6 +201,12 @@ func TestAllDependencies(t *testing.T) {
 			r.run(t, goBinCopy, "mod", "tidy")   // See issue 43687.
 			r.run(t, goBinCopy, "mod", "verify") // Verify should be a no-op, but test it just in case.
 			r.run(t, goBinCopy, "mod", "vendor") // See issue 36852.
+			if m.Path == "cmd" {
+				// Gon keeps its changes to vendored packages as a patch,
+				// which misc/gon/vendor.py applies after vendoring.
+				testenv.MustHaveExecPath(t, "git")
+				r.run(t, "git", "apply", "-p3", filepath.Join(gorootCopyDir, "misc", "gon", "patches", "cmd-vendor.patch"))
+			}
 			pkgs := packagePattern(m.Path)
 			r.run(t, goBinCopy, "generate", `-run=^//go:generate bundle `, pkgs) // See issue 41409.
 			advice := "$ cd " + m.Dir + "\n" +

@@ -1,3 +1,7 @@
+// Copyright 2018 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 // Package analysisflags defines helpers for processing flags (-help,
 // -json, -fix, -diff, etc) common to unitchecker and
 // {single,multi}checker. It is not intended for broader use.

@@ -1,3 +1,7 @@
+// Copyright 2024 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 // Package hostport defines an analyzer for calls to net.Dial with
 // addresses of the form "%s:%d" or "%s:%s", which work only with IPv4.
 package hostport

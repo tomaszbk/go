@@ -1,3 +1,7 @@
+// Copyright 2025 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 // Package gofixdirective searches for and validates go:fix directives. The
 // go/analysis/passes/inline package uses findgofix to perform inlining.
 // The go/analysis/passes/gofix package uses findgofix to check for problems

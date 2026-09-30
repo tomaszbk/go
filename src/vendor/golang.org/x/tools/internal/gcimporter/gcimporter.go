@@ -1,3 +1,7 @@
+// Copyright 2011 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 // This file is a reduced copy of $GOROOT/src/go/internal/gcimporter/gcimporter.go.
 
 // Package gcimporter provides various functions for reading

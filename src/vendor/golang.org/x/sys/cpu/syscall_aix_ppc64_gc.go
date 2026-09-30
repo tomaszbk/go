@@ -1,3 +1,7 @@
+// Copyright 2019 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 // Minimal copy of x/sys/unix so the cpu package can make a
 // system call on AIX without depending on x/sys/unix.
 // (See golang.org/issue/32102)

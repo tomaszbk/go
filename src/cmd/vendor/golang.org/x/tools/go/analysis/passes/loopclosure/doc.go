@@ -1,3 +1,7 @@
+// Copyright 2023 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 // Package loopclosure defines an Analyzer that checks for references to
 // enclosing loop variables from within nested functions.
 //

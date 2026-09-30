@@ -1,3 +1,7 @@
+// Copyright 2026 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 // Package sqlrowserr defines an analyzer for uses of sql.Rows
 // in which the user has forgotten to check Rows.Err.
 package sqlrowserr

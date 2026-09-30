@@ -1,3 +1,7 @@
+// Copyright 2023 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 // Package bisect can be used by compilers and other programs
 // to serve as a target for the bisect debugging tool.
 // See [golang.org/x/tools/cmd/bisect] for details about using the tool.

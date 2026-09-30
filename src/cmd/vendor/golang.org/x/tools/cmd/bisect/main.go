@@ -1,3 +1,7 @@
+// Copyright 2023 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 // Bisect finds changes responsible for causing a failure.
 // A typical use is to identify the source locations in a program
 // that are miscompiled by a given compiler optimization.

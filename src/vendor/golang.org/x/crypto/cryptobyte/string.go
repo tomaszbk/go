@@ -1,3 +1,7 @@
+// Copyright 2017 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 // Package cryptobyte contains types that help with parsing and constructing
 // length-prefixed, binary messages, including ASN.1 DER. (The asn1 subpackage
 // contains useful ASN.1 constants.)
