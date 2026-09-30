@@ -140,10 +140,10 @@ const A = 1
 				messages := collectMessages()
 
 				if gotDocs := len(docs); gotDocs != wantDocs {
-					t.Errorf("gopls.doc: got %d showDocument requests, want %d", gotDocs, wantDocs)
+					t.Errorf("gonpls.doc: got %d showDocument requests, want %d", gotDocs, wantDocs)
 				}
 				if gotMessages := len(messages); gotMessages != wantMessages {
-					t.Errorf("gopls.doc: got %d showMessage requests, want %d", gotMessages, wantMessages)
+					t.Errorf("gonpls.doc: got %d showMessage requests, want %d", gotMessages, wantMessages)
 				}
 			})
 		})
@@ -260,7 +260,7 @@ func Constructor() Type
 	})
 }
 
-// TestPkgDocContext tests that the gopls.doc command title and /pkg
+// TestPkgDocContext tests that the gonpls.doc command title and /pkg
 // URL are appropriate for the current selection. It is effectively a
 // test of golang.DocFragment.
 func TestPkgDocContext(t *testing.T) {

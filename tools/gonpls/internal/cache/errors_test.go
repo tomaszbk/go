@@ -102,7 +102,7 @@ func TestDiagnosticEncoding(t *testing.T) {
 					},
 					Command: &protocol.Command{
 						Title:     "run a command",
-						Command:   "gopls.fix",
+						Command:   "gonpls.fix",
 						Arguments: []json.RawMessage{json.RawMessage(`{"a":1}`)},
 					},
 					ActionKind: protocol.QuickFix,

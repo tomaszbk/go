@@ -431,13 +431,13 @@ func (c *commandHandler) run(ctx context.Context, cfg commandConfig, run command
 		return err
 	}
 
-	// For legacy reasons, gopls.run_govulncheck must run asynchronously.
+	// For legacy reasons, gonpls.run_govulncheck must run asynchronously.
 	// TODO(golang/vscode-go#3572): remove this (along with the
-	// gopls.run_govulncheck command entirely) once VS Code only uses the new
-	// gopls.vulncheck command.
+	// gonpls.run_govulncheck command entirely) once VS Code only uses the new
+	// gonpls.vulncheck command.
 	if c.params.Command == "gonpls.run_govulncheck" {
 		if cfg.progress == "" {
-			log.Fatalf("asynchronous command gopls.run_govulncheck does not enable progress reporting")
+			log.Fatalf("asynchronous command gonpls.run_govulncheck does not enable progress reporting")
 		}
 		go func() {
 			if err := runcmd(); err != nil {
@@ -1286,7 +1286,7 @@ func (c *commandHandler) Vulncheck(ctx context.Context, args command.VulncheckAr
 // slated for deletion.
 //
 // TODO(golang/vscode-go#3572)
-// TODO(hxjiang): deprecate gopls.run_govulncheck.
+// TODO(hxjiang): deprecate gonpls.run_govulncheck.
 func (c *commandHandler) RunGovulncheck(ctx context.Context, args command.VulncheckArgs) (command.RunVulncheckResult, error) {
 	// Deduplicate the RunGovulncheck command so only one is running at a time.
 	if !c.s.runGovulncheckInProgress.CompareAndSwap(false, true) {

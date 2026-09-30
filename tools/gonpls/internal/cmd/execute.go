@@ -38,9 +38,9 @@ It is not a stable interface: commands may change or disappear without notice.
 
 Examples:
 
-	$ gopls execute gopls.add_import '{"ImportPath": "fmt", "URI": "file:///hello.go"}'
-	$ gopls execute gopls.run_tests '{"URI": "file:///a_test.go", "Tests": ["Test"]}'
-	$ gopls execute gopls.list_known_packages '{"URI": "file:///hello.go"}'
+	$ gonpls execute gonpls.add_import '{"ImportPath": "fmt", "URI": "file:///hello.go"}'
+	$ gonpls execute gonpls.run_tests '{"URI": "file:///a_test.go", "Tests": ["Test"]}'
+	$ gonpls execute gonpls.list_known_packages '{"URI": "file:///hello.go"}'
 
 execute-flags:
 `)
@@ -66,7 +66,7 @@ func (e *execute) Run(ctx context.Context, args ...string) error {
 	}
 
 	// A command may have multiple arguments, though the only one
-	// that currently does so is the "legacy" gopls.test,
+	// that currently does so is the "legacy" gonpls.test,
 	// so we don't show an example of it.
 	var jsonArgs []json.RawMessage
 	for i, arg := range args[1:] {

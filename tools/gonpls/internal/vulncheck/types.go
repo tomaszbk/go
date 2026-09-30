@@ -19,7 +19,7 @@ type Result struct {
 	Findings []*gvc.Finding
 
 	// Mode contains the source of the vulnerability info.
-	// Clients of the gopls.fetch_vulncheck_result command may need
+	// Clients of the gonpls.fetch_vulncheck_result command may need
 	// to interpret the vulnerabilities differently based on the
 	// analysis mode. For example, Vuln without callstack traces
 	// indicate a vulnerability that is not used if the result was

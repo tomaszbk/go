@@ -39,7 +39,7 @@ func _() {
 	"kind": "refactor.extract.variable",
 	"command": {
 		"title": "Extract variable",
-		"command": "gopls.apply_fix",
+		"command": "gonpls.apply_fix",
 		"arguments": [
 			{
 				"Fix": "extract_variable",

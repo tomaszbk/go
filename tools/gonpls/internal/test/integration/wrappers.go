@@ -422,10 +422,10 @@ func (e *Env) Views() []command.View {
 }
 
 // StartProfile starts a CPU profile with the given name, using the
-// gopls.start_profile custom command. It calls t.Fatal on any error.
+// gonpls.start_profile custom command. It calls t.Fatal on any error.
 //
 // The resulting stop function must be called to stop profiling (using the
-// gopls.stop_profile custom command).
+// gonpls.stop_profile custom command).
 func (e *Env) StartProfile() (stop func() string) {
 	// TODO(golang/go#61217): revisit the ergonomics of these command APIs.
 	//

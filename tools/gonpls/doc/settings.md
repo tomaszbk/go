@@ -421,7 +421,7 @@ Default: `false`.
 annotations specifies the various kinds of compiler
 optimization details that should be reported as diagnostics
 when enabled for a package by the "Toggle compiler
-optimization details" (`gopls.gc_details`) command.
+optimization details" (`gonpls.gc_details`) command.
 
 (Some users care only about one kind of annotation in their
 profiling efforts. More importantly, in large packages, the

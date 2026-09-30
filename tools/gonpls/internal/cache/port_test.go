@@ -15,6 +15,11 @@ import (
 
 func TestMain(m *testing.M) {
 	bug.PanicOnBugs = true
+	// Ignore an ambient GOWORK, such as GOWORK=off exported to keep a
+	// surrounding checkout's go.work out of a build. These tests create their
+	// own workspaces and set GOWORK explicitly where they need it; an inherited
+	// value silently turns every go.work test into a GoMod or ad-hoc view.
+	os.Unsetenv("GOWORK") // ignore error
 	os.Exit(m.Run())
 }
 

@@ -44,6 +44,11 @@ platform also determine the output. The generated dependency trees and the old
 Carried over from the former patch:
 
 - The `gonpls` name, `gonpls.*` command namespace and `gon` LSP language ID.
+  Every server command and the `gonpls.doc.features` code action kind use the
+  `gonpls.` prefix (see `internal/protocol/command`, where the generator and
+  `TestNamespace` enforce it). The upstream `gopls.*` IDs are not accepted, so
+  the official Go extension (`gopls.*`) and the Gon extension can be active in
+  one VS Code window without registering the same command IDs.
 - Semantic tokens for postfix `!` and `or` handlers.
 - LSP cancellation codes instead of generic failures for cancelled requests.
 - Standalone loading of compiler test inputs under the toolchain's `test` tree.
@@ -62,6 +67,9 @@ Added for the tooling commands of the public `gon` launcher:
   148–151 and Gon's own range starting at 10000.
 - Upstream command-line test expectations and `internal/cmd/usage` help files
   updated for the `gonpls` name and command namespace.
+- The cache, integration and marker test binaries ignore an ambient `GOWORK`
+  (for example `GOWORK=off`); otherwise every `go.work` test runs as a `go.mod`
+  or ad-hoc view and fails.
 
 When updating the upstream baseline, start from the module identified by
 `UPSTREAM.json`, compare upstream changes against this maintained tree, carry

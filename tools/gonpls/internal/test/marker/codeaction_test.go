@@ -242,7 +242,7 @@ func applyCodeAction(mark marker, action *protocol.CodeAction) ([]protocol.Docum
 		// This is a typical CodeAction command:
 		//
 		//   Title:     "Implement error"
-		//   Command:   gopls.apply_fix
+		//   Command:   gonpls.apply_fix
 		//   Arguments: [{"Fix":"stub_methods","URI":".../a.go","Range":...}}]
 		//
 		// The client makes an ExecuteCommand RPC to the server,
@@ -257,7 +257,7 @@ func applyCodeAction(mark marker, action *protocol.CodeAction) ([]protocol.Docum
 		//
 		// Because some clients cannot send custom JSON-RPC methods directly, they tunnel
 		// a "command/resolve" request via the standard "workspace/executeCommand"
-		// method (specifically using the "gopls.lsp" command). This function replicates
+		// method (specifically using the "gonpls.lsp" command). This function replicates
 		// that JSON tunneling rather than calling [protocol.Server.ResolveCommand]
 		// directly, ensuring the actual over-the-wire pipeline is tested.
 		resolveCommand := func(unresolved *protocol.ExecuteCommandParams) (resolved *protocol.ExecuteCommandParams, err error) {
@@ -275,7 +275,7 @@ func applyCodeAction(mark marker, action *protocol.CodeAction) ([]protocol.Docum
 			}
 
 			lspCmd := &protocol.ExecuteCommandParams{
-				Command:   "gopls.lsp",
+				Command:   command.LSP.String(),
 				Arguments: []json.RawMessage{lspArgJSON},
 			}
 

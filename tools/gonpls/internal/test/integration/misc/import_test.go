@@ -44,7 +44,7 @@ func main() {
 		}, nil)
 		got := env.BufferText("main.go")
 		if got != want {
-			t.Fatalf("gopls.add_import failed\n%s", compare.Text(want, got))
+			t.Fatalf("gonpls.add_import failed\n%s", compare.Text(want, got))
 		}
 	})
 }

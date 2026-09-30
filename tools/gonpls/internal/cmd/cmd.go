@@ -659,7 +659,7 @@ func (cli *client) PublishDiagnostics(ctx context.Context, p *protocol.PublishDi
 	file.diagnostics = append(file.diagnostics, p.Diagnostics...)
 
 	// Perform a crude in-place deduplication.
-	// TODO(golang/go#60122): replace the gopls.diagnose_files
+	// TODO(golang/go#60122): replace the gonpls.diagnose_files
 	// command with support for textDocument/diagnostic,
 	// so that we don't need to do this de-duplication.
 	type key [6]any

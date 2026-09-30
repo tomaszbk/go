@@ -32,7 +32,7 @@ func TestBugNotification(t *testing.T) {
 	})
 }
 
-// TestStartDebugging executes a gopls.start_debugging command to
+// TestStartDebugging executes a gonpls.start_debugging command to
 // start the internal web server.
 func TestStartDebugging(t *testing.T) {
 	WithOptions(

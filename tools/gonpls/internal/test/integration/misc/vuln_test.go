@@ -49,7 +49,7 @@ package foo
 }
 
 func TestVulncheckError(t *testing.T) {
-	// This test checks an error of the gopls.vulncheck command, which should be
+	// This test checks an error of the gonpls.vulncheck command, which should be
 	// returned synchronously.
 
 	const files = `
@@ -290,7 +290,7 @@ type fetchVulncheckResult struct {
 	Mode vulncheck.AnalysisMode
 }
 
-// testFetchVulncheckResult checks that calling gopls.fetch_vulncheck_result
+// testFetchVulncheckResult checks that calling gonpls.fetch_vulncheck_result
 // returns the expected summarized results contained in the want argument.
 //
 // If fromRun is non-nil, it is the result of running running vulncheck for
@@ -303,7 +303,7 @@ type fetchVulncheckResult struct {
 // perspective.
 //
 // TODO(rfindley): once VS Code no longer depends on fetching results
-// asynchronously, we can remove gopls.fetch_vulncheck_result, and simplify or
+// asynchronously, we can remove gonpls.fetch_vulncheck_result, and simplify or
 // remove this helper.
 func testFetchVulncheckResult(t *testing.T, env *Env, runPath string, fromRun *vulncheck.Result, want map[string]fetchVulncheckResult) {
 	t.Helper()

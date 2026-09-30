@@ -9,7 +9,7 @@ import (
 	. "golang.org/x/tools/gopls/internal/test/integration"
 )
 
-// TestAddTest is a basic test of interaction with the "gopls.add_test" code action.
+// TestAddTest is a basic test of interaction with the "gonpls.add_test" code action.
 func TestAddTest(t *testing.T) {
 	const files = `
 -- go.mod --
@@ -94,15 +94,15 @@ func TestFoo(t *testing.T) {
 		// Wait until we finish writing to the file.
 		env.AfterChange()
 		if got := env.BufferText("a/a_test.go"); got != want {
-			t.Errorf("gopls.add_test returned unexpected diff (-want +got):\n%s", compare.Text(want, got))
+			t.Errorf("gonpls.add_test returned unexpected diff (-want +got):\n%s", compare.Text(want, got))
 		}
 
 		got := listen()
 		if len(got) != 1 {
-			t.Errorf("gopls.add_test: got %d showDocument requests, want 1: %v", len(got), got)
+			t.Errorf("gonpls.add_test: got %d showDocument requests, want 1: %v", len(got), got)
 		} else {
 			if want := protocol.URI(env.Sandbox.Workdir.URI("a/a_test.go")); got[0].URI != want {
-				t.Errorf("gopls.add_test: got showDocument requests for %v, want %v", got[0].URI, want)
+				t.Errorf("gonpls.add_test: got showDocument requests for %v, want %v", got[0].URI, want)
 			}
 
 			// Pointing to the line of test function declaration.
@@ -114,7 +114,7 @@ func TestFoo(t *testing.T) {
 					Line: 10,
 				},
 			}); *got[0].Selection != want {
-				t.Errorf("gopls.add_test: got showDocument requests selection for %v, want %v", *got[0].Selection, want)
+				t.Errorf("gonpls.add_test: got showDocument requests selection for %v, want %v", *got[0].Selection, want)
 			}
 		}
 	})

@@ -315,14 +315,14 @@ Response:
 
 ## Interaction Example
 
-Here is a concrete example of the interaction flow for `gopls.modify_tags` (adding struct tags):
+Here is a concrete example of the interaction flow for `gonpls.modify_tags` (adding struct tags):
 
 1. The client requests code actions. The server returns a Code Action containing a `Command`.
    ```json
    {
     "command": {
       "title": "Add struct tags",
-      "command": "gopls.modify_tags",
+      "command": "gonpls.modify_tags",
       "arguments": [{ "Modification": "add" }]
     }
    }
@@ -331,7 +331,7 @@ Here is a concrete example of the interaction flow for `gopls.modify_tags` (addi
 2. Resolution request: Before executing the command, the client calls `command/resolve` passing the `ExecuteCommandParams`.
    ```json
    {
-     "command": "gopls.modify_tags",
+     "command": "gonpls.modify_tags",
      "arguments": [{ "Modification": "add" }]
    }
    ```
@@ -339,7 +339,7 @@ Here is a concrete example of the interaction flow for `gopls.modify_tags` (addi
 3. Resolution response: The server responds with `ExecuteCommandParams` containing a `formFields` array.
    ```json
    {
-     "command": "gopls.modify_tags",
+     "command": "gonpls.modify_tags",
      "arguments": [{ "Modification": "add" }],
      "formFields": [
        {
@@ -365,7 +365,7 @@ Here is a concrete example of the interaction flow for `gopls.modify_tags` (addi
 5. Resolution request: The client collects user input and calls `command/resolve` again, populating `formAnswers`.
    ```json
    {
-     "command": "gopls.modify_tags",
+     "command": "gonpls.modify_tags",
      "arguments": [{ "Modification": "add" }],
      "formAnswers": [
        { "id": "tags", "value": "json,foo" },
@@ -380,7 +380,7 @@ Here is a concrete example of the interaction flow for `gopls.modify_tags` (addi
        If the input is invalid (e.g., the user entered `"json,fo o"` with a space), the server returns `formFields` again with one error per invalid answer. The error is attached to the `FormField` object that has the corresponding `id`. The client may decide to drop the entire command resolve and command execution or try to return to step 4 to recollect user input.
        ```json
        {
-         "command": "gopls.modify_tags",
+         "command": "gonpls.modify_tags",
          "arguments": [{ "Modification": "add" }],
          "formFields": [
            {
@@ -410,7 +410,7 @@ Here is a concrete example of the interaction flow for `gopls.modify_tags` (addi
        If the input is valid, the server returns a response with `formFields` omitted.
        ```json
        {
-         "command": "gopls.modify_tags",
+         "command": "gonpls.modify_tags",
          "arguments": [{ "Modification": "add" }],
          "formAnswers": [
            { "id": "tags", "value": "json,foo" },
@@ -421,7 +421,7 @@ Here is a concrete example of the interaction flow for `gopls.modify_tags` (addi
        At this point, the client proceeds to execute the command via `workspace/executeCommand`, passing the finalized params (including `formAnswers`).
        ```json
        {
-         "command": "gopls.modify_tags",
+         "command": "gonpls.modify_tags",
          "arguments": [{ "Modification": "add" }],
          "formAnswers": [
            { "id": "tags", "value": "json,foo" },

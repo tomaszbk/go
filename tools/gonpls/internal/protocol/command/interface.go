@@ -212,9 +212,9 @@ type Interface interface {
 	// Run vulnerability check (`govulncheck`).
 	//
 	// This command is asynchronous; clients must wait for the 'end' progress
-	// notification and then retrieve results using gopls.fetch_vulncheck_result.
+	// notification and then retrieve results using gonpls.fetch_vulncheck_result.
 	//
-	// Deprecated: clients should call gopls.vulncheck instead, which returns the
+	// Deprecated: clients should call gonpls.vulncheck instead, which returns the
 	// actual vulncheck result.
 	RunGovulncheck(context.Context, VulncheckArgs) (RunVulncheckResult, error)
 
@@ -222,7 +222,7 @@ type Interface interface {
 	//
 	// Fetch the result of latest vulnerability check (`govulncheck`).
 	//
-	// Deprecated: clients should call gopls.vulncheck instead, which returns the
+	// Deprecated: clients should call gonpls.vulncheck instead, which returns the
 	// actual vulncheck result.
 	FetchVulncheckResult(context.Context, URIArg) (map[protocol.DocumentURI]*vulncheck.Result, error)
 

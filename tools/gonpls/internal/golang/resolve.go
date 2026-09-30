@@ -33,7 +33,7 @@ import (
 
 // In vscode-go, because it is a standard LSP client, cannot do step 4 as
 // described. Instead it calls "workspace/executeCommand" with command
-// 'gopls.lsp' and parameter.Method "command/resolve".
+// 'gonpls.lsp' and parameter.Method "command/resolve".
 //
 // ExecuteCommand() calls command.Dispatch() which calls LSP()
 // which calls protocol.ServerDispatchCall("command/resolve")

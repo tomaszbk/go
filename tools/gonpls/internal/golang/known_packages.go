@@ -21,7 +21,7 @@ import (
 // the given file. The list is ordered lexicographically, except that
 // all dot-free paths (standard packages) appear before dotful ones.
 //
-// It is part of the gopls.list_known_packages command.
+// It is part of the gonpls.list_known_packages command.
 func KnownPackagePaths(ctx context.Context, snapshot *cache.Snapshot, fh file.Handle) ([]PackagePath, error) {
 	// This algorithm is expressed in terms of Metadata, not Packages,
 	// so it doesn't cause or wait for type checking.

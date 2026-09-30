@@ -245,7 +245,7 @@ func TestFail(t *testing.T) { t.Fatal("fail") }
 		res := gopls(t, tree, "-v", "codelens", "-exec", "./a/a_test.go:3", "run test")
 		res.checkExit(true)
 		res.checkStderr(`PASS: TestPass`)         // from go test
-		res.checkStderr("Info: all tests passed") // from gopls.test
+		res.checkStderr("Info: all tests passed") // from gonpls.test
 	}
 	// run the failing test
 	{
@@ -335,9 +335,16 @@ func TestHello(t *testing.T) {
 	}
 	// bad command
 	{
-		res := gopls(t, tree, "execute", "gopls.foo")
+		res := gopls(t, tree, "execute", "gonpls.foo")
 		res.checkExit(false)
-		res.checkStderr("unrecognized command: gopls.foo")
+		res.checkStderr("unrecognized command: gonpls.foo")
+	}
+	// The upstream gopls namespace is not accepted, so that gonpls and gopls
+	// commands can never be confused when both servers are installed.
+	{
+		res := gopls(t, tree, "execute", "gopls.run_tests")
+		res.checkExit(false)
+		res.checkStderr("unrecognized command: gopls.run_tests")
 	}
 	// too few arguments
 	{

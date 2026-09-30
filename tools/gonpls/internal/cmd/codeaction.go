@@ -43,7 +43,7 @@ The -kind flag specifies a comma-separated list of LSP CodeAction kinds.
 Only actions of these kinds will be requested from the server.
 Valid kinds include:
 
-	gopls.doc.features
+	gonpls.doc.features
 	quickfix
 	refactor
 	refactor.extract

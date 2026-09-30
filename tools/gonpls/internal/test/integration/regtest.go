@@ -155,6 +155,12 @@ func Main(m *testing.M) (code int) {
 	// Disable GOPACKAGESDRIVER, as it can cause spurious test failures.
 	os.Setenv("GOPACKAGESDRIVER", "off") // ignore error
 
+	// Ignore an ambient GOWORK, such as GOWORK=off exported to keep a
+	// surrounding checkout's go.work out of a build. These tests create their
+	// own workspaces and set GOWORK explicitly where they need it; an inherited
+	// value silently turns every go.work test into a GoMod or ad-hoc view.
+	os.Unsetenv("GOWORK") // ignore error
+
 	if skipReason := checkBuilder(); skipReason != "" {
 		fmt.Printf("Skipping all tests: %s\n", skipReason)
 		return 0
