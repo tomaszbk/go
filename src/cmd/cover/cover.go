@@ -973,18 +973,30 @@ func (f *File) addCounters(pos, insertPos, blockEnd token.Pos, list []ast.Stmt, 
 	}
 }
 
-// hasFuncLiteral reports the existence and position of the first func literal
-// in the node, if any. If a func literal appears, it usually marks the termination
-// of a basic block because the function body is itself a block.
-// Therefore we draw a line at the start of the body of the first function literal we find.
+// hasNestedBlock reports the existence and position of the first nested block
+// in the node, if any: the body of a function literal or, in Gon, the body of
+// an "or err { ... }" error handler. Such a body is itself a block, so it
+// usually marks the termination of a basic block.
+// Therefore we draw a line at the start of the body of the first one we find.
 // TODO: what if there's more than one? Probably doesn't matter much.
-func hasFuncLiteral(n ast.Node) (bool, token.Pos) {
+func hasNestedBlock(n ast.Node) (bool, token.Pos) {
 	if n == nil {
 		return false, 0
 	}
-	var literal funcLitFinder
-	ast.Walk(&literal, n)
-	return literal.found(), token.Pos(literal)
+	finder := nestedBlockFinder{}
+	ast.Walk(&finder, n)
+	return finder.found(), finder.pos
+}
+
+// hasErrorHandler is like hasNestedBlock but only reports the body of an
+// error handler, ignoring function literals and whatever they contain.
+func hasErrorHandler(n ast.Node) (bool, token.Pos) {
+	if n == nil {
+		return false, 0
+	}
+	finder := nestedBlockFinder{handlersOnly: true}
+	ast.Walk(&finder, n)
+	return finder.found(), finder.pos
 }
 
 // statementBoundary finds the location in s that terminates the current basic
@@ -996,25 +1008,25 @@ func (f *File) statementBoundary(s ast.Stmt) token.Pos {
 		// Treat blocks like basic blocks to avoid overlapping counters.
 		return s.Lbrace
 	case *ast.IfStmt:
-		found, pos := hasFuncLiteral(s.Init)
+		found, pos := hasNestedBlock(s.Init)
 		if found {
 			return pos
 		}
-		found, pos = hasFuncLiteral(s.Cond)
+		found, pos = hasNestedBlock(s.Cond)
 		if found {
 			return pos
 		}
 		return s.Body.Lbrace
 	case *ast.ForStmt:
-		found, pos := hasFuncLiteral(s.Init)
+		found, pos := hasNestedBlock(s.Init)
 		if found {
 			return pos
 		}
-		found, pos = hasFuncLiteral(s.Cond)
+		found, pos = hasNestedBlock(s.Cond)
 		if found {
 			return pos
 		}
-		found, pos = hasFuncLiteral(s.Post)
+		found, pos = hasNestedBlock(s.Post)
 		if found {
 			return pos
 		}
@@ -1022,17 +1034,17 @@ func (f *File) statementBoundary(s ast.Stmt) token.Pos {
 	case *ast.LabeledStmt:
 		return f.statementBoundary(s.Stmt)
 	case *ast.RangeStmt:
-		found, pos := hasFuncLiteral(s.X)
+		found, pos := hasNestedBlock(s.X)
 		if found {
 			return pos
 		}
 		return s.Body.Lbrace
 	case *ast.SwitchStmt:
-		found, pos := hasFuncLiteral(s.Init)
+		found, pos := hasNestedBlock(s.Init)
 		if found {
 			return pos
 		}
-		found, pos = hasFuncLiteral(s.Tag)
+		found, pos = hasNestedBlock(s.Tag)
 		if found {
 			return pos
 		}
@@ -1040,17 +1052,24 @@ func (f *File) statementBoundary(s ast.Stmt) token.Pos {
 	case *ast.SelectStmt:
 		return s.Body.Lbrace
 	case *ast.TypeSwitchStmt:
-		found, pos := hasFuncLiteral(s.Init)
+		found, pos := hasNestedBlock(s.Init)
+		if found {
+			return pos
+		}
+		// Function literals in the guard have never ended the block,
+		// but the body of an error handler is a block of its own.
+		found, pos = hasErrorHandler(s.Assign)
 		if found {
 			return pos
 		}
 		return s.Body.Lbrace
 	}
-	// If not a control flow statement, it is a declaration, expression, call, etc. and it may have a function literal.
-	// If it does, that's tricky because we want to exclude the body of the function from this block.
-	// Draw a line at the start of the body of the first function literal we find.
+	// If not a control flow statement, it is a declaration, expression, call, etc. and it may have a function literal
+	// or an error handler.
+	// If it does, that's tricky because we want to exclude the body of the function or handler from this block.
+	// Draw a line at the start of the body of the first function literal or handler we find.
 	// TODO: what if there's more than one? Probably doesn't matter much.
-	found, pos := hasFuncLiteral(s)
+	found, pos := hasNestedBlock(s)
 	if found {
 		return pos
 	}
@@ -1059,7 +1078,8 @@ func (f *File) statementBoundary(s ast.Stmt) token.Pos {
 
 // endsBasicSourceBlock reports whether s changes the flow of control: break, if, etc.,
 // or if it's just problematic, for instance contains a function literal, which will complicate
-// accounting due to the block-within-an expression.
+// accounting due to the block-within-an expression. The same holds for an error handler
+// ("call() or err { ... }"), and a postfix "!" that can return from the function.
 func (f *File) endsBasicSourceBlock(s ast.Stmt) bool {
 	switch s := s.(type) {
 	case *ast.BlockStmt:
@@ -1092,8 +1112,12 @@ func (f *File) endsBasicSourceBlock(s ast.Stmt) bool {
 			}
 		}
 	}
-	found, _ := hasFuncLiteral(s)
-	return found
+	if found, _ := hasNestedBlock(s); found {
+		return true
+	}
+	// A postfix "!" returns from the function when its call fails, so the
+	// statements after it only run if it did not. They are a new basic block.
+	return hasPropagation(s)
 }
 
 // isControl reports whether s is a control statement that, if labeled, cannot be
@@ -1106,24 +1130,75 @@ func (f *File) isControl(s ast.Stmt) bool {
 	return false
 }
 
-// funcLitFinder implements the ast.Visitor pattern to find the location of any
-// function literal in a subtree.
-type funcLitFinder token.Pos
+// nestedBlockFinder implements the ast.Visitor pattern to find the location of
+// the first nested block in a subtree: the body of a function literal or of an
+// error handler ("call() or err { ... }").
+type nestedBlockFinder struct {
+	pos          token.Pos // Lbrace of the first nested block found, if any.
+	handlersOnly bool      // Ignore function literals.
+}
 
-func (f *funcLitFinder) Visit(node ast.Node) (w ast.Visitor) {
+func (f *nestedBlockFinder) Visit(node ast.Node) (w ast.Visitor) {
 	if f.found() {
 		return nil // Prune search.
 	}
 	switch n := node.(type) {
 	case *ast.FuncLit:
-		*f = funcLitFinder(n.Body.Lbrace)
+		if !f.handlersOnly {
+			f.pos = n.Body.Lbrace
+		}
+		return nil // Prune search.
+	case *ast.ErrorExpr:
+		if n.Body == nil {
+			return f // Propagation has no block; look in the operand.
+		}
+		// The operand is evaluated before the handler runs, so a
+		// block in it comes first in source order. The handler body
+		// is annotated as a block of its own.
+		ast.Walk(f, n.X)
+		if !f.found() {
+			f.pos = n.Body.Lbrace
+		}
 		return nil // Prune search.
 	}
 	return f
 }
 
-func (f *funcLitFinder) found() bool {
-	return token.Pos(*f) != token.NoPos
+func (f *nestedBlockFinder) found() bool {
+	return f.pos != token.NoPos
+}
+
+// hasPropagation reports whether n contains a propagating postfix "!"
+// (an ErrorExpr without a handler body) that can return from the enclosing
+// function. Function literals are separate functions, and the body of an
+// error handler is a statement list of its own that is annotated separately,
+// so neither is searched.
+func hasPropagation(n ast.Node) bool {
+	var finder propagationFinder
+	ast.Walk(&finder, n)
+	return bool(finder)
+}
+
+// propagationFinder implements the ast.Visitor pattern to find a propagating
+// "!" in a subtree that belongs to the enclosing function.
+type propagationFinder bool
+
+func (f *propagationFinder) Visit(node ast.Node) (w ast.Visitor) {
+	if *f {
+		return nil // Prune search.
+	}
+	switch n := node.(type) {
+	case *ast.FuncLit:
+		return nil // A different function.
+	case *ast.ErrorExpr:
+		if n.Body == nil {
+			*f = true
+			return nil
+		}
+		ast.Walk(f, n.X) // Not the handler body.
+		return nil
+	}
+	return f
 }
 
 // Sort interface for []block1; used for self-check in addVariables.

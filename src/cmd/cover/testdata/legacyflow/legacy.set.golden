@@ -1,0 +1,358 @@
+//line legacy.go:1:1
+// Package legacyflow is ordinary Go code without any error handling syntax.
+// It must be instrumented exactly as it always was; see
+// TestLegacyInstrumentationUnchanged.
+package legacyflow
+
+import (
+	"errors"
+	"strconv"
+)
+
+// or, err and ok are perfectly good identifiers.
+var or = 1
+
+type ok bool
+
+var handler = func(err error) error {GoCover.Count[0] = 1;
+	if err != nil {GoCover.Count[2] = 1;
+		return err
+	}
+	GoCover.Count[1] = 1;return nil
+}
+
+func contextual(err error, or int) (int, error) {GoCover.Count[3] = 1;
+	if or != 0 && err != nil {GoCover.Count[6] = 1;
+		return or, err
+	}
+	GoCover.Count[4] = 1;or = or + 1
+	valid := !(or > 3)
+	disabled := false
+	valid = !disabled && valid
+	if !valid || !disabled {GoCover.Count[7] = 1;
+		return or, nil
+	}
+	GoCover.Count[5] = 1;return 0, err
+}
+
+func checks(s string) (int, error) {GoCover.Count[8] = 1;
+	n, err := strconv.Atoi(s)
+	if err != nil {GoCover.Count[11] = 1;
+		return 0, err
+	}
+	GoCover.Count[9] = 1;n *= 2
+	m, err := strconv.Atoi(s + "1")
+	if err != nil {GoCover.Count[12] = 1;
+		return n, err
+	}
+	GoCover.Count[10] = 1;return n + m, nil
+}
+
+func closures(xs []int) (total int, err error) {GoCover.Count[13] = 1;
+	add := func(n int) {GoCover.Count[24] = 1; total += n }
+	GoCover.Count[14] = 1;for _, x := range xs {GoCover.Count[25] = 1;
+		add(x)
+	}
+	GoCover.Count[15] = 1;if f := func() bool {GoCover.Count[26] = 1; return total > 10 }; f() {GoCover.Count[27] = 1;
+		err = errors.New("large")
+	}
+	GoCover.Count[16] = 1;for i := func() int {GoCover.Count[28] = 1; return 0 }(); i < len(xs); i++ {GoCover.Count[29] = 1;
+		total++
+	}
+	GoCover.Count[17] = 1;for _, y := range func() []int {GoCover.Count[30] = 1; return xs }() {GoCover.Count[31] = 1;
+		total += y
+	}
+	GoCover.Count[18] = 1;switch z := func() int {GoCover.Count[32] = 1; return total }(); z {
+	case 0:GoCover.Count[33] = 1;
+		total = 1
+	default:GoCover.Count[34] = 1;
+		total = 2
+	}
+	GoCover.Count[19] = 1;switch func() int {GoCover.Count[35] = 1; return total }() {
+	case 1:GoCover.Count[36] = 1;
+		total++
+	}
+	GoCover.Count[20] = 1;var v any = total
+	switch w := v.(type) {
+	case int:GoCover.Count[37] = 1;
+		total += w
+	}
+	GoCover.Count[21] = 1;defer func() {GoCover.Count[38] = 1;
+		if r := recover(); r != nil {GoCover.Count[39] = 1;
+			err = errors.New("recovered")
+		}
+	}()
+	GoCover.Count[22] = 1;go func() {GoCover.Count[40] = 1;
+		total++
+	}()
+	GoCover.Count[23] = 1;return total, err
+}
+
+func flow(n int) int {GoCover.Count[41] = 1;
+	if n > 0 {GoCover.Count[48] = 1;
+		n--
+	} else{ GoCover.Count[49] = 1;if n < 0 {GoCover.Count[50] = 1;
+		n++
+	} else{ GoCover.Count[51] = 1;{
+		n = 5
+	}}}
+GoCover.Count[42] = 1;outer:
+	for i := 0; i < 3; i++ {GoCover.Count[52] = 1;
+		for j := 0; j < 3; j++ {GoCover.Count[53] = 1;
+			if j == 1 {GoCover.Count[55] = 1;
+				continue outer
+			}
+			GoCover.Count[54] = 1;if i == 2 {GoCover.Count[56] = 1;
+				break outer
+			}
+		}
+	}
+again:
+	GoCover.Count[43] = 1;n++
+	if n < 3 {GoCover.Count[57] = 1;
+		goto again
+	}
+	GoCover.Count[44] = 1;switch {
+	case n > 10:GoCover.Count[58] = 1;
+		n = 10
+		fallthrough
+	case n > 5:GoCover.Count[59] = 1;
+		n = 5
+	default:GoCover.Count[60] = 1;
+	}
+	GoCover.Count[45] = 1;ch := make(chan int, 1)
+	select {
+	case ch <- n:GoCover.Count[61] = 1;
+	case m := <-ch:GoCover.Count[62] = 1;
+		n = m
+	default:GoCover.Count[63] = 1;
+		n = 0
+	}
+	GoCover.Count[46] = 1;if n == 100 {GoCover.Count[64] = 1;
+		panic("too large")
+	}
+	GoCover.Count[47] = 1;return n
+}
+
+// Multi-line statements, comments and blank lines split blocks.
+func spread(a, b int) int {GoCover.Count[65] = 1;
+	x := a +
+		b
+
+	// A comment.
+	GoCover.Count[66] = 1;y := x *
+		2 /* inline */
+
+	GoCover.Count[67] = 1;const (
+		c1 = 1
+		c2 = 2
+	)
+	return x + y + c1 + c2
+}
+
+type counter struct{ n int }
+
+func (c *counter) incr(by int) int {GoCover.Count[68] = 1;
+	c.n += by
+	if c.n < 0 {GoCover.Count[70] = 1;
+		c.n = 0
+	}
+	GoCover.Count[69] = 1;return c.n
+}
+
+func generic[T comparable](xs []T, x T) bool {GoCover.Count[71] = 1;
+	for _, y := range xs {GoCover.Count[73] = 1;
+		if y == x {GoCover.Count[74] = 1;
+			return true
+		}
+	}
+	GoCover.Count[72] = 1;return false
+}
+
+func empty() {GoCover.Count[75] = 1;}
+
+func emptyBlocks(b bool) {GoCover.Count[76] = 1;
+	if b {GoCover.Count[80] = 1;
+	}
+	GoCover.Count[77] = 1;switch {
+	}
+	GoCover.Count[78] = 1;for {GoCover.Count[81] = 1;
+		break
+	}
+	GoCover.Count[79] = 1;select {}
+}
+
+var GoCover = struct {
+	Count     [82]uint32
+	Pos       [3 * 82]uint32
+	NumStmt   [82]uint16
+} {
+	Pos: [3 * 82]uint32{
+		17, 17, 0x100002, // [0]
+		20, 20, 0xc0002, // [1]
+		18, 19, 0x10003, // [2]
+		24, 24, 0x1b0002, // [3]
+		27, 31, 0x190002, // [4]
+		34, 34, 0xf0002, // [5]
+		25, 26, 0x10003, // [6]
+		32, 33, 0x10003, // [7]
+		38, 39, 0x100002, // [8]
+		42, 44, 0x100002, // [9]
+		47, 47, 0x130002, // [10]
+		40, 41, 0x10003, // [11]
+		45, 46, 0x10003, // [12]
+		51, 51, 0x150002, // [13]
+		52, 52, 0x170002, // [14]
+		55, 55, 0x160002, // [15]
+		58, 58, 0x160002, // [16]
+		61, 61, 0x210002, // [17]
+		64, 64, 0x190002, // [18]
+		70, 70, 0x140002, // [19]
+		74, 75, 0x170002, // [20]
+		79, 79, 0xf0002, // [21]
+		84, 84, 0xc0002, // [22]
+		87, 87, 0x130002, // [23]
+		51, 51, 0x230017, // [24]
+		53, 54, 0x10003, // [25]
+		55, 55, 0x2b0018, // [26]
+		56, 57, 0x10003, // [27]
+		58, 58, 0x220018, // [28]
+		59, 60, 0x10003, // [29]
+		61, 61, 0x2e0023, // [30]
+		62, 63, 0x10003, // [31]
+		64, 64, 0x29001b, // [32]
+		66, 66, 0xc0003, // [33]
+		68, 68, 0xc0003, // [34]
+		70, 70, 0x240016, // [35]
+		72, 72, 0xa0003, // [36]
+		77, 77, 0xd0003, // [37]
+		80, 80, 0x1f0003, // [38]
+		81, 82, 0x10004, // [39]
+		85, 86, 0x10003, // [40]
+		91, 91, 0xb0002, // [41]
+		98, 99, 0x190001, // [42]
+		110, 111, 0xb0002, // [43]
+		114, 114, 0x90002, // [44]
+		122, 123, 0x90002, // [45]
+		130, 130, 0xe0002, // [46]
+		133, 133, 0xa0002, // [47]
+		92, 93, 0x10003, // [48]
+		93, 93, 0x120009, // [49]
+		94, 95, 0x10003, // [50]
+		96, 97, 0x10003, // [51]
+		100, 100, 0x1a0003, // [52]
+		101, 101, 0xe0004, // [53]
+		104, 104, 0xe0004, // [54]
+		102, 102, 0x130005, // [55]
+		105, 105, 0x100005, // [56]
+		112, 112, 0xd0003, // [57]
+		116, 117, 0xe0003, // [58]
+		119, 119, 0x80003, // [59]
+		120, 120, 0xa000a, // [60]
+		124, 124, 0xf000f, // [61]
+		126, 126, 0x80003, // [62]
+		128, 128, 0x80003, // [63]
+		131, 131, 0x150003, // [64]
+		138, 140, 0x10002, // [65]
+		142, 144, 0x10002, // [66]
+		145, 150, 0x10002, // [67]
+		155, 156, 0xd0002, // [68]
+		159, 159, 0xc0002, // [69]
+		157, 158, 0x10003, // [70]
+		163, 163, 0x170002, // [71]
+		168, 168, 0xe0002, // [72]
+		164, 164, 0xd0003, // [73]
+		165, 166, 0x10004, // [74]
+		171, 171, 0xf000f, // [75]
+		174, 174, 0x70002, // [76]
+		176, 176, 0x90002, // [77]
+		178, 178, 0x60002, // [78]
+		181, 181, 0x90002, // [79]
+		174, 174, 0x80008, // [80]
+		179, 179, 0x80003, // [81]
+	},
+	NumStmt: [82]uint16{
+		1, // 0
+		1, // 1
+		1, // 2
+		1, // 3
+		5, // 4
+		1, // 5
+		1, // 6
+		1, // 7
+		2, // 8
+		3, // 9
+		1, // 10
+		1, // 11
+		1, // 12
+		1, // 13
+		1, // 14
+		1, // 15
+		1, // 16
+		1, // 17
+		1, // 18
+		1, // 19
+		2, // 20
+		1, // 21
+		1, // 22
+		1, // 23
+		1, // 24
+		1, // 25
+		1, // 26
+		1, // 27
+		1, // 28
+		1, // 29
+		1, // 30
+		1, // 31
+		1, // 32
+		1, // 33
+		1, // 34
+		1, // 35
+		1, // 36
+		1, // 37
+		1, // 38
+		1, // 39
+		1, // 40
+		1, // 41
+		1, // 42
+		2, // 43
+		1, // 44
+		2, // 45
+		1, // 46
+		1, // 47
+		1, // 48
+		1, // 49
+		1, // 50
+		1, // 51
+		1, // 52
+		1, // 53
+		1, // 54
+		1, // 55
+		1, // 56
+		1, // 57
+		2, // 58
+		1, // 59
+		0, // 60
+		0, // 61
+		1, // 62
+		1, // 63
+		1, // 64
+		1, // 65
+		1, // 66
+		2, // 67
+		2, // 68
+		1, // 69
+		1, // 70
+		1, // 71
+		1, // 72
+		1, // 73
+		1, // 74
+		0, // 75
+		1, // 76
+		1, // 77
+		1, // 78
+		1, // 79
+		0, // 80
+		1, // 81
+	},
+}
