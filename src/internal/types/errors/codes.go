@@ -1474,12 +1474,16 @@ const (
 	// errors. The solution is to rebuild the application with a
 	// newer Go release.
 	TooNew
+)
 
+// Gon codes start at 10000, so that codes added by upstream Go keep their
+// values in both toolchains.
+const (
 	// InvalidErrorHandling occurs when a postfix error propagation or local
 	// error handler uses an invalid operand, enclosing function, or handler.
 	//
 	// Example:
 	//  func f() int { return 1 }
 	//  func g() error { f()!; return nil }
-	InvalidErrorHandling
+	InvalidErrorHandling Code = 10000 + iota
 )

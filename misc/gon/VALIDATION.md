@@ -185,7 +185,7 @@ commands; their expectations and help files now match the `gonpls` identity.
 gopls diagnostics integration tests confirm that editor sessions still publish
 diagnostics normally. `TestGonErrorCodes` checks that x/tools has the same
 value for every type-checker code of this toolchain, so gonpls reports
-`InvalidErrorHandling` instead of `ErrorCode(152)`. `gonpls` and the launcher
+`InvalidErrorHandling` instead of `ErrorCode(10000)`. `gonpls` and the launcher
 also built for linux/amd64, linux/arm64, linux/riscv64, windows/amd64 and
 windows/arm64.
 

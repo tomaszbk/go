@@ -1,31 +1,12 @@
+diff --git a/go/analysis/passes/lostcancel/lostcancel.go b/go/analysis/passes/lostcancel/lostcancel.go
+index dfc4313..e98869e 100644
 --- a/go/analysis/passes/lostcancel/lostcancel.go
 +++ b/go/analysis/passes/lostcancel/lostcancel.go
-@@ -218,22 +218,29 @@
+@@ -218,22 +218,29 @@ func lostCancelPath(pass *analysis.Pass, g *cfg.CFG, v *types.Var, stmt ast.Node
  	// uses reports whether stmts contain a "use" of variable v.
  	uses := func(pass *analysis.Pass, v *types.Var, stmts []ast.Node) bool {
  		found := false
-+		var visit func(ast.Node) bool
-+		visit = func(n ast.Node) bool {
-+			switch n := n.(type) {
-+			case *ast.ErrorExpr:
-+				// The handler has its own CFG blocks. A use there does
-+				// not imply that the success path uses the variable.
-+				ast.Inspect(n.X, visit)
-+				return false
-+			case *ast.Ident:
-+				if pass.TypesInfo.Uses[n] == v {
-+					found = true
-+				}
-+			case *ast.ReturnStmt:
-+				// A naked return statement counts as a use
-+				// of the named result variables.
-+				if n.Results == nil && vIsNamedResult {
-+					found = true
-+				}
-+			}
-+			return !found
-+		}
- 		for _, stmt := range stmts {
+-		for _, stmt := range stmts {
 -			ast.Inspect(stmt, func(n ast.Node) bool {
 -				switch n := n.(type) {
 -				case *ast.Ident:
@@ -38,30 +19,53 @@
 -					if n.Results == nil && vIsNamedResult {
 -						found = true
 -					}
--				}
++		var visit func(ast.Node) bool
++		visit = func(n ast.Node) bool {
++			switch n := n.(type) {
++			case *ast.ErrorExpr:
++				// The handler has its own CFG blocks. A use there does
++				// not imply that the success path uses the variable.
++				ast.Inspect(n.X, visit)
++				return false
++			case *ast.Ident:
++				if pass.TypesInfo.Uses[n] == v {
++					found = true
+ 				}
 -				return !found
 -			})
++			case *ast.ReturnStmt:
++				// A naked return statement counts as a use
++				// of the named result variables.
++				if n.Results == nil && vIsNamedResult {
++					found = true
++				}
++			}
++			return !found
++		}
++		for _, stmt := range stmts {
 +			ast.Inspect(stmt, visit)
  		}
  		return found
  	}
+diff --git a/go/ast/astutil/enclosing.go b/go/ast/astutil/enclosing.go
+index 0fb4e7e..4f07e82 100644
 --- a/go/ast/astutil/enclosing.go
 +++ b/go/ast/astutil/enclosing.go
-@@ -239,6 +239,13 @@
- 	case *ast.BranchStmt:
+@@ -240,6 +240,13 @@ func childrenOf(n ast.Node) []ast.Node {
  		children = append(children,
  			tok(n.TokPos, len(n.Tok.String())))
-+
+ 
 +	case *ast.ErrorExpr:
 +		width := 1
 +		if n.Body != nil {
 +			width = 2
 +		}
 +		children = append(children, tok(n.OpPos, width))
- 
++
  	case *ast.CallExpr:
  		children = append(children,
-@@ -537,6 +544,11 @@
+ 			tok(n.Lparen, len("(")),
+@@ -537,6 +544,11 @@ func NodeDescription(n ast.Node) string {
  		case token.FALLTHROUGH:
  			return "fall-through statement"
  		}
@@ -73,23 +77,27 @@
  	case *ast.CallExpr:
  		if len(n.Args) == 1 && !n.Ellipsis.IsValid() {
  			return "function call (or conversion)"
+diff --git a/go/ast/astutil/rewrite.go b/go/ast/astutil/rewrite.go
+index 4ad0549..d6194a8 100644
 --- a/go/ast/astutil/rewrite.go
 +++ b/go/ast/astutil/rewrite.go
-@@ -271,6 +271,11 @@
- 	case *ast.CallExpr:
+@@ -272,6 +272,11 @@ func (a *application) apply(parent ast.Node, name string, iter *iterator, n ast.
  		a.apply(n, "Fun", nil, n.Fun)
  		a.applyList(n, "Args")
-+
+ 
 +	case *ast.ErrorExpr:
 +		a.apply(n, "X", nil, n.X)
 +		a.apply(n, "Err", nil, n.Err)
 +		a.apply(n, "Body", nil, n.Body)
- 
++
  	case *ast.StarExpr:
  		a.apply(n, "X", nil, n.X)
+ 
+diff --git a/go/ast/edge/edge.go b/go/ast/edge/edge.go
+index 8dc4dd1..3ce56c2 100644
 --- a/go/ast/edge/edge.go
 +++ b/go/ast/edge/edge.go
-@@ -166,6 +166,10 @@
+@@ -166,6 +166,10 @@ const (
  	ValueSpec_Type
  	ValueSpec_Values
  
@@ -100,7 +108,7 @@
  	maxKind
  )
  
-@@ -191,6 +195,9 @@
+@@ -191,6 +195,9 @@ func info[N ast.Node](fieldName string) fieldInfo {
  }
  
  var fieldInfos = [...]fieldInfo{
@@ -110,13 +118,12 @@
  	Invalid:               {},
  	ArrayType_Elt:         info[*ast.ArrayType]("Elt"),
  	ArrayType_Len:         info[*ast.ArrayType]("Len"),
+diff --git b/go/ast/inspector/errorhandling_test.go b/go/ast/inspector/errorhandling_test.go
+new file mode 100644
+index 0000000..7e7ea94
 --- /dev/null
 +++ b/go/ast/inspector/errorhandling_test.go
-@@ -0,0 +1,71 @@
-+// Copyright 2026 The Go Authors. All rights reserved.
-+// Use of this source code is governed by a BSD-style
-+// license that can be found in the LICENSE file.
-+
+@@ -0,0 +1,67 @@
 +package inspector
 +
 +import (
@@ -184,9 +191,11 @@
 +		}
 +	}
 +}
+diff --git a/go/ast/inspector/typeof.go b/go/ast/inspector/typeof.go
+index 9852331..41a926a 100644
 --- a/go/ast/inspector/typeof.go
 +++ b/go/ast/inspector/typeof.go
-@@ -71,6 +71,7 @@
+@@ -71,6 +71,7 @@ const (
  	nTypeSwitchStmt
  	nUnaryExpr
  	nValueSpec
@@ -194,7 +203,7 @@
  )
  
  // typeOf returns a distinct single-bit value that represents the type of n.
-@@ -117,6 +118,8 @@
+@@ -117,6 +118,8 @@ func typeOf(n ast.Node) uint64 {
  		return 1 << nBlockStmt
  	case *ast.BranchStmt:
  		return 1 << nBranchStmt
@@ -203,9 +212,11 @@
  	case *ast.CallExpr:
  		return 1 << nCallExpr
  	case *ast.CaseClause:
+diff --git a/go/ast/inspector/walk.go b/go/ast/inspector/walk.go
+index 5f1c93c..7511622 100644
 --- a/go/ast/inspector/walk.go
 +++ b/go/ast/inspector/walk.go
-@@ -110,6 +110,15 @@
+@@ -110,6 +110,15 @@ func walk(v *visitor, ek edge.Kind, index int, node ast.Node) {
  		walk(v, edge.CallExpr_Fun, -1, n.Fun)
  		walkList(v, edge.CallExpr_Args, n.Args)
  
@@ -221,9 +232,11 @@
  	case *ast.StarExpr:
  		walk(v, edge.StarExpr_X, -1, n.X)
  
+diff --git a/go/cfg/builder.go b/go/cfg/builder.go
+index f16cd42..0154fc8 100644
 --- a/go/cfg/builder.go
 +++ b/go/cfg/builder.go
-@@ -501,6 +501,33 @@
+@@ -501,6 +501,33 @@ func (b *builder) newBlock(kind BlockKind, stmt ast.Stmt) *Block {
  }
  
  func (b *builder) add(n ast.Node) {
@@ -257,9 +270,11 @@
  	b.current.Nodes = append(b.current.Nodes, n)
  }
  
+diff --git a/go/cfg/cfg.go b/go/cfg/cfg.go
+index f69912c..e670358 100644
 --- a/go/cfg/cfg.go
 +++ b/go/cfg/cfg.go
-@@ -108,6 +108,8 @@
+@@ -108,6 +108,8 @@ const (
  	KindSwitchCaseBody  // body of CaseClause
  	KindSwitchDone      // block after {Type.}SwitchStmt
  	KindSwitchNextCase  // secondary expression of a multi-expression CaseClause
@@ -268,7 +283,7 @@
  )
  
  func (kind BlockKind) String() string {
-@@ -132,6 +134,8 @@
+@@ -132,6 +134,8 @@ func (kind BlockKind) String() string {
  		KindSwitchCaseBody:  "SwitchCaseBody",
  		KindSwitchDone:      "SwitchDone",
  		KindSwitchNextCase:  "SwitchNextCase",
@@ -277,13 +292,12 @@
  	}[kind]
  }
  
+diff --git b/go/cfg/errorhandling_test.go b/go/cfg/errorhandling_test.go
+new file mode 100644
+index 0000000..0d2a9a7
 --- /dev/null
 +++ b/go/cfg/errorhandling_test.go
-@@ -0,0 +1,40 @@
-+// Copyright 2026 The Go Authors. All rights reserved.
-+// Use of this source code is governed by a BSD-style
-+// license that can be found in the LICENSE file.
-+
+@@ -0,0 +1,36 @@
 +package cfg
 +
 +import (
@@ -320,9 +334,11 @@
 +		})
 +	}
 +}
+diff --git a/go/ssa/builder.go b/go/ssa/builder.go
+index 1669d80..03c59ef 100644
 --- a/go/ssa/builder.go
 +++ b/go/ssa/builder.go
-@@ -623,6 +623,9 @@
+@@ -623,6 +623,9 @@ func (b *builder) expr(fn *Function, e ast.Expr) Value {
  
  func (b *builder) expr0(fn *Function, e ast.Expr, tv types.TypeAndValue) Value {
  	switch e := e.(type) {
@@ -332,7 +348,7 @@
  	case *ast.BasicLit:
  		panic("non-constant BasicLit") // unreachable
  
-@@ -1077,6 +1080,10 @@
+@@ -1077,6 +1080,10 @@ func (b *builder) emitCallArgs(fn *Function, sig *types.Signature, e *ast.CallEx
  	// multiple return values (MRV), they are flattened out into
  	// args; a suffix of them may end up in a varargs slice.
  	for _, arg := range e.Args {
@@ -343,7 +359,7 @@
  		v := b.expr(fn, arg)
  		if ttuple, ok := v.Type().(*types.Tuple); ok { // MRV chain
  			for i, n := 0, ttuple.Len(); i < n; i++ {
-@@ -1175,12 +1182,12 @@
+@@ -1175,12 +1182,12 @@ func (b *builder) localValueSpec(fn *Function, spec *ast.ValueSpec) {
  
  	default:
  		// e.g. var x, y = pos()
@@ -358,7 +374,7 @@
  			}
  		}
  	}
-@@ -1221,10 +1228,18 @@
+@@ -1221,10 +1228,18 @@ func (b *builder) assignStmt(fn *Function, lhss, rhss []ast.Expr, isDef bool) {
  		sb.emit(fn)
  	} else {
  		// e.g. x, y = pos()
@@ -380,7 +396,7 @@
  		}
  	}
  }
-@@ -2705,7 +2720,11 @@
+@@ -2705,7 +2720,11 @@ start:
  		goto start // effectively: tailcall stmt(fn, s.Stmt, label)
  
  	case *ast.ExprStmt:
@@ -393,7 +409,7 @@
  
  	case *ast.SendStmt:
  		chtyp := typeparams.CoreType(fn.typeOf(s.Chan)).(*types.Chan)
-@@ -2843,12 +2862,8 @@
+@@ -2843,12 +2862,8 @@ func (b *builder) returnStmt(fn *Function, s *ast.ReturnStmt) {
  	// Convert return operands to result type.
  	if len(s.Results) == 1 && sig.Results().Len() > 1 {
  		// Return of one expression in a multi-valued function.
@@ -408,7 +424,7 @@
  		}
  	} else {
  		// 1:1 return, or no-arg return in non-void function.
-@@ -2858,6 +2873,11 @@
+@@ -2858,6 +2873,11 @@ func (b *builder) returnStmt(fn *Function, s *ast.ReturnStmt) {
  		}
  	}
  
@@ -420,6 +436,9 @@
  	// Store the results.
  	for i, r := range results {
  		var result Value // fn.source.result[i] conceptually
+diff --git b/go/ssa/gon.go b/go/ssa/gon.go
+new file mode 100644
+index 0000000..dd4cccb
 --- /dev/null
 +++ b/go/ssa/gon.go
 @@ -0,0 +1,54 @@
@@ -477,6 +496,9 @@
 +	fn.currentBlock = done
 +	return values[:len(values)-1]
 +}
+diff --git b/go/ssa/gon_test.go b/go/ssa/gon_test.go
+new file mode 100644
+index 0000000..16bc4e9
 --- /dev/null
 +++ b/go/ssa/gon_test.go
 @@ -0,0 +1,22 @@
@@ -502,9 +524,11 @@
 + if code:=interp.Interpret(p,0,types.SizesFor("gc","arm64"),"main",nil); code!=0 {t.Fatalf("SSA execution failed: %d",code)}
 + }) }
 +}
+diff --git a/internal/gcimporter/ureader.go b/internal/gcimporter/ureader.go
+index 5d3b7c8..3c258c2 100644
 --- a/internal/gcimporter/ureader.go
 +++ b/internal/gcimporter/ureader.go
-@@ -629,11 +629,26 @@
+@@ -629,11 +629,26 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index) (*types.Package, string) {
  				})
  			}
  
@@ -535,7 +559,7 @@
  				for range r.Len() {
  					// Careful: objIdx is used to read in package-scoped declarations, which
  					// methods are not. Instead, decode it here. This makes it easier to
-@@ -648,11 +663,31 @@
+@@ -648,11 +663,31 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index) (*types.Package, string) {
  					pkg, name := r.selector()
  					rtparams := r.typeParamNames(true)
  					recv := r.param()
@@ -568,7 +592,7 @@
  				}
  			}
  
-@@ -766,8 +801,12 @@
+@@ -766,8 +801,12 @@ func (r *reader) typeParamNames(isGenMeth bool) []*types.TypeParam {
  	return tparams
  }
  
@@ -582,7 +606,7 @@
  	pos := r.pos()
  	pkg, name := r.selector()
  
-@@ -775,7 +814,7 @@
+@@ -775,7 +814,7 @@ func (r *reader) method() *types.Func {
  	sig := r.signature(r.param(), rparams, nil)
  
  	_ = r.pos() // TODO(mdempsky): Remove; this is a hacker for linker.go.
@@ -591,20 +615,22 @@
  }
  
  func (r *reader) qualifiedIdent() (*types.Package, string) { return r.ident(pkgbits.SyncSym) }
+diff --git a/internal/pkgbits/version.go b/internal/pkgbits/version.go
+index 0db9652..684b471 100644
 --- a/internal/pkgbits/version.go
 +++ b/internal/pkgbits/version.go
-@@ -36,6 +36,10 @@
- 
+@@ -37,6 +37,10 @@ const (
  	// V4: encodes generic methods as standalone function objects
  	V4
-+
+ 
 +	// V5: encodes the index of methods to preserve relative order
 +	// of nongeneric and generic methods (go.dev/issue/81188).
 +	V5
- 
++
  	numVersions = iota
  )
-@@ -76,6 +80,10 @@
+ 
+@@ -76,6 +80,10 @@ const (
  	// Generic methods may appear as standalone function objects.
  	GenericMethods
  
@@ -615,7 +641,7 @@
  	numFields = iota
  )
  
-@@ -85,6 +93,7 @@
+@@ -85,6 +93,7 @@ var introduced = [numFields]Version{
  	AliasTypeParamNames: V2,
  	CompactCompLiterals: V3,
  	GenericMethods:      V4,
@@ -623,9 +649,11 @@
  }
  
  // removed is the version a field was removed in or 0 for fields
+diff --git a/internal/typesinternal/errorcode.go b/internal/typesinternal/errorcode.go
+index 235a6de..f0354f9 100644
 --- a/internal/typesinternal/errorcode.go
 +++ b/internal/typesinternal/errorcode.go
-@@ -1557,4 +1557,64 @@
+@@ -1557,4 +1557,68 @@ const (
  	// compiled for a language version before go1.20.
  	_ // not used anymore
  
@@ -681,18 +709,24 @@
 +	// errors. The solution is to rebuild the application with a
 +	// newer Go release.
 +	TooNew
++)
 +
++// Gon codes start at 10000, matching internal/types/errors of the Gon
++// toolchain, so that codes added by upstream Go keep their values.
++const (
 +	// InvalidErrorHandling occurs when a postfix error propagation or local
 +	// error handler uses an invalid operand, enclosing function, or handler.
 +	//
 +	// Example:
 +	//  func f() int { return 1 }
 +	//  func g() error { f()!; return nil }
-+	InvalidErrorHandling
++	InvalidErrorHandling ErrorCode = 10000 + iota
  )
+diff --git a/internal/typesinternal/errorcode_string.go b/internal/typesinternal/errorcode_string.go
+index 15ecf7c..9a40271 100644
 --- a/internal/typesinternal/errorcode_string.go
 +++ b/internal/typesinternal/errorcode_string.go
-@@ -155,15 +155,22 @@
+@@ -155,15 +155,23 @@ func _() {
  	_ = x[MisplacedTypeParam-144]
  	_ = x[InvalidUnsafeSliceData-145]
  	_ = x[InvalidUnsafeString-146]
@@ -700,31 +734,37 @@
 +	_ = x[TypeTooLarge-149]
 +	_ = x[InvalidMinMaxOperand-150]
 +	_ = x[TooNew-151]
-+	_ = x[InvalidErrorHandling-152]
++	_ = x[InvalidErrorHandling-10000]
  }
  
  const (
  	_ErrorCode_name_0 = "InvalidSyntaxTree"
  	_ErrorCode_name_1 = "TestBlankPkgNameMismatchedPkgNameInvalidPkgUseBadImportPathBrokenImportImportCRenamedUnusedImportInvalidInitCycleDuplicateDeclInvalidDeclCycleInvalidTypeCycleInvalidConstInitInvalidConstValInvalidConstTypeUntypedNilUseWrongAssignCountUnassignableOperandNoNewVarMultiValAssignOpInvalidIfaceAssignInvalidChanAssignIncompatibleAssignUnaddressableFieldAssignNotATypeInvalidArrayLenBlankIfaceMethodIncomparableMapKeyInvalidIfaceEmbedInvalidPtrEmbedBadRecvInvalidRecvDuplicateFieldAndMethodDuplicateMethodInvalidBlankInvalidIotaMissingInitBodyInvalidInitSigInvalidInitDeclInvalidMainDeclTooManyValuesNotAnExprTruncatedFloatNumericOverflowUndefinedOpMismatchedTypesDivByZeroNonNumericIncDecUnaddressableOperandInvalidIndirectionNonIndexableOperandInvalidIndexSwappedSliceIndicesNonSliceableOperandInvalidSliceExprInvalidShiftCountInvalidShiftOperandInvalidReceiveInvalidSendDuplicateLitKeyMissingLitKeyInvalidLitIndexOversizeArrayLitMixedStructLitInvalidStructLitMissingLitFieldDuplicateLitFieldUnexportedLitFieldInvalidLitFieldUntypedLitInvalidLitAmbiguousSelectorUndeclaredImportedNameUnexportedNameUndeclaredNameMissingFieldOrMethodBadDotDotDotSyntaxNonVariadicDotDotDotMisplacedDotDotDotInvalidDotDotDotOperandInvalidDotDotDotUncalledBuiltinInvalidAppendInvalidCapInvalidCloseInvalidCopyInvalidComplexInvalidDeleteInvalidImagInvalidLenSwappedMakeArgsInvalidMakeInvalidRealInvalidAssertImpossibleAssertInvalidConversionInvalidUntypedConversionBadOffsetofSyntaxInvalidOffsetofUnusedExprUnusedVarMissingReturnWrongResultCountOutOfScopeResultInvalidCondInvalidPostDeclInvalidChanRangeInvalidIterVarInvalidRangeExprMisplacedBreakMisplacedContinueMisplacedFallthroughDuplicateCaseDuplicateDefaultBadTypeKeywordInvalidTypeSwitchInvalidExprSwitchInvalidSelectCaseUndeclaredLabelDuplicateLabelMisplacedLabelUnusedLabelJumpOverDeclJumpIntoBlockInvalidMethodExprWrongArgCountInvalidCallUnusedResultsInvalidDeferInvalidGoBadDeclRepeatedDeclInvalidUnsafeAddInvalidUnsafeSliceUnsupportedFeatureNotAGenericTypeWrongTypeArgCountCannotInferTypeArgsInvalidTypeArgInvalidInstanceCycleInvalidUnionMisplacedConstraintIfaceInvalidMethodTypeParamsMisplacedTypeParamInvalidUnsafeSliceDataInvalidUnsafeString"
-+	_ErrorCode_name_2 = "InvalidClearTypeTooLargeInvalidMinMaxOperandTooNewInvalidErrorHandling"
++	_ErrorCode_name_2 = "InvalidClearTypeTooLargeInvalidMinMaxOperandTooNew"
++	_ErrorCode_name_3 = "InvalidErrorHandling"
  )
  
  var (
  	_ErrorCode_index_1 = [...]uint16{0, 4, 16, 33, 46, 59, 71, 85, 97, 113, 126, 142, 158, 174, 189, 205, 218, 234, 253, 261, 277, 295, 312, 330, 354, 362, 377, 393, 411, 428, 443, 450, 461, 484, 499, 511, 522, 537, 551, 566, 581, 594, 603, 617, 632, 643, 658, 667, 683, 703, 721, 740, 752, 771, 790, 806, 823, 842, 856, 867, 882, 895, 910, 926, 940, 956, 971, 988, 1006, 1021, 1031, 1041, 1058, 1080, 1094, 1108, 1128, 1146, 1166, 1184, 1207, 1223, 1238, 1251, 1261, 1273, 1284, 1298, 1311, 1322, 1332, 1347, 1358, 1369, 1382, 1398, 1415, 1439, 1456, 1471, 1481, 1490, 1503, 1519, 1535, 1546, 1561, 1577, 1591, 1607, 1621, 1638, 1658, 1671, 1687, 1701, 1718, 1735, 1752, 1767, 1781, 1795, 1806, 1818, 1831, 1848, 1861, 1872, 1885, 1897, 1906, 1913, 1925, 1941, 1959, 1977, 1992, 2009, 2028, 2042, 2062, 2074, 2098, 2121, 2139, 2161, 2180}
-+	_ErrorCode_index_2 = [...]uint8{0, 12, 24, 44, 50, 70}
++	_ErrorCode_index_2 = [...]uint8{0, 12, 24, 44, 50}
  )
  
  func (i ErrorCode) String() string {
-@@ -173,6 +180,9 @@
+@@ -173,6 +181,11 @@ func (i ErrorCode) String() string {
  	case 1 <= i && i <= 146:
  		i -= 1
  		return _ErrorCode_name_1[_ErrorCode_index_1[i]:_ErrorCode_index_1[i+1]]
-+	case 148 <= i && i <= 152:
++	case 148 <= i && i <= 151:
 +		i -= 148
 +		return _ErrorCode_name_2[_ErrorCode_index_2[i]:_ErrorCode_index_2[i+1]]
++	case i == 10000:
++		return _ErrorCode_name_3
  	default:
  		return "ErrorCode(" + strconv.FormatInt(int64(i), 10) + ")"
  	}
+diff --git b/internal/typesinternal/gon_errorcode_test.go b/internal/typesinternal/gon_errorcode_test.go
+new file mode 100644
+index 0000000..6a04435
 --- /dev/null
 +++ b/internal/typesinternal/gon_errorcode_test.go
 @@ -0,0 +1,34 @@
@@ -762,13 +802,12 @@
 +		t.Errorf("String() = %q", got)
 +	}
 +}
+diff --git b/refactor/satisfy/errorhandling_test.go b/refactor/satisfy/errorhandling_test.go
+new file mode 100644
+index 0000000..8ed958e
 --- /dev/null
 +++ b/refactor/satisfy/errorhandling_test.go
-@@ -0,0 +1,54 @@
-+// Copyright 2026 The Go Authors. All rights reserved.
-+// Use of this source code is governed by a BSD-style
-+// license that can be found in the LICENSE file.
-+
+@@ -0,0 +1,50 @@
 +package satisfy
 +
 +import (
@@ -819,19 +858,21 @@
 +		t.Fatal("interface assignment inside error handler was not visited")
 +	}
 +}
+diff --git a/refactor/satisfy/find.go b/refactor/satisfy/find.go
+index 720ecc1..86af059 100644
 --- a/refactor/satisfy/find.go
 +++ b/refactor/satisfy/find.go
-@@ -130,6 +130,9 @@
- 	switch e := e.(type) {
+@@ -131,6 +131,9 @@ func (f *Finder) exprN(e ast.Expr) types.Type {
  	case *ast.ParenExpr:
  		return f.exprN(e.X)
-+
+ 
 +	case *ast.ErrorExpr:
 +		f.errorExpr(e)
- 
++
  	case *ast.CallExpr:
  		// x, err := f(args)
-@@ -333,6 +336,18 @@
+ 		if sig := hasUnderlyingTermOf[*types.Signature](f.expr(e.Fun)); sig != nil {
+@@ -333,6 +336,18 @@ func (f *Finder) compare(x, y types.Type) {
  	}
  }
  
@@ -850,13 +891,13 @@
  // expr visits a true expression (not a type or defining ident)
  // and returns its type.
  func (f *Finder) expr(e ast.Expr) types.Type {
-@@ -361,6 +376,9 @@
- 		if e.Elt != nil {
+@@ -362,6 +377,9 @@ func (f *Finder) expr(e ast.Expr) types.Type {
  			f.expr(e.Elt)
  		}
-+
+ 
 +	case *ast.ErrorExpr:
 +		f.errorExpr(e)
- 
++
  	case *ast.FuncLit:
  		saved := f.sig
+ 		f.sig = tv.Type.(*types.Signature)

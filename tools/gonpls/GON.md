@@ -59,7 +59,7 @@ Added for the tooling commands of the public `gon` launcher:
   so that the server skips background diagnostics; editors are unaffected.
 - No pkg.go.dev links for type-checker codes that upstream x/tools does not
   document, including `InvalidErrorHandling`; the x/tools patch names codes
-  148–152 of the Gon toolchain.
+  148–151 and Gon's own range starting at 10000.
 - Upstream command-line test expectations and `internal/cmd/usage` help files
   updated for the `gonpls` name and command namespace.
 

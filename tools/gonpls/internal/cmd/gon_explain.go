@@ -4,8 +4,10 @@ import (
 	"context"
 	"fmt"
 	"go/ast"
+	"go/constant"
 	"go/parser"
 	"go/token"
+	"go/types"
 	"io"
 	"os"
 	"path/filepath"
@@ -13,6 +15,7 @@ import (
 	"strings"
 
 	"golang.org/x/tools/gopls/internal/settings"
+	"golang.org/x/tools/gopls/internal/util/safetoken"
 )
 
 type gonExplainResult struct {
@@ -141,37 +144,31 @@ func gonTypeErrorCodes(root string) ([]gonCodeDoc, string, error) {
 	if err != nil {
 		return nil, path, err
 	}
+	// Evaluate the constants with the type checker, so that any constant
+	// expression, such as Gon's separate range, yields its value.
+	conf := types.Config{Error: func(error) {}}
+	pkg, _ := conf.Check("errors", fset, []*ast.File{f}, nil)
 	var codes []gonCodeDoc
 	for _, decl := range f.Decls {
 		gen, ok := decl.(*ast.GenDecl)
 		if !ok || gen.Tok != token.CONST {
 			continue
 		}
-		iotaValue := true // whether the implicit repetition is iota-based
-		for i, spec := range gen.Specs {
+		for _, spec := range gen.Specs {
 			vs := spec.(*ast.ValueSpec)
-			value, known := i, iotaValue
-			if len(vs.Values) == 1 {
-				switch v := vs.Values[0].(type) {
-				case *ast.Ident:
-					known, iotaValue = v.Name == "iota", v.Name == "iota"
-				case *ast.UnaryExpr:
-					if lit, ok := v.X.(*ast.BasicLit); ok && v.Op == token.SUB {
-						n, err := strconv.Atoi(lit.Value)
-						value, known, iotaValue = -n, err == nil, false
-					}
-				default:
-					known, iotaValue = false, false
-				}
-			}
 			for _, id := range vs.Names {
-				if id.Name == "_" || !known {
+				c, ok := pkg.Scope().Lookup(id.Name).(*types.Const)
+				if id.Name == "_" || !ok {
+					continue
+				}
+				value, exact := constant.Int64Val(c.Val())
+				if !exact {
 					continue
 				}
 				codes = append(codes, gonCodeDoc{
-					name: id.Name, number: value,
+					name: id.Name, number: int(value),
 					doc:  strings.TrimSpace(vs.Doc.Text()),
-					line: fset.Position(id.Pos()).Line,
+					line: safetoken.StartPosition(fset, id.Pos()).Line,
 				})
 			}
 		}
