@@ -1,0 +1,83 @@
+# Checks that cannot run on the maintainers' darwin/arm64 machines: the other
+# in-scope architectures (amd64, riscv64, wasm) and Linux-specific tests.
+# The complete suite ('go tool dist test') and js/wasm
+# (misc/gon/cross_pair.sh js wasm) still run locally.
+name: gon
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gon-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GOTOOLCHAIN: local
+  GOFLAGS: ""
+
+jobs:
+  linux-amd64:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.27"
+          cache: false
+      - name: Build Gon
+        run: |
+          echo "BASELINE=$(go env GOROOT)/bin/go" >> "$GITHUB_ENV"
+          cd src && env -u GOROOT GOROOT_BOOTSTRAP="$(go env GOROOT)" ./make.bash
+      - name: Runtime, cgo and coverage tests
+        working-directory: src
+        run: >-
+          env -u GOROOT GO_ERROR_HANDLING_BASELINE="$BASELINE" ../bin/go test -short -count=1
+          runtime cmd/cgo/internal/test cmd/cgo/internal/testerrors cmd/cgo/internal/testerrorhandling cmd/cover
+      - name: Language tests, with the legacy programs also run by upstream Go
+        working-directory: src
+        run: env -u GOROOT GO_ERROR_HANDLING_BASELINE="$BASELINE" ../bin/go test -count=1 cmd/internal/testdir
+
+  linux-riscv64:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.27"
+          cache: false
+      - uses: docker/setup-qemu-action@v3
+        with:
+          platforms: riscv64
+      - name: Build Gon
+        run: cd src && env -u GOROOT GOROOT_BOOTSTRAP="$(go env GOROOT)" ./make.bash
+      - name: Error-handling pair
+        run: misc/gon/cross_pair.sh linux riscv64
+      - name: Standard library tests
+        working-directory: src
+        run: env -u GOROOT GOARCH=riscv64 ../bin/go test -short -count=1 errors strconv sort math/big
+
+  wasip1-wasm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.27"
+          cache: false
+      - uses: bytecodealliance/actions/wasmtime/setup@v1
+      - name: Build Gon
+        run: cd src && env -u GOROOT GOROOT_BOOTSTRAP="$(go env GOROOT)" ./make.bash
+      - name: Error-handling pair
+        run: misc/gon/cross_pair.sh wasip1 wasm
+      - name: Standard library tests
+        working-directory: src
+        run: env -u GOROOT PATH="$PWD/../lib/wasm:$PATH" GOOS=wasip1 GOARCH=wasm ../bin/go test -short -count=1 errors strconv sort
