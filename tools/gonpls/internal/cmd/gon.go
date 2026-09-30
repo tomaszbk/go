@@ -465,7 +465,11 @@ func gonRoot(env []string) string {
 	}
 	if exe, err := os.Executable(); err == nil {
 		if exe, err := filepath.EvalSymlinks(exe); err == nil {
-			return filepath.Clean(filepath.Join(filepath.Dir(exe), "..", "..", ".."))
+			root := filepath.Clean(filepath.Join(filepath.Dir(exe), "..", "..", ".."))
+			// Elsewhere, as in a test binary, use the toolchain that built this program.
+			if _, err := os.Stat(filepath.Join(root, "src", "go.mod")); err == nil {
+				return root
+			}
 		}
 	}
 	return runtime.GOROOT()
