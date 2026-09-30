@@ -892,6 +892,17 @@ func (p *Package) rewriteCall(f *File, call *Call) (string, bool) {
 		return "", false
 	}
 
+	// The arguments of a rewritten call are evaluated inside a function
+	// literal. An error propagation (x!) or local handler (x or err { ... })
+	// in an argument would then return from that literal instead of from
+	// the enclosing function, so reject it instead of changing its meaning.
+	for _, arg := range args {
+		if ee := findErrorExpr(arg); ee != nil {
+			error_(ee.Pos(), "cannot use error propagation or an \"or\" handler in an argument of a C call that cgo must rewrite to check pointers; assign the value to a variable first")
+			return "", false
+		}
+	}
+
 	// We need to rewrite this call.
 	//
 	// Rewrite C.f(p) to
@@ -1045,6 +1056,28 @@ func (p *Package) rewriteCall(f *File, call *Call) (string, bool) {
 	sb.WriteString("()")
 
 	return sb.String(), needsUnsafe
+}
+
+// findErrorExpr returns the first error propagation or local handler
+// expression in x that belongs to the function containing x,
+// or nil if there is none. It does not look inside function literals,
+// which are their own propagation boundary.
+func findErrorExpr(x ast.Expr) *ast.ErrorExpr {
+	var found *ast.ErrorExpr
+	ast.Inspect(x, func(n ast.Node) bool {
+		if found != nil {
+			return false
+		}
+		switch n := n.(type) {
+		case *ast.FuncLit:
+			return false
+		case *ast.ErrorExpr:
+			found = n
+			return false
+		}
+		return true
+	})
+	return found
 }
 
 // needsPointerCheck reports whether the type t needs a pointer check.
