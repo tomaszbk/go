@@ -1,7 +1,8 @@
 # Checks that cannot run on the maintainers' darwin/arm64 machines: the other
-# in-scope architectures (amd64, riscv64, wasm) and Linux-specific tests.
-# The complete suite ('go tool dist test') and js/wasm
-# (misc/gon/cross_pair.sh js wasm) still run locally.
+# in-scope architectures (amd64, riscv64, wasm), Linux- and Windows-specific
+# tests, and the Gon launcher on Windows. The complete suite
+# ('go tool dist test') and js/wasm (misc/gon/cross_pair.sh js wasm) still
+# run locally.
 name: gon
 
 on:
@@ -26,10 +27,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
         with:
-          go-version: "1.27"
+          go-version: stable
           cache: false
       - name: Build Gon
         run: |
@@ -48,12 +49,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
         with:
-          go-version: "1.27"
+          go-version: stable
           cache: false
-      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-qemu-action@v4
         with:
           platforms: riscv64
       - name: Build Gon
@@ -68,10 +69,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
         with:
-          go-version: "1.27"
+          go-version: stable
           cache: false
       - uses: bytecodealliance/actions/wasmtime/setup@v1
       - name: Build Gon
@@ -81,3 +82,48 @@ jobs:
       - name: Standard library tests
         working-directory: src
         run: env -u GOROOT PATH="$PWD/../lib/wasm:$PATH" GOOS=wasip1 GOARCH=wasm ../bin/go test -short -count=1 errors strconv sort
+
+  windows-amd64:
+    runs-on: windows-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version: stable
+          cache: false
+      - name: Build Gon
+        run: |
+          $bootstrap = go env GOROOT
+          "BASELINE=$bootstrap\bin\go.exe" >> $env:GITHUB_ENV
+          Remove-Item Env:GOROOT -ErrorAction SilentlyContinue
+          $env:GOROOT_BOOTSTRAP = $bootstrap
+          cd src
+          .\make.bat
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Error-handling, cgo and coverage tests
+        working-directory: src
+        run: |
+          Remove-Item Env:GOROOT -ErrorAction SilentlyContinue
+          $env:GO_ERROR_HANDLING_BASELINE = $env:BASELINE
+          ..\bin\go.exe test -count=1 cmd/internal/testdir -run 'Test/errorhandling.go$'
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          ..\bin\go.exe test -short -count=1 cmd/cgo/internal/testerrorhandling cmd/cover
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: gon launcher and gonpls
+        run: |
+          Remove-Item Env:GOROOT -ErrorAction SilentlyContinue
+          python misc/gon/build.py
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          gon\bin\gon.exe version
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $legacy = gon\bin\gon.exe run test/errorhandling.dir/common.go test/errorhandling.dir/legacy.go
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $modern = gon\bin\gon.exe run test/errorhandling.dir/common.go test/errorhandling.dir/modern.go
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          if (($legacy -join "`n") -ne ($modern -join "`n")) { Write-Error "legacy and modern programs differ"; exit 1 }
+          gon\bin\gon.exe capabilities --json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }

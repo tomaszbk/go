@@ -39,7 +39,8 @@ def main():
             path.chmod(path.stat().st_mode | (0o700 if path.is_dir() else 0o200))
         patch = HERE / "patches" / (name + ".patch")
         if patch.exists():
-            run("git", "apply", "--directory=" + str(target.relative_to(ROOT)), patch)
+            # git apply expects a slash-separated directory, also on Windows.
+            run("git", "apply", "--directory=" + target.relative_to(ROOT).as_posix(), patch)
     run(GO, "mod", "edit", "-replace=golang.org/x/tools=../tools", cwd=WORK / "staticcheck")
     platform = json.loads(run(GO, "env", "-json", "GOOS", "GOARCH", capture=True).stdout)
     suffix = ".exe" if platform["GOOS"] == "windows" else ""
