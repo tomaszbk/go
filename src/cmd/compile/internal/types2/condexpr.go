@@ -1,0 +1,283 @@
+// This file implements type checking of conditional expressions.
+
+package types2
+
+import (
+	"cmd/compile/internal/syntax"
+	"go/constant"
+	. "internal/types/errors"
+)
+
+// condExpr type-checks the conditional expression e, "if Cond { Then }
+// else { Else }", and initializes x with its result.
+//
+// The condition must be boolean. How the branches are typed depends on the
+// kind of the target T, if any (see targetKind):
+//
+//   - With an assignment target (assignTarget, condOnlyTarget), each branch
+//     is assigned to T.typ; with a conversion target (convTarget), each
+//     branch is converted to T.typ. The result has type T.typ. If T.typ is
+//     an interface, untyped branches other than nil first get the types
+//     they would have without a target (see condIfaceTypes).
+//   - Without a target, or with an inferTarget, the branch types must be
+//     identical, except that an untyped branch takes the type of a typed
+//     branch and two untyped branches combine like the untyped operands of
+//     a binary operation. An untyped result gets its final type later, via
+//     updateExprType, which then also updates both branches.
+//
+// The type and value recorded for each branch are those of the branch,
+// which may differ from those of the conditional expression: the selected
+// branch must be converted to the type of the conditional expression. The
+// conversion is implicit, as in an assignment, if the branch type is
+// assignable to that type; otherwise it is an explicit conversion, which
+// happens only for a conversion target.
+//
+// The result is a constant if the condition and both branches are
+// constants and the result type is a constant type. It is never
+// addressable, and never the predeclared nil.
+func (check *Checker) condExpr(T *target, x *operand, e *syntax.CondExpr) {
+	var cond operand
+	check.expr(nil, &cond, e.Cond)
+	if cond.isValid() && !allBoolean(cond.typ()) {
+		check.error(e.Cond, InvalidCond, "non-boolean condition in conditional expression")
+		cond.invalidate()
+	}
+
+	// Determine the target of the branches, if any.
+	var bt *target // target for the branch expressions
+	conv := false  // whether the branches are converted (rather than assigned) to T.typ
+	if T != nil && isTyped(T.typ) {
+		switch T.kind {
+		case assignTarget:
+			// A branch is not a composite literal element: drop any hint.
+			bt = newTarget(T.typ, T.desc)
+		case condOnlyTarget:
+			bt = T
+		case convTarget:
+			// The caller reports conversions to constraint interfaces.
+			if t, _ := T.typ.Underlying().(*Interface); t == nil || isTypeParam(T.typ) || t.IsMethodSet() {
+				bt, conv = T, true
+			}
+		}
+	}
+
+	var a, b operand // Then, Else
+	check.expr(bt, &a, e.Then)
+	check.expr(bt, &b, e.Else)
+
+	var typ Type
+	switch {
+	case bt == nil:
+		typ = check.condType(e, &a, &b)
+	case isNonTypeParamInterface(T.typ) && a.isValid() && b.isValid() && !check.condIfaceTypes(e, &a, &b):
+		// error reported by condIfaceTypes
+	default:
+		check.condBranchTo(&a, T.typ, conv)
+		check.condBranchTo(&b, T.typ, conv)
+		typ = T.typ
+	}
+
+	x.expr = e
+	if !cond.isValid() || !a.isValid() || !b.isValid() || typ == nil || !isValid(typ) {
+		x.invalidate()
+		x.typ_ = Typ[Invalid]
+		return
+	}
+
+	x.mode_ = value
+	x.typ_ = typ
+	if cond.mode() == constant_ && a.mode() == constant_ && b.mode() == constant_ && isConstType(typ) {
+		x.mode_ = constant_
+		switch {
+		case cond.val.Kind() != constant.Bool:
+			x.val = constant.MakeUnknown() // error reported before
+		case constant.BoolVal(cond.val):
+			x.val = a.val
+		default:
+			x.val = b.val
+		}
+		// Like the result of a binary operation, the value of an untyped
+		// result has the representation of the combined kind.
+		if isUntyped(typ) {
+			switch typ.(*Basic).kind {
+			case UntypedFloat:
+				x.val = constant.ToFloat(x.val)
+			case UntypedComplex:
+				x.val = constant.ToComplex(x.val)
+			}
+		}
+	}
+}
+
+// condBranchTo converts (if conv is set) or assigns the branch x of a
+// conditional expression to the target type T.
+func (check *Checker) condBranchTo(x *operand, T Type, conv bool) {
+	if !x.isValid() {
+		return
+	}
+	if conv {
+		check.conversion(x, T)
+	} else {
+		check.assignment(x, T, "conditional expression")
+	}
+}
+
+// condType determines the type of a conditional expression e without
+// target type from its (valid or invalid) branches x and y, converting an
+// untyped branch as needed. The result is nil if an error was reported or
+// a branch is invalid.
+func (check *Checker) condType(e *syntax.CondExpr, x, y *operand) Type {
+	if !x.isValid() || !y.isValid() {
+		return nil
+	}
+
+	switch {
+	case isTyped(x.typ()) && isTyped(y.typ()):
+		// The rule is strict: neither branch is converted to the other's
+		// type, not even to an interface it implements.
+		if !Identical(x.typ(), y.typ()) {
+			check.condMismatch(e, x, y)
+			return nil
+		}
+		return x.typ()
+
+	case isTyped(x.typ()) || isTyped(y.typ()):
+		// The untyped branch takes the type of the typed one.
+		typed, untyped := x, y
+		if isUntyped(x.typ()) {
+			typed, untyped = y, x
+		}
+		if !check.condUntypedFits(untyped, typed.typ()) {
+			check.condMismatch(e, x, y)
+			return nil
+		}
+		check.assignment(untyped, typed.typ(), "conditional expression")
+		if !untyped.isValid() {
+			return nil
+		}
+		return typed.typ()
+	}
+
+	// Both branches are untyped.
+	if x.isNil() || y.isNil() {
+		if x.isNil() && y.isNil() {
+			// Like x := nil, there is no type that nil could take.
+			check.error(e, UntypedNilUse, "use of untyped nil in conditional expression")
+			return nil
+		}
+		check.condMismatch(e, x, y)
+		return nil
+	}
+	// Two untyped constants or (non-constant) values combine like the
+	// untyped operands of a binary operation; the result remains untyped.
+	m := maxType(x.typ(), y.typ())
+	if m == nil {
+		check.condMismatch(e, x, y)
+		return nil
+	}
+	check.convertUntyped(x, m)
+	check.convertUntyped(y, m)
+	if !x.isValid() || !y.isValid() {
+		return nil
+	}
+	return m
+}
+
+// condIfaceTypes gives the untyped branches x and y of a conditional
+// expression e with an interface target, except untyped nil, the types they
+// would have without a target: the type of the other branch if that is a
+// typed non-interface type, the default type of their combined kind if both
+// are untyped, and their own default type otherwise (if the other branch is
+// an interface or nil). Thus the target does not change the dynamic types
+// of the branches. Both branches must be valid. The result is false if an
+// error was reported.
+func (check *Checker) condIfaceTypes(e *syntax.CondExpr, x, y *operand) bool {
+	ux := isUntyped(x.typ()) && !x.isNil()
+	uy := isUntyped(y.typ()) && !y.isNil()
+	switch {
+	case ux && uy:
+		m := maxType(x.typ(), y.typ())
+		if m == nil {
+			check.condMismatch(e, x, y)
+			return false
+		}
+		check.assignment(x, Default(m), "conditional expression")
+		check.assignment(y, Default(m), "conditional expression")
+	case ux:
+		check.condUntypedTo(e, x, y, x)
+	case uy:
+		check.condUntypedTo(e, x, y, y)
+	}
+	return x.isValid() && y.isValid()
+}
+
+// condUntypedTo gives the untyped branch u, which is x or y, of the
+// conditional expression e the type of the other branch if that is a typed
+// non-interface type, and its own default type otherwise.
+func (check *Checker) condUntypedTo(e *syntax.CondExpr, x, y, u *operand) {
+	other := x
+	if u == x {
+		other = y
+	}
+	T := Default(u.typ())
+	if isTyped(other.typ()) && !isNonTypeParamInterface(other.typ()) {
+		T = other.typ()
+		if !check.condUntypedFits(u, T) {
+			check.condMismatch(e, x, y)
+			u.invalidate()
+			return
+		}
+	}
+	check.assignment(u, T, "conditional expression")
+}
+
+// condMismatch reports that the branch types of e do not match.
+func (check *Checker) condMismatch(e *syntax.CondExpr, x, y *operand) {
+	check.errorf(e, MismatchedTypes, "mismatched types %s and %s in conditional expression", x.typ(), y.typ())
+}
+
+// condUntypedFits reports whether the untyped branch x of a conditional
+// expression is compatible with the type T of the other branch, that is,
+// whether x has the same kind of value as T, or T is an interface to which
+// x can be assigned. If so, assigning x to T may still fail because a
+// constant x is not representable by T.
+func (check *Checker) condUntypedFits(x *operand, T Type) bool {
+	switch {
+	case x.isNil():
+		return hasNil(T)
+	case isNonTypeParamInterface(T):
+		ok, _ := x.assignableTo(check, T, nil)
+		return ok
+	case allBoolean(x.typ()):
+		return allBoolean(T)
+	case allNumeric(x.typ()):
+		return allNumeric(T)
+	case allString(x.typ()):
+		return allString(T)
+	}
+	return false
+}
+
+// isCondExpr reports whether e is a (possibly parenthesized) conditional
+// expression.
+func isCondExpr(e syntax.Expr) bool {
+	_, ok := syntax.Unparen(e).(*syntax.CondExpr)
+	return ok
+}
+
+// condNilArg reports whether the argument x of a generic call is a
+// conditional expression with one untyped nil branch for a parameter whose
+// type depends on the callee's type parameters and has been inferred as
+// the interface T not identical to the type of x. The type of x, which nil
+// got from the other branch, was fixed before inference: converting it to
+// the interface could yield a non-nil interface holding a nil value, unlike
+// with a target type. If so, condNilArg reports an error and invalidates x.
+func (check *Checker) condNilArg(x *operand, T Type, context string) bool {
+	e, _ := syntax.Unparen(x.expr).(*syntax.CondExpr)
+	if e == nil || !x.isValid() || !isNonTypeParamInterface(T) || Identical(x.typ(), T) || check.isNil(e.Then) == check.isNil(e.Else) {
+		return false
+	}
+	check.errorf(x, IncompatibleAssign, "cannot use conditional expression with nil branch as %s value in %s (its type %s is fixed before inference; convert a branch explicitly)", T, context, x.typ())
+	x.invalidate()
+	return true
+}

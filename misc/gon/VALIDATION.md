@@ -202,3 +202,75 @@ inherited, symlinked `$PWD` (macOS `/var` instead of `/private/var`), which made
 `gon check` print absolute paths that the problem matcher could not resolve.
 `gon check` now runs `go list` with the canonical directory; the Go regression
 reproduces the failure without the fix, and the suite passed again.
+
+## Maintained modules and feature integration gates (2026-10-02)
+
+Validated on darwin/arm64 with Gon `go1.28-devel_981e974870` and unmodified
+`/opt/homebrew/bin/go` (`go1.27.1`). Other supported architectures were not
+executed in this session. No broad distribution test suite was run.
+
+Sources now live in `tools/x-tools` and `tools/staticcheck`. Gonpls and cmd select
+that same x/tools source through relative replacements; `go list -m -json`
+confirmed both resolve to `tools/x-tools`. There are no nested Git repositories.
+The old tools, staticcheck and cmd-vendor patches were imported and removed;
+source provenance is in `UPSTREAM.json`. Old `pkg/gon-tools` output was moved out
+of the workspace before the final build, which passed without recreating it.
+
+Commands from the repository root:
+
+```sh
+GON_BASELINE_GO=/opt/homebrew/bin/go python3 misc/gon/validate.py tooling
+GON_BASELINE_GO=/opt/homebrew/bin/go python3 misc/gon/validate.py errorhandling
+GON_BASELINE_GO=/opt/homebrew/bin/go python3 misc/gon/validate.py conditional
+python3 misc/gon/vendor.py --check
+```
+
+Results:
+
+- Tooling: all 17 gates passed (exit 0), covering build, AST, structural helpers,
+  semantic helpers, conservative inliner refusal, both language executable pairs,
+  SSA execution, Staticcheck IR, CLI/LSP, typerefs and unusedfunc.
+- Error handling: all 18 gates passed (exit 0), additionally covering the existing
+  cgo executable pair/diagnostics, cover flow profiles/legacy instrumentation,
+  syntax, generated type checker consistency and vet.
+- Conditional: all 14 implemented gates passed; exit 2 deliberately reports the
+  unfinished feature integration items in `features.json`. This is not a claim
+  that conditional expressions are complete.
+- The analyzer corpus ran all 247 analyzers from the actual gonpls registry on
+  five packages, including legacy/modern error and conditional fixtures, with
+  no panics or failed analysis actions. New public Gon nodes must appear in the
+  corpus; the test checks the inventory in `api/fork.txt`.
+- A deliberate temporary change to a generated vendor file made `--check` fail
+  and name the changed file. The probe restored the exact bytes immediately;
+  the final vendor check passed.
+- `git diff --check` and Python compilation of the build/vendor/validation scripts
+  passed. Ignore rules were adjusted so imported source `internal/event/core`
+  and upstream fixtures resembling compiler outputs are included in Git.
+
+The runners record exact commands, test counts, skips and output under
+`pkg/gon-validation/<profile>/summary.json` and adjacent logs. Upstream skips
+were `typesinternal.TestErrorCodes` (replaced by the passing Gon-specific code
+inventory test) and vet's stringintconv/stdversion/loopclosure subtests. No Gon
+executable pair was skipped; each legacy pair also ran with the official baseline.
+
+`ast.Children` and Walk share one structural inventory. Inspector cursor metadata
+and mutable AST slots still require explicit registration. Semantic walkers are
+not indiscriminately replaced: effects are conservative, unsupported copy/equality
+is declined, and inlining Gon control-flow callee bodies returns an explicit
+error. cgo/cover/editor completion for conditional expressions remains the next
+feature work, together with its specification clarifications.
+
+## Go master integration (2026-10-02)
+
+Go master through `67c1d421161d3d1ae9f5fd005e84c29fd0d9f896` and x/tools
+`98444708d405` were integrated and tested on darwin/arm64. The original checkout
+was rebuilt from unmodified Go 1.27.1 after an isolated validation. Tooling
+(17 gates) and error handling (18 gates) pass; conditional passes its 14 existing
+gates but still exits 2 for pending integration. Both syntax/type-checker
+families, upstream regressions, the new export format and selected receiver
+operations in gonpls were checked. No whole-distribution suite was run.
+
+See [the full record](../../handover/upstream-2026-10-02.md) for exact revisions,
+commands, logs, conflict resolutions and skipped/dormant upstream tests. In
+particular, two upstream gcimporter TestMain functions execute zero tests; their
+package-level successes are not counted as importer validation.

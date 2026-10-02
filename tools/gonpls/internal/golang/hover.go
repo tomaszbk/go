@@ -374,7 +374,7 @@ func hover(ctx context.Context, snapshot *cache.Snapshot, fh file.Handle, rng pr
 	// There's not much useful information to provide.
 	if _, selectedType := typeSwitchVars(pkg.TypesInfo(), cur); selectedType != nil {
 		v := types.NewVar(obj.Pos(), obj.Pkg(), obj.Name(), selectedType)
-		typesinternal.SetVarKind(v, typesinternal.LocalVar)
+		v.SetKind(types.LocalVar)
 		signature := types.ObjectString(v, qual)
 		return *hoverRange, &hoverResult{
 			Signature:  signature,
@@ -1571,7 +1571,7 @@ func StdSymbolOf(obj types.Object) *stdlib.Symbol {
 
 	// Handle Method.
 	if fn, _ := obj.(*types.Func); fn != nil {
-		isPtr, named := typesinternal.ReceiverNamed(fn.Signature().Recv())
+		isPtr, named := typesinternal.RecvBase(fn)
 		if named != nil && typesinternal.IsPackageLevel(named.Obj()) {
 			for _, s := range symbols {
 				if s.Kind != stdlib.Method {
@@ -1777,7 +1777,7 @@ func promotedFields(t types.Type, from *types.Package) []promotedField {
 
 			// Handle recursion through anonymous fields.
 			if f.Anonymous() {
-				if _, named := typesinternal.ReceiverNamed(f); named != nil {
+				if named, ok := types.Unalias(typesinternal.Unpointer(f.Type())).(*types.Named); ok {
 					// If we've already visited this named type
 					// on this path, break the cycle.
 					for _, x := range stack {

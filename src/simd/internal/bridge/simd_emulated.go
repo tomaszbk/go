@@ -3241,6 +3241,40 @@ func (x Uint64s) CarrylessMultiplyOdd(y Uint64s) Uint64s {
 	return x.clmul(y)
 }
 
+func (v Int8s) OnesCount() Int8s {
+	a0, a1 := v.a, v.b
+	m1 := uint64(0x5555555555555555)
+	m2 := uint64(0x3333333333333333)
+	m4 := uint64(0x0f0f0f0f0f0f0f0f)
+	a0 = (a0 & m1) + ((a0 >> 1) & m1)
+	a1 = (a1 & m1) + ((a1 >> 1) & m1)
+
+	a0 = (a0 & m2) + ((a0 >> 2) & m2)
+	a1 = (a1 & m2) + ((a1 >> 2) & m2)
+
+	a0 = (a0 & m4) + ((a0 >> 4) & m4)
+	a1 = (a1 & m4) + ((a1 >> 4) & m4)
+
+	return Int8s{a: a0, b: a1}
+}
+
+func (v Uint8s) OnesCount() Uint8s {
+	a0, a1 := v.a, v.b
+	m1 := uint64(0x5555555555555555)
+	m2 := uint64(0x3333333333333333)
+	m4 := uint64(0x0f0f0f0f0f0f0f0f)
+	a0 = (a0 & m1) + ((a0 >> 1) & m1)
+	a1 = (a1 & m1) + ((a1 >> 1) & m1)
+
+	a0 = (a0 & m2) + ((a0 >> 2) & m2)
+	a1 = (a1 & m2) + ((a1 >> 2) & m2)
+
+	a0 = (a0 & m4) + ((a0 >> 4) & m4)
+	a1 = (a1 & m4) + ((a1 >> 4) & m4)
+
+	return Uint8s{a: a0, b: a1}
+}
+
 const (
 	by8  = 0x0101010101010101
 	by16 = 0x0001000100010001
@@ -3308,4 +3342,105 @@ func BroadcastFloat32s(x float32) Float32s {
 func BroadcastFloat64s(x float64) Float64s {
 	v := math.Float64bits(x)
 	return Float64s{a: v, b: v}
+}
+
+func (x Mask8s) All() bool {
+	return x.a&x.b == 0xffff_ffff_ffff_ffff
+}
+
+func (x Mask8s) Any() bool {
+	return x.a|x.b != 0
+}
+
+func (x Mask8s) None() bool {
+	return x.a|x.b == 0
+}
+
+func (x Mask16s) All() bool {
+	return x.a&x.b == 0xffff_ffff_ffff_ffff
+}
+
+func (x Mask16s) Any() bool {
+	return x.a|x.b != 0
+}
+
+func (x Mask16s) None() bool {
+	return x.a|x.b == 0
+}
+
+func (x Mask32s) All() bool {
+	return x.a&x.b == 0xffff_ffff_ffff_ffff
+}
+
+func (x Mask32s) Any() bool {
+	return x.a|x.b != 0
+}
+
+func (x Mask32s) None() bool {
+	return x.a|x.b == 0
+}
+
+func (x Mask64s) All() bool {
+	return x.a&x.b == 0xffff_ffff_ffff_ffff
+}
+
+func (x Mask64s) Any() bool {
+	return x.a|x.b != 0
+}
+
+func (x Mask64s) None() bool {
+	return x.a|x.b == 0
+}
+
+// TrailingZeros returns the number of trailing (low-order) zeroes in mask m
+func (m Mask8s) TrailingZeros() int {
+	a0 := m.a
+	a := a0 & 0x0101010101010101
+	lane := bits.TrailingZeros64(a)
+	if lane < 64 {
+		return lane >> 3
+	}
+	a0 = m.b
+	a = a0 & 0x0101010101010101
+	lane = bits.TrailingZeros64(a)
+	return lane>>3 + 8
+}
+
+// TrailingZeros returns the number of trailing (low-order) zeroes in mask m
+func (m Mask16s) TrailingZeros() int {
+	a0 := m.a
+	a := a0 & 0x0001000100010001
+	lane := bits.TrailingZeros64(a)
+	if lane < 64 {
+		return lane >> 4
+	}
+	a0 = m.b
+	a = a0 & 0x0001000100010001
+	lane = bits.TrailingZeros64(a)
+	return lane>>4 + 4
+}
+
+// TrailingZeros returns the number of trailing (low-order) zeroes in mask m
+func (m Mask32s) TrailingZeros() int {
+	a0 := m.a
+	a := a0 & 0x0000000100000001
+	lane := bits.TrailingZeros64(a)
+	if lane < 64 {
+		return lane >> 5
+	}
+	a0 = m.b
+	a = a0 & 0x0000000100000001
+	lane = bits.TrailingZeros64(a)
+	return lane>>5 + 2
+}
+
+// TrailingZeros returns the number of trailing (low-order) zeroes in mask m
+func (m Mask64s) TrailingZeros() int {
+	if m.a != 0 {
+		return 0
+	}
+	if m.b != 0 {
+		return 1
+	}
+	return 2
 }

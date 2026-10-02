@@ -1,0 +1,17 @@
+{
+  "tooling": {
+    "pending": []
+  },
+  "errorhandling": {
+    "pending": []
+  },
+  "conditional": {
+    "pending": [
+      "cgo: CondExpr traversal and paired execution",
+      "cover: paired conditional flow profiles",
+      "inliner: Gon control-flow bodies are deliberately declined",
+      "gonpls: semantic tokens, construct query, branch completion and extraction safety",
+      "spec: confirm implementation clarifications and publish feature validation"
+    ]
+  }
+}

@@ -92,6 +92,66 @@ func addSaturatedSSS64(x, y int64) int64 {
 	return sum
 }
 
+// subSaturated returns (x - y), saturated to the range of T.
+func subSaturated[T Ints | Uints](x, y T) T {
+	if isSigned[T]() {
+		return saturateS[T](subSaturatedSSS64(int64(x), int64(y)))
+	}
+	diff, borrow := bits.Sub64(uint64(x), uint64(y), 0)
+	if borrow > 0 {
+		return minVal[T]()
+	}
+	return saturateU[T](diff)
+}
+
+func subSaturatedSSS64(x, y int64) int64 {
+	sub := x - y
+
+	// Overflow can only happen if x and y have different signs, and the result has a
+	// different sign than x.
+	//
+	// (x ^ y) & (x ^ sub) checks if the sign bit of x matches neither y nor sub.
+	if (x^y)&(x^sub) < 0 {
+		if x >= 0 {
+			return math.MaxInt64
+		}
+		return math.MinInt64
+	}
+
+	return sub
+}
+
+// scaleSaturated returns x * 2^s, saturated to the range of T.
+func scaleSaturated[T Ints | Uints, S Ints | int](x T, s S) T {
+	n := S(elemBits[T]())
+	if s < 0 {
+		if s <= -n {
+			if isSigned[T]() && x < 0 {
+				return ^T(0)
+			}
+			return 0
+		}
+		return x >> uint(-s)
+	}
+	if s >= n {
+		if x == 0 {
+			return 0
+		}
+		if isSigned[T]() && x < 0 {
+			return minVal[T]()
+		}
+		return maxVal[T]()
+	}
+	res := x << uint(s)
+	if res>>uint(s) != x {
+		if isSigned[T]() && x < 0 {
+			return minVal[T]()
+		}
+		return maxVal[T]()
+	}
+	return res
+}
+
 func mulSaturatedUSS[X Uints, Y Ints](x X, y Y) Y {
 	// Expand to 64 bits and perform saturated multiplication
 	z := mulSaturatedUSS64(uint64(x), int64(y))

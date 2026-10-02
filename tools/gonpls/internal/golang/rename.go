@@ -771,7 +771,7 @@ func renameOrdinary(ctx context.Context, snapshot *cache.Snapshot, uri protocol.
 // type as recv. The edits of each successful renaming are added to
 // editMap; the failed ones are quietly discarded.
 func renameReceivers(pkg *cache.Package, recv *types.Var, newName string, editMap map[protocol.DocumentURI][]diff.Edit) {
-	_, named := typesinternal.ReceiverNamed(recv)
+	named, _ := types.Unalias(typesinternal.Unpointer(recv.Type())).(*types.Named)
 	if named == nil {
 		return
 	}
@@ -1538,7 +1538,7 @@ func (r *renamer) updateCommentDocLinks() (map[protocol.DocumentURI][]diff.Edit,
 			if recv == nil {
 				continue
 			}
-			_, named := typesinternal.ReceiverNamed(recv)
+			named, _ := types.Unalias(typesinternal.Unpointer(recv.Type())).(*types.Named)
 			if named == nil {
 				continue
 			}

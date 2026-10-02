@@ -31,6 +31,12 @@ func Walk(v Visitor, node Node) {
 		return
 	}
 
+	walkChildren(v, node)
+	v.Visit(nil)
+}
+
+// walkChildren is the single structural child inventory used by Walk and Children.
+func walkChildren(v Visitor, node Node) {
 	// walk children
 	// (the order of the cases matches the order
 	// of the corresponding node types in ast.go)
@@ -124,6 +130,11 @@ func Walk(v Visitor, node Node) {
 		if n.Body != nil {
 			Walk(v, n.Body)
 		}
+
+	case *CondExpr:
+		Walk(v, n.Cond)
+		Walk(v, n.Then)
+		Walk(v, n.Else)
 
 	case *StarExpr:
 		Walk(v, n.X)
@@ -356,8 +367,23 @@ func Walk(v Visitor, node Node) {
 	default:
 		panic(fmt.Sprintf("ast.Walk: unexpected node type %T", n))
 	}
+}
 
-	v.Visit(nil)
+// Children returns the immediate children of node in Walk order. It does not
+// include node itself, descend into children, or follow semantic links such as
+// Ident.Obj and File.Scope. Like Walk, it requires a non-nil, known AST node.
+// The order is structural, not an evaluation order: function bodies and lazy
+// branches are children too. Use explicit language rules for semantic analyses.
+func Children(node Node) iter.Seq[Node] {
+	return func(yield func(Node) bool) {
+		more := true
+		walkChildren(inspector(func(child Node) bool {
+			if more {
+				more = yield(child)
+			}
+			return false // enumerate only immediate children
+		}), node)
+	}
 }
 
 type inspector func(Node) bool

@@ -1,5 +1,18 @@
+pkg go/ast, func Children(Node) iter.Seq[Node]
+pkg go/ast, method (*CondExpr) End() token.Pos
+pkg go/ast, method (*CondExpr) Pos() token.Pos
 pkg go/ast, method (*ErrorExpr) End() token.Pos
 pkg go/ast, method (*ErrorExpr) Pos() token.Pos
+pkg go/ast, type CondExpr struct
+pkg go/ast, type CondExpr struct, Cond Expr
+pkg go/ast, type CondExpr struct, Else Expr
+pkg go/ast, type CondExpr struct, ElseLbrace token.Pos
+pkg go/ast, type CondExpr struct, ElsePos token.Pos
+pkg go/ast, type CondExpr struct, ElseRbrace token.Pos
+pkg go/ast, type CondExpr struct, If token.Pos
+pkg go/ast, type CondExpr struct, Lbrace token.Pos
+pkg go/ast, type CondExpr struct, Rbrace token.Pos
+pkg go/ast, type CondExpr struct, Then Expr
 pkg go/ast, type ErrorExpr struct
 pkg go/ast, type ErrorExpr struct, Body *BlockStmt
 pkg go/ast, type ErrorExpr struct, Err *Ident

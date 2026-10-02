@@ -1,0 +1,248 @@
+// This file contains test cases for the formatting of Gon conditional
+// expressions "if cond { a } else { b }".
+
+package condexpr
+
+// A conditional expression written on one line stays on one line.
+func _() {
+	label := if n == 1 { "item" } else { "items" }
+	label = if n == 1 { "item" } else { "items" }
+	x := if c { a + b } else { a * b }
+	_ = if c { T{1, 2} } else { T{3, 4} }
+	_ = if p == (Point{}) { a } else { b }
+	_ = if c { func() int { return 1 } } else { nil }
+	_ = if a && b || !c { f(1, 2) } else { g() }
+	_ = if c { if d { 1 } else { 2 } + 1 } else { f(if e { 3 } else { 4 }) }
+	var y int = if c { 1 } else { 2 }
+	return if c { 1 } else { 2 }
+}
+
+// A conditional expression written on several lines is laid out
+// like an if statement, with each branch on its own line.
+func _() {
+	x := if c {
+		1
+	} else {
+		2
+	}
+	x = if c {
+		1
+	} else {
+		2
+	}
+	x = if c {
+		1
+	} else {
+		2
+	}
+	x = if c {
+		1
+	} else {
+		2
+	}
+	x = if a &&
+		b {
+		1
+	} else {
+		2
+	}
+	x = if c {
+
+		1
+
+	} else {
+		2
+	}
+	h := if c {
+		func() {
+			x()
+		}
+	} else {
+		nil
+	}
+}
+
+// Operands of other expressions.
+func _() {
+	total := price + if taxable { tax } else { 0 }
+	total = if taxable { tax } else { 0 } + price
+	total = price*qty + if taxable { tax * rate } else { 0 }
+	total = if c { 1 } else { 2 } * if d { 3 } else { 4 }
+	total = a*b + if c { 1 } else { 2 } * d
+	total = price +
+		if taxable {
+			tax
+		} else {
+			0
+		}
+	total = if taxable {
+		tax
+	} else {
+		0
+	} + price
+	_ = -if c { 1 } else { 2 }
+	_ = !if c { a } else { b }
+	_ = <-if c { ch1 } else { ch2 }
+	_ = if c { s1 } else { s2 }[i]
+	_ = if c { s1 } else { s2 }[i:j]
+	_ = if c { v1 } else { v2 }.f
+	_ = if c { v1 } else { v2 }.(T)
+	_ = if c { f } else { g }(1, 2)
+	_ = (if c { 1 } else { 2 })
+	(if c { m1 } else { m2 })[k] = v
+	ch <- if c { 1 } else { 2 }
+	arr[if c { 1 } else { 2 }] = 3
+	go if c { f } else { g }()
+	defer if c { f } else { g }()
+}
+
+// Call arguments and composite literal elements.
+func _() {
+	use(a, price + if taxable { tax } else { 0 })
+	use(if c { 1 } else { 2 }, if d {
+		3
+	} else {
+		4
+	})
+	use(a,
+		if c {
+			1
+		} else {
+			2
+		})
+	use(
+		if c { 1 } else { 2 },
+		if c {
+			1
+		} else {
+			2
+		},
+	)
+	_ = []int{if c { 1 } else { 2 }, 3}
+	_ = []int{
+		if c {
+			1
+		} else {
+			2
+		},
+		3,
+	}
+	_ = map[string]int{
+		"a":	if c { 1 } else { 2 },
+		"bbbbbb":	3,
+		"cc": if c {
+			1
+		} else {
+			2
+		},
+	}
+	_ = S{A: if c { 1 } else { 2 }, B: 3}
+}
+
+// Return statements.
+func _() (int, error) {
+	return if c { 1 } else { 2 }, nil
+	return if c {
+		1
+	} else {
+		2
+	}, nil
+	return f(), if c {
+		1
+	} else {
+		2
+	}
+}
+
+// Parentheses around a conditional expression are kept in control clauses.
+func _() {
+	if (if c { a } else { b }) {
+	}
+	if (if c { a } else { b }) {
+	}
+	if (x == if c { a } else { b }) {
+	}
+	if x == y {
+	}
+	if if c { a } else { b } {
+	}
+	if v := if c { 1 } else { 2 }; v > 0 {
+	}
+	if v := (if c { 1 } else { 2 }); v > 0 {
+	}
+	for i := 0; i < (if c { n } else { m }); i++ {
+	}
+	for (if c { a } else { b }) {
+	}
+	switch (if c { 1 } else { 2 }) {
+	case if c { 1 } else { 2 }:
+	}
+	for _, v := range (if c { a } else { b }) {
+		_ = v
+	}
+}
+
+// Error propagation and handlers in branches.
+func _() error {
+	data := if cached { readCache()! } else { fetch()! }
+	data = if cached {
+		readCache() or err {
+			return err
+		}
+	} else {
+		fetch()!
+	}
+	data = if cached {
+		readCache() or err {
+			return err
+		}
+	} else {
+		fetch()!
+	}
+	_ = data
+	return nil
+}
+
+// Comments.
+func _() {
+	_ = if c /* c1 */ { 1 /* c2 */ } /* c3 */ else /* c4 */ { /* c5 */ 2 }	/* c6 */
+	_ = if /* c7 */ c { 1 } else { 2 }
+
+	_ = if c { 1 } else { 2 }	// trailing
+	_ = if c {	// c8
+		1	// c9
+	} else {	// c10
+		2	// c11
+	}	// c12
+	_ = if c {
+		// leading comment in then
+		1
+		// trailing comment in then
+	} else {
+		/* block */ 2
+	}
+	_ = if c {
+		1
+	} /* c13 */ else /* c14 */ {
+		2
+	}
+	use(if c { 1 } else { 2 },	// c15
+		3)
+}
+
+// Package-level declarations.
+const intSize = if ^uint(0)>>63 == 1 { 64 } else { 32 }
+
+var x = if c { f() } else { g() }
+
+var a [if c { 1 } else { 2 }]int
+
+var (
+	b	= if c { 1 } else { 2 }		// b
+	cc	= 3		// cc
+	d	= if c {
+		1
+	} else {
+		2
+	}
+)

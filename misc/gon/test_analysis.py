@@ -13,6 +13,6 @@ def run(*args, cwd=ROOT):
     subprocess.run([str(a) for a in args], cwd=cwd, env=ENV, check=True)
 for tool, name in [(baseline, 'legacy'), (GON, 'legacy'), (GON, 'modern')]:
     run(tool, 'run', ROOT / 'misc/gon/analysisfixtures' / (name + '.go'))
-run(GON, 'test', './go/ssa', '-run=TestGonErrorFlow', '-count=1', cwd=ROOT / 'pkg/gon-tools/tools')
-run(GON, 'test', '-mod=mod', './go/ir', '-run=TestGonErrorFlow', '-count=1', cwd=ROOT / 'pkg/gon-tools/staticcheck')
+run(GON, 'test', './go/ssa', '-run=TestGonErrorFlow', '-count=1', cwd=ROOT / 'tools/x-tools')
+run(GON, 'test', '-mod=mod', './go/ir', '-run=TestGonErrorFlow', '-count=1', cwd=ROOT / 'tools/staticcheck')
 print('PASS: baseline, Gon legacy/modern, executed SSA legacy/modern, Staticcheck IR')

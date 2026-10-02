@@ -1,0 +1,42 @@
+//gofmt -s
+
+// Test cases for Gon conditional expressions "if cond { a } else { b }":
+// one-line expressions stay on one line, multi-line expressions are laid out
+// like if statements, and simplification applies inside them but never
+// removes the types of branch values.
+package p
+
+type T struct{ x, y int }
+
+var c bool
+
+var label = if c { "item" } else { "items" }
+
+var _ = []T{
+	{1, 2},
+	if c { T{3, 4} } else { T{5, 6} },
+}
+
+var _ = map[string]T{
+	"a": {1, 2},
+	"b": if c {
+		T{3, 4}
+	} else {
+		T{5, 6}
+	},
+}
+
+func f(s []int) int {
+	x := if c { s[1:] } else { s[:] }
+	y := if c {
+		len(x)
+	} else {
+		0
+	}
+	for range if c { s } else { x } {
+	}
+	if (if c { len(x) > 0 } else { y > 0 }) {
+		return y
+	}
+	return if c { []T{{1, 2}}[0].x } else { y + 1 }
+}

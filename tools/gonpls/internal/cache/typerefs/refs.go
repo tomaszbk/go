@@ -541,6 +541,12 @@ func visitExpr(expr ast.Expr, f refVisitor) {
 	case *ast.UnaryExpr:
 		visitExpr(n.X, f)
 
+	case *ast.CondExpr:
+		// All branches can affect the inferred type, regardless of which runs.
+		for child := range ast.Children(n) {
+			visitExpr(child.(ast.Expr), f)
+		}
+
 	case *ast.BinaryExpr:
 		visitExpr(n.X, f)
 		visitExpr(n.Y, f)

@@ -28,6 +28,11 @@ func TestRefs(t *testing.T) {
 		allowErrs bool                // whether we expect parsing errors
 	}{
 		{
+			label: "Gon conditional",
+			srcs:  []string{`package p; import "ext"; var X = if ext.C { ext.A } else { ext.B }`},
+			want:  map[string][]string{"X": {"ext.A", "ext.B", "ext.C"}},
+		},
+		{
 			label: "empty package",
 			want:  map[string][]string{},
 		},

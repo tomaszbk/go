@@ -70,7 +70,7 @@ var Analyzer = &analysis.Analyzer{
 func run(pass *analysis.Pass) (any, error) {
 	// The standard library makes heavy use of intrinsics, linknames, etc,
 	// that confuse this algorithm; so skip it (#74130).
-	if packagepath.IsStdPackage(pass.Pkg.Path()) {
+	if packagepath.MaybeStdPackage(pass.Pkg.Path()) {
 		return nil, nil
 	}
 

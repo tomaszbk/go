@@ -33,6 +33,7 @@ const (
 	normNumber
 	idempotent
 	allowTypeParams
+	noCondParens
 )
 
 // format parses src, prints the corresponding AST, verifies the resulting
@@ -49,6 +50,11 @@ func format(src []byte, mode checkMode) ([]byte, error) {
 	if mode&export != 0 {
 		ast.FileExports(f) // ignore result
 		f.Comments = nil   // don't print comments that are not in AST
+	}
+
+	// remove parentheses around conditional expressions if necessary
+	if mode&noCondParens != 0 {
+		stripCondParens(f)
 	}
 
 	// determine printer configuration
@@ -188,6 +194,9 @@ var data = []entry{
 	{"gobuild5.input", "gobuild5.golden", idempotent},
 	{"gobuild6.input", "gobuild6.golden", idempotent},
 	{"gobuild7.input", "gobuild7.golden", idempotent},
+	{"condexpr.input", "condexpr.golden", idempotent},
+	{"condexpr.input", "condexpr.raw", rawFormat | idempotent},
+	{"condparen.input", "condparen.golden", noCondParens | idempotent},
 }
 
 func TestFiles(t *testing.T) {

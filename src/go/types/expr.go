@@ -299,6 +299,14 @@ func (check *Checker) updateExprType(x ast.Expr, typ Type, final bool) {
 	case *ast.ParenExpr:
 		check.updateExprType(x.X, typ, final)
 
+	case *ast.CondExpr:
+		// The branches get the type of the conditional expression. Unlike
+		// the operands of constant operations, they are updated even if x
+		// is constant, so that the branch that is not selected is checked
+		// against typ as well.
+		check.updateExprType(x.Then, typ, final)
+		check.updateExprType(x.Else, typ, final)
+
 	case *ast.UnaryExpr:
 		// If x is a constant, the operands were constants.
 		// The operands don't need to be updated since they
@@ -655,6 +663,17 @@ func (check *Checker) shift(x, y *operand, e ast.Expr, op token.Token) {
 			}
 		}
 	} else {
+		// An untyped non-constant count with conditional expressions gets
+		// type uint: their untyped constant branches are shift counts that
+		// must be representable by a value of type uint.
+		if isUntyped(y.typ()) && hasUntypedCondExprs(y.expr) {
+			check.convertUntyped(y, Typ[Uint])
+			if !y.isValid() {
+				x.invalidate()
+				return
+			}
+		}
+
 		// Check that RHS is otherwise at least of integer type.
 		switch {
 		case allInteger(y.typ()):
@@ -748,7 +767,46 @@ func (check *Checker) shift(x, y *operand, e ast.Expr, op token.Token) {
 		return
 	}
 
+	// The conditional expressions of an untyped non-constant lhs get their
+	// final type from the context, which must then be an integer type (see
+	// updateExprType): mark them like an untyped constant lhs.
+	if isUntyped(x.typ()) {
+		untypedCondExprs(x.expr, func(e *ast.CondExpr) {
+			if info, found := check.untyped[e]; found {
+				info.isLhs = true
+				check.untyped[e] = info
+			}
+		})
+	}
+
 	x.mode_ = value
+}
+
+// untypedCondExprs calls f for each conditional expression whose type is
+// the type of the untyped non-constant expression e.
+func untypedCondExprs(e ast.Expr, f func(*ast.CondExpr)) {
+	switch e := e.(type) {
+	case *ast.ParenExpr:
+		untypedCondExprs(e.X, f)
+	case *ast.UnaryExpr:
+		untypedCondExprs(e.X, f)
+	case *ast.BinaryExpr:
+		if !isComparison(e.Op) {
+			untypedCondExprs(e.X, f)
+			if !isShift(e.Op) {
+				untypedCondExprs(e.Y, f)
+			}
+		}
+	case *ast.CondExpr:
+		f(e)
+	}
+}
+
+// hasUntypedCondExprs reports whether untypedCondExprs(e, f) calls f.
+func hasUntypedCondExprs(e ast.Expr) bool {
+	found := false
+	untypedCondExprs(e, func(*ast.CondExpr) { found = true })
+	return found
 }
 
 var binaryOpPredicates opPredicates
@@ -949,22 +1007,49 @@ type target struct {
 	//           (setting/computing desc may be expensive for not being used)
 	//           Also, if we keep it, review consistency of description.
 	desc string
-	hint bool // if set, the target may be used as untyped composite literal hint before Go 1.28
+	hint bool       // if set, the target may be used as untyped composite literal hint before Go 1.28
+	kind targetKind // how the context uses the value
 }
+
+// A targetKind describes how a context uses a value that is checked with a
+// target type typ. Only conditional expressions distinguish the kinds; all
+// other expressions use every kind of target alike, except that they never
+// see a condOnlyTarget.
+type targetKind uint8
+
+const (
+	// The value is assigned to typ.
+	assignTarget targetKind = iota
+	// The value is converted to typ, in a conversion typ(x).
+	convTarget
+	// The value is not assigned to typ: typ is a parameter type that
+	// depends on the callee's type parameters, or the element type of a
+	// variadic parameter for a ... argument. Such a target may still guide
+	// type inference and composite literal types.
+	inferTarget
+	// Like assignTarget, but only conditional expressions see the target:
+	// the arguments of the built-ins append, delete, and panic.
+	condOnlyTarget
+)
 
 // newTarget creates a new target for the given type and description.
 // The result is nil if typ is nil.
 func newTarget(typ Type, desc string) *target {
-	if typ != nil {
-		return &target{typ, desc, false}
-	}
-	return nil
+	return newTargetOf(assignTarget, typ, desc)
 }
 
 // newHint is like newTarget but it marks the result as a hint.
 func newHint(typ Type, desc string) *target {
 	if typ != nil {
-		return &target{typ, desc, true}
+		return &target{typ, desc, true, assignTarget}
+	}
+	return nil
+}
+
+// newTargetOf is like newTarget but it creates a target of the given kind.
+func newTargetOf(kind targetKind, typ Type, desc string) *target {
+	if typ != nil {
+		return &target{typ, desc, false, kind}
 	}
 	return nil
 }
@@ -1007,6 +1092,11 @@ func (check *Checker) rawExpr(T *target, x *operand, e ast.Expr, allowGeneric bo
 			check.indent--
 			check.trace(e.Pos(), "=> %s", x)
 		}()
+	}
+
+	// Only conditional expressions see a condOnlyTarget.
+	if T != nil && T.kind == condOnlyTarget && !isCondExpr(e) {
+		T = nil
 	}
 
 	kind := check.exprInternal(T, x, e)
@@ -1089,8 +1179,13 @@ func (check *Checker) exprInternal(T *target, x *operand, e ast.Expr) exprKind {
 		}
 
 	case *ast.ParenExpr:
-		// type inference doesn't go past parentheses (target types T/U = nil)
-		kind := check.rawExpr(nil, x, e.X, false)
+		// type inference doesn't go past parentheses (target types T/U = nil),
+		// but a parenthesized conditional expression keeps its target: the
+		// target determines the conversions of its branches.
+		if _, ok := ast.Unparen(e.X).(*ast.CondExpr); !ok {
+			T = nil
+		}
+		kind := check.rawExpr(T, x, e.X, false)
 		x.expr = e
 		return kind
 
@@ -1149,6 +1244,12 @@ func (check *Checker) exprInternal(T *target, x *operand, e ast.Expr) exprKind {
 
 	case *ast.ErrorExpr:
 		return check.errorExpr(x, e)
+
+	case *ast.CondExpr:
+		check.condExpr(T, x, e)
+		if !x.isValid() {
+			goto Error
+		}
 
 	case *ast.CallExpr:
 		return check.callExpr(x, e)

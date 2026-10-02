@@ -157,7 +157,7 @@ func JSON(pkg *cache.Package, web Web) ([]byte, error) {
 					name := fn.Name()
 					if recv := fn.Signature().Recv(); recv != nil {
 						fn = fn.Origin()
-						_, named := typesinternal.ReceiverNamed(recv)
+						_, named := typesinternal.RecvBase(fn)
 						name = named.Obj().Name() + "." + name
 					} else if name == "init" {
 						// Disambiguate top-level init functions.

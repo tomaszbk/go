@@ -33,6 +33,9 @@ type number interface {
 func TestInt8s(t *testing.T) {
 	values := test_helpers.Int8s()
 	load := simd.LoadInt8s
+
+	test_helpers.TestV2Ve(t, values, load, simd.Int8s.OnesCount, test_helpers.OnesCount)
+
 	test_helpers.TestV2Ve(t, values, load, simd.Int8s.Neg, test_helpers.Neg)
 	test_helpers.TestV2Ve(t, values, load, simd.Int8s.Abs, test_helpers.Abs)
 	test_helpers.TestVV2Ve(t, values, load, simd.Int8s.Add, test_helpers.Add)
@@ -146,6 +149,9 @@ func TestInt64s(t *testing.T) {
 func TestUint8s(t *testing.T) {
 	values := test_helpers.Uint8s()
 	load := simd.LoadUint8s
+
+	test_helpers.TestV2Ve(t, values, load, simd.Uint8s.OnesCount, test_helpers.OnesCount)
+
 	test_helpers.TestVV2Ve(t, values, load, simd.Uint8s.Add, test_helpers.Add)
 	test_helpers.TestVV2Ve(t, values, load, simd.Uint8s.Sub, test_helpers.Sub)
 	test_helpers.TestVV2Ve(t, values, load, simd.Uint8s.Mul, test_helpers.Mul)
@@ -397,4 +403,66 @@ func TestReduceSum(t *testing.T) {
 	test_helpers.TestV2S(t, test_helpers.Uint16s(), simd.LoadUint16s, simd.Uint16s.ReduceSum, test_helpers.ReduceSum)
 	test_helpers.TestV2S(t, test_helpers.Int8s(), simd.LoadInt8s, simd.Int8s.ReduceSum, test_helpers.ReduceSum)
 	test_helpers.TestV2S(t, test_helpers.Uint8s(), simd.LoadUint8s, simd.Uint8s.ReduceSum, test_helpers.ReduceSum)
+}
+
+func TestMaskRange(t *testing.T) {
+	test_helpers.TestMaskAllAny(t, simd.LoadUint8s)
+}
+
+func TestMask16Range(t *testing.T) {
+	test_helpers.TestMaskAllAny(t, simd.LoadUint16s)
+}
+
+func TestMask32Range(t *testing.T) {
+	test_helpers.TestMaskAllAny(t, simd.LoadUint32s)
+}
+
+func TestMask64Range(t *testing.T) {
+	test_helpers.TestMaskAllAny(t, simd.LoadUint64s)
+}
+
+func testMaskTrailingZeros[E integer, V interface {
+	Len() int
+	Equal(V) M
+	NotEqual(V) M
+}, M interface {
+	TrailingZeros() int
+}](t *testing.T, load func([]E) V) {
+	t.Helper()
+	var zero V
+	lanes := zero.Len()
+	vz := load(make([]E, lanes))
+
+	if got := vz.NotEqual(vz).TrailingZeros(); got != lanes {
+		t.Errorf("all-zeros TrailingZeros(): want %d, got %d", lanes, got)
+	}
+	if got := vz.Equal(vz).TrailingZeros(); got != 0 {
+		t.Errorf("all-ones TrailingZeros(): want 0, got %d", got)
+	}
+
+	for i := range lanes {
+		// Single lane i set
+		s := make([]E, lanes)
+		s[i] = 1
+		m := load(s).NotEqual(vz)
+		if got := m.TrailingZeros(); got != i {
+			t.Errorf("single lane %d TrailingZeros(): want %d, got %d", i, i, got)
+		}
+
+		// All lanes >= i set
+		for j := i; j < lanes; j++ {
+			s[j] = 1
+		}
+		m = load(s).NotEqual(vz)
+		if got := m.TrailingZeros(); got != i {
+			t.Errorf("lanes >= %d TrailingZeros(): want %d, got %d", i, i, got)
+		}
+	}
+}
+
+func TestMaskTrailingZeros(t *testing.T) {
+	testMaskTrailingZeros(t, simd.LoadUint8s)
+	testMaskTrailingZeros(t, simd.LoadUint16s)
+	testMaskTrailingZeros(t, simd.LoadUint32s)
+	testMaskTrailingZeros(t, simd.LoadUint64s)
 }

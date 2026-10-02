@@ -1970,6 +1970,9 @@ func (w *writer) expr(expr syntax.Expr) {
 		w.blockStmt(expr.Body)
 		w.closeScope(expr.Body.Rbrace)
 
+	case *syntax.CondExpr:
+		w.condExpr(expr)
+
 	case *syntax.CompositeLit:
 		w.Code(exprCompLit)
 		w.compLit(expr)

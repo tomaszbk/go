@@ -49,7 +49,7 @@ func (check *Checker) builtin(x *operand, call *ast.CallExpr, id builtinId) (_ b
 	switch id {
 	default:
 		// check all arguments
-		args = check.exprList(argList)
+		args = check.builtinArgs(call, id)
 		// never bail out early for assert and trace
 		if id != _Assert && id != _Trace {
 			for _, a := range args {
@@ -982,6 +982,77 @@ func (check *Checker) builtin(x *operand, call *ast.CallExpr, id builtinId) (_ b
 
 	assert(x.isValid())
 	return true
+}
+
+// builtinArgs evaluates the arguments of the call of the built-in id, like
+// exprList. The element arguments of append (unless the call uses ...), the
+// key argument of delete, and the argument of panic have their parameter
+// type as assignment target for conditional expressions. Arguments that are
+// not conditional expressions are evaluated exactly as by exprList, and the
+// first argument is evaluated first.
+func (check *Checker) builtinArgs(call *ast.CallExpr, id builtinId) []*operand {
+	argList := call.Args
+	first := 1 // index of the first argument with a target
+	switch {
+	case id == _Append && len(argList) > 1 && !hasDots(call):
+	case id == _Delete && len(argList) == 2:
+	case id == _Panic && len(argList) == 1:
+		first = 0
+	default:
+		return check.exprList(argList)
+	}
+	cond := false
+	for _, e := range argList[first:] {
+		if isCondExpr(e) {
+			cond = true
+		}
+	}
+	if !cond {
+		return check.exprList(argList)
+	}
+
+	xlist := make([]*operand, len(argList))
+	for i, e := range argList {
+		var T *target
+		if i >= first && isCondExpr(e) {
+			var typ Type
+			switch id {
+			case _Append:
+				if xlist[0].isValid() {
+					typ, _ = sliceElem(xlist[0])
+				}
+			case _Delete:
+				typ = mapKey(xlist[0])
+			case _Panic:
+				typ = &emptyInterface
+			}
+			T = newTargetOf(condOnlyTarget, typ, "argument to "+predeclaredFuncs[id].name)
+		}
+		var x operand
+		check.expr(T, &x, e)
+		xlist[i] = &x
+	}
+	return xlist
+}
+
+// mapKey returns the key type of the map x, or nil if x is invalid or not
+// a map, or if the type set of x has maps with different key types.
+func mapKey(x *operand) Type {
+	if !x.isValid() {
+		return nil
+	}
+	var key Type
+	if !underIs(x.typ(), func(u Type) bool {
+		m, _ := u.(*Map)
+		if m == nil || key != nil && !Identical(key, m.key) {
+			return false
+		}
+		key = m.key
+		return true
+	}) {
+		return nil
+	}
+	return key
 }
 
 // sliceElem returns the slice element type for a slice operand x

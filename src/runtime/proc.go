@@ -1666,7 +1666,6 @@ func stopTheWorldWithSema(reason stwReason) worldStop {
 	start := nanotime() // exclude time waiting for sched.lock from start and total time metrics.
 	sched.stopwait = gomaxprocs
 	sched.gcwaiting.Store(true)
-	preemptall()
 
 	// Stop current P.
 	gp.m.p.ptr().status = _Pgcstop // Pgcstop is only diagnostic.
@@ -1693,10 +1692,11 @@ func stopTheWorldWithSema(reason stwReason) worldStop {
 		sched.stopwait--
 	}
 	wait := sched.stopwait > 0
-	unlock(&sched.lock)
+	unlock(&sched.lock) // available to preempted threads
 
 	// Wait for remaining Ps to stop voluntarily.
 	if wait {
+		preemptall()
 		for {
 			// wait for 100us, then try to re-preempt in case of any races
 			if notetsleep(&sched.stopnote, 100*1000) {
@@ -2153,6 +2153,11 @@ func forEachP(reason waitReason, fn func(*p)) {
 //
 //go:systemstack
 func forEachPInternal(fn func(*p)) {
+	if atomic.Load(&worldsema) != 0 {
+		// Not held by anyone, so certainly not held by our caller
+		throw("worldsema not held")
+	}
+
 	mp := acquirem()
 	pp := getg().m.p.ptr()
 
@@ -2169,7 +2174,6 @@ func forEachPInternal(fn func(*p)) {
 			atomic.Store(&p2.runSafePointFn, 1)
 		}
 	}
-	preemptall()
 
 	// Any P entering _Pidle or a system call from now on will observe
 	// p.runSafePointFn == 1 and will call runSafePointFn when
@@ -2185,7 +2189,11 @@ func forEachPInternal(fn func(*p)) {
 	}
 
 	wait := sched.safePointWait > 0
-	unlock(&sched.lock)
+	unlock(&sched.lock) // available to preempted threads
+
+	if wait {
+		preemptall()
+	}
 
 	// Run fn for the current P.
 	fn(pp)
@@ -3843,10 +3851,6 @@ func stealWork(now int64) (gp *g, inheritTime bool, rnow, pollUntil int64, newWo
 		stealTimersOrRunNextG := i == stealTries-1
 
 		for enum := stealOrder.start(cheaprand()); !enum.done(); enum.next() {
-			if sched.gcwaiting.Load() {
-				// GC work may be available.
-				return nil, false, now, pollUntil, true
-			}
 			p2 := allp[enum.position()]
 			if pp == p2 {
 				continue
@@ -3892,6 +3896,12 @@ func stealWork(now int64) (gp *g, inheritTime bool, rnow, pollUntil int64, newWo
 				if gp := runqsteal(pp, p2, stealTimersOrRunNextG); gp != nil {
 					return gp, false, now, pollUntil, ranTimer
 				}
+			}
+
+			if sched.gcwaiting.Load() {
+				// GC work may be available (and may have caused an early return
+				// from runqsteal).
+				return nil, false, now, pollUntil, true
 			}
 		}
 	}
@@ -7756,6 +7766,11 @@ func runqgrab(pp *p, batch *[256]guintptr, batchHead uint32, stealRunNextG bool)
 									// 1-15ms, which is way too much for this
 									// optimization. So just yield.
 									osyield()
+								}
+								if sched.gcwaiting.Load() {
+									// The sleep above might have overlapped with a STW
+									// request. Check before committing to this new work.
+									return 0
 								}
 							}
 						}

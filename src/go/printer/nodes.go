@@ -772,7 +772,12 @@ func (p *printer) binaryExpr(x *ast.BinaryExpr, prec1, cutoff, depth int) {
 		return
 	}
 
-	printBlank := prec < cutoff
+	// Always separate the operator from a conditional expression operand,
+	// which starts or ends with a keyword or brace: "x + if c { a } else { b }"
+	// rather than "x+if c { a } else { b }". A conditional expression at the
+	// start of a statement is parenthesized (see stmt), and spaced like the
+	// equivalent ParenExpr.
+	printBlank := prec < cutoff || isCondExpr(x.X) && x.X != ast.Expr(p.parenCond) || isCondExpr(x.Y)
 
 	ws := indent
 	p.expr1(x.X, prec, depth+diffPrec(x.X, prec))
@@ -802,6 +807,11 @@ func (p *printer) binaryExpr(x *ast.BinaryExpr, prec1, cutoff, depth int) {
 
 func isBinary(expr ast.Expr) bool {
 	_, ok := expr.(*ast.BinaryExpr)
+	return ok
+}
+
+func isCondExpr(expr ast.Expr) bool {
+	_, ok := expr.(*ast.CondExpr)
 	return ok
 }
 
@@ -973,6 +983,17 @@ func (p *printer) expr1(expr ast.Expr, prec1, depth int) {
 			p.expr(x.Err)
 			p.print(blank)
 			p.block(x.Body, 1)
+		}
+
+	case *ast.CondExpr:
+		if x == p.parenCond {
+			// at the start of a statement (see printer.stmt)
+			p.parenCond = nil
+			p.print(token.LPAREN)
+			p.condExpr(x)
+			p.print(token.RPAREN)
+		} else {
+			p.condExpr(x)
 		}
 
 	case *ast.CallExpr:
@@ -1151,6 +1172,57 @@ func normalizedNumber(lit *ast.BasicLit) *ast.BasicLit {
 	return &ast.BasicLit{ValuePos: lit.ValuePos, Kind: lit.Kind, Value: x}
 }
 
+// condExpr prints a conditional expression. An expression written on a
+// single line stays on one line. Otherwise it is laid out like an if
+// statement, with each branch on its own line. The condition and the
+// branches are formatted like separate expressions: braces delimit them
+// like parentheses, so the surrounding expression does not matter.
+func (p *printer) condExpr(x *ast.CondExpr) {
+	multiLine := x.If.IsValid() && x.ElseRbrace.IsValid() && p.lineFor(x.If) < p.lineFor(x.ElseRbrace)
+	if !multiLine {
+		// A part that is not printed on a single line, such as an error
+		// handler block, requires the multi-line layout. Otherwise the
+		// expression would be laid out differently when formatted again.
+		const infinity = 1e6 // larger than any source line (as in exprList)
+		multiLine = p.nodeSize(x.Cond, infinity) > infinity ||
+			p.nodeSize(x.Then, infinity) > infinity ||
+			p.nodeSize(x.Else, infinity) > infinity
+	}
+	p.setPos(x.If)
+	p.print(token.IF, blank)
+	p.expr(x.Cond)
+	p.print(blank)
+	p.condBranch(x.Lbrace, x.Then, x.Rbrace, multiLine)
+	p.print(blank)
+	p.setPos(x.ElsePos)
+	p.print(token.ELSE, blank)
+	p.condBranch(x.ElseLbrace, x.Else, x.ElseRbrace, multiLine)
+}
+
+// condBranch prints a branch "{ x }" of a conditional expression.
+func (p *printer) condBranch(lbrace token.Pos, x ast.Expr, rbrace token.Pos, multiLine bool) {
+	p.setPos(lbrace)
+	p.print(token.LBRACE)
+	if multiLine {
+		// like a block with a single statement
+		p.print(indent)
+		p.linebreak(p.lineFor(x.Pos()), 1, ignore, true)
+		p.expr(x)
+		p.print(unindent)
+		p.linebreak(p.lineFor(rbrace), 1, ignore, true)
+		p.setPos(rbrace)
+		p.print(token.RBRACE)
+		return
+	}
+	// Like a one-line function body: don't break the line after
+	// a /*-style comment before the closing "}".
+	p.print(blank)
+	p.expr(x)
+	p.print(blank, noExtraLinebreak)
+	p.setPos(rbrace)
+	p.print(token.RBRACE, noExtraLinebreak)
+}
+
 func (p *printer) possibleSelectorExpr(expr ast.Expr, prec1, depth int) bool {
 	if x, ok := expr.(*ast.SelectorExpr); ok {
 		return p.selectorExpr(x, depth, true)
@@ -1254,7 +1326,9 @@ func stripParens(x ast.Expr) ast.Expr {
 	if px, strip := x.(*ast.ParenExpr); strip {
 		// parentheses must not be stripped if there are any
 		// unparenthesized composite literals starting with
-		// a type name
+		// a type name, or any unparenthesized conditional
+		// expressions (which would look like nested if
+		// statements otherwise)
 		ast.Inspect(px.X, func(node ast.Node) bool {
 			switch x := node.(type) {
 			case *ast.ParenExpr:
@@ -1264,6 +1338,9 @@ func stripParens(x ast.Expr) ast.Expr {
 				if isTypeName(x.Type) {
 					strip = false // do not strip parentheses
 				}
+				return false
+			case *ast.CondExpr:
+				strip = false // do not strip parentheses
 				return false
 			}
 			// in all other cases, keep inspecting
@@ -1296,7 +1373,7 @@ func (p *printer) controlClause(isForStmt bool, init ast.Stmt, expr ast.Expr, po
 		// all semicolons required
 		// (they are not separators, print them explicitly)
 		if init != nil {
-			p.stmt(init, false)
+			p.simpleStmt(init)
 		}
 		p.print(token.SEMICOLON, blank)
 		if expr != nil {
@@ -1307,7 +1384,7 @@ func (p *printer) controlClause(isForStmt bool, init ast.Stmt, expr ast.Expr, po
 			p.print(token.SEMICOLON, blank)
 			needsBlank = false
 			if post != nil {
-				p.stmt(post, false)
+				p.simpleStmt(post)
 				needsBlank = true
 			}
 		}
@@ -1369,7 +1446,77 @@ func (p *printer) indentList(list []ast.Expr) bool {
 	return false
 }
 
+// stmt prints a statement. An "if" at the start of a statement always
+// starts an if statement, so a conditional expression whose "if" would be
+// the first token of the statement is parenthesized. Syntax trees produced
+// by the parser have a ParenExpr there; others may not.
 func (p *printer) stmt(stmt ast.Stmt, nextIsRBrace bool) {
+	p.parenCond = leadingCondExpr(stmt)
+	p.stmt1(stmt, nextIsRBrace)
+}
+
+// simpleStmt prints the simple statement s in a control clause: an init or
+// post statement, a type switch guard, or the statement of a select case.
+// There, as in other expressions, "if" starts a conditional expression, so
+// s needs no parentheses.
+func (p *printer) simpleStmt(s ast.Stmt) {
+	p.parenCond = nil
+	p.stmt1(s, false)
+}
+
+// leadingCondExpr returns the conditional expression whose "if" keyword
+// would be the first token of the simple statement s, or nil. It follows the
+// order in which the printer prints s, including the parentheses it adds
+// itself.
+func leadingCondExpr(s ast.Stmt) *ast.CondExpr {
+	var x ast.Expr
+	switch s := s.(type) {
+	case *ast.ExprStmt:
+		x = s.X
+	case *ast.AssignStmt:
+		if len(s.Lhs) > 0 {
+			x = s.Lhs[0]
+		}
+	case *ast.IncDecStmt:
+		x = s.X
+	case *ast.SendStmt:
+		x = s.Chan
+	}
+	prec1 := token.LowestPrec
+	for x != nil {
+		switch e := x.(type) {
+		case *ast.CondExpr:
+			return e
+		case *ast.BinaryExpr:
+			prec := e.Op.Precedence()
+			if prec < prec1 {
+				return nil // printed in parentheses (see binaryExpr)
+			}
+			x, prec1 = e.X, prec
+		case *ast.CallExpr:
+			x, prec1 = e.Fun, token.HighestPrec
+		case *ast.SelectorExpr:
+			x, prec1 = e.X, token.HighestPrec
+		case *ast.IndexExpr:
+			x, prec1 = e.X, token.HighestPrec
+		case *ast.IndexListExpr:
+			x, prec1 = e.X, token.HighestPrec
+		case *ast.SliceExpr:
+			x, prec1 = e.X, token.HighestPrec
+		case *ast.TypeAssertExpr:
+			x, prec1 = e.X, token.HighestPrec
+		case *ast.ErrorExpr:
+			x, prec1 = e.X, token.HighestPrec
+		case *ast.CompositeLit:
+			x, prec1 = e.Type, token.HighestPrec // nil if there is no type
+		default:
+			return nil
+		}
+	}
+	return nil
+}
+
+func (p *printer) stmt1(stmt ast.Stmt, nextIsRBrace bool) {
 	p.setPos(stmt.Pos())
 
 	switch s := stmt.(type) {
@@ -1508,18 +1655,18 @@ func (p *printer) stmt(stmt ast.Stmt, nextIsRBrace bool) {
 		p.print(token.SWITCH)
 		if s.Init != nil {
 			p.print(blank)
-			p.stmt(s.Init, false)
+			p.simpleStmt(s.Init)
 			p.print(token.SEMICOLON)
 		}
 		p.print(blank)
-		p.stmt(s.Assign, false)
+		p.simpleStmt(s.Assign)
 		p.print(blank)
 		p.block(s.Body, 0)
 
 	case *ast.CommClause:
 		if s.Comm != nil {
 			p.print(token.CASE, blank)
-			p.stmt(s.Comm, false)
+			p.simpleStmt(s.Comm)
 		} else {
 			p.print(token.DEFAULT)
 		}

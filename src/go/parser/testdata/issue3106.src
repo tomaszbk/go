@@ -14,11 +14,14 @@ func f() {
 				// Emulates some useful work.
 				time.Sleep(1e8)
 				m.Lock()
+				// In Gon, "if" may start a conditional expression, which
+				// can be the operand of defer: the errors are reported in
+				// that construct, and parsing resumes after it.
 				defer
-				if /* ERROR "expected ';', found 'if'" */ percent == 100 {
+				if percent == 100 {
 					m.Unlock()
-					break
-				}
+					break /* ERROR "conditional expression branch must be a single expression" */
+				} /* ERROR HERE "expression in defer must be function call" */
 				percent++
 				if percent % step == 0 {
 					//c.Signal()

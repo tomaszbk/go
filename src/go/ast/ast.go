@@ -401,6 +401,20 @@ type (
 		Body  *BlockStmt // local error handler; nil for propagation
 	}
 
+	// A CondExpr node represents a conditional expression
+	// "if Cond { Then } else { Else }".
+	CondExpr struct {
+		If         token.Pos // position of "if" keyword
+		Cond       Expr      // condition
+		Lbrace     token.Pos // position of "{" before Then
+		Then       Expr      // value if Cond is true
+		Rbrace     token.Pos // position of "}" after Then
+		ElsePos    token.Pos // position of "else" keyword
+		ElseLbrace token.Pos // position of "{" before Else
+		Else       Expr      // value if Cond is false
+		ElseRbrace token.Pos // position of "}" after Else
+	}
+
 	// A StarExpr node represents an expression of the form "*" Expression.
 	// Semantically it could be a unary "*" expression, or a pointer type.
 	//
@@ -517,6 +531,7 @@ func (x *SliceExpr) Pos() token.Pos      { return x.X.Pos() }
 func (x *TypeAssertExpr) Pos() token.Pos { return x.X.Pos() }
 func (x *CallExpr) Pos() token.Pos       { return x.Fun.Pos() }
 func (x *ErrorExpr) Pos() token.Pos      { return x.X.Pos() }
+func (x *CondExpr) Pos() token.Pos       { return x.If }
 func (x *StarExpr) Pos() token.Pos       { return x.Star }
 func (x *UnaryExpr) Pos() token.Pos      { return x.OpPos }
 func (x *BinaryExpr) Pos() token.Pos     { return x.X.Pos() }
@@ -565,6 +580,7 @@ func (x *ErrorExpr) End() token.Pos {
 	}
 	return x.OpPos + 1
 }
+func (x *CondExpr) End() token.Pos     { return x.ElseRbrace + 1 }
 func (x *StarExpr) End() token.Pos     { return x.X.End() }
 func (x *UnaryExpr) End() token.Pos    { return x.X.End() }
 func (x *BinaryExpr) End() token.Pos   { return x.Y.End() }
@@ -597,6 +613,7 @@ func (*SliceExpr) exprNode()      {}
 func (*TypeAssertExpr) exprNode() {}
 func (*CallExpr) exprNode()       {}
 func (*ErrorExpr) exprNode()      {}
+func (*CondExpr) exprNode()       {}
 func (*StarExpr) exprNode()       {}
 func (*UnaryExpr) exprNode()      {}
 func (*BinaryExpr) exprNode()     {}

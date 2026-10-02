@@ -229,7 +229,12 @@ func (r *Rewriter) generateDispatchers(fileAST *syntax.File) {
 				continue
 			}
 
-			// Clean signature -> Replace body with dispatcher
+			// Clean signature -> Replace body with dispatcher.
+			// For methods, ensure the receiver has a name so the dispatcher
+			// can forward the call to the specialized method on the receiver.
+			if d.Recv != nil && d.Recv.Name == nil {
+				d.Recv.Name = syntax.NewName(d.Recv.Pos(), "_simdRecv")
+			}
 			d.Body = r.createDispatcherBody(d, sig)
 			newDecls = append(newDecls, d)
 
@@ -310,11 +315,13 @@ func (r *Rewriter) createDispatcherBody(d *syntax.FuncDecl, sig *types2.Signatur
 	args := func() []syntax.Expr {
 		var args []syntax.Expr
 		if d.Type.ParamList != nil {
-			for _, field := range d.Type.ParamList {
-				if field.Name != nil {
-					paramName := syntax.NewName(field.Pos(), field.Name.Value)
-					args = append(args, paramName)
+			for i, field := range d.Type.ParamList {
+				if field.Name == nil || field.Name.Value == "_" {
+					// Blank and unnamed parameters cannot be passed along, so name them.
+					field.Name = syntax.NewName(field.Pos(), fmt.Sprintf("p@%d", i))
 				}
+				paramName := syntax.NewName(field.Pos(), field.Name.Value)
+				args = append(args, paramName)
 			}
 		}
 		return args
@@ -357,9 +364,22 @@ func (r *Rewriter) createDispatcherBody(d *syntax.FuncDecl, sig *types2.Signatur
 		fnName := fmt.Sprintf("%s@simd%d%s", d.Name.Value, k, variantSuffix)
 		fnIdent := syntax.NewName(d.Pos(), fnName)
 
+		var fun syntax.Expr
+		if d.Recv != nil && d.Recv.Name != nil {
+			// For methods, call the specialized method on the receiver rather
+			// than as a plain function, so the type-checker can resolve it.
+			recvIdent := syntax.NewName(d.Pos(), d.Recv.Name.Value)
+			selExpr := &syntax.SelectorExpr{X: recvIdent, Sel: fnIdent}
+			selExpr.SetPos(d.Pos())
+			fun = selExpr
+		} else {
+			fun = pe(fnIdent)
+		}
+
 		callExpr := pe(&syntax.CallExpr{
-			Fun:     pe(fnIdent),
+			Fun:     fun,
 			ArgList: args(),
+			HasDots: sig.Variadic(),
 		})
 
 		// callReturnStmt is either `return call(...)` or `call(...); return`

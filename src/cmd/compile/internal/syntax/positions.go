@@ -57,6 +57,7 @@ func StartPos(n Node) Pos {
 			return n.Pos()
 		case *ErrorExpr:
 			m = n.X
+		// case *CondExpr:
 		case *CallExpr:
 			m = n.Fun
 		case *ListExpr:
@@ -215,6 +216,8 @@ func EndPos(n Node) Pos {
 			}
 			p := n.Pos()
 			return MakePos(p.Base(), p.Line(), p.Col()+1)
+		case *CondExpr:
+			return n.Rbrace
 
 		case *CallExpr:
 			if l := lastExpr(n.ArgList); l != nil {

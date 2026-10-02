@@ -4025,6 +4025,2750 @@ func (x Uint64s) Add(y Uint64s) (z Uint64s) {
 	return Uint64s{spec.Add[uint64, spec.WidthScalable](x.v, y.v)}
 }
 
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Float32x4) Sub(y Float32x4) (z Float32x4) {
+	return Float32x4{spec.Sub[float32, spec.Width128](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Float32x8) Sub(y Float32x8) (z Float32x8) {
+	return Float32x8{spec.Sub[float32, spec.Width256](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Float32x16) Sub(y Float32x16) (z Float32x16) {
+	return Float32x16{spec.Sub[float32, spec.Width512](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Float32s) Sub(y Float32s) (z Float32s) {
+	return Float32s{spec.Sub[float32, spec.WidthScalable](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Float64x2) Sub(y Float64x2) (z Float64x2) {
+	return Float64x2{spec.Sub[float64, spec.Width128](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Float64x4) Sub(y Float64x4) (z Float64x4) {
+	return Float64x4{spec.Sub[float64, spec.Width256](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Float64x8) Sub(y Float64x8) (z Float64x8) {
+	return Float64x8{spec.Sub[float64, spec.Width512](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Float64s) Sub(y Float64s) (z Float64s) {
+	return Float64s{spec.Sub[float64, spec.WidthScalable](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Int8x16) Sub(y Int8x16) (z Int8x16) {
+	return Int8x16{spec.Sub[int8, spec.Width128](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Int8x32) Sub(y Int8x32) (z Int8x32) {
+	return Int8x32{spec.Sub[int8, spec.Width256](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Int8x64) Sub(y Int8x64) (z Int8x64) {
+	return Int8x64{spec.Sub[int8, spec.Width512](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Int8s) Sub(y Int8s) (z Int8s) {
+	return Int8s{spec.Sub[int8, spec.WidthScalable](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Int16x8) Sub(y Int16x8) (z Int16x8) {
+	return Int16x8{spec.Sub[int16, spec.Width128](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Int16x16) Sub(y Int16x16) (z Int16x16) {
+	return Int16x16{spec.Sub[int16, spec.Width256](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Int16x32) Sub(y Int16x32) (z Int16x32) {
+	return Int16x32{spec.Sub[int16, spec.Width512](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Int16s) Sub(y Int16s) (z Int16s) {
+	return Int16s{spec.Sub[int16, spec.WidthScalable](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Int32x4) Sub(y Int32x4) (z Int32x4) {
+	return Int32x4{spec.Sub[int32, spec.Width128](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Int32x8) Sub(y Int32x8) (z Int32x8) {
+	return Int32x8{spec.Sub[int32, spec.Width256](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Int32x16) Sub(y Int32x16) (z Int32x16) {
+	return Int32x16{spec.Sub[int32, spec.Width512](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Int32s) Sub(y Int32s) (z Int32s) {
+	return Int32s{spec.Sub[int32, spec.WidthScalable](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Int64x2) Sub(y Int64x2) (z Int64x2) {
+	return Int64x2{spec.Sub[int64, spec.Width128](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Int64x4) Sub(y Int64x4) (z Int64x4) {
+	return Int64x4{spec.Sub[int64, spec.Width256](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Int64x8) Sub(y Int64x8) (z Int64x8) {
+	return Int64x8{spec.Sub[int64, spec.Width512](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Int64s) Sub(y Int64s) (z Int64s) {
+	return Int64s{spec.Sub[int64, spec.WidthScalable](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Uint8x16) Sub(y Uint8x16) (z Uint8x16) {
+	return Uint8x16{spec.Sub[uint8, spec.Width128](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Uint8x32) Sub(y Uint8x32) (z Uint8x32) {
+	return Uint8x32{spec.Sub[uint8, spec.Width256](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Uint8x64) Sub(y Uint8x64) (z Uint8x64) {
+	return Uint8x64{spec.Sub[uint8, spec.Width512](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Uint8s) Sub(y Uint8s) (z Uint8s) {
+	return Uint8s{spec.Sub[uint8, spec.WidthScalable](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Uint16x8) Sub(y Uint16x8) (z Uint16x8) {
+	return Uint16x8{spec.Sub[uint16, spec.Width128](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Uint16x16) Sub(y Uint16x16) (z Uint16x16) {
+	return Uint16x16{spec.Sub[uint16, spec.Width256](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Uint16x32) Sub(y Uint16x32) (z Uint16x32) {
+	return Uint16x32{spec.Sub[uint16, spec.Width512](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Uint16s) Sub(y Uint16s) (z Uint16s) {
+	return Uint16s{spec.Sub[uint16, spec.WidthScalable](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Uint32x4) Sub(y Uint32x4) (z Uint32x4) {
+	return Uint32x4{spec.Sub[uint32, spec.Width128](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Uint32x8) Sub(y Uint32x8) (z Uint32x8) {
+	return Uint32x8{spec.Sub[uint32, spec.Width256](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Uint32x16) Sub(y Uint32x16) (z Uint32x16) {
+	return Uint32x16{spec.Sub[uint32, spec.Width512](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Uint32s) Sub(y Uint32s) (z Uint32s) {
+	return Uint32s{spec.Sub[uint32, spec.WidthScalable](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Uint64x2) Sub(y Uint64x2) (z Uint64x2) {
+	return Uint64x2{spec.Sub[uint64, spec.Width128](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Uint64x4) Sub(y Uint64x4) (z Uint64x4) {
+	return Uint64x4{spec.Sub[uint64, spec.Width256](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Uint64x8) Sub(y Uint64x8) (z Uint64x8) {
+	return Uint64x8{spec.Sub[uint64, spec.Width512](x.v, y.v)}
+}
+
+// Sub subtracts corresponding elements of two vectors.
+//
+//	z[i] = x[i] - y[i]
+func (x Uint64s) Sub(y Uint64s) (z Uint64s) {
+	return Uint64s{spec.Sub[uint64, spec.WidthScalable](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Int8x16) AddSaturated(y Int8x16) (z Int8x16) {
+	return Int8x16{spec.AddSaturated[int8, spec.Width128](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Int8x32) AddSaturated(y Int8x32) (z Int8x32) {
+	return Int8x32{spec.AddSaturated[int8, spec.Width256](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Int8x64) AddSaturated(y Int8x64) (z Int8x64) {
+	return Int8x64{spec.AddSaturated[int8, spec.Width512](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Int8s) AddSaturated(y Int8s) (z Int8s) {
+	return Int8s{spec.AddSaturated[int8, spec.WidthScalable](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Int16x8) AddSaturated(y Int16x8) (z Int16x8) {
+	return Int16x8{spec.AddSaturated[int16, spec.Width128](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Int16x16) AddSaturated(y Int16x16) (z Int16x16) {
+	return Int16x16{spec.AddSaturated[int16, spec.Width256](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Int16x32) AddSaturated(y Int16x32) (z Int16x32) {
+	return Int16x32{spec.AddSaturated[int16, spec.Width512](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Int16s) AddSaturated(y Int16s) (z Int16s) {
+	return Int16s{spec.AddSaturated[int16, spec.WidthScalable](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Int32x4) AddSaturated(y Int32x4) (z Int32x4) {
+	return Int32x4{spec.AddSaturated[int32, spec.Width128](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Int32x8) AddSaturated(y Int32x8) (z Int32x8) {
+	return Int32x8{spec.AddSaturated[int32, spec.Width256](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Int32x16) AddSaturated(y Int32x16) (z Int32x16) {
+	return Int32x16{spec.AddSaturated[int32, spec.Width512](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Int32s) AddSaturated(y Int32s) (z Int32s) {
+	return Int32s{spec.AddSaturated[int32, spec.WidthScalable](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Int64x2) AddSaturated(y Int64x2) (z Int64x2) {
+	return Int64x2{spec.AddSaturated[int64, spec.Width128](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Int64x4) AddSaturated(y Int64x4) (z Int64x4) {
+	return Int64x4{spec.AddSaturated[int64, spec.Width256](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Int64x8) AddSaturated(y Int64x8) (z Int64x8) {
+	return Int64x8{spec.AddSaturated[int64, spec.Width512](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Int64s) AddSaturated(y Int64s) (z Int64s) {
+	return Int64s{spec.AddSaturated[int64, spec.WidthScalable](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Uint8x16) AddSaturated(y Uint8x16) (z Uint8x16) {
+	return Uint8x16{spec.AddSaturated[uint8, spec.Width128](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Uint8x32) AddSaturated(y Uint8x32) (z Uint8x32) {
+	return Uint8x32{spec.AddSaturated[uint8, spec.Width256](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Uint8x64) AddSaturated(y Uint8x64) (z Uint8x64) {
+	return Uint8x64{spec.AddSaturated[uint8, spec.Width512](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Uint8s) AddSaturated(y Uint8s) (z Uint8s) {
+	return Uint8s{spec.AddSaturated[uint8, spec.WidthScalable](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Uint16x8) AddSaturated(y Uint16x8) (z Uint16x8) {
+	return Uint16x8{spec.AddSaturated[uint16, spec.Width128](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Uint16x16) AddSaturated(y Uint16x16) (z Uint16x16) {
+	return Uint16x16{spec.AddSaturated[uint16, spec.Width256](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Uint16x32) AddSaturated(y Uint16x32) (z Uint16x32) {
+	return Uint16x32{spec.AddSaturated[uint16, spec.Width512](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Uint16s) AddSaturated(y Uint16s) (z Uint16s) {
+	return Uint16s{spec.AddSaturated[uint16, spec.WidthScalable](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Uint32x4) AddSaturated(y Uint32x4) (z Uint32x4) {
+	return Uint32x4{spec.AddSaturated[uint32, spec.Width128](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Uint32x8) AddSaturated(y Uint32x8) (z Uint32x8) {
+	return Uint32x8{spec.AddSaturated[uint32, spec.Width256](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Uint32x16) AddSaturated(y Uint32x16) (z Uint32x16) {
+	return Uint32x16{spec.AddSaturated[uint32, spec.Width512](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Uint32s) AddSaturated(y Uint32s) (z Uint32s) {
+	return Uint32s{spec.AddSaturated[uint32, spec.WidthScalable](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Uint64x2) AddSaturated(y Uint64x2) (z Uint64x2) {
+	return Uint64x2{spec.AddSaturated[uint64, spec.Width128](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Uint64x4) AddSaturated(y Uint64x4) (z Uint64x4) {
+	return Uint64x4{spec.AddSaturated[uint64, spec.Width256](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Uint64x8) AddSaturated(y Uint64x8) (z Uint64x8) {
+	return Uint64x8{spec.AddSaturated[uint64, spec.Width512](x.v, y.v)}
+}
+
+// AddSaturated adds corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] + y[i])
+func (x Uint64s) AddSaturated(y Uint64s) (z Uint64s) {
+	return Uint64s{spec.AddSaturated[uint64, spec.WidthScalable](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Int8x16) SubSaturated(y Int8x16) (z Int8x16) {
+	return Int8x16{spec.SubSaturated[int8, spec.Width128](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Int8x32) SubSaturated(y Int8x32) (z Int8x32) {
+	return Int8x32{spec.SubSaturated[int8, spec.Width256](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Int8x64) SubSaturated(y Int8x64) (z Int8x64) {
+	return Int8x64{spec.SubSaturated[int8, spec.Width512](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Int8s) SubSaturated(y Int8s) (z Int8s) {
+	return Int8s{spec.SubSaturated[int8, spec.WidthScalable](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Int16x8) SubSaturated(y Int16x8) (z Int16x8) {
+	return Int16x8{spec.SubSaturated[int16, spec.Width128](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Int16x16) SubSaturated(y Int16x16) (z Int16x16) {
+	return Int16x16{spec.SubSaturated[int16, spec.Width256](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Int16x32) SubSaturated(y Int16x32) (z Int16x32) {
+	return Int16x32{spec.SubSaturated[int16, spec.Width512](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Int16s) SubSaturated(y Int16s) (z Int16s) {
+	return Int16s{spec.SubSaturated[int16, spec.WidthScalable](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Int32x4) SubSaturated(y Int32x4) (z Int32x4) {
+	return Int32x4{spec.SubSaturated[int32, spec.Width128](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Int32x8) SubSaturated(y Int32x8) (z Int32x8) {
+	return Int32x8{spec.SubSaturated[int32, spec.Width256](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Int32x16) SubSaturated(y Int32x16) (z Int32x16) {
+	return Int32x16{spec.SubSaturated[int32, spec.Width512](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Int32s) SubSaturated(y Int32s) (z Int32s) {
+	return Int32s{spec.SubSaturated[int32, spec.WidthScalable](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Int64x2) SubSaturated(y Int64x2) (z Int64x2) {
+	return Int64x2{spec.SubSaturated[int64, spec.Width128](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Int64x4) SubSaturated(y Int64x4) (z Int64x4) {
+	return Int64x4{spec.SubSaturated[int64, spec.Width256](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Int64x8) SubSaturated(y Int64x8) (z Int64x8) {
+	return Int64x8{spec.SubSaturated[int64, spec.Width512](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Int64s) SubSaturated(y Int64s) (z Int64s) {
+	return Int64s{spec.SubSaturated[int64, spec.WidthScalable](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Uint8x16) SubSaturated(y Uint8x16) (z Uint8x16) {
+	return Uint8x16{spec.SubSaturated[uint8, spec.Width128](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Uint8x32) SubSaturated(y Uint8x32) (z Uint8x32) {
+	return Uint8x32{spec.SubSaturated[uint8, spec.Width256](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Uint8x64) SubSaturated(y Uint8x64) (z Uint8x64) {
+	return Uint8x64{spec.SubSaturated[uint8, spec.Width512](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Uint8s) SubSaturated(y Uint8s) (z Uint8s) {
+	return Uint8s{spec.SubSaturated[uint8, spec.WidthScalable](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Uint16x8) SubSaturated(y Uint16x8) (z Uint16x8) {
+	return Uint16x8{spec.SubSaturated[uint16, spec.Width128](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Uint16x16) SubSaturated(y Uint16x16) (z Uint16x16) {
+	return Uint16x16{spec.SubSaturated[uint16, spec.Width256](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Uint16x32) SubSaturated(y Uint16x32) (z Uint16x32) {
+	return Uint16x32{spec.SubSaturated[uint16, spec.Width512](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Uint16s) SubSaturated(y Uint16s) (z Uint16s) {
+	return Uint16s{spec.SubSaturated[uint16, spec.WidthScalable](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Uint32x4) SubSaturated(y Uint32x4) (z Uint32x4) {
+	return Uint32x4{spec.SubSaturated[uint32, spec.Width128](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Uint32x8) SubSaturated(y Uint32x8) (z Uint32x8) {
+	return Uint32x8{spec.SubSaturated[uint32, spec.Width256](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Uint32x16) SubSaturated(y Uint32x16) (z Uint32x16) {
+	return Uint32x16{spec.SubSaturated[uint32, spec.Width512](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Uint32s) SubSaturated(y Uint32s) (z Uint32s) {
+	return Uint32s{spec.SubSaturated[uint32, spec.WidthScalable](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Uint64x2) SubSaturated(y Uint64x2) (z Uint64x2) {
+	return Uint64x2{spec.SubSaturated[uint64, spec.Width128](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Uint64x4) SubSaturated(y Uint64x4) (z Uint64x4) {
+	return Uint64x4{spec.SubSaturated[uint64, spec.Width256](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Uint64x8) SubSaturated(y Uint64x8) (z Uint64x8) {
+	return Uint64x8{spec.SubSaturated[uint64, spec.Width512](x.v, y.v)}
+}
+
+// SubSaturated subtracts corresponding elements of two vectors with saturation.
+//
+//	z[i] = saturated(x[i] - y[i])
+func (x Uint64s) SubSaturated(y Uint64s) (z Uint64s) {
+	return Uint64s{spec.SubSaturated[uint64, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Float32x4) ConcatAddPairs(y Float32x4) (z Float32x4) {
+	return Float32x4{spec.ConcatAddPairs[float32, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Float32x8) ConcatAddPairs(y Float32x8) (z Float32x8) {
+	return Float32x8{spec.ConcatAddPairs[float32, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Float32x16) ConcatAddPairs(y Float32x16) (z Float32x16) {
+	return Float32x16{spec.ConcatAddPairs[float32, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Float32s) ConcatAddPairs(y Float32s) (z Float32s) {
+	return Float32s{spec.ConcatAddPairs[float32, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], y[0]+y[1]}
+func (x Float64x2) ConcatAddPairs(y Float64x2) (z Float64x2) {
+	return Float64x2{spec.ConcatAddPairs[float64, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Float64x4) ConcatAddPairs(y Float64x4) (z Float64x4) {
+	return Float64x4{spec.ConcatAddPairs[float64, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Float64x8) ConcatAddPairs(y Float64x8) (z Float64x8) {
+	return Float64x8{spec.ConcatAddPairs[float64, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Float64s) ConcatAddPairs(y Float64s) (z Float64s) {
+	return Float64s{spec.ConcatAddPairs[float64, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int8x16) ConcatAddPairs(y Int8x16) (z Int8x16) {
+	return Int8x16{spec.ConcatAddPairs[int8, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int8x32) ConcatAddPairs(y Int8x32) (z Int8x32) {
+	return Int8x32{spec.ConcatAddPairs[int8, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int8x64) ConcatAddPairs(y Int8x64) (z Int8x64) {
+	return Int8x64{spec.ConcatAddPairs[int8, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int8s) ConcatAddPairs(y Int8s) (z Int8s) {
+	return Int8s{spec.ConcatAddPairs[int8, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int16x8) ConcatAddPairs(y Int16x8) (z Int16x8) {
+	return Int16x8{spec.ConcatAddPairs[int16, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int16x16) ConcatAddPairs(y Int16x16) (z Int16x16) {
+	return Int16x16{spec.ConcatAddPairs[int16, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int16x32) ConcatAddPairs(y Int16x32) (z Int16x32) {
+	return Int16x32{spec.ConcatAddPairs[int16, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int16s) ConcatAddPairs(y Int16s) (z Int16s) {
+	return Int16s{spec.ConcatAddPairs[int16, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int32x4) ConcatAddPairs(y Int32x4) (z Int32x4) {
+	return Int32x4{spec.ConcatAddPairs[int32, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int32x8) ConcatAddPairs(y Int32x8) (z Int32x8) {
+	return Int32x8{spec.ConcatAddPairs[int32, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int32x16) ConcatAddPairs(y Int32x16) (z Int32x16) {
+	return Int32x16{spec.ConcatAddPairs[int32, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int32s) ConcatAddPairs(y Int32s) (z Int32s) {
+	return Int32s{spec.ConcatAddPairs[int32, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], y[0]+y[1]}
+func (x Int64x2) ConcatAddPairs(y Int64x2) (z Int64x2) {
+	return Int64x2{spec.ConcatAddPairs[int64, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int64x4) ConcatAddPairs(y Int64x4) (z Int64x4) {
+	return Int64x4{spec.ConcatAddPairs[int64, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int64x8) ConcatAddPairs(y Int64x8) (z Int64x8) {
+	return Int64x8{spec.ConcatAddPairs[int64, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int64s) ConcatAddPairs(y Int64s) (z Int64s) {
+	return Int64s{spec.ConcatAddPairs[int64, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint8x16) ConcatAddPairs(y Uint8x16) (z Uint8x16) {
+	return Uint8x16{spec.ConcatAddPairs[uint8, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint8x32) ConcatAddPairs(y Uint8x32) (z Uint8x32) {
+	return Uint8x32{spec.ConcatAddPairs[uint8, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint8x64) ConcatAddPairs(y Uint8x64) (z Uint8x64) {
+	return Uint8x64{spec.ConcatAddPairs[uint8, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint8s) ConcatAddPairs(y Uint8s) (z Uint8s) {
+	return Uint8s{spec.ConcatAddPairs[uint8, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint16x8) ConcatAddPairs(y Uint16x8) (z Uint16x8) {
+	return Uint16x8{spec.ConcatAddPairs[uint16, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint16x16) ConcatAddPairs(y Uint16x16) (z Uint16x16) {
+	return Uint16x16{spec.ConcatAddPairs[uint16, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint16x32) ConcatAddPairs(y Uint16x32) (z Uint16x32) {
+	return Uint16x32{spec.ConcatAddPairs[uint16, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint16s) ConcatAddPairs(y Uint16s) (z Uint16s) {
+	return Uint16s{spec.ConcatAddPairs[uint16, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint32x4) ConcatAddPairs(y Uint32x4) (z Uint32x4) {
+	return Uint32x4{spec.ConcatAddPairs[uint32, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint32x8) ConcatAddPairs(y Uint32x8) (z Uint32x8) {
+	return Uint32x8{spec.ConcatAddPairs[uint32, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint32x16) ConcatAddPairs(y Uint32x16) (z Uint32x16) {
+	return Uint32x16{spec.ConcatAddPairs[uint32, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint32s) ConcatAddPairs(y Uint32s) (z Uint32s) {
+	return Uint32s{spec.ConcatAddPairs[uint32, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], y[0]+y[1]}
+func (x Uint64x2) ConcatAddPairs(y Uint64x2) (z Uint64x2) {
+	return Uint64x2{spec.ConcatAddPairs[uint64, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint64x4) ConcatAddPairs(y Uint64x4) (z Uint64x4) {
+	return Uint64x4{spec.ConcatAddPairs[uint64, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint64x8) ConcatAddPairs(y Uint64x8) (z Uint64x8) {
+	return Uint64x8{spec.ConcatAddPairs[uint64, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairs horizontally adds adjacent pairs of elements in x and y and
+// returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint64s) ConcatAddPairs(y Uint64s) (z Uint64s) {
+	return Uint64s{spec.ConcatAddPairs[uint64, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Float32x4) ConcatSubPairs(y Float32x4) (z Float32x4) {
+	return Float32x4{spec.ConcatSubPairs[float32, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Float32x8) ConcatSubPairs(y Float32x8) (z Float32x8) {
+	return Float32x8{spec.ConcatSubPairs[float32, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Float32x16) ConcatSubPairs(y Float32x16) (z Float32x16) {
+	return Float32x16{spec.ConcatSubPairs[float32, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Float32s) ConcatSubPairs(y Float32s) (z Float32s) {
+	return Float32s{spec.ConcatSubPairs[float32, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], y[0]-y[1]}
+func (x Float64x2) ConcatSubPairs(y Float64x2) (z Float64x2) {
+	return Float64x2{spec.ConcatSubPairs[float64, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Float64x4) ConcatSubPairs(y Float64x4) (z Float64x4) {
+	return Float64x4{spec.ConcatSubPairs[float64, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Float64x8) ConcatSubPairs(y Float64x8) (z Float64x8) {
+	return Float64x8{spec.ConcatSubPairs[float64, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Float64s) ConcatSubPairs(y Float64s) (z Float64s) {
+	return Float64s{spec.ConcatSubPairs[float64, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int8x16) ConcatSubPairs(y Int8x16) (z Int8x16) {
+	return Int8x16{spec.ConcatSubPairs[int8, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int8x32) ConcatSubPairs(y Int8x32) (z Int8x32) {
+	return Int8x32{spec.ConcatSubPairs[int8, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int8x64) ConcatSubPairs(y Int8x64) (z Int8x64) {
+	return Int8x64{spec.ConcatSubPairs[int8, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int8s) ConcatSubPairs(y Int8s) (z Int8s) {
+	return Int8s{spec.ConcatSubPairs[int8, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int16x8) ConcatSubPairs(y Int16x8) (z Int16x8) {
+	return Int16x8{spec.ConcatSubPairs[int16, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int16x16) ConcatSubPairs(y Int16x16) (z Int16x16) {
+	return Int16x16{spec.ConcatSubPairs[int16, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int16x32) ConcatSubPairs(y Int16x32) (z Int16x32) {
+	return Int16x32{spec.ConcatSubPairs[int16, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int16s) ConcatSubPairs(y Int16s) (z Int16s) {
+	return Int16s{spec.ConcatSubPairs[int16, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int32x4) ConcatSubPairs(y Int32x4) (z Int32x4) {
+	return Int32x4{spec.ConcatSubPairs[int32, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int32x8) ConcatSubPairs(y Int32x8) (z Int32x8) {
+	return Int32x8{spec.ConcatSubPairs[int32, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int32x16) ConcatSubPairs(y Int32x16) (z Int32x16) {
+	return Int32x16{spec.ConcatSubPairs[int32, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int32s) ConcatSubPairs(y Int32s) (z Int32s) {
+	return Int32s{spec.ConcatSubPairs[int32, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], y[0]-y[1]}
+func (x Int64x2) ConcatSubPairs(y Int64x2) (z Int64x2) {
+	return Int64x2{spec.ConcatSubPairs[int64, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int64x4) ConcatSubPairs(y Int64x4) (z Int64x4) {
+	return Int64x4{spec.ConcatSubPairs[int64, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int64x8) ConcatSubPairs(y Int64x8) (z Int64x8) {
+	return Int64x8{spec.ConcatSubPairs[int64, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int64s) ConcatSubPairs(y Int64s) (z Int64s) {
+	return Int64s{spec.ConcatSubPairs[int64, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint8x16) ConcatSubPairs(y Uint8x16) (z Uint8x16) {
+	return Uint8x16{spec.ConcatSubPairs[uint8, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint8x32) ConcatSubPairs(y Uint8x32) (z Uint8x32) {
+	return Uint8x32{spec.ConcatSubPairs[uint8, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint8x64) ConcatSubPairs(y Uint8x64) (z Uint8x64) {
+	return Uint8x64{spec.ConcatSubPairs[uint8, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint8s) ConcatSubPairs(y Uint8s) (z Uint8s) {
+	return Uint8s{spec.ConcatSubPairs[uint8, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint16x8) ConcatSubPairs(y Uint16x8) (z Uint16x8) {
+	return Uint16x8{spec.ConcatSubPairs[uint16, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint16x16) ConcatSubPairs(y Uint16x16) (z Uint16x16) {
+	return Uint16x16{spec.ConcatSubPairs[uint16, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint16x32) ConcatSubPairs(y Uint16x32) (z Uint16x32) {
+	return Uint16x32{spec.ConcatSubPairs[uint16, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint16s) ConcatSubPairs(y Uint16s) (z Uint16s) {
+	return Uint16s{spec.ConcatSubPairs[uint16, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint32x4) ConcatSubPairs(y Uint32x4) (z Uint32x4) {
+	return Uint32x4{spec.ConcatSubPairs[uint32, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint32x8) ConcatSubPairs(y Uint32x8) (z Uint32x8) {
+	return Uint32x8{spec.ConcatSubPairs[uint32, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint32x16) ConcatSubPairs(y Uint32x16) (z Uint32x16) {
+	return Uint32x16{spec.ConcatSubPairs[uint32, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint32s) ConcatSubPairs(y Uint32s) (z Uint32s) {
+	return Uint32s{spec.ConcatSubPairs[uint32, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], y[0]-y[1]}
+func (x Uint64x2) ConcatSubPairs(y Uint64x2) (z Uint64x2) {
+	return Uint64x2{spec.ConcatSubPairs[uint64, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint64x4) ConcatSubPairs(y Uint64x4) (z Uint64x4) {
+	return Uint64x4{spec.ConcatSubPairs[uint64, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint64x8) ConcatSubPairs(y Uint64x8) (z Uint64x8) {
+	return Uint64x8{spec.ConcatSubPairs[uint64, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairs horizontally subtracts adjacent pairs of elements in x and y
+// and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint64s) ConcatSubPairs(y Uint64s) (z Uint64s) {
+	return Uint64s{spec.ConcatSubPairs[uint64, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int8x16) ConcatAddPairsSaturated(y Int8x16) (z Int8x16) {
+	return Int8x16{spec.ConcatAddPairsSaturated[int8, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int8x32) ConcatAddPairsSaturated(y Int8x32) (z Int8x32) {
+	return Int8x32{spec.ConcatAddPairsSaturated[int8, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int8x64) ConcatAddPairsSaturated(y Int8x64) (z Int8x64) {
+	return Int8x64{spec.ConcatAddPairsSaturated[int8, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int8s) ConcatAddPairsSaturated(y Int8s) (z Int8s) {
+	return Int8s{spec.ConcatAddPairsSaturated[int8, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int16x8) ConcatAddPairsSaturated(y Int16x8) (z Int16x8) {
+	return Int16x8{spec.ConcatAddPairsSaturated[int16, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int16x16) ConcatAddPairsSaturated(y Int16x16) (z Int16x16) {
+	return Int16x16{spec.ConcatAddPairsSaturated[int16, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int16x32) ConcatAddPairsSaturated(y Int16x32) (z Int16x32) {
+	return Int16x32{spec.ConcatAddPairsSaturated[int16, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int16s) ConcatAddPairsSaturated(y Int16s) (z Int16s) {
+	return Int16s{spec.ConcatAddPairsSaturated[int16, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int32x4) ConcatAddPairsSaturated(y Int32x4) (z Int32x4) {
+	return Int32x4{spec.ConcatAddPairsSaturated[int32, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int32x8) ConcatAddPairsSaturated(y Int32x8) (z Int32x8) {
+	return Int32x8{spec.ConcatAddPairsSaturated[int32, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int32x16) ConcatAddPairsSaturated(y Int32x16) (z Int32x16) {
+	return Int32x16{spec.ConcatAddPairsSaturated[int32, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int32s) ConcatAddPairsSaturated(y Int32s) (z Int32s) {
+	return Int32s{spec.ConcatAddPairsSaturated[int32, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], y[0]+y[1]}
+func (x Int64x2) ConcatAddPairsSaturated(y Int64x2) (z Int64x2) {
+	return Int64x2{spec.ConcatAddPairsSaturated[int64, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int64x4) ConcatAddPairsSaturated(y Int64x4) (z Int64x4) {
+	return Int64x4{spec.ConcatAddPairsSaturated[int64, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int64x8) ConcatAddPairsSaturated(y Int64x8) (z Int64x8) {
+	return Int64x8{spec.ConcatAddPairsSaturated[int64, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Int64s) ConcatAddPairsSaturated(y Int64s) (z Int64s) {
+	return Int64s{spec.ConcatAddPairsSaturated[int64, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint8x16) ConcatAddPairsSaturated(y Uint8x16) (z Uint8x16) {
+	return Uint8x16{spec.ConcatAddPairsSaturated[uint8, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint8x32) ConcatAddPairsSaturated(y Uint8x32) (z Uint8x32) {
+	return Uint8x32{spec.ConcatAddPairsSaturated[uint8, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint8x64) ConcatAddPairsSaturated(y Uint8x64) (z Uint8x64) {
+	return Uint8x64{spec.ConcatAddPairsSaturated[uint8, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint8s) ConcatAddPairsSaturated(y Uint8s) (z Uint8s) {
+	return Uint8s{spec.ConcatAddPairsSaturated[uint8, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint16x8) ConcatAddPairsSaturated(y Uint16x8) (z Uint16x8) {
+	return Uint16x8{spec.ConcatAddPairsSaturated[uint16, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint16x16) ConcatAddPairsSaturated(y Uint16x16) (z Uint16x16) {
+	return Uint16x16{spec.ConcatAddPairsSaturated[uint16, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint16x32) ConcatAddPairsSaturated(y Uint16x32) (z Uint16x32) {
+	return Uint16x32{spec.ConcatAddPairsSaturated[uint16, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint16s) ConcatAddPairsSaturated(y Uint16s) (z Uint16s) {
+	return Uint16s{spec.ConcatAddPairsSaturated[uint16, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint32x4) ConcatAddPairsSaturated(y Uint32x4) (z Uint32x4) {
+	return Uint32x4{spec.ConcatAddPairsSaturated[uint32, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint32x8) ConcatAddPairsSaturated(y Uint32x8) (z Uint32x8) {
+	return Uint32x8{spec.ConcatAddPairsSaturated[uint32, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint32x16) ConcatAddPairsSaturated(y Uint32x16) (z Uint32x16) {
+	return Uint32x16{spec.ConcatAddPairsSaturated[uint32, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint32s) ConcatAddPairsSaturated(y Uint32s) (z Uint32s) {
+	return Uint32s{spec.ConcatAddPairsSaturated[uint32, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], y[0]+y[1]}
+func (x Uint64x2) ConcatAddPairsSaturated(y Uint64x2) (z Uint64x2) {
+	return Uint64x2{spec.ConcatAddPairsSaturated[uint64, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint64x4) ConcatAddPairsSaturated(y Uint64x4) (z Uint64x4) {
+	return Uint64x4{spec.ConcatAddPairsSaturated[uint64, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint64x8) ConcatAddPairsSaturated(y Uint64x8) (z Uint64x8) {
+	return Uint64x8{spec.ConcatAddPairsSaturated[uint64, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturated horizontally adds adjacent pairs of elements in x and
+// y with saturation and returns the concatenated result.
+//
+// z = {x[0]+x[1], x[2]+x[3], ..., y[0]+y[1], y[2]+y[3], ...}
+func (x Uint64s) ConcatAddPairsSaturated(y Uint64s) (z Uint64s) {
+	return Uint64s{spec.ConcatAddPairsSaturated[uint64, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int8x16) ConcatSubPairsSaturated(y Int8x16) (z Int8x16) {
+	return Int8x16{spec.ConcatSubPairsSaturated[int8, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int8x32) ConcatSubPairsSaturated(y Int8x32) (z Int8x32) {
+	return Int8x32{spec.ConcatSubPairsSaturated[int8, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int8x64) ConcatSubPairsSaturated(y Int8x64) (z Int8x64) {
+	return Int8x64{spec.ConcatSubPairsSaturated[int8, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int8s) ConcatSubPairsSaturated(y Int8s) (z Int8s) {
+	return Int8s{spec.ConcatSubPairsSaturated[int8, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int16x8) ConcatSubPairsSaturated(y Int16x8) (z Int16x8) {
+	return Int16x8{spec.ConcatSubPairsSaturated[int16, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int16x16) ConcatSubPairsSaturated(y Int16x16) (z Int16x16) {
+	return Int16x16{spec.ConcatSubPairsSaturated[int16, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int16x32) ConcatSubPairsSaturated(y Int16x32) (z Int16x32) {
+	return Int16x32{spec.ConcatSubPairsSaturated[int16, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int16s) ConcatSubPairsSaturated(y Int16s) (z Int16s) {
+	return Int16s{spec.ConcatSubPairsSaturated[int16, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int32x4) ConcatSubPairsSaturated(y Int32x4) (z Int32x4) {
+	return Int32x4{spec.ConcatSubPairsSaturated[int32, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int32x8) ConcatSubPairsSaturated(y Int32x8) (z Int32x8) {
+	return Int32x8{spec.ConcatSubPairsSaturated[int32, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int32x16) ConcatSubPairsSaturated(y Int32x16) (z Int32x16) {
+	return Int32x16{spec.ConcatSubPairsSaturated[int32, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int32s) ConcatSubPairsSaturated(y Int32s) (z Int32s) {
+	return Int32s{spec.ConcatSubPairsSaturated[int32, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], y[0]-y[1]}
+func (x Int64x2) ConcatSubPairsSaturated(y Int64x2) (z Int64x2) {
+	return Int64x2{spec.ConcatSubPairsSaturated[int64, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int64x4) ConcatSubPairsSaturated(y Int64x4) (z Int64x4) {
+	return Int64x4{spec.ConcatSubPairsSaturated[int64, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int64x8) ConcatSubPairsSaturated(y Int64x8) (z Int64x8) {
+	return Int64x8{spec.ConcatSubPairsSaturated[int64, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Int64s) ConcatSubPairsSaturated(y Int64s) (z Int64s) {
+	return Int64s{spec.ConcatSubPairsSaturated[int64, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint8x16) ConcatSubPairsSaturated(y Uint8x16) (z Uint8x16) {
+	return Uint8x16{spec.ConcatSubPairsSaturated[uint8, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint8x32) ConcatSubPairsSaturated(y Uint8x32) (z Uint8x32) {
+	return Uint8x32{spec.ConcatSubPairsSaturated[uint8, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint8x64) ConcatSubPairsSaturated(y Uint8x64) (z Uint8x64) {
+	return Uint8x64{spec.ConcatSubPairsSaturated[uint8, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint8s) ConcatSubPairsSaturated(y Uint8s) (z Uint8s) {
+	return Uint8s{spec.ConcatSubPairsSaturated[uint8, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint16x8) ConcatSubPairsSaturated(y Uint16x8) (z Uint16x8) {
+	return Uint16x8{spec.ConcatSubPairsSaturated[uint16, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint16x16) ConcatSubPairsSaturated(y Uint16x16) (z Uint16x16) {
+	return Uint16x16{spec.ConcatSubPairsSaturated[uint16, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint16x32) ConcatSubPairsSaturated(y Uint16x32) (z Uint16x32) {
+	return Uint16x32{spec.ConcatSubPairsSaturated[uint16, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint16s) ConcatSubPairsSaturated(y Uint16s) (z Uint16s) {
+	return Uint16s{spec.ConcatSubPairsSaturated[uint16, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint32x4) ConcatSubPairsSaturated(y Uint32x4) (z Uint32x4) {
+	return Uint32x4{spec.ConcatSubPairsSaturated[uint32, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint32x8) ConcatSubPairsSaturated(y Uint32x8) (z Uint32x8) {
+	return Uint32x8{spec.ConcatSubPairsSaturated[uint32, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint32x16) ConcatSubPairsSaturated(y Uint32x16) (z Uint32x16) {
+	return Uint32x16{spec.ConcatSubPairsSaturated[uint32, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint32s) ConcatSubPairsSaturated(y Uint32s) (z Uint32s) {
+	return Uint32s{spec.ConcatSubPairsSaturated[uint32, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], y[0]-y[1]}
+func (x Uint64x2) ConcatSubPairsSaturated(y Uint64x2) (z Uint64x2) {
+	return Uint64x2{spec.ConcatSubPairsSaturated[uint64, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint64x4) ConcatSubPairsSaturated(y Uint64x4) (z Uint64x4) {
+	return Uint64x4{spec.ConcatSubPairsSaturated[uint64, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint64x8) ConcatSubPairsSaturated(y Uint64x8) (z Uint64x8) {
+	return Uint64x8{spec.ConcatSubPairsSaturated[uint64, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturated horizontally subtracts adjacent pairs of elements in
+// x and y with saturation and returns the concatenated result.
+//
+// z = {x[0]-x[1], x[2]-x[3], ..., y[0]-y[1], y[2]-y[3], ...}
+func (x Uint64s) ConcatSubPairsSaturated(y Uint64s) (z Uint64s) {
+	return Uint64s{spec.ConcatSubPairsSaturated[uint64, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Float32x4) ConcatAddPairsGrouped(y Float32x4) (z Float32x4) {
+	return Float32x4{spec.ConcatAddPairsGrouped[float32, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Float32x8) ConcatAddPairsGrouped(y Float32x8) (z Float32x8) {
+	return Float32x8{spec.ConcatAddPairsGrouped[float32, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Float32x16) ConcatAddPairsGrouped(y Float32x16) (z Float32x16) {
+	return Float32x16{spec.ConcatAddPairsGrouped[float32, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Float32s) ConcatAddPairsGrouped(y Float32s) (z Float32s) {
+	return Float32s{spec.ConcatAddPairsGrouped[float32, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Float64x2) ConcatAddPairsGrouped(y Float64x2) (z Float64x2) {
+	return Float64x2{spec.ConcatAddPairsGrouped[float64, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Float64x4) ConcatAddPairsGrouped(y Float64x4) (z Float64x4) {
+	return Float64x4{spec.ConcatAddPairsGrouped[float64, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Float64x8) ConcatAddPairsGrouped(y Float64x8) (z Float64x8) {
+	return Float64x8{spec.ConcatAddPairsGrouped[float64, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Float64s) ConcatAddPairsGrouped(y Float64s) (z Float64s) {
+	return Float64s{spec.ConcatAddPairsGrouped[float64, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Int8x16) ConcatAddPairsGrouped(y Int8x16) (z Int8x16) {
+	return Int8x16{spec.ConcatAddPairsGrouped[int8, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Int8x32) ConcatAddPairsGrouped(y Int8x32) (z Int8x32) {
+	return Int8x32{spec.ConcatAddPairsGrouped[int8, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Int8x64) ConcatAddPairsGrouped(y Int8x64) (z Int8x64) {
+	return Int8x64{spec.ConcatAddPairsGrouped[int8, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Int8s) ConcatAddPairsGrouped(y Int8s) (z Int8s) {
+	return Int8s{spec.ConcatAddPairsGrouped[int8, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Int16x8) ConcatAddPairsGrouped(y Int16x8) (z Int16x8) {
+	return Int16x8{spec.ConcatAddPairsGrouped[int16, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Int16x16) ConcatAddPairsGrouped(y Int16x16) (z Int16x16) {
+	return Int16x16{spec.ConcatAddPairsGrouped[int16, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Int16x32) ConcatAddPairsGrouped(y Int16x32) (z Int16x32) {
+	return Int16x32{spec.ConcatAddPairsGrouped[int16, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Int16s) ConcatAddPairsGrouped(y Int16s) (z Int16s) {
+	return Int16s{spec.ConcatAddPairsGrouped[int16, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Int32x4) ConcatAddPairsGrouped(y Int32x4) (z Int32x4) {
+	return Int32x4{spec.ConcatAddPairsGrouped[int32, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Int32x8) ConcatAddPairsGrouped(y Int32x8) (z Int32x8) {
+	return Int32x8{spec.ConcatAddPairsGrouped[int32, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Int32x16) ConcatAddPairsGrouped(y Int32x16) (z Int32x16) {
+	return Int32x16{spec.ConcatAddPairsGrouped[int32, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Int32s) ConcatAddPairsGrouped(y Int32s) (z Int32s) {
+	return Int32s{spec.ConcatAddPairsGrouped[int32, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Int64x2) ConcatAddPairsGrouped(y Int64x2) (z Int64x2) {
+	return Int64x2{spec.ConcatAddPairsGrouped[int64, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Int64x4) ConcatAddPairsGrouped(y Int64x4) (z Int64x4) {
+	return Int64x4{spec.ConcatAddPairsGrouped[int64, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Int64x8) ConcatAddPairsGrouped(y Int64x8) (z Int64x8) {
+	return Int64x8{spec.ConcatAddPairsGrouped[int64, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Int64s) ConcatAddPairsGrouped(y Int64s) (z Int64s) {
+	return Int64s{spec.ConcatAddPairsGrouped[int64, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Uint8x16) ConcatAddPairsGrouped(y Uint8x16) (z Uint8x16) {
+	return Uint8x16{spec.ConcatAddPairsGrouped[uint8, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Uint8x32) ConcatAddPairsGrouped(y Uint8x32) (z Uint8x32) {
+	return Uint8x32{spec.ConcatAddPairsGrouped[uint8, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Uint8x64) ConcatAddPairsGrouped(y Uint8x64) (z Uint8x64) {
+	return Uint8x64{spec.ConcatAddPairsGrouped[uint8, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Uint8s) ConcatAddPairsGrouped(y Uint8s) (z Uint8s) {
+	return Uint8s{spec.ConcatAddPairsGrouped[uint8, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Uint16x8) ConcatAddPairsGrouped(y Uint16x8) (z Uint16x8) {
+	return Uint16x8{spec.ConcatAddPairsGrouped[uint16, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Uint16x16) ConcatAddPairsGrouped(y Uint16x16) (z Uint16x16) {
+	return Uint16x16{spec.ConcatAddPairsGrouped[uint16, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Uint16x32) ConcatAddPairsGrouped(y Uint16x32) (z Uint16x32) {
+	return Uint16x32{spec.ConcatAddPairsGrouped[uint16, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Uint16s) ConcatAddPairsGrouped(y Uint16s) (z Uint16s) {
+	return Uint16s{spec.ConcatAddPairsGrouped[uint16, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Uint32x4) ConcatAddPairsGrouped(y Uint32x4) (z Uint32x4) {
+	return Uint32x4{spec.ConcatAddPairsGrouped[uint32, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Uint32x8) ConcatAddPairsGrouped(y Uint32x8) (z Uint32x8) {
+	return Uint32x8{spec.ConcatAddPairsGrouped[uint32, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Uint32x16) ConcatAddPairsGrouped(y Uint32x16) (z Uint32x16) {
+	return Uint32x16{spec.ConcatAddPairsGrouped[uint32, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Uint32s) ConcatAddPairsGrouped(y Uint32s) (z Uint32s) {
+	return Uint32s{spec.ConcatAddPairsGrouped[uint32, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Uint64x2) ConcatAddPairsGrouped(y Uint64x2) (z Uint64x2) {
+	return Uint64x2{spec.ConcatAddPairsGrouped[uint64, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Uint64x4) ConcatAddPairsGrouped(y Uint64x4) (z Uint64x4) {
+	return Uint64x4{spec.ConcatAddPairsGrouped[uint64, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Uint64x8) ConcatAddPairsGrouped(y Uint64x8) (z Uint64x8) {
+	return Uint64x8{spec.ConcatAddPairsGrouped[uint64, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatAddPairs] on each group.
+func (x Uint64s) ConcatAddPairsGrouped(y Uint64s) (z Uint64s) {
+	return Uint64s{spec.ConcatAddPairsGrouped[uint64, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Float32x4) ConcatSubPairsGrouped(y Float32x4) (z Float32x4) {
+	return Float32x4{spec.ConcatSubPairsGrouped[float32, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Float32x8) ConcatSubPairsGrouped(y Float32x8) (z Float32x8) {
+	return Float32x8{spec.ConcatSubPairsGrouped[float32, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Float32x16) ConcatSubPairsGrouped(y Float32x16) (z Float32x16) {
+	return Float32x16{spec.ConcatSubPairsGrouped[float32, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Float32s) ConcatSubPairsGrouped(y Float32s) (z Float32s) {
+	return Float32s{spec.ConcatSubPairsGrouped[float32, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Float64x2) ConcatSubPairsGrouped(y Float64x2) (z Float64x2) {
+	return Float64x2{spec.ConcatSubPairsGrouped[float64, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Float64x4) ConcatSubPairsGrouped(y Float64x4) (z Float64x4) {
+	return Float64x4{spec.ConcatSubPairsGrouped[float64, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Float64x8) ConcatSubPairsGrouped(y Float64x8) (z Float64x8) {
+	return Float64x8{spec.ConcatSubPairsGrouped[float64, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Float64s) ConcatSubPairsGrouped(y Float64s) (z Float64s) {
+	return Float64s{spec.ConcatSubPairsGrouped[float64, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Int8x16) ConcatSubPairsGrouped(y Int8x16) (z Int8x16) {
+	return Int8x16{spec.ConcatSubPairsGrouped[int8, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Int8x32) ConcatSubPairsGrouped(y Int8x32) (z Int8x32) {
+	return Int8x32{spec.ConcatSubPairsGrouped[int8, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Int8x64) ConcatSubPairsGrouped(y Int8x64) (z Int8x64) {
+	return Int8x64{spec.ConcatSubPairsGrouped[int8, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Int8s) ConcatSubPairsGrouped(y Int8s) (z Int8s) {
+	return Int8s{spec.ConcatSubPairsGrouped[int8, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Int16x8) ConcatSubPairsGrouped(y Int16x8) (z Int16x8) {
+	return Int16x8{spec.ConcatSubPairsGrouped[int16, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Int16x16) ConcatSubPairsGrouped(y Int16x16) (z Int16x16) {
+	return Int16x16{spec.ConcatSubPairsGrouped[int16, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Int16x32) ConcatSubPairsGrouped(y Int16x32) (z Int16x32) {
+	return Int16x32{spec.ConcatSubPairsGrouped[int16, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Int16s) ConcatSubPairsGrouped(y Int16s) (z Int16s) {
+	return Int16s{spec.ConcatSubPairsGrouped[int16, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Int32x4) ConcatSubPairsGrouped(y Int32x4) (z Int32x4) {
+	return Int32x4{spec.ConcatSubPairsGrouped[int32, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Int32x8) ConcatSubPairsGrouped(y Int32x8) (z Int32x8) {
+	return Int32x8{spec.ConcatSubPairsGrouped[int32, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Int32x16) ConcatSubPairsGrouped(y Int32x16) (z Int32x16) {
+	return Int32x16{spec.ConcatSubPairsGrouped[int32, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Int32s) ConcatSubPairsGrouped(y Int32s) (z Int32s) {
+	return Int32s{spec.ConcatSubPairsGrouped[int32, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Int64x2) ConcatSubPairsGrouped(y Int64x2) (z Int64x2) {
+	return Int64x2{spec.ConcatSubPairsGrouped[int64, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Int64x4) ConcatSubPairsGrouped(y Int64x4) (z Int64x4) {
+	return Int64x4{spec.ConcatSubPairsGrouped[int64, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Int64x8) ConcatSubPairsGrouped(y Int64x8) (z Int64x8) {
+	return Int64x8{spec.ConcatSubPairsGrouped[int64, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Int64s) ConcatSubPairsGrouped(y Int64s) (z Int64s) {
+	return Int64s{spec.ConcatSubPairsGrouped[int64, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Uint8x16) ConcatSubPairsGrouped(y Uint8x16) (z Uint8x16) {
+	return Uint8x16{spec.ConcatSubPairsGrouped[uint8, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Uint8x32) ConcatSubPairsGrouped(y Uint8x32) (z Uint8x32) {
+	return Uint8x32{spec.ConcatSubPairsGrouped[uint8, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Uint8x64) ConcatSubPairsGrouped(y Uint8x64) (z Uint8x64) {
+	return Uint8x64{spec.ConcatSubPairsGrouped[uint8, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Uint8s) ConcatSubPairsGrouped(y Uint8s) (z Uint8s) {
+	return Uint8s{spec.ConcatSubPairsGrouped[uint8, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Uint16x8) ConcatSubPairsGrouped(y Uint16x8) (z Uint16x8) {
+	return Uint16x8{spec.ConcatSubPairsGrouped[uint16, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Uint16x16) ConcatSubPairsGrouped(y Uint16x16) (z Uint16x16) {
+	return Uint16x16{spec.ConcatSubPairsGrouped[uint16, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Uint16x32) ConcatSubPairsGrouped(y Uint16x32) (z Uint16x32) {
+	return Uint16x32{spec.ConcatSubPairsGrouped[uint16, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Uint16s) ConcatSubPairsGrouped(y Uint16s) (z Uint16s) {
+	return Uint16s{spec.ConcatSubPairsGrouped[uint16, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Uint32x4) ConcatSubPairsGrouped(y Uint32x4) (z Uint32x4) {
+	return Uint32x4{spec.ConcatSubPairsGrouped[uint32, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Uint32x8) ConcatSubPairsGrouped(y Uint32x8) (z Uint32x8) {
+	return Uint32x8{spec.ConcatSubPairsGrouped[uint32, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Uint32x16) ConcatSubPairsGrouped(y Uint32x16) (z Uint32x16) {
+	return Uint32x16{spec.ConcatSubPairsGrouped[uint32, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Uint32s) ConcatSubPairsGrouped(y Uint32s) (z Uint32s) {
+	return Uint32s{spec.ConcatSubPairsGrouped[uint32, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Uint64x2) ConcatSubPairsGrouped(y Uint64x2) (z Uint64x2) {
+	return Uint64x2{spec.ConcatSubPairsGrouped[uint64, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Uint64x4) ConcatSubPairsGrouped(y Uint64x4) (z Uint64x4) {
+	return Uint64x4{spec.ConcatSubPairsGrouped[uint64, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Uint64x8) ConcatSubPairsGrouped(y Uint64x8) (z Uint64x8) {
+	return Uint64x8{spec.ConcatSubPairsGrouped[uint64, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsGrouped divides x, y, and z into groups of 128 bits and
+// performs [ConcatSubPairs] on each group.
+func (x Uint64s) ConcatSubPairsGrouped(y Uint64s) (z Uint64s) {
+	return Uint64s{spec.ConcatSubPairsGrouped[uint64, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Int8x16) ConcatAddPairsSaturatedGrouped(y Int8x16) (z Int8x16) {
+	return Int8x16{spec.ConcatAddPairsSaturatedGrouped[int8, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Int8x32) ConcatAddPairsSaturatedGrouped(y Int8x32) (z Int8x32) {
+	return Int8x32{spec.ConcatAddPairsSaturatedGrouped[int8, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Int8x64) ConcatAddPairsSaturatedGrouped(y Int8x64) (z Int8x64) {
+	return Int8x64{spec.ConcatAddPairsSaturatedGrouped[int8, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Int8s) ConcatAddPairsSaturatedGrouped(y Int8s) (z Int8s) {
+	return Int8s{spec.ConcatAddPairsSaturatedGrouped[int8, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Int16x8) ConcatAddPairsSaturatedGrouped(y Int16x8) (z Int16x8) {
+	return Int16x8{spec.ConcatAddPairsSaturatedGrouped[int16, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Int16x16) ConcatAddPairsSaturatedGrouped(y Int16x16) (z Int16x16) {
+	return Int16x16{spec.ConcatAddPairsSaturatedGrouped[int16, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Int16x32) ConcatAddPairsSaturatedGrouped(y Int16x32) (z Int16x32) {
+	return Int16x32{spec.ConcatAddPairsSaturatedGrouped[int16, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Int16s) ConcatAddPairsSaturatedGrouped(y Int16s) (z Int16s) {
+	return Int16s{spec.ConcatAddPairsSaturatedGrouped[int16, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Int32x4) ConcatAddPairsSaturatedGrouped(y Int32x4) (z Int32x4) {
+	return Int32x4{spec.ConcatAddPairsSaturatedGrouped[int32, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Int32x8) ConcatAddPairsSaturatedGrouped(y Int32x8) (z Int32x8) {
+	return Int32x8{spec.ConcatAddPairsSaturatedGrouped[int32, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Int32x16) ConcatAddPairsSaturatedGrouped(y Int32x16) (z Int32x16) {
+	return Int32x16{spec.ConcatAddPairsSaturatedGrouped[int32, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Int32s) ConcatAddPairsSaturatedGrouped(y Int32s) (z Int32s) {
+	return Int32s{spec.ConcatAddPairsSaturatedGrouped[int32, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Int64x2) ConcatAddPairsSaturatedGrouped(y Int64x2) (z Int64x2) {
+	return Int64x2{spec.ConcatAddPairsSaturatedGrouped[int64, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Int64x4) ConcatAddPairsSaturatedGrouped(y Int64x4) (z Int64x4) {
+	return Int64x4{spec.ConcatAddPairsSaturatedGrouped[int64, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Int64x8) ConcatAddPairsSaturatedGrouped(y Int64x8) (z Int64x8) {
+	return Int64x8{spec.ConcatAddPairsSaturatedGrouped[int64, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Int64s) ConcatAddPairsSaturatedGrouped(y Int64s) (z Int64s) {
+	return Int64s{spec.ConcatAddPairsSaturatedGrouped[int64, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Uint8x16) ConcatAddPairsSaturatedGrouped(y Uint8x16) (z Uint8x16) {
+	return Uint8x16{spec.ConcatAddPairsSaturatedGrouped[uint8, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Uint8x32) ConcatAddPairsSaturatedGrouped(y Uint8x32) (z Uint8x32) {
+	return Uint8x32{spec.ConcatAddPairsSaturatedGrouped[uint8, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Uint8x64) ConcatAddPairsSaturatedGrouped(y Uint8x64) (z Uint8x64) {
+	return Uint8x64{spec.ConcatAddPairsSaturatedGrouped[uint8, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Uint8s) ConcatAddPairsSaturatedGrouped(y Uint8s) (z Uint8s) {
+	return Uint8s{spec.ConcatAddPairsSaturatedGrouped[uint8, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Uint16x8) ConcatAddPairsSaturatedGrouped(y Uint16x8) (z Uint16x8) {
+	return Uint16x8{spec.ConcatAddPairsSaturatedGrouped[uint16, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Uint16x16) ConcatAddPairsSaturatedGrouped(y Uint16x16) (z Uint16x16) {
+	return Uint16x16{spec.ConcatAddPairsSaturatedGrouped[uint16, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Uint16x32) ConcatAddPairsSaturatedGrouped(y Uint16x32) (z Uint16x32) {
+	return Uint16x32{spec.ConcatAddPairsSaturatedGrouped[uint16, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Uint16s) ConcatAddPairsSaturatedGrouped(y Uint16s) (z Uint16s) {
+	return Uint16s{spec.ConcatAddPairsSaturatedGrouped[uint16, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Uint32x4) ConcatAddPairsSaturatedGrouped(y Uint32x4) (z Uint32x4) {
+	return Uint32x4{spec.ConcatAddPairsSaturatedGrouped[uint32, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Uint32x8) ConcatAddPairsSaturatedGrouped(y Uint32x8) (z Uint32x8) {
+	return Uint32x8{spec.ConcatAddPairsSaturatedGrouped[uint32, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Uint32x16) ConcatAddPairsSaturatedGrouped(y Uint32x16) (z Uint32x16) {
+	return Uint32x16{spec.ConcatAddPairsSaturatedGrouped[uint32, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Uint32s) ConcatAddPairsSaturatedGrouped(y Uint32s) (z Uint32s) {
+	return Uint32s{spec.ConcatAddPairsSaturatedGrouped[uint32, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Uint64x2) ConcatAddPairsSaturatedGrouped(y Uint64x2) (z Uint64x2) {
+	return Uint64x2{spec.ConcatAddPairsSaturatedGrouped[uint64, spec.Width128](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Uint64x4) ConcatAddPairsSaturatedGrouped(y Uint64x4) (z Uint64x4) {
+	return Uint64x4{spec.ConcatAddPairsSaturatedGrouped[uint64, spec.Width256](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Uint64x8) ConcatAddPairsSaturatedGrouped(y Uint64x8) (z Uint64x8) {
+	return Uint64x8{spec.ConcatAddPairsSaturatedGrouped[uint64, spec.Width512](x.v, y.v)}
+}
+
+// ConcatAddPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatAddPairsSaturated] on each group.
+func (x Uint64s) ConcatAddPairsSaturatedGrouped(y Uint64s) (z Uint64s) {
+	return Uint64s{spec.ConcatAddPairsSaturatedGrouped[uint64, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Int8x16) ConcatSubPairsSaturatedGrouped(y Int8x16) (z Int8x16) {
+	return Int8x16{spec.ConcatSubPairsSaturatedGrouped[int8, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Int8x32) ConcatSubPairsSaturatedGrouped(y Int8x32) (z Int8x32) {
+	return Int8x32{spec.ConcatSubPairsSaturatedGrouped[int8, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Int8x64) ConcatSubPairsSaturatedGrouped(y Int8x64) (z Int8x64) {
+	return Int8x64{spec.ConcatSubPairsSaturatedGrouped[int8, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Int8s) ConcatSubPairsSaturatedGrouped(y Int8s) (z Int8s) {
+	return Int8s{spec.ConcatSubPairsSaturatedGrouped[int8, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Int16x8) ConcatSubPairsSaturatedGrouped(y Int16x8) (z Int16x8) {
+	return Int16x8{spec.ConcatSubPairsSaturatedGrouped[int16, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Int16x16) ConcatSubPairsSaturatedGrouped(y Int16x16) (z Int16x16) {
+	return Int16x16{spec.ConcatSubPairsSaturatedGrouped[int16, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Int16x32) ConcatSubPairsSaturatedGrouped(y Int16x32) (z Int16x32) {
+	return Int16x32{spec.ConcatSubPairsSaturatedGrouped[int16, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Int16s) ConcatSubPairsSaturatedGrouped(y Int16s) (z Int16s) {
+	return Int16s{spec.ConcatSubPairsSaturatedGrouped[int16, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Int32x4) ConcatSubPairsSaturatedGrouped(y Int32x4) (z Int32x4) {
+	return Int32x4{spec.ConcatSubPairsSaturatedGrouped[int32, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Int32x8) ConcatSubPairsSaturatedGrouped(y Int32x8) (z Int32x8) {
+	return Int32x8{spec.ConcatSubPairsSaturatedGrouped[int32, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Int32x16) ConcatSubPairsSaturatedGrouped(y Int32x16) (z Int32x16) {
+	return Int32x16{spec.ConcatSubPairsSaturatedGrouped[int32, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Int32s) ConcatSubPairsSaturatedGrouped(y Int32s) (z Int32s) {
+	return Int32s{spec.ConcatSubPairsSaturatedGrouped[int32, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Int64x2) ConcatSubPairsSaturatedGrouped(y Int64x2) (z Int64x2) {
+	return Int64x2{spec.ConcatSubPairsSaturatedGrouped[int64, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Int64x4) ConcatSubPairsSaturatedGrouped(y Int64x4) (z Int64x4) {
+	return Int64x4{spec.ConcatSubPairsSaturatedGrouped[int64, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Int64x8) ConcatSubPairsSaturatedGrouped(y Int64x8) (z Int64x8) {
+	return Int64x8{spec.ConcatSubPairsSaturatedGrouped[int64, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Int64s) ConcatSubPairsSaturatedGrouped(y Int64s) (z Int64s) {
+	return Int64s{spec.ConcatSubPairsSaturatedGrouped[int64, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Uint8x16) ConcatSubPairsSaturatedGrouped(y Uint8x16) (z Uint8x16) {
+	return Uint8x16{spec.ConcatSubPairsSaturatedGrouped[uint8, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Uint8x32) ConcatSubPairsSaturatedGrouped(y Uint8x32) (z Uint8x32) {
+	return Uint8x32{spec.ConcatSubPairsSaturatedGrouped[uint8, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Uint8x64) ConcatSubPairsSaturatedGrouped(y Uint8x64) (z Uint8x64) {
+	return Uint8x64{spec.ConcatSubPairsSaturatedGrouped[uint8, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Uint8s) ConcatSubPairsSaturatedGrouped(y Uint8s) (z Uint8s) {
+	return Uint8s{spec.ConcatSubPairsSaturatedGrouped[uint8, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Uint16x8) ConcatSubPairsSaturatedGrouped(y Uint16x8) (z Uint16x8) {
+	return Uint16x8{spec.ConcatSubPairsSaturatedGrouped[uint16, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Uint16x16) ConcatSubPairsSaturatedGrouped(y Uint16x16) (z Uint16x16) {
+	return Uint16x16{spec.ConcatSubPairsSaturatedGrouped[uint16, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Uint16x32) ConcatSubPairsSaturatedGrouped(y Uint16x32) (z Uint16x32) {
+	return Uint16x32{spec.ConcatSubPairsSaturatedGrouped[uint16, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Uint16s) ConcatSubPairsSaturatedGrouped(y Uint16s) (z Uint16s) {
+	return Uint16s{spec.ConcatSubPairsSaturatedGrouped[uint16, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Uint32x4) ConcatSubPairsSaturatedGrouped(y Uint32x4) (z Uint32x4) {
+	return Uint32x4{spec.ConcatSubPairsSaturatedGrouped[uint32, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Uint32x8) ConcatSubPairsSaturatedGrouped(y Uint32x8) (z Uint32x8) {
+	return Uint32x8{spec.ConcatSubPairsSaturatedGrouped[uint32, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Uint32x16) ConcatSubPairsSaturatedGrouped(y Uint32x16) (z Uint32x16) {
+	return Uint32x16{spec.ConcatSubPairsSaturatedGrouped[uint32, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Uint32s) ConcatSubPairsSaturatedGrouped(y Uint32s) (z Uint32s) {
+	return Uint32s{spec.ConcatSubPairsSaturatedGrouped[uint32, spec.WidthScalable](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Uint64x2) ConcatSubPairsSaturatedGrouped(y Uint64x2) (z Uint64x2) {
+	return Uint64x2{spec.ConcatSubPairsSaturatedGrouped[uint64, spec.Width128](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Uint64x4) ConcatSubPairsSaturatedGrouped(y Uint64x4) (z Uint64x4) {
+	return Uint64x4{spec.ConcatSubPairsSaturatedGrouped[uint64, spec.Width256](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Uint64x8) ConcatSubPairsSaturatedGrouped(y Uint64x8) (z Uint64x8) {
+	return Uint64x8{spec.ConcatSubPairsSaturatedGrouped[uint64, spec.Width512](x.v, y.v)}
+}
+
+// ConcatSubPairsSaturatedGrouped divides x, y, and z into groups of 128 bits
+// and performs [ConcatSubPairsSaturated] on each group.
+func (x Uint64s) ConcatSubPairsSaturatedGrouped(y Uint64s) (z Uint64s) {
+	return Uint64s{spec.ConcatSubPairsSaturatedGrouped[uint64, spec.WidthScalable](x.v, y.v)}
+}
+
 // DotProductPairs multiplies corresponding elements of x and y, and sums
 // adjacent pairs, yielding a vector of half as many elements with twice the
 // input element size.
@@ -4831,6 +7575,1350 @@ func (x Uint64s) ReshapeToUint16s() (z Uint16s) {
 // significant bit of element 0 is bit 0
 func (x Uint64s) ReshapeToUint32s() (z Uint32s) {
 	return Uint32s{spec.ReshapeToUints[uint64, spec.WidthScalable, uint32](x.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Int8x16) ScaleSaturated(scale Int8x16) (z Int8x16) {
+	return Int8x16{spec.ScaleSaturated[int8, spec.Width128, int8](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Int8x32) ScaleSaturated(scale Int8x32) (z Int8x32) {
+	return Int8x32{spec.ScaleSaturated[int8, spec.Width256, int8](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Int8x64) ScaleSaturated(scale Int8x64) (z Int8x64) {
+	return Int8x64{spec.ScaleSaturated[int8, spec.Width512, int8](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Int8s) ScaleSaturated(scale Int8s) (z Int8s) {
+	return Int8s{spec.ScaleSaturated[int8, spec.WidthScalable, int8](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Int16x8) ScaleSaturated(scale Int16x8) (z Int16x8) {
+	return Int16x8{spec.ScaleSaturated[int16, spec.Width128, int16](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Int16x16) ScaleSaturated(scale Int16x16) (z Int16x16) {
+	return Int16x16{spec.ScaleSaturated[int16, spec.Width256, int16](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Int16x32) ScaleSaturated(scale Int16x32) (z Int16x32) {
+	return Int16x32{spec.ScaleSaturated[int16, spec.Width512, int16](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Int16s) ScaleSaturated(scale Int16s) (z Int16s) {
+	return Int16s{spec.ScaleSaturated[int16, spec.WidthScalable, int16](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Int32x4) ScaleSaturated(scale Int32x4) (z Int32x4) {
+	return Int32x4{spec.ScaleSaturated[int32, spec.Width128, int32](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Int32x8) ScaleSaturated(scale Int32x8) (z Int32x8) {
+	return Int32x8{spec.ScaleSaturated[int32, spec.Width256, int32](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Int32x16) ScaleSaturated(scale Int32x16) (z Int32x16) {
+	return Int32x16{spec.ScaleSaturated[int32, spec.Width512, int32](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Int32s) ScaleSaturated(scale Int32s) (z Int32s) {
+	return Int32s{spec.ScaleSaturated[int32, spec.WidthScalable, int32](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Int64x2) ScaleSaturated(scale Int64x2) (z Int64x2) {
+	return Int64x2{spec.ScaleSaturated[int64, spec.Width128, int64](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Int64x4) ScaleSaturated(scale Int64x4) (z Int64x4) {
+	return Int64x4{spec.ScaleSaturated[int64, spec.Width256, int64](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Int64x8) ScaleSaturated(scale Int64x8) (z Int64x8) {
+	return Int64x8{spec.ScaleSaturated[int64, spec.Width512, int64](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Int64s) ScaleSaturated(scale Int64s) (z Int64s) {
+	return Int64s{spec.ScaleSaturated[int64, spec.WidthScalable, int64](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Uint8x16) ScaleSaturated(scale Int8x16) (z Uint8x16) {
+	return Uint8x16{spec.ScaleSaturated[uint8, spec.Width128, int8](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Uint8x32) ScaleSaturated(scale Int8x32) (z Uint8x32) {
+	return Uint8x32{spec.ScaleSaturated[uint8, spec.Width256, int8](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Uint8x64) ScaleSaturated(scale Int8x64) (z Uint8x64) {
+	return Uint8x64{spec.ScaleSaturated[uint8, spec.Width512, int8](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Uint8s) ScaleSaturated(scale Int8s) (z Uint8s) {
+	return Uint8s{spec.ScaleSaturated[uint8, spec.WidthScalable, int8](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Uint16x8) ScaleSaturated(scale Int16x8) (z Uint16x8) {
+	return Uint16x8{spec.ScaleSaturated[uint16, spec.Width128, int16](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Uint16x16) ScaleSaturated(scale Int16x16) (z Uint16x16) {
+	return Uint16x16{spec.ScaleSaturated[uint16, spec.Width256, int16](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Uint16x32) ScaleSaturated(scale Int16x32) (z Uint16x32) {
+	return Uint16x32{spec.ScaleSaturated[uint16, spec.Width512, int16](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Uint16s) ScaleSaturated(scale Int16s) (z Uint16s) {
+	return Uint16s{spec.ScaleSaturated[uint16, spec.WidthScalable, int16](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Uint32x4) ScaleSaturated(scale Int32x4) (z Uint32x4) {
+	return Uint32x4{spec.ScaleSaturated[uint32, spec.Width128, int32](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Uint32x8) ScaleSaturated(scale Int32x8) (z Uint32x8) {
+	return Uint32x8{spec.ScaleSaturated[uint32, spec.Width256, int32](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Uint32x16) ScaleSaturated(scale Int32x16) (z Uint32x16) {
+	return Uint32x16{spec.ScaleSaturated[uint32, spec.Width512, int32](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Uint32s) ScaleSaturated(scale Int32s) (z Uint32s) {
+	return Uint32s{spec.ScaleSaturated[uint32, spec.WidthScalable, int32](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Uint64x2) ScaleSaturated(scale Int64x2) (z Uint64x2) {
+	return Uint64x2{spec.ScaleSaturated[uint64, spec.Width128, int64](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Uint64x4) ScaleSaturated(scale Int64x4) (z Uint64x4) {
+	return Uint64x4{spec.ScaleSaturated[uint64, spec.Width256, int64](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Uint64x8) ScaleSaturated(scale Int64x8) (z Uint64x8) {
+	return Uint64x8{spec.ScaleSaturated[uint64, spec.Width512, int64](x.v, scale.v)}
+}
+
+// ScaleSaturated multiplies x[i] by 2^scale[i], with saturation.
+//
+// Positive exponents scale up (shift left with saturation); negative exponents
+// scale down (shift right; arithmetic for signed types, logical for unsigned types).
+//
+//	z[i] = saturated(x[i] * 2^scale[i])
+func (x Uint64s) ScaleSaturated(scale Int64s) (z Uint64s) {
+	return Uint64s{spec.ScaleSaturated[uint64, spec.WidthScalable, int64](x.v, scale.v)}
+}
+
+// ShiftAllRight arithmetically shifts each element of x right by shift bits.
+// If shift is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift
+func (x Int8x16) ShiftAllRight(shift uint64) (z Int8x16) {
+	return Int8x16{spec.ShiftAllRight[int8, spec.Width128](x.v, shift)}
+}
+
+// ShiftAllRight arithmetically shifts each element of x right by shift bits.
+// If shift is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift
+func (x Int8x32) ShiftAllRight(shift uint64) (z Int8x32) {
+	return Int8x32{spec.ShiftAllRight[int8, spec.Width256](x.v, shift)}
+}
+
+// ShiftAllRight arithmetically shifts each element of x right by shift bits.
+// If shift is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift
+func (x Int8x64) ShiftAllRight(shift uint64) (z Int8x64) {
+	return Int8x64{spec.ShiftAllRight[int8, spec.Width512](x.v, shift)}
+}
+
+// ShiftAllRight arithmetically shifts each element of x right by shift bits.
+// If shift is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift
+func (x Int8s) ShiftAllRight(shift uint64) (z Int8s) {
+	return Int8s{spec.ShiftAllRight[int8, spec.WidthScalable](x.v, shift)}
+}
+
+// ShiftAllRight arithmetically shifts each element of x right by shift bits.
+// If shift is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift
+func (x Int16x8) ShiftAllRight(shift uint64) (z Int16x8) {
+	return Int16x8{spec.ShiftAllRight[int16, spec.Width128](x.v, shift)}
+}
+
+// ShiftAllRight arithmetically shifts each element of x right by shift bits.
+// If shift is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift
+func (x Int16x16) ShiftAllRight(shift uint64) (z Int16x16) {
+	return Int16x16{spec.ShiftAllRight[int16, spec.Width256](x.v, shift)}
+}
+
+// ShiftAllRight arithmetically shifts each element of x right by shift bits.
+// If shift is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift
+func (x Int16x32) ShiftAllRight(shift uint64) (z Int16x32) {
+	return Int16x32{spec.ShiftAllRight[int16, spec.Width512](x.v, shift)}
+}
+
+// ShiftAllRight arithmetically shifts each element of x right by shift bits.
+// If shift is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift
+func (x Int16s) ShiftAllRight(shift uint64) (z Int16s) {
+	return Int16s{spec.ShiftAllRight[int16, spec.WidthScalable](x.v, shift)}
+}
+
+// ShiftAllRight arithmetically shifts each element of x right by shift bits.
+// If shift is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift
+func (x Int32x4) ShiftAllRight(shift uint64) (z Int32x4) {
+	return Int32x4{spec.ShiftAllRight[int32, spec.Width128](x.v, shift)}
+}
+
+// ShiftAllRight arithmetically shifts each element of x right by shift bits.
+// If shift is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift
+func (x Int32x8) ShiftAllRight(shift uint64) (z Int32x8) {
+	return Int32x8{spec.ShiftAllRight[int32, spec.Width256](x.v, shift)}
+}
+
+// ShiftAllRight arithmetically shifts each element of x right by shift bits.
+// If shift is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift
+func (x Int32x16) ShiftAllRight(shift uint64) (z Int32x16) {
+	return Int32x16{spec.ShiftAllRight[int32, spec.Width512](x.v, shift)}
+}
+
+// ShiftAllRight arithmetically shifts each element of x right by shift bits.
+// If shift is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift
+func (x Int32s) ShiftAllRight(shift uint64) (z Int32s) {
+	return Int32s{spec.ShiftAllRight[int32, spec.WidthScalable](x.v, shift)}
+}
+
+// ShiftAllRight arithmetically shifts each element of x right by shift bits.
+// If shift is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift
+func (x Int64x2) ShiftAllRight(shift uint64) (z Int64x2) {
+	return Int64x2{spec.ShiftAllRight[int64, spec.Width128](x.v, shift)}
+}
+
+// ShiftAllRight arithmetically shifts each element of x right by shift bits.
+// If shift is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift
+func (x Int64x4) ShiftAllRight(shift uint64) (z Int64x4) {
+	return Int64x4{spec.ShiftAllRight[int64, spec.Width256](x.v, shift)}
+}
+
+// ShiftAllRight arithmetically shifts each element of x right by shift bits.
+// If shift is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift
+func (x Int64x8) ShiftAllRight(shift uint64) (z Int64x8) {
+	return Int64x8{spec.ShiftAllRight[int64, spec.Width512](x.v, shift)}
+}
+
+// ShiftAllRight arithmetically shifts each element of x right by shift bits.
+// If shift is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift
+func (x Int64s) ShiftAllRight(shift uint64) (z Int64s) {
+	return Int64s{spec.ShiftAllRight[int64, spec.WidthScalable](x.v, shift)}
+}
+
+// ShiftAllRight logically shifts each element of x right by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift
+func (x Uint8x16) ShiftAllRight(shift uint64) (z Uint8x16) {
+	return Uint8x16{spec.ShiftAllRight[uint8, spec.Width128](x.v, shift)}
+}
+
+// ShiftAllRight logically shifts each element of x right by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift
+func (x Uint8x32) ShiftAllRight(shift uint64) (z Uint8x32) {
+	return Uint8x32{spec.ShiftAllRight[uint8, spec.Width256](x.v, shift)}
+}
+
+// ShiftAllRight logically shifts each element of x right by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift
+func (x Uint8x64) ShiftAllRight(shift uint64) (z Uint8x64) {
+	return Uint8x64{spec.ShiftAllRight[uint8, spec.Width512](x.v, shift)}
+}
+
+// ShiftAllRight logically shifts each element of x right by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift
+func (x Uint8s) ShiftAllRight(shift uint64) (z Uint8s) {
+	return Uint8s{spec.ShiftAllRight[uint8, spec.WidthScalable](x.v, shift)}
+}
+
+// ShiftAllRight logically shifts each element of x right by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift
+func (x Uint16x8) ShiftAllRight(shift uint64) (z Uint16x8) {
+	return Uint16x8{spec.ShiftAllRight[uint16, spec.Width128](x.v, shift)}
+}
+
+// ShiftAllRight logically shifts each element of x right by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift
+func (x Uint16x16) ShiftAllRight(shift uint64) (z Uint16x16) {
+	return Uint16x16{spec.ShiftAllRight[uint16, spec.Width256](x.v, shift)}
+}
+
+// ShiftAllRight logically shifts each element of x right by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift
+func (x Uint16x32) ShiftAllRight(shift uint64) (z Uint16x32) {
+	return Uint16x32{spec.ShiftAllRight[uint16, spec.Width512](x.v, shift)}
+}
+
+// ShiftAllRight logically shifts each element of x right by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift
+func (x Uint16s) ShiftAllRight(shift uint64) (z Uint16s) {
+	return Uint16s{spec.ShiftAllRight[uint16, spec.WidthScalable](x.v, shift)}
+}
+
+// ShiftAllRight logically shifts each element of x right by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift
+func (x Uint32x4) ShiftAllRight(shift uint64) (z Uint32x4) {
+	return Uint32x4{spec.ShiftAllRight[uint32, spec.Width128](x.v, shift)}
+}
+
+// ShiftAllRight logically shifts each element of x right by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift
+func (x Uint32x8) ShiftAllRight(shift uint64) (z Uint32x8) {
+	return Uint32x8{spec.ShiftAllRight[uint32, spec.Width256](x.v, shift)}
+}
+
+// ShiftAllRight logically shifts each element of x right by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift
+func (x Uint32x16) ShiftAllRight(shift uint64) (z Uint32x16) {
+	return Uint32x16{spec.ShiftAllRight[uint32, spec.Width512](x.v, shift)}
+}
+
+// ShiftAllRight logically shifts each element of x right by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift
+func (x Uint32s) ShiftAllRight(shift uint64) (z Uint32s) {
+	return Uint32s{spec.ShiftAllRight[uint32, spec.WidthScalable](x.v, shift)}
+}
+
+// ShiftAllRight logically shifts each element of x right by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift
+func (x Uint64x2) ShiftAllRight(shift uint64) (z Uint64x2) {
+	return Uint64x2{spec.ShiftAllRight[uint64, spec.Width128](x.v, shift)}
+}
+
+// ShiftAllRight logically shifts each element of x right by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift
+func (x Uint64x4) ShiftAllRight(shift uint64) (z Uint64x4) {
+	return Uint64x4{spec.ShiftAllRight[uint64, spec.Width256](x.v, shift)}
+}
+
+// ShiftAllRight logically shifts each element of x right by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift
+func (x Uint64x8) ShiftAllRight(shift uint64) (z Uint64x8) {
+	return Uint64x8{spec.ShiftAllRight[uint64, spec.Width512](x.v, shift)}
+}
+
+// ShiftAllRight logically shifts each element of x right by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift
+func (x Uint64s) ShiftAllRight(shift uint64) (z Uint64s) {
+	return Uint64s{spec.ShiftAllRight[uint64, spec.WidthScalable](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Int8x16) ShiftAllLeft(shift uint64) (z Int8x16) {
+	return Int8x16{spec.ShiftAllLeft[int8, spec.Width128](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Int8x32) ShiftAllLeft(shift uint64) (z Int8x32) {
+	return Int8x32{spec.ShiftAllLeft[int8, spec.Width256](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Int8x64) ShiftAllLeft(shift uint64) (z Int8x64) {
+	return Int8x64{spec.ShiftAllLeft[int8, spec.Width512](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Int8s) ShiftAllLeft(shift uint64) (z Int8s) {
+	return Int8s{spec.ShiftAllLeft[int8, spec.WidthScalable](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Int16x8) ShiftAllLeft(shift uint64) (z Int16x8) {
+	return Int16x8{spec.ShiftAllLeft[int16, spec.Width128](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Int16x16) ShiftAllLeft(shift uint64) (z Int16x16) {
+	return Int16x16{spec.ShiftAllLeft[int16, spec.Width256](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Int16x32) ShiftAllLeft(shift uint64) (z Int16x32) {
+	return Int16x32{spec.ShiftAllLeft[int16, spec.Width512](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Int16s) ShiftAllLeft(shift uint64) (z Int16s) {
+	return Int16s{spec.ShiftAllLeft[int16, spec.WidthScalable](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Int32x4) ShiftAllLeft(shift uint64) (z Int32x4) {
+	return Int32x4{spec.ShiftAllLeft[int32, spec.Width128](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Int32x8) ShiftAllLeft(shift uint64) (z Int32x8) {
+	return Int32x8{spec.ShiftAllLeft[int32, spec.Width256](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Int32x16) ShiftAllLeft(shift uint64) (z Int32x16) {
+	return Int32x16{spec.ShiftAllLeft[int32, spec.Width512](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Int32s) ShiftAllLeft(shift uint64) (z Int32s) {
+	return Int32s{spec.ShiftAllLeft[int32, spec.WidthScalable](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Int64x2) ShiftAllLeft(shift uint64) (z Int64x2) {
+	return Int64x2{spec.ShiftAllLeft[int64, spec.Width128](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Int64x4) ShiftAllLeft(shift uint64) (z Int64x4) {
+	return Int64x4{spec.ShiftAllLeft[int64, spec.Width256](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Int64x8) ShiftAllLeft(shift uint64) (z Int64x8) {
+	return Int64x8{spec.ShiftAllLeft[int64, spec.Width512](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Int64s) ShiftAllLeft(shift uint64) (z Int64s) {
+	return Int64s{spec.ShiftAllLeft[int64, spec.WidthScalable](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Uint8x16) ShiftAllLeft(shift uint64) (z Uint8x16) {
+	return Uint8x16{spec.ShiftAllLeft[uint8, spec.Width128](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Uint8x32) ShiftAllLeft(shift uint64) (z Uint8x32) {
+	return Uint8x32{spec.ShiftAllLeft[uint8, spec.Width256](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Uint8x64) ShiftAllLeft(shift uint64) (z Uint8x64) {
+	return Uint8x64{spec.ShiftAllLeft[uint8, spec.Width512](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Uint8s) ShiftAllLeft(shift uint64) (z Uint8s) {
+	return Uint8s{spec.ShiftAllLeft[uint8, spec.WidthScalable](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Uint16x8) ShiftAllLeft(shift uint64) (z Uint16x8) {
+	return Uint16x8{spec.ShiftAllLeft[uint16, spec.Width128](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Uint16x16) ShiftAllLeft(shift uint64) (z Uint16x16) {
+	return Uint16x16{spec.ShiftAllLeft[uint16, spec.Width256](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Uint16x32) ShiftAllLeft(shift uint64) (z Uint16x32) {
+	return Uint16x32{spec.ShiftAllLeft[uint16, spec.Width512](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Uint16s) ShiftAllLeft(shift uint64) (z Uint16s) {
+	return Uint16s{spec.ShiftAllLeft[uint16, spec.WidthScalable](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Uint32x4) ShiftAllLeft(shift uint64) (z Uint32x4) {
+	return Uint32x4{spec.ShiftAllLeft[uint32, spec.Width128](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Uint32x8) ShiftAllLeft(shift uint64) (z Uint32x8) {
+	return Uint32x8{spec.ShiftAllLeft[uint32, spec.Width256](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Uint32x16) ShiftAllLeft(shift uint64) (z Uint32x16) {
+	return Uint32x16{spec.ShiftAllLeft[uint32, spec.Width512](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Uint32s) ShiftAllLeft(shift uint64) (z Uint32s) {
+	return Uint32s{spec.ShiftAllLeft[uint32, spec.WidthScalable](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Uint64x2) ShiftAllLeft(shift uint64) (z Uint64x2) {
+	return Uint64x2{spec.ShiftAllLeft[uint64, spec.Width128](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Uint64x4) ShiftAllLeft(shift uint64) (z Uint64x4) {
+	return Uint64x4{spec.ShiftAllLeft[uint64, spec.Width256](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Uint64x8) ShiftAllLeft(shift uint64) (z Uint64x8) {
+	return Uint64x8{spec.ShiftAllLeft[uint64, spec.Width512](x.v, shift)}
+}
+
+// ShiftAllLeft shifts each element of x left by y bits.
+// If shift is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift
+func (x Uint64s) ShiftAllLeft(shift uint64) (z Uint64s) {
+	return Uint64s{spec.ShiftAllLeft[uint64, spec.WidthScalable](x.v, shift)}
+}
+
+// ShiftRight arithmetically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Int8x16) ShiftRight(shift Uint8x16) (z Int8x16) {
+	return Int8x16{spec.ShiftRight[int8, spec.Width128, uint8](x.v, shift.v)}
+}
+
+// ShiftRight arithmetically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Int8x32) ShiftRight(shift Uint8x32) (z Int8x32) {
+	return Int8x32{spec.ShiftRight[int8, spec.Width256, uint8](x.v, shift.v)}
+}
+
+// ShiftRight arithmetically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Int8x64) ShiftRight(shift Uint8x64) (z Int8x64) {
+	return Int8x64{spec.ShiftRight[int8, spec.Width512, uint8](x.v, shift.v)}
+}
+
+// ShiftRight arithmetically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Int8s) ShiftRight(shift Uint8s) (z Int8s) {
+	return Int8s{spec.ShiftRight[int8, spec.WidthScalable, uint8](x.v, shift.v)}
+}
+
+// ShiftRight arithmetically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Int16x8) ShiftRight(shift Uint16x8) (z Int16x8) {
+	return Int16x8{spec.ShiftRight[int16, spec.Width128, uint16](x.v, shift.v)}
+}
+
+// ShiftRight arithmetically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Int16x16) ShiftRight(shift Uint16x16) (z Int16x16) {
+	return Int16x16{spec.ShiftRight[int16, spec.Width256, uint16](x.v, shift.v)}
+}
+
+// ShiftRight arithmetically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Int16x32) ShiftRight(shift Uint16x32) (z Int16x32) {
+	return Int16x32{spec.ShiftRight[int16, spec.Width512, uint16](x.v, shift.v)}
+}
+
+// ShiftRight arithmetically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Int16s) ShiftRight(shift Uint16s) (z Int16s) {
+	return Int16s{spec.ShiftRight[int16, spec.WidthScalable, uint16](x.v, shift.v)}
+}
+
+// ShiftRight arithmetically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Int32x4) ShiftRight(shift Uint32x4) (z Int32x4) {
+	return Int32x4{spec.ShiftRight[int32, spec.Width128, uint32](x.v, shift.v)}
+}
+
+// ShiftRight arithmetically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Int32x8) ShiftRight(shift Uint32x8) (z Int32x8) {
+	return Int32x8{spec.ShiftRight[int32, spec.Width256, uint32](x.v, shift.v)}
+}
+
+// ShiftRight arithmetically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Int32x16) ShiftRight(shift Uint32x16) (z Int32x16) {
+	return Int32x16{spec.ShiftRight[int32, spec.Width512, uint32](x.v, shift.v)}
+}
+
+// ShiftRight arithmetically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Int32s) ShiftRight(shift Uint32s) (z Int32s) {
+	return Int32s{spec.ShiftRight[int32, spec.WidthScalable, uint32](x.v, shift.v)}
+}
+
+// ShiftRight arithmetically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Int64x2) ShiftRight(shift Uint64x2) (z Int64x2) {
+	return Int64x2{spec.ShiftRight[int64, spec.Width128, uint64](x.v, shift.v)}
+}
+
+// ShiftRight arithmetically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Int64x4) ShiftRight(shift Uint64x4) (z Int64x4) {
+	return Int64x4{spec.ShiftRight[int64, spec.Width256, uint64](x.v, shift.v)}
+}
+
+// ShiftRight arithmetically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Int64x8) ShiftRight(shift Uint64x8) (z Int64x8) {
+	return Int64x8{spec.ShiftRight[int64, spec.Width512, uint64](x.v, shift.v)}
+}
+
+// ShiftRight arithmetically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0 or -1.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Int64s) ShiftRight(shift Uint64s) (z Int64s) {
+	return Int64s{spec.ShiftRight[int64, spec.WidthScalable, uint64](x.v, shift.v)}
+}
+
+// ShiftRight logically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Uint8x16) ShiftRight(shift Uint8x16) (z Uint8x16) {
+	return Uint8x16{spec.ShiftRight[uint8, spec.Width128, uint8](x.v, shift.v)}
+}
+
+// ShiftRight logically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Uint8x32) ShiftRight(shift Uint8x32) (z Uint8x32) {
+	return Uint8x32{spec.ShiftRight[uint8, spec.Width256, uint8](x.v, shift.v)}
+}
+
+// ShiftRight logically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Uint8x64) ShiftRight(shift Uint8x64) (z Uint8x64) {
+	return Uint8x64{spec.ShiftRight[uint8, spec.Width512, uint8](x.v, shift.v)}
+}
+
+// ShiftRight logically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Uint8s) ShiftRight(shift Uint8s) (z Uint8s) {
+	return Uint8s{spec.ShiftRight[uint8, spec.WidthScalable, uint8](x.v, shift.v)}
+}
+
+// ShiftRight logically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Uint16x8) ShiftRight(shift Uint16x8) (z Uint16x8) {
+	return Uint16x8{spec.ShiftRight[uint16, spec.Width128, uint16](x.v, shift.v)}
+}
+
+// ShiftRight logically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Uint16x16) ShiftRight(shift Uint16x16) (z Uint16x16) {
+	return Uint16x16{spec.ShiftRight[uint16, spec.Width256, uint16](x.v, shift.v)}
+}
+
+// ShiftRight logically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Uint16x32) ShiftRight(shift Uint16x32) (z Uint16x32) {
+	return Uint16x32{spec.ShiftRight[uint16, spec.Width512, uint16](x.v, shift.v)}
+}
+
+// ShiftRight logically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Uint16s) ShiftRight(shift Uint16s) (z Uint16s) {
+	return Uint16s{spec.ShiftRight[uint16, spec.WidthScalable, uint16](x.v, shift.v)}
+}
+
+// ShiftRight logically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Uint32x4) ShiftRight(shift Uint32x4) (z Uint32x4) {
+	return Uint32x4{spec.ShiftRight[uint32, spec.Width128, uint32](x.v, shift.v)}
+}
+
+// ShiftRight logically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Uint32x8) ShiftRight(shift Uint32x8) (z Uint32x8) {
+	return Uint32x8{spec.ShiftRight[uint32, spec.Width256, uint32](x.v, shift.v)}
+}
+
+// ShiftRight logically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Uint32x16) ShiftRight(shift Uint32x16) (z Uint32x16) {
+	return Uint32x16{spec.ShiftRight[uint32, spec.Width512, uint32](x.v, shift.v)}
+}
+
+// ShiftRight logically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Uint32s) ShiftRight(shift Uint32s) (z Uint32s) {
+	return Uint32s{spec.ShiftRight[uint32, spec.WidthScalable, uint32](x.v, shift.v)}
+}
+
+// ShiftRight logically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Uint64x2) ShiftRight(shift Uint64x2) (z Uint64x2) {
+	return Uint64x2{spec.ShiftRight[uint64, spec.Width128, uint64](x.v, shift.v)}
+}
+
+// ShiftRight logically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Uint64x4) ShiftRight(shift Uint64x4) (z Uint64x4) {
+	return Uint64x4{spec.ShiftRight[uint64, spec.Width256, uint64](x.v, shift.v)}
+}
+
+// ShiftRight logically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Uint64x8) ShiftRight(shift Uint64x8) (z Uint64x8) {
+	return Uint64x8{spec.ShiftRight[uint64, spec.Width512, uint64](x.v, shift.v)}
+}
+
+// ShiftRight logically shifts x[i] right by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] >> shift[i]
+func (x Uint64s) ShiftRight(shift Uint64s) (z Uint64s) {
+	return Uint64s{spec.ShiftRight[uint64, spec.WidthScalable, uint64](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Int8x16) ShiftLeft(shift Uint8x16) (z Int8x16) {
+	return Int8x16{spec.ShiftLeft[int8, spec.Width128, uint8](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Int8x32) ShiftLeft(shift Uint8x32) (z Int8x32) {
+	return Int8x32{spec.ShiftLeft[int8, spec.Width256, uint8](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Int8x64) ShiftLeft(shift Uint8x64) (z Int8x64) {
+	return Int8x64{spec.ShiftLeft[int8, spec.Width512, uint8](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Int8s) ShiftLeft(shift Uint8s) (z Int8s) {
+	return Int8s{spec.ShiftLeft[int8, spec.WidthScalable, uint8](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Int16x8) ShiftLeft(shift Uint16x8) (z Int16x8) {
+	return Int16x8{spec.ShiftLeft[int16, spec.Width128, uint16](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Int16x16) ShiftLeft(shift Uint16x16) (z Int16x16) {
+	return Int16x16{spec.ShiftLeft[int16, spec.Width256, uint16](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Int16x32) ShiftLeft(shift Uint16x32) (z Int16x32) {
+	return Int16x32{spec.ShiftLeft[int16, spec.Width512, uint16](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Int16s) ShiftLeft(shift Uint16s) (z Int16s) {
+	return Int16s{spec.ShiftLeft[int16, spec.WidthScalable, uint16](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Int32x4) ShiftLeft(shift Uint32x4) (z Int32x4) {
+	return Int32x4{spec.ShiftLeft[int32, spec.Width128, uint32](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Int32x8) ShiftLeft(shift Uint32x8) (z Int32x8) {
+	return Int32x8{spec.ShiftLeft[int32, spec.Width256, uint32](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Int32x16) ShiftLeft(shift Uint32x16) (z Int32x16) {
+	return Int32x16{spec.ShiftLeft[int32, spec.Width512, uint32](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Int32s) ShiftLeft(shift Uint32s) (z Int32s) {
+	return Int32s{spec.ShiftLeft[int32, spec.WidthScalable, uint32](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Int64x2) ShiftLeft(shift Uint64x2) (z Int64x2) {
+	return Int64x2{spec.ShiftLeft[int64, spec.Width128, uint64](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Int64x4) ShiftLeft(shift Uint64x4) (z Int64x4) {
+	return Int64x4{spec.ShiftLeft[int64, spec.Width256, uint64](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Int64x8) ShiftLeft(shift Uint64x8) (z Int64x8) {
+	return Int64x8{spec.ShiftLeft[int64, spec.Width512, uint64](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Int64s) ShiftLeft(shift Uint64s) (z Int64s) {
+	return Int64s{spec.ShiftLeft[int64, spec.WidthScalable, uint64](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Uint8x16) ShiftLeft(shift Uint8x16) (z Uint8x16) {
+	return Uint8x16{spec.ShiftLeft[uint8, spec.Width128, uint8](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Uint8x32) ShiftLeft(shift Uint8x32) (z Uint8x32) {
+	return Uint8x32{spec.ShiftLeft[uint8, spec.Width256, uint8](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Uint8x64) ShiftLeft(shift Uint8x64) (z Uint8x64) {
+	return Uint8x64{spec.ShiftLeft[uint8, spec.Width512, uint8](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Uint8s) ShiftLeft(shift Uint8s) (z Uint8s) {
+	return Uint8s{spec.ShiftLeft[uint8, spec.WidthScalable, uint8](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Uint16x8) ShiftLeft(shift Uint16x8) (z Uint16x8) {
+	return Uint16x8{spec.ShiftLeft[uint16, spec.Width128, uint16](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Uint16x16) ShiftLeft(shift Uint16x16) (z Uint16x16) {
+	return Uint16x16{spec.ShiftLeft[uint16, spec.Width256, uint16](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Uint16x32) ShiftLeft(shift Uint16x32) (z Uint16x32) {
+	return Uint16x32{spec.ShiftLeft[uint16, spec.Width512, uint16](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Uint16s) ShiftLeft(shift Uint16s) (z Uint16s) {
+	return Uint16s{spec.ShiftLeft[uint16, spec.WidthScalable, uint16](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Uint32x4) ShiftLeft(shift Uint32x4) (z Uint32x4) {
+	return Uint32x4{spec.ShiftLeft[uint32, spec.Width128, uint32](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Uint32x8) ShiftLeft(shift Uint32x8) (z Uint32x8) {
+	return Uint32x8{spec.ShiftLeft[uint32, spec.Width256, uint32](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Uint32x16) ShiftLeft(shift Uint32x16) (z Uint32x16) {
+	return Uint32x16{spec.ShiftLeft[uint32, spec.Width512, uint32](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Uint32s) ShiftLeft(shift Uint32s) (z Uint32s) {
+	return Uint32s{spec.ShiftLeft[uint32, spec.WidthScalable, uint32](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Uint64x2) ShiftLeft(shift Uint64x2) (z Uint64x2) {
+	return Uint64x2{spec.ShiftLeft[uint64, spec.Width128, uint64](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Uint64x4) ShiftLeft(shift Uint64x4) (z Uint64x4) {
+	return Uint64x4{spec.ShiftLeft[uint64, spec.Width256, uint64](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Uint64x8) ShiftLeft(shift Uint64x8) (z Uint64x8) {
+	return Uint64x8{spec.ShiftLeft[uint64, spec.Width512, uint64](x.v, shift.v)}
+}
+
+// ShiftLeft shifts x[i] left by shift[i] bits.
+// If shift[i] is greater than the element width, the result is 0.
+//
+//	z[i] = x[i] << shift[i]
+func (x Uint64s) ShiftLeft(shift Uint64s) (z Uint64s) {
+	return Uint64s{spec.ShiftLeft[uint64, spec.WidthScalable, uint64](x.v, shift.v)}
 }
 
 // Permute permutes x.

@@ -2241,6 +2241,9 @@ func (r *reader) expr() (res ir.Node) {
 	case exprError:
 		return r.errorExpr()
 
+	case exprCond:
+		return r.condExpr()
+
 	case exprCompLit:
 		return r.compLit()
 

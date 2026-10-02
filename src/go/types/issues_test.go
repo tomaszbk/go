@@ -83,7 +83,7 @@ func f() int {
 	for x, tv := range types {
 		if _, ok := x.(*ast.CallExpr); ok {
 			if tv.Type != want {
-				t.Errorf("%s: got %s; want %s", fset.Position(x.Pos()), tv.Type, want)
+				t.Errorf("%s: got %s; want %s", testFSet.Position(x.Pos()), tv.Type, want)
 			}
 			n++
 		}
@@ -100,20 +100,20 @@ package p
 func (T) m() (res bool) { return }
 type T struct{} // receiver type after method declaration
 `
-	f := mustParse(fset, src)
-
-	var conf Config
 	defs := make(map[*ast.Ident]Object)
-	_, err := conf.Check(f.Name.Name, fset, []*ast.File{f}, &Info{Defs: defs})
-	if err != nil {
-		t.Fatal(err)
+	mustTypecheck(src, nil, &Info{Defs: defs})
+
+	var res1, res2 *Var
+	for id, obj := range defs {
+		switch id.Name {
+		case "m":
+			res1 = obj.(*Func).Signature().Results().At(0)
+		case "res":
+			res2 = obj.(*Var)
+		}
 	}
 
-	m := f.Decls[0].(*ast.FuncDecl)
-	res1 := defs[m.Name].(*Func).Signature().Results().At(0)
-	res2 := defs[m.Type.Results.List[0].Names[0]].(*Var)
-
-	if res1 != res2 {
+	if res1 == nil || res1 != res2 {
 		t.Errorf("got %s (%p) != %s (%p)", res1, res2, res1, res2)
 	}
 }
@@ -284,28 +284,18 @@ func TestIssue25627(t *testing.T) {
 		`struct { *I }`,
 		`struct { a int; b Missing; *Missing }`,
 	} {
-		f := mustParse(fset, prefix+src)
-
-		cfg := Config{Importer: defaultImporter(fset), Error: func(err error) {}}
-		info := &Info{Types: make(map[ast.Expr]TypeAndValue)}
-		_, err := cfg.Check(f.Name.Name, fset, []*ast.File{f}, info)
+		pkg, err := typecheck(prefix+src, nil, nil)
 		if err != nil {
 			if _, ok := err.(Error); !ok {
 				t.Fatal(err)
 			}
 		}
 
-		ast.Inspect(f, func(n ast.Node) bool {
-			if spec, _ := n.(*ast.TypeSpec); spec != nil {
-				if tv, ok := info.Types[spec.Type]; ok && spec.Name.Name == "T" {
-					want := strings.Count(src, ";") + 1
-					if got := tv.Type.(*Struct).NumFields(); got != want {
-						t.Errorf("%s: got %d fields; want %d", src, got, want)
-					}
-				}
-			}
-			return true
-		})
+		typ := pkg.Scope().Lookup("T").Type().Underlying()
+		want := strings.Count(src, ";") + 1
+		if got := typ.(*Struct).NumFields(); got != want {
+			t.Errorf("%s: got %d fields; want %d", src, got, want)
+		}
 	}
 }
 
@@ -321,7 +311,7 @@ func TestIssue28005(t *testing.T) {
 	// compute original file ASTs
 	var orig [len(sources)]*ast.File
 	for i, src := range sources {
-		orig[i] = mustParse(fset, src)
+		orig[i] = mustParse(testFSet, src)
 	}
 
 	// run the test for all order permutations of the incoming files
@@ -342,7 +332,7 @@ func TestIssue28005(t *testing.T) {
 		// type-check package with given file order permutation
 		var conf Config
 		info := &Info{Defs: make(map[*ast.Ident]Object)}
-		_, err := conf.Check("", fset, files, info)
+		_, err := conf.Check("", testFSet, files, info)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -395,8 +385,8 @@ func TestIssue28282(t *testing.T) {
 }
 
 func TestIssue29029(t *testing.T) {
-	f1 := mustParse(fset, `package p; type A interface { M() }`)
-	f2 := mustParse(fset, `package p; var B interface { A }`)
+	f1 := mustParse(testFSet, `package p; type A interface { M() }`)
+	f2 := mustParse(testFSet, `package p; var B interface { A }`)
 
 	// printInfo prints the *Func definitions recorded in info, one *Func per line.
 	printInfo := func(info *Info) string {
@@ -416,7 +406,7 @@ func TestIssue29029(t *testing.T) {
 	// type-check together
 	var conf Config
 	info := &Info{Defs: make(map[*ast.Ident]Object)}
-	check := NewChecker(&conf, fset, NewPackage("", "p"), info)
+	check := NewChecker(&conf, testFSet, NewPackage("", "p"), info)
 	if err := check.Files([]*ast.File{f1, f2}); err != nil {
 		t.Fatal(err)
 	}
@@ -424,7 +414,7 @@ func TestIssue29029(t *testing.T) {
 
 	// type-check incrementally
 	info = &Info{Defs: make(map[*ast.Ident]Object)}
-	check = NewChecker(&conf, fset, NewPackage("", "p"), info)
+	check = NewChecker(&conf, testFSet, NewPackage("", "p"), info)
 	if err := check.Files([]*ast.File{f1}); err != nil {
 		t.Fatal(err)
 	}
@@ -851,13 +841,11 @@ func (S) M5(struct {S;t}) {}
 .*want M5[(]struct{b[.]S; t}[)]`},
 	}
 
-	fset := token.NewFileSet()
 	test := func(main, b, want string) {
 		re := regexp.MustCompile(want)
 		bpkg := mustTypecheck(b, nil, nil)
-		mast := mustParse(fset, main)
 		conf := Config{Importer: importHelper{pkg: bpkg}}
-		_, err := conf.Check(mast.Name.Name, fset, []*ast.File{mast}, nil)
+		_, err := typecheck(main, &conf, nil)
 		if err == nil {
 			t.Error("Expected failure, but it did not")
 		} else if got := err.Error(); !re.MatchString(got) {

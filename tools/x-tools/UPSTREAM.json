@@ -1,0 +1,10 @@
+{
+  "module": "golang.org/x/tools@v0.50.1-0.20260929192349-98444708d405",
+  "sum": "h1:s3oRWG9AT3cQJXXCU6U11o1yjI5IWK+I13XqZzirO+Q=",
+  "goModSum": "h1:7ulVMw3831Mwi5EZD6RomGyffr4VFjuNYXf2BbCEAV0=",
+  "origin": {
+    "VCS": "git",
+    "URL": "https://go.googlesource.com/tools",
+    "Hash": "98444708d405557b5ddd6179be1a6abc14150d5f"
+  }
+}

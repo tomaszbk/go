@@ -36,6 +36,7 @@ import (
 	"golang.org/x/tools/internal/astutil"
 	"golang.org/x/tools/internal/event"
 	"golang.org/x/tools/internal/imports"
+	"golang.org/x/tools/internal/stdlib"
 	"golang.org/x/tools/internal/typeparams"
 	"golang.org/x/tools/internal/typesinternal"
 	"golang.org/x/tools/internal/versions"
@@ -270,8 +271,8 @@ type completer struct {
 	// [typesinternal.TooNewStdSymbols], recording for each std
 	// package which of its exported symbols are too new for
 	// the version of Go in force in the completion file.
-	// (The value is the minimum version in the form "go1.%d".)
-	tooNewSymbolsCache map[*types.Package]map[types.Object]string
+	// The value records the symbol and its availability metadata.
+	tooNewSymbolsCache map[*types.Package]map[types.Object]stdlib.Symbol
 
 	// mapper converts the positions in the file from which the completion originated.
 	mapper *protocol.Mapper
@@ -309,7 +310,8 @@ func (c *completer) tooNew(obj types.Object) bool {
 		disallowed = typesinternal.TooNewStdSymbols(pkg, c.goversion)
 		c.tooNewSymbolsCache[pkg] = disallowed
 	}
-	return disallowed[obj] != ""
+	_, found := disallowed[obj]
+	return found
 }
 
 // funcInfo holds info about a function object.
@@ -641,7 +643,7 @@ func Completion(ctx context.Context, snapshot *cache.Snapshot, fh file.Handle, p
 		// default to a matcher that always matches
 		matcher:            prefixMatcher(""),
 		methodSetCache:     make(map[methodSetKey]*types.MethodSet),
-		tooNewSymbolsCache: make(map[*types.Package]map[types.Object]string),
+		tooNewSymbolsCache: make(map[*types.Package]map[types.Object]stdlib.Symbol),
 		mapper:             pgf.Mapper,
 		startTime:          startTime,
 		scopes:             scopes,
@@ -1215,7 +1217,7 @@ func (c *completer) populateCommentCompletions(comment *ast.CommentGroup) {
 				if recv == nil {
 					continue // may be nil if ill-typed
 				}
-				_, named := typesinternal.ReceiverNamed(recv)
+				_, named := typesinternal.RecvBase(fn)
 				if named != nil {
 					if recvStruct, ok := named.Underlying().(*types.Struct); ok {
 						for field := range recvStruct.Fields() {

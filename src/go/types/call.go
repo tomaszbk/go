@@ -207,7 +207,7 @@ func (check *Checker) callExpr(x *operand, call *ast.CallExpr) exprKind {
 		case 0:
 			check.errorf(inNode(call, call.Rparen), WrongArgCount, "missing argument in conversion to %s", T)
 		case 1:
-			check.expr(newTarget(T, "conversion"), x, call.Args[0])
+			check.expr(newTargetOf(convTarget, T, "conversion"), x, call.Args[0])
 			if x.isValid() {
 				if hasDots(call) {
 					check.errorf(call.Args[0], BadDotDotDotSyntax, "invalid use of ... in conversion to %s", T)
@@ -305,7 +305,17 @@ func (check *Checker) callExpr(x *operand, call *ast.CallExpr) exprKind {
 	}
 
 	// evaluate arguments
-	targetAt := func(i int) *target { return newTarget(sig.argType(i), "function parameter") }
+	targetAt := func(i int) *target {
+		typ := sig.argType(i)
+		// An argument is not assigned to a parameter type that depends on
+		// the callee's (not yet inferred) type parameters, and a ... argument
+		// is assigned to the variadic slice rather than to argType's element
+		// type (see inferTarget).
+		if typ != nil && (hasDots(call) && i == len(call.Args)-1 || sig.TypeParams().Len() > 0 && isParameterized(sig.TypeParams().list(), typ)) {
+			return newTargetOf(inferTarget, typ, "function parameter")
+		}
+		return newTarget(typ, "function parameter")
+	}
 	args, atargs := check.genericExprList(targetAt, call.Args)
 	sig = check.arguments(call, sig, targs, xlist, args, atargs)
 
@@ -664,6 +674,13 @@ func (check *Checker) arguments(call *ast.CallExpr, sig *Signature, targs []Type
 	if len(args) > 0 {
 		context := check.sprintf("argument to %s", call.Fun)
 		for i, a := range args {
+			// A conditional expression for a parameter of the callee whose
+			// type depends on its type parameters had no target type.
+			if n > 0 && isCondExpr(a.expr) && !(ddd && i == nargs-1) && isParameterized(sig.TypeParams().list(), sig.argType(i)) {
+				if check.condNilArg(a, sigParams.vars[i].typ, context) {
+					continue
+				}
+			}
 			check.assignment(a, sigParams.vars[i].typ, context)
 		}
 	}

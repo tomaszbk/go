@@ -109,7 +109,7 @@ func (c *DeepCopier) OnNameExpr(id *syntax.Name) syntax.Expr {
 				// special case for emulation
 				newSel := &syntax.SelectorExpr{
 					X:   archsimdId,
-					Sel: id, // name is unchanged for emulation
+					Sel: syntax.NewName(id.Pos(), id.Value),
 				}
 				newSel.SetPos(id.Pos())
 				return newSel
@@ -173,7 +173,7 @@ func (c *DeepCopier) OnSelector(se *syntax.SelectorExpr) syntax.Expr {
 					// emulated instead, name is unchanged
 					newSel := &syntax.SelectorExpr{
 						X:   archsimdId,
-						Sel: se.Sel,
+						Sel: syntax.NewName(se.Sel.Pos(), se.Sel.Value),
 					}
 					newSel.SetPos(se.Pos())
 					return newSel
@@ -386,6 +386,8 @@ func (c *DeepCopier) CopyExpr(e syntax.Expr) syntax.Expr {
 		newE = &syntax.Operation{Op: e.Op, X: c.CopyExpr(e.X), Y: c.CopyExpr(e.Y)}
 	case *syntax.ErrorExpr:
 		newE = &syntax.ErrorExpr{X: c.CopyExpr(e.X), Err: c.CopyName(e.Err, true), Body: c.CopyBlockStmt(e.Body)}
+	case *syntax.CondExpr:
+		newE = &syntax.CondExpr{Cond: c.CopyExpr(e.Cond), Then: c.CopyExpr(e.Then), Else: c.CopyExpr(e.Else), Rbrace: e.Rbrace}
 	case *syntax.CallExpr:
 		newCall := &syntax.CallExpr{
 			Fun:     c.CopyExpr(e.Fun),

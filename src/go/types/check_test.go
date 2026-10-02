@@ -56,13 +56,14 @@ var (
 	verifyErrors = flag.Bool("verify", false, "verify errors (rather than list them) in TestManual")
 )
 
-var fset = token.NewFileSet()
+// The *FileSet used by tests.
+var testFSet = token.NewFileSet()
 
 func parseFiles(t *testing.T, filenames []string, srcs [][]byte, mode parser.Mode) ([]*ast.File, []error) {
 	var files []*ast.File
 	var errlist []error
 	for i, filename := range filenames {
-		file, err := parser.ParseFile(fset, filename, srcs[i], mode)
+		file, err := parser.ParseFile(testFSet, filename, srcs[i], mode)
 		if file == nil {
 			t.Fatalf("%s: %s", filename, err)
 		}
@@ -151,7 +152,7 @@ func testFiles(t *testing.T, filenames []string, srcs [][]byte, manual bool, opt
 	// set up typechecker
 	var conf Config
 	*boolFieldAddr(&conf, "_Trace") = manual && testing.Verbose()
-	conf.Importer = defaultImporter(fset)
+	conf.Importer = defaultImporter(testFSet)
 	conf.Error = func(err error) {
 		if *haltOnError {
 			defer panic(err)
@@ -200,7 +201,7 @@ func testFiles(t *testing.T, filenames []string, srcs [][]byte, manual bool, opt
 	}
 
 	// typecheck
-	conf.Check(pkgName, fset, files, &info)
+	conf.Check(pkgName, testFSet, files, &info)
 	if listErrors {
 		return
 	}
@@ -216,7 +217,7 @@ func testFiles(t *testing.T, filenames []string, srcs [][]byte, manual bool, opt
 	// match against found errors
 	var indices []int // list indices of matching errors, reused for each error
 	for _, err := range errlist {
-		gotPos, gotMsg := unpackError(fset, err)
+		gotPos, gotMsg := unpackError(testFSet, err)
 
 		// find list of errors for the respective error line
 		filename := gotPos.Filename

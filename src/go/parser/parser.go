@@ -1492,6 +1492,11 @@ func (p *parser) parseOperand() ast.Expr {
 
 	case token.FUNC:
 		return p.parseFuncTypeOrLit()
+
+	case token.IF:
+		// An "if" at the start of a statement is an if statement (see
+		// parseStmt); in an expression it starts a conditional expression.
+		return p.parseCondExpr()
 	}
 
 	if typ := p.tryIdentOrType(); typ != nil { // do not consume trailing type parameters
@@ -1506,6 +1511,175 @@ func (p *parser) parseOperand() ast.Expr {
 	p.errorExpected(pos, "operand")
 	p.advance(stmtStart)
 	return &ast.BadExpr{From: pos, To: p.pos}
+}
+
+// parseCondExpr parses a conditional expression "if Cond { Then } else { Else }".
+func (p *parser) parseCondExpr() *ast.CondExpr {
+	return p.parseCondExprFrom(len(p.errors))
+}
+
+// parseCondExprFrom is like parseCondExpr. To avoid cascading errors,
+// errors specific to conditional expressions (a missing else branch,
+// chaining, and nesting) are only reported if there are still base errors,
+// the number of errors before the conditional expression, or the chain it
+// continues, started.
+func (p *parser) parseCondExprFrom(base int) *ast.CondExpr {
+	defer decNestLev(incNestLev(p))
+
+	if p.trace {
+		defer un(trace(p, "CondExpr"))
+	}
+
+	x := &ast.CondExpr{If: p.expect(token.IF)}
+
+	// The condition follows the rules of an if statement header, including
+	// the restriction on unparenthesized composite literals. The header is
+	// parsed in full so that an init statement is reported precisely.
+	init, cond := p.parseIfHeader()
+	if _, bad := cond.(*ast.BadExpr); init != nil && !bad {
+		p.error(init.Pos(), "conditional expression cannot have an init statement")
+	}
+	x.Cond = p.checkCondOperand(cond, base)
+	x.Lbrace, x.Then, x.Rbrace = p.parseCondBranch(base)
+
+	if p.tok != token.ELSE {
+		if len(p.errors) == base {
+			p.error(p.pos, "conditional expression requires an else branch")
+		}
+		x.Else = &ast.BadExpr{From: x.Rbrace, To: x.Rbrace}
+		x.ElseRbrace = x.Rbrace
+		return x
+	}
+	x.ElsePos = p.pos
+	p.next()
+
+	switch {
+	case p.tok == token.IF:
+		// Parse the chained conditional expression for better error recovery.
+		if len(p.errors) == base {
+			p.error(p.pos, condNestedMsg)
+		}
+		chain := p.parseCondExprFrom(base)
+		x.ElseLbrace = chain.If
+		x.Else = &ast.BadExpr{From: chain.Pos(), To: chain.End()}
+		x.ElseRbrace = chain.ElseRbrace
+	case p.tok != token.LBRACE && exprStart(p.tok):
+		// Recover from missing braces by parsing the expression.
+		p.errorExpected(p.pos, "'{'")
+		x.ElseLbrace = p.pos
+		x.Else = p.checkCondOperand(p.parseExpr(), base)
+		x.ElseRbrace = x.Else.End() - 1
+	default:
+		x.ElseLbrace, x.Else, x.ElseRbrace = p.parseCondBranch(base)
+	}
+
+	return x
+}
+
+// exprStart reports whether tok may start an expression.
+func exprStart(tok token.Token) bool {
+	switch tok {
+	case token.IDENT, token.INT, token.FLOAT, token.IMAG, token.CHAR, token.STRING, // literals
+		token.FUNC, token.LPAREN, token.LBRACE, token.IF, // other operands
+		token.LBRACK, token.STRUCT, token.MAP, token.CHAN, token.INTERFACE, // types
+		token.ADD, token.SUB, token.MUL, token.AND, token.XOR, token.ARROW, token.NOT, token.TILDE: // unary operators
+		return true
+	}
+	return false
+}
+
+const condNestedMsg = "conditional expressions cannot be chained or nested; use a switch statement"
+
+// checkCondOperand checks that x, ignoring parentheses, is not a
+// conditional expression, which cannot directly be the condition or a
+// branch of another conditional expression. If it is, the result is a
+// BadExpr in place of x, and the error is reported if there are still base
+// errors (see parseCondExprFrom). Otherwise the result is x.
+func (p *parser) checkCondOperand(x ast.Expr, base int) ast.Expr {
+	if c, ok := ast.Unparen(x).(*ast.CondExpr); ok {
+		if len(p.errors) == base {
+			p.error(c.If, condNestedMsg)
+		}
+		return &ast.BadExpr{From: x.Pos(), To: x.End()}
+	}
+	return x
+}
+
+// parseCondBranch parses a branch "{" Expression "}" of a conditional
+// expression. The automatic semicolon that a newline inserts after the
+// expression is permitted. The branch is an ordinary expression, even in
+// a control clause. For base, see parseCondExprFrom.
+func (p *parser) parseCondBranch(base int) (lbrace token.Pos, x ast.Expr, rbrace token.Pos) {
+	if p.trace {
+		defer un(trace(p, "CondBranch"))
+	}
+
+	if p.tok != token.LBRACE {
+		// Don't consume the unexpected token: it likely belongs to the
+		// enclosing context.
+		p.errorExpected(p.pos, "'{'")
+		return p.pos, &ast.BadExpr{From: p.pos, To: p.pos}, p.pos
+	}
+	lbrace = p.pos
+	p.next()
+
+	prevLev, prevRhs := p.exprLev, p.inRhs
+	p.exprLev, p.inRhs = 0, false
+	start := p.pos
+	var bad token.Pos // position of a token that is not part of a single expression
+	switch {
+	case p.tok == token.ELSE || p.tok == token.EOF:
+		// The branch expression and the "}" are missing; the latter is
+		// reported below.
+		x = &ast.BadExpr{From: p.pos, To: p.pos}
+	case exprStart(p.tok):
+		x = p.checkCondOperand(p.parseExpr(), base)
+		if p.tok == token.SEMICOLON && p.lit == "\n" {
+			p.next()
+		}
+		if p.tok != token.RBRACE && p.tok != token.ELSE && p.tok != token.EOF {
+			bad = p.pos
+		}
+	default:
+		// An empty branch, a statement, or some other invalid token.
+		bad = p.pos
+	}
+	if bad.IsValid() {
+		p.error(bad, "conditional expression branch must be a single expression")
+		p.skipCondBranch()
+		x = &ast.BadExpr{From: start, To: p.pos}
+	}
+	p.exprLev, p.inRhs = prevLev, prevRhs
+
+	if p.tok != token.RBRACE {
+		// A missing "}" before "else" or at the end of the file.
+		p.errorExpected(p.pos, "'}'")
+		return lbrace, x, p.pos
+	}
+	rbrace = p.pos
+	p.next()
+
+	return
+}
+
+// skipCondBranch skips the tokens of an invalid conditional expression
+// branch up to, but not including, the "}" that closes the branch.
+func (p *parser) skipCondBranch() {
+	for depth := 0; p.tok != token.EOF; p.next() {
+		switch p.tok {
+		case token.LPAREN, token.LBRACK, token.LBRACE:
+			depth++
+		case token.RPAREN, token.RBRACK:
+			if depth > 0 {
+				depth--
+			}
+		case token.RBRACE:
+			if depth == 0 {
+				return
+			}
+			depth--
+		}
+	}
 }
 
 func (p *parser) parseSelector(x ast.Expr) ast.Expr {

@@ -1069,6 +1069,11 @@ func (p *parser) operand(keep_parens bool) Expr {
 	case _Lbrack, _Chan, _Map, _Struct, _Interface:
 		return p.type_()
 
+	case _If:
+		// In operand position, if starts a conditional expression. (At
+		// the start of a statement, stmtOrNil parses an if statement.)
+		return p.condExpr()
+
 	default:
 		x := p.badExpr()
 		p.syntaxError("expected expression")
@@ -1080,6 +1085,173 @@ func (p *parser) operand(keep_parens bool) Expr {
 	// type may be a qualified identifier which is handled by pexpr
 	// (together with selector expressions), complits are parsed there
 	// as well (operand is only called from pexpr).
+}
+
+// CondExpr   = "if" Expression CondBranch "else" CondBranch .
+// CondBranch = "{" Expression "}" .
+//
+// The condition follows the rules of an if statement header, including
+// the restriction on composite literals; it may not be preceded by an
+// init statement. Neither the condition nor a branch may itself be a
+// (possibly parenthesized) conditional expression, and there is no else
+// if chaining. Violations are reported as syntax errors. Once an error was
+// reported for a conditional expression, follow-on errors specific to
+// conditional expressions are suppressed.
+func (p *parser) condExpr() *CondExpr {
+	if trace {
+		defer p.trace("condExpr")()
+	}
+
+	x := new(CondExpr)
+	x.pos = p.pos()
+	errcnt := p.errcnt
+	report := func() bool { return p.errcnt == errcnt }
+
+	init, cond, _ := p.header(_If)
+	if init != nil && report() {
+		pos := StartPos(init)
+		if s, ok := init.(*ExprStmt); ok {
+			pos = StartPos(s.X) // the position of an ExprStmt is that of its X
+		}
+		p.syntaxErrorAt(pos, "conditional expression cannot have an init statement")
+	}
+	if cond == nil {
+		cond = p.badExpr() // error reported by header
+	}
+	x.Cond = p.condOperand(cond, report())
+
+	then, rbrace := p.condBranch(report())
+	x.Then = p.condOperand(then, report())
+	x.Rbrace = rbrace
+
+	if p.tok != _Else {
+		if report() {
+			p.syntaxError("conditional expression requires an else branch")
+		}
+		x.Else = p.badExpr()
+		return x
+	}
+	p.next()
+
+	if p.tok == _If {
+		// Consume the rest of the else if chain as an if statement:
+		// it accepts every form of chain without follow-on errors.
+		b := p.badExpr()
+		if report() {
+			p.syntaxError("conditional expressions cannot be chained or nested; use a switch statement")
+		}
+		outer := p.xnest
+		p.xnest = 0
+		s := p.ifStmt()
+		p.xnest = outer
+		x.Else = b
+		x.Rbrace = EndPos(s)
+		return x
+	}
+
+	els, rbrace := p.condBranch(report())
+	x.Else = p.condOperand(els, report())
+	x.Rbrace = rbrace
+	return x
+}
+
+// condOperand returns the condition or a branch x of a conditional
+// expression, or a *BadExpr in its place if x is itself a (possibly
+// parenthesized) conditional expression. The error is only reported
+// if report is set.
+func (p *parser) condOperand(x Expr, report bool) Expr {
+	c, ok := Unparen(x).(*CondExpr)
+	if !ok {
+		return x
+	}
+	if report {
+		p.syntaxErrorAt(c.Pos(), "conditional expressions cannot be chained or nested; use a switch statement")
+	}
+	b := new(BadExpr)
+	b.pos = x.Pos()
+	return b
+}
+
+// condBranch parses a branch "{" Expression "}" of a conditional
+// expression. Only the semicolon that a newline or EOF inserts may follow
+// the expression. Errors are only reported if report is set. condBranch
+// returns the branch expression (a *BadExpr if the branch is invalid) and
+// the position of the closing "}".
+func (p *parser) condBranch(report bool) (Expr, Pos) {
+	if !p.got(_Lbrace) {
+		if report {
+			p.syntaxError("expected {")
+		}
+		// Continue as if the braces were missing.
+		var x Expr
+		if p.startsExpr() {
+			x = p.expr()
+		} else {
+			x = p.badExpr()
+		}
+		return x, p.pos()
+	}
+
+	outer := p.xnest
+	p.xnest = 0 // composite literals are permitted inside the braces
+
+	pos := p.pos()
+	errcnt := p.errcnt
+	var x Expr
+	if p.startsExpr() {
+		x = p.expr()
+		if p.tok == _Semi && p.lit != "semicolon" {
+			p.next() // automatic semicolon
+		}
+	}
+	if (x == nil || p.tok != _Rbrace) && p.tok != _EOF {
+		if report && p.errcnt == errcnt {
+			p.syntaxError("conditional expression branch must be a single expression")
+		}
+		p.skipBranch()
+		x = nil
+	}
+	if x == nil {
+		b := new(BadExpr)
+		b.pos = pos
+		x = b
+	}
+
+	p.xnest = outer
+	rbrace := p.pos()
+	p.want(_Rbrace)
+	return x, rbrace
+}
+
+// skipBranch skips the remaining tokens of an invalid conditional
+// expression branch, up to but excluding the "}" that closes it.
+func (p *parser) skipBranch() {
+	for depth := 0; p.tok != _EOF; p.next() {
+		switch p.tok {
+		case _Lbrace:
+			depth++
+		case _Rbrace:
+			if depth == 0 {
+				return
+			}
+			depth--
+		}
+	}
+}
+
+// startsExpr reports whether the current token may start an expression.
+func (p *parser) startsExpr() bool {
+	switch p.tok {
+	case _Name, _Literal, _Lparen, _Lbrack, _Lbrace, _Func, _Chan, _Map,
+		_Struct, _Interface, _Arrow, _Star, _If:
+		return true
+	case _Operator:
+		switch p.op {
+		case Add, Sub, Not, Xor, And, Tilde: // see unaryExpr
+			return true
+		}
+	}
+	return false
 }
 
 // pexpr parses a PrimaryExpr.
@@ -1293,7 +1465,7 @@ loop:
 // isValue reports whether x syntactically must be a value (and not a type) expression.
 func isValue(x Expr) bool {
 	switch x := x.(type) {
-	case *BasicLit, *CompositeLit, *FuncLit, *SliceExpr, *AssertExpr, *TypeSwitchGuard, *CallExpr, *ErrorExpr:
+	case *BasicLit, *CompositeLit, *FuncLit, *SliceExpr, *AssertExpr, *TypeSwitchGuard, *CallExpr, *ErrorExpr, *CondExpr:
 		return true
 	case *Operation:
 		return x.Op != Mul || x.Y != nil // *T may be a type

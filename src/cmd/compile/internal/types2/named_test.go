@@ -3,7 +3,6 @@ package types2_test
 import (
 	"testing"
 
-	"cmd/compile/internal/syntax"
 	. "cmd/compile/internal/types2"
 )
 
@@ -52,7 +51,7 @@ type Inst = G[int]
 				// Access underlying once, to trigger any lazy calculation.
 				_ = test.typ.Underlying()
 				b.ResetTimer()
-				for i := 0; i < b.N; i++ {
+				for b.Loop() {
 					_ = test.typ.Underlying()
 				}
 			})
@@ -88,11 +87,7 @@ func (Node[Q]) M(Q) {}
 type Inst = *Tree[int]
 `
 
-	f := mustParse(src)
-	pkg := NewPackage("p", f.PkgName.Value)
-	if err := NewChecker(nil, pkg, nil).Files([]*syntax.File{f}); err != nil {
-		t.Fatal(err)
-	}
+	pkg := mustTypecheck(src, nil, nil)
 
 	firstFieldType := func(n *Named) *Named {
 		return n.Underlying().(*Struct).Field(0).Type().(*Pointer).Elem().(*Named)

@@ -60,6 +60,7 @@ const (
 	exprReshape
 	exprRuntimeBuiltin // a reference to a runtime function from transformed syntax. Followed by string name, e.g., "panicrangeexit"
 	exprError          // evaluate a call, then handle its final error result
+	exprCond           // evaluate a condition, then only the selected branch
 )
 
 type codeAssign int

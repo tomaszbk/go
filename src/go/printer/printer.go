@@ -87,6 +87,10 @@ type printer struct {
 	// Cache of already computed node sizes.
 	nodeSizes map[ast.Node]int
 
+	// The conditional expression at the start of the statement being
+	// printed, which must be parenthesized; or nil (see printer.stmt).
+	parenCond *ast.CondExpr
+
 	// Cache of most recently computed line position.
 	cachedPos  token.Pos
 	cachedLine int // line corresponding to cachedPos

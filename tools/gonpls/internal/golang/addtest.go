@@ -548,7 +548,7 @@ func AddTestForFunc(ctx context.Context, snapshot *cache.Snapshot, loc protocol.
 
 	if sig.Recv() != nil {
 		// Find the preferred type for the receiver. We don't use
-		// typesinternal.ReceiverNamed here as we want to preserve aliases.
+		// typesinternal.RecvBase here as we want to preserve aliases.
 		recvType := sig.Recv().Type()
 		if ptr, ok := recvType.(*types.Pointer); ok {
 			recvType = ptr.Elem()
@@ -610,7 +610,7 @@ func AddTestForFunc(ctx context.Context, snapshot *cache.Snapshot, loc protocol.
 
 		// When finding the qualified constructor, the function should return the
 		// any type whose named type is the same type as T's named type.
-		_, wantType := typesinternal.ReceiverNamed(sig.Recv())
+		_, wantType := typesinternal.RecvBase(fn)
 		for _, name := range pkg.Types().Scope().Names() {
 			f, ok := pkg.Types().Scope().Lookup(name).(*types.Func)
 			if !ok {
@@ -628,7 +628,7 @@ func AddTestForFunc(ctx context.Context, snapshot *cache.Snapshot, loc protocol.
 				continue
 			}
 
-			_, gotType := typesinternal.ReceiverNamed(f.Signature().Results().At(0))
+			gotType, _ := types.Unalias(typesinternal.Unpointer(f.Signature().Results().At(0).Type())).(*types.Named)
 			if gotType == nil || !types.Identical(gotType, wantType) {
 				continue
 			}

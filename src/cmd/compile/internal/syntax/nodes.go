@@ -266,6 +266,14 @@ type (
 		expr
 	}
 
+	// if Cond { Then } else { Else }
+	// The node position is the position of the "if" keyword.
+	CondExpr struct {
+		Cond, Then, Else Expr
+		Rbrace           Pos // position of the "}" closing the else branch
+		expr
+	}
+
 	// ElemList[0], ElemList[1], ...
 	ListExpr struct {
 		ElemList []Expr

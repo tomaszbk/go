@@ -15,16 +15,18 @@ python3 misc/gon/build.py
 ./gon/bin/gonpls version
 ```
 
-The build requires Python 3, Git, and network access for dependencies not already
-cached. It builds the maintained server source directly from `tools/gonpls`.
-It downloads x/tools and Staticcheck pinned in `sources.json`, verifies their
-sums, copies them into `pkg/gon-tools`, and applies their checked-in patches.
-Transitive dependency versions/checksums come from `tools/gonpls/go.mod` and
-`go.sum`. The shared module cache is never patched. `pkg/gon-tools` is disposable
-build output; edit the dependency patches for persistent changes. Edit gonpls
-directly in `tools/gonpls`; its [GON.md](../../tools/gonpls/GON.md) records source
-provenance and build details. The old `pkg/gon-tools/gopls` copy is no longer used
-and may be removed.
+The build requires Python 3 and network access for transitive dependencies not
+already cached. It builds maintained source directly from `tools/gonpls`,
+`tools/x-tools` and `tools/staticcheck`. Their `UPSTREAM.json` files record source
+provenance; `go.mod` and `go.sum` pin transitive dependencies. Builds do not
+rewrite maintained modules or apply patches. The old `pkg/gon-tools` trees are
+unused disposable output from the previous workflow.
+
+Vet and gonpls share the maintained x/tools source. `src/cmd/vendor` is generated
+with `python3 misc/gon/vendor.py`; `--check` detects drift. Edit `tools/x-tools`
+and regenerate, instead of editing the vendor copy. See
+[INTEGRATION.md](INTEGRATION.md) for the integration checklist and per-feature
+validation command.
 
 Public executables live in `gon/bin`. The private server lives in
 `pkg/tool/<os>_<arch>/gonpls`. Keep that layout intact when moving the toolchain.
@@ -116,11 +118,10 @@ explorer; both select Go or Gon per project.
 
 ## Repository layout
 
-This repository owns the compiler, public launcher sources, the maintained
-`tools/gonpls` module (including the tooling commands in
-`internal/cmd/gon*.go`), pinned x/tools/Staticcheck patches, the agent skill,
-and their build/test scripts. The dependencies copied into `pkg/gon-tools` are recreated by the build
-and are not separate maintained Git repositories. The
+This repository owns the compiler, public launchers and the maintained modules
+`tools/gonpls`, `tools/x-tools`, and `tools/staticcheck`, plus the project skill
+and build/test scripts. `src/cmd/vendor` is generated from selected dependencies
+and the maintained x/tools module. The
 VS Code extension has its own Git repository at `../vscode-gon`; its build emits
 `gon-0.1.0.vsix`. Neither the local clone nor the VSIX implies publication to
 GitHub or the VS Code marketplace.

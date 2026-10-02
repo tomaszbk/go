@@ -24,20 +24,21 @@ cd tools/gonpls
 ../../gon/bin/gon test ./internal/cmd
 ```
 
-The build downloads only the pinned x/tools and Staticcheck sources in
-`misc/gon/sources.json`, checks both module sums before using them, and applies
-their maintained Gon patches into disposable `pkg/gon-tools` directories.
-Relative `replace` directives in this module select those adapted dependencies.
-They must not be removed or replaced with unmodified upstream dependencies:
-Gon's AST and export data require the adaptations. The compiler's separately
-vendored analyzers remain in `src/cmd/vendor`.
+The build uses the maintained sibling modules `../x-tools` and `../staticcheck`
+through local replacements. Vet uses that same x/tools source through a generated
+vendor tree. No dependency patches or `pkg/gon-tools` copies are used. Baseline
+provenance lives in each module's `UPSTREAM.json`; adapted source is versioned
+here. The server still builds with `-mod=readonly`, `-trimpath` and
+`-buildvcs=false`.
 
-The server is built directly from this directory with `-mod=readonly`,
-`-trimpath`, and `-buildvcs=false`. Builds do not rewrite its source, `go.mod`, or
-`go.sum`, and do not download another gopls tree. Selected module versions and
-content sums fix the dependency inputs; the exact Gon compiler and target
-platform also determine the output. The generated dependency trees and the old
-`pkg/gon-tools/gopls` tree can be deleted without losing maintained source.
+The x/tools upgrade on 2026-10-02 required adapting completion's standard-symbol
+metadata, variable-kind access, the package-path heuristic and analyzers that
+moved into vet.Suite. The Gon corpus test uses the actual analyzer registry.
+The subsequent Go master integration updates x/tools to `98444708d405`;
+receiver inspection now uses `typesinternal.RecvBase` for methods and
+`Unpointer` plus `types.Unalias` for ordinary fields/results. This preserves
+receiver aliases and pointer handling without restoring the removed helper.
+See [integration gates](../../misc/gon/INTEGRATION.md).
 
 ## Gon adaptations
 
@@ -63,7 +64,7 @@ Added for the tooling commands of the public `gon` launcher:
 - `settings.InternalOptions.OnDemandDiagnostics`, which the command engine sets
   so that the server skips background diagnostics; editors are unaffected.
 - No pkg.go.dev links for type-checker codes that upstream x/tools does not
-  document, including `InvalidErrorHandling`; the x/tools patch names codes
+  document, including `InvalidErrorHandling`; the maintained x/tools module names codes
   148–151 and Gon's own range starting at 10000.
 - Upstream command-line test expectations and `internal/cmd/usage` help files
   updated for the `gonpls` name and command namespace.

@@ -1,0 +1,74 @@
+// This file contains test cases for parenthesized conditional expressions.
+// The test removes all parentheses around conditional expressions, as in
+// syntax trees built by programs. The printer must restore them at the start
+// of a statement, where "if" would start an if statement, and only there.
+
+package condparen
+
+// At the start of a statement, the parentheses are needed.
+func _() {
+	(if c { f } else { g })()
+	(if c { f } else { g })(1, 2)
+	(if c { s } else { t }).m()
+	(if c { s } else { t }).f.g = 1
+	(if c { m1 } else { m2 })[k] = v
+	(if c { m1 } else { m2 })[k], x = v, w
+	(if c { m1 } else { m2 })[k]++
+	(if c { ch1 } else { ch2 }) <- v
+	(if c { a } else { b }) + 1
+	(if c { f } else { g })()!
+	(if c { x } else { y }).(T)
+	(if c { s1 } else { s2 })[i:j]
+	(if c {
+		f
+	} else {
+		g
+	})()
+	(if c { f } else { g })() // comment
+L:
+	(if c { f } else { g })()
+	switch {
+	case true:
+		(if c { f } else { g })()
+	}
+	select {
+	default:
+		(if c { f } else { g })()
+	}
+	_ = func() { (if c { f } else { g })() }
+	if true {
+	} else {
+		(if c { f } else { g })()
+	}
+}
+
+// Elsewhere, they are not.
+func _() {
+	_ = (if c { f } else { g })()
+	x := (if c { 1 } else { 2 })
+	go (if c { f } else { g })()
+	defer (if c { f } else { g })()
+	_ = -(if c { 1 } else { 2 })
+	_ = <-(if c { ch1 } else { ch2 })
+	_ = (if c { a } else { b }).f
+	_ = f((if c { 1 } else { 2 }))
+	_ = (if c { 1 } else { 2 }) + 3
+	_ = 3 + (if c { 1 } else { 2 })
+	if (if c { a } else { b }) {
+	}
+	for (if c { a } else { b }) {
+	}
+	for i := (if c { 1 } else { 2 }); i < n; (if c { m1 } else { m2 })[i]++ {
+	}
+	if (if c { f } else { g })(); true {
+	}
+	switch x := (if c { a } else { b }).(type) {
+	}
+	select {
+	case (if c { ch1 } else { ch2 }) <- v:
+	case x := <-(if c { ch1 } else { ch2 }):
+	}
+	return (if c { 1 } else { 2 })
+}
+
+var _ = (if c { 1 } else { 2 })

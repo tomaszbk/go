@@ -52,3 +52,14 @@ _testmain.go
 # For files created by specific development environment (e.g. editor),
 # use alternative ways to exclude files from git.
 # For example, set up .git/info/exclude or use a global .gitignore.
+
+# Maintained module sources/fixtures that resemble compiler outputs.
+!/tools/x-tools/internal/event/core/
+!/tools/x-tools/internal/event/core/**
+!/tools/x-tools/**/testdata/**/*.a
+!/tools/staticcheck/**/testdata/go1.[56789]/
+!/tools/staticcheck/**/testdata/go1.[56789]/**
+
+# Local working instructions and design notes are never published.
+/AGENTS.md
+/design/**/*.md

@@ -115,6 +115,15 @@ func WriteExpr(buf *bytes.Buffer, x ast.Expr) {
 			buf.WriteString(" {…}")
 		}
 
+	case *ast.CondExpr:
+		buf.WriteString("if ")
+		WriteExpr(buf, x.Cond)
+		buf.WriteString(" { ")
+		WriteExpr(buf, x.Then)
+		buf.WriteString(" } else { ")
+		WriteExpr(buf, x.Else)
+		buf.WriteString(" }")
+
 	case *ast.StarExpr:
 		buf.WriteByte('*')
 		WriteExpr(buf, x.X)

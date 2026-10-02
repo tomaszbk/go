@@ -1880,6 +1880,14 @@ func TestEscapeText(t *testing.T) {
 			"<script>`${ `}",
 			context{state: stateJSTmplLit, element: elementScript, jsBraceDepth: []int{0}},
 		},
+		{
+			"<script>`${1}${",
+			context{state: stateJS, element: elementScript, jsCtx: jsCtxRegexp, jsBraceDepth: []int{0}},
+		},
+		{
+			"<script>`${`${1}${",
+			context{state: stateJS, element: elementScript, jsCtx: jsCtxRegexp, jsBraceDepth: []int{0, 0}},
+		},
 	}
 
 	for _, test := range tests {
@@ -2209,6 +2217,28 @@ func BenchmarkEscapedExecute(b *testing.B) {
 	}
 }
 
+func BenchmarkEscapedExecuteBuiltinsPage(b *testing.B) {
+	type item struct {
+		Name   string
+		Status string
+		Tags   []string
+	}
+	items := make([]item, 20)
+	for i := range items {
+		items[i] = item{Name: "Item", Status: "active", Tags: []string{"new", "sale"}}
+	}
+	tmpl := Must(New("t").Parse(`<ul>{{range .}}<li{{if eq .Status "active"}} class="on"{{end}}>` +
+		`{{.Name}}{{if not .Tags}}-{{else}} ({{printf "%d tags" 2}}){{end}}</li>{{end}}</ul>`))
+	var buf bytes.Buffer
+	b.ReportAllocs()
+	for b.Loop() {
+		if err := tmpl.Execute(&buf, items); err != nil {
+			b.Fatal(err)
+		}
+		buf.Reset()
+	}
+}
+
 func BenchmarkEscapedExecutePage(b *testing.B) {
 	var src strings.Builder
 	src.WriteString(`<h1>{{.Title}}</h1><ul>`)
@@ -2288,6 +2318,18 @@ func TestMetaContentEscapeGODEBUG(t *testing.T) {
 	want := `<meta http-equiv="refresh" content="asd; url=javascript:alert(1); asd; url=vbscript:alert(1); asd">`
 	if got := b.String(); got != want {
 		t.Fatalf("got %q, want %q", got, want)
+	}
+}
+
+func TestIssue81821(t *testing.T) {
+	tmpl := Must(New("test").Parse("<script>const s = `${1}${/{{.}}/g}`</script>"))
+	var buf bytes.Buffer
+	if err := tmpl.Execute(&buf, `x/.exec(alert(1))}`); err != nil {
+		t.Fatalf("Execute: %v", err)
+	}
+	want := "<script>const s = `${1}${/x\\/\\.exec\\(alert\\(1\\)\\)\\}/g}`</script>"
+	if got := buf.String(); got != want {
+		t.Errorf("got:  %s\nwant: %s", got, want)
 	}
 }
 

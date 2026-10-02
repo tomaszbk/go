@@ -81,6 +81,11 @@ func (check *Checker) conversion(x *operand, T Type) {
 			final = Default(x.typ()) // default type of untyped nil is untyped nil
 		} else if x.mode() == constant_ && isInteger(x.typ()) && allString(T) {
 			final = x.typ()
+		} else if !constArg && isString(x.typ()) && !isConstType(T) {
+			// Like a constant, a non-constant untyped string (a conditional
+			// expression with untyped constant branches) has its default
+			// type when converted to a non-constant type such as []byte.
+			final = Default(x.typ())
 		}
 		check.updateExprType(x.expr, final, true)
 	}
