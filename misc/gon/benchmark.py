@@ -113,6 +113,8 @@ def render_report(summary, path):
     observations = ''.join(f'<li>{esc(n)}</li>' for n in summary.get('observations', []))
     if observations:
         observations = '<h2>Hallazgos de esta ejecución</h2><ul>' + observations + '</ul>'
+    if summary.get('diagnostics'):
+        observations += '<p>Evidencia del compilador: <a href="diagnostics/diagnostics.json">inlining y ensamblado</a>.</p>'
     versions = '<br>'.join(f'<b>{esc(k)}:</b> {esc(v["version"])}'
                           for k, v in summary['toolchains'].items())
     path.write_text(f'''<!doctype html><html lang="es"><meta charset="utf-8">
@@ -313,7 +315,7 @@ def main():
                        'Go clásico y Gon clásico usan fuentes idénticas (SHA-256 comprobado). Las tres variantes comparten datos, pruebas y benchmarks.',
                        'Go y Gon tienen versiones base distintas: esa comparación mezcla cambios upstream, del runtime y de Gon. Gon moderno vs Gon clásico aísla la sintaxis en el mismo toolchain.',
                        'Ejecución serial, orden de variantes aleatorio en cada ronda, GOMAXPROCS=1, CGO desactivado, optimizaciones por defecto; no se desactiva inlining.',
-                       'Cada ns/op, B/op y allocs/op corresponde a un lote de 64 elementos. Preparación de datos fuera del cronómetro; sumas consumidas por sinks globales.',
+                       'Cada ns/op, B/op y allocs/op corresponde a un lote de 64 elementos. Preparación de datos fuera del cronómetro; sumas consumidas por sinks globales. Contadores compartidos hacen observable la evaluación y agregan costo de instrumentación.',
                        'Las asignaciones son bytes/objetos de heap por operación, no memoria total del proceso. Los buffers reutilizados no cuentan como asignaciones nuevas.',
                        'Recompilación: dependencias calientes, cambio del entero buildNonce impreso por main que invalida el paquete principal y el enlace, compile+link con -p=1 y -trimpath. No mide construir el toolchain ni una compilación con toda la caché vacía.',
                        'Build sin cambios usa la caché y el ejecutable existente. Wall time incluye el comando público y, en Gon, su launcher. CPU es user+system informado por /usr/bin/time.',
