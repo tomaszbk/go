@@ -180,6 +180,10 @@ type writer struct {
 	// sig holds the signature for the current function body, if any.
 	sig *types2.Signature
 
+	// nilValue marks the already evaluated operand whose conversion is being
+	// serialized separately from its nil test.
+	nilValue syntax.Expr
+
 	// TODO(mdempsky): We should be able to prune localsIdx whenever a
 	// scope closes, and then maybe we can just use the same map for
 	// storing the TypeParams too (as their TypeName instead).
@@ -1381,6 +1385,11 @@ func (w *writer) stmt1(stmt syntax.Stmt) {
 
 	case *syntax.AssignStmt:
 		switch {
+		case stmt.Op == syntax.Coalesce:
+			w.Code(stmtCoalesceAssign)
+			w.pos(stmt)
+			w.expr(stmt.Lhs)
+			w.implicitConvExpr(w.p.typeOf(stmt.Lhs), stmt.Rhs)
 		case stmt.Rhs == nil:
 			w.Code(stmtIncDec)
 			w.op(binOps[stmt.Op])
@@ -1447,7 +1456,11 @@ func (w *writer) stmt1(stmt syntax.Stmt) {
 
 	case *syntax.ExprStmt:
 		w.Code(stmtExpr)
-		w.expr(stmt.X)
+		if chain, ok := syntax.Unparen(stmt.X).(*syntax.SafeNavExpr); ok {
+			w.safeNavExpr(chain, true)
+		} else {
+			w.expr(stmt.X)
+		}
 
 	case *syntax.ForStmt:
 		w.Code(stmtFor)
@@ -1887,6 +1900,10 @@ func (w *writer) expr(expr syntax.Expr) {
 	base.Assertf(expr != nil, "missing expression")
 
 	expr = syntax.Unparen(expr) // skip parens; unneeded after typecheck
+	if expr == w.nilValue {
+		w.Code(exprNilValue)
+		return
+	}
 
 	obj, inst := lookupObj(w.p, expr)
 	targs := asTypeSlice(inst.TypeArgs)
@@ -1973,6 +1990,19 @@ func (w *writer) expr(expr syntax.Expr) {
 	case *syntax.CondExpr:
 		w.condExpr(expr)
 
+	case *syntax.SafeNavExpr:
+		w.safeNavExpr(expr, false)
+
+	case *syntax.NilGuardExpr:
+		w.Code(exprNilGuard)
+		w.pos(expr)
+		w.expr(expr.X)
+
+	case *syntax.LambdaExpr:
+		assert(expr.Lowered != nil)
+		w.Code(exprFuncLit)
+		w.funcLit(expr.Lowered)
+
 	case *syntax.CompositeLit:
 		w.Code(exprCompLit)
 		w.compLit(expr)
@@ -2055,6 +2085,10 @@ func (w *writer) expr(expr syntax.Expr) {
 		w.rtype(iface)
 
 	case *syntax.Operation:
+		if expr.Op == syntax.Coalesce {
+			w.coalesceExpr(expr)
+			break
+		}
 		if expr.Y == nil {
 			w.Code(exprUnaryOp)
 			w.op(unOps[expr.Op])

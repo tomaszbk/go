@@ -138,6 +138,17 @@ func RedundantTypeInDeclarationChecker(verb string, flagHelpfulTypes bool) *anal
 				}
 				Tlhs := pass.TypesInfo.TypeOf(spec.Type)
 				for i, v := range spec.Values {
+					// These expressions use the declared target to type their
+					// parameters or alternatives. Removing it may reject valid
+					// source or change nil/interface conversions.
+					switch e := ast.Unparen(v).(type) {
+					case *ast.LambdaExpr, *ast.CondExpr, *ast.SafeNavExpr:
+						continue specLoop
+					case *ast.BinaryExpr:
+						if e.Op == token.COALESCE {
+							continue specLoop
+						}
+					}
 					if !flagHelpfulTypes && spec.Names[i].Name == "_" {
 						continue specLoop
 					}
@@ -183,7 +194,7 @@ func RedundantTypeInDeclarationChecker(verb string, flagHelpfulTypes bool) *anal
 				pathLoop:
 					for _, el := range path {
 						switch el.(type) {
-						case *ast.FuncDecl, *ast.FuncLit:
+						case *ast.FuncDecl, *ast.FuncLit, *ast.LambdaExpr:
 							checkedDecl = true
 							break pathLoop
 						}

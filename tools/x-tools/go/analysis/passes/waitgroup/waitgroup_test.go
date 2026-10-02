@@ -14,3 +14,5 @@ import (
 func Test(t *testing.T) {
 	analysistest.Run(t, analysistest.TestData(), waitgroup.Analyzer, "a")
 }
+
+func TestGon(t *testing.T) { analysistest.Run(t, analysistest.TestData(), waitgroup.Analyzer, "gon") }

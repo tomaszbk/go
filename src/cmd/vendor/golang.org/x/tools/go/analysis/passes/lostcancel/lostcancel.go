@@ -8,6 +8,7 @@ import (
 	_ "embed"
 	"fmt"
 	"go/ast"
+	"go/token"
 	"go/types"
 
 	"golang.org/x/tools/go/analysis"
@@ -57,6 +58,7 @@ func run(pass *analysis.Pass) (any, error) {
 	inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
 	nodeTypes := []ast.Node{
 		(*ast.FuncLit)(nil),
+		(*ast.LambdaExpr)(nil),
 		(*ast.FuncDecl)(nil),
 	}
 	inspect.Preorder(nodeTypes, func(n ast.Node) {
@@ -71,6 +73,8 @@ func runFunc(pass *analysis.Pass, node ast.Node) {
 	switch v := node.(type) {
 	case *ast.FuncLit:
 		funcScope = pass.TypesInfo.Scopes[v.Type]
+	case *ast.LambdaExpr:
+		funcScope = pass.TypesInfo.Scopes[v]
 	case *ast.FuncDecl:
 		funcScope = pass.TypesInfo.Scopes[v.Type]
 	}
@@ -84,8 +88,11 @@ func runFunc(pass *analysis.Pass, node ast.Node) {
 
 	// Find the set of cancel vars to analyze.
 	ast.PreorderStack(node, nil, func(n ast.Node, stack []ast.Node) bool {
-		if _, ok := n.(*ast.FuncLit); ok && len(stack) > 0 {
-			return false // don't stray into nested functions
+		switch n.(type) {
+		case *ast.FuncLit, *ast.LambdaExpr:
+			if len(stack) > 0 {
+				return false
+			} // don't stray into nested functions
 		}
 
 		// Look for n=SelectorExpr beneath stack=[{AssignStmt,ValueSpec} CallExpr]:
@@ -149,6 +156,9 @@ func runFunc(pass *analysis.Pass, node ast.Node) {
 	case *ast.FuncLit:
 		sig, _ = pass.TypesInfo.Types[node.Type].Type.(*types.Signature)
 		g = cfgs.FuncLit(node)
+	case *ast.LambdaExpr:
+		sig, _ = pass.TypesInfo.TypeOf(node).(*types.Signature)
+		g = cfgs.Lambda(node)
 	}
 	if sig == nil {
 		return // missing type information (can this happen?)
@@ -222,7 +232,7 @@ func lostCancelPath(pass *analysis.Pass, g *cfg.CFG, v *types.Var, stmt ast.Node
 		var visit, visitAll func(ast.Node) bool
 		visit = func(n ast.Node) bool {
 			switch n := n.(type) {
-			case *ast.FuncLit:
+			case *ast.FuncLit, *ast.LambdaExpr:
 				// Any reference in a nested function literal counts,
 				// including in its error handlers and conditional
 				// expressions, which are not part of this CFG.
@@ -238,6 +248,16 @@ func lostCancelPath(pass *analysis.Pass, g *cfg.CFG, v *types.Var, stmt ast.Node
 				// does not imply that the other path uses the variable.
 				ast.Inspect(n.Cond, visit)
 				return false
+			case *ast.SafeNavExpr:
+				return false // operands have their own guarded CFG blocks
+			case *ast.BinaryExpr:
+				if n.Op == token.COALESCE {
+					return false
+				}
+			case *ast.AssignStmt:
+				if n.Tok == token.COALESCE_ASSIGN {
+					return false
+				}
 			}
 			return visitAll(n)
 		}

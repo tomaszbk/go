@@ -38,9 +38,16 @@ func EnclosingFunction(pkg *Package, path []ast.Node) *Function {
 	n := len(path)
 outer:
 	for i := range path {
-		if lit, ok := path[n-1-i].(*ast.FuncLit); ok {
+		var pos token.Pos
+		switch lit := path[n-1-i].(type) {
+		case *ast.FuncLit:
+			pos = lit.Type.Func
+		case *ast.LambdaExpr:
+			pos = lit.Lparen
+		}
+		if pos.IsValid() {
 			for _, anon := range fn.AnonFuncs {
-				if anon.Pos() == lit.Type.Func {
+				if anon.Pos() == pos {
 					fn = anon
 					continue outer
 				}

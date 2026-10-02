@@ -318,8 +318,31 @@ redo:
 		s.op, s.prec = Gtr, precCmp
 		s.tok = _Operator
 
+	case '?':
+		s.nextch()
+		switch s.ch {
+		case '.':
+			s.nextch()
+			s.tok = _SafeDot
+		case '(':
+			s.nextch()
+			s.tok = _SafeLparen
+		case '?':
+			s.nextch()
+			s.op, s.prec = Coalesce, precOrOr
+			goto assignop
+		default:
+			s.errorf("invalid character %#U", '?')
+			goto redo
+		}
+
 	case '=':
 		s.nextch()
+		if s.ch == '>' {
+			s.nextch()
+			s.tok = _FatArrow
+			break
+		}
 		if s.ch == '=' {
 			s.nextch()
 			s.op, s.prec = Eql, precCmp

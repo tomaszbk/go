@@ -45,10 +45,19 @@ func (check *Checker) errorExpr(x *operand, e *ast.ErrorExpr) exprKind {
 	}
 	success := results[:len(results)-1]
 	if e.Body == nil {
-		n := check.sig.results.Len()
-		if n == 0 || !Identical(check.sig.results.At(n-1).typ, errorType) {
+
+		sig := check.sig
+		valid := func() bool { n := sig.results.Len(); return n > 0 && Identical(sig.results.At(n-1).typ, errorType) }
+		if check.inferLambdaSig == sig {
+			check.later(func() {
+				if !valid() {
+					check.error(e, InvalidErrorHandling, "error propagation requires an enclosing function with a final result of type error")
+				}
+			}).describef(e, "lambda error propagation")
+		} else if !valid() {
 			return fail("error propagation requires an enclosing function with a final result of type error")
 		}
+
 	} else {
 		if e.Err == nil {
 			return fail("error handler requires an explicit error binding")
@@ -74,7 +83,7 @@ func (check *Checker) errorExpr(x *operand, e *ast.ErrorExpr) exprKind {
 		// all the ordinary Go branch rules.
 		ast.Inspect(e.Body, func(n ast.Node) bool {
 			switch n := n.(type) {
-			case *ast.FuncLit:
+			case *ast.FuncLit, *ast.LambdaExpr:
 				return false
 			case *ast.LabeledStmt:
 				check.error(n, InvalidErrorHandling, "labels are not permitted in error handlers")
@@ -88,7 +97,17 @@ func (check *Checker) errorExpr(x *operand, e *ast.ErrorExpr) exprKind {
 		// Do not inherit the surrounding loop or switch context: a handler
 		// cannot resume evaluation of a value-producing expression by
 		// breaking or continuing the enclosing statement.
-		check.stmtList(0, e.Body.List)
+		if check.inferLambdaSig == check.sig {
+			env := check.environment
+			check.later(func() {
+				saved := check.environment
+				check.environment = env
+				check.stmtList(0, e.Body.List)
+				check.environment = saved
+			}).describef(e, "lambda error handler")
+		} else {
+			check.stmtList(0, e.Body.List)
+		}
 		if len(success) > 0 && !check.isTerminating(e.Body, "") {
 			return fail("error handler for a value-producing call must terminate")
 		}

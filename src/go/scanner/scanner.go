@@ -957,7 +957,29 @@ scanAgain:
 		case '>':
 			tok = s.switch4(token.GTR, token.GEQ, '>', token.SHR, token.SHR_ASSIGN)
 		case '=':
-			tok = s.switch2(token.ASSIGN, token.EQL)
+			if s.ch == '>' {
+				s.next()
+				tok = token.FATARROW
+			} else {
+				tok = s.switch2(token.ASSIGN, token.EQL)
+			}
+		case '?':
+			switch s.ch {
+			case '.':
+				s.next()
+				tok = token.SAFE_PERIOD
+			case '(':
+				s.next()
+				tok = token.SAFE_LPAREN
+			case '?':
+				s.next()
+				tok = s.switch2(token.COALESCE, token.COALESCE_ASSIGN)
+			default:
+				s.errorf(s.file.Offset(pos), "illegal character %#U", ch)
+				tok = token.ILLEGAL
+				lit = string(ch)
+			}
+
 		case '!':
 			tok = s.switch2(token.NOT, token.NEQ)
 			insertSemi = tok == token.NOT

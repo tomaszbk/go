@@ -200,6 +200,7 @@ recheck:
 		dumpSyntax(pkg, info, files, "midway after recheck")
 	}
 
+	prepareLambdas(files)
 	prepareErrorPropagation(pkg, info, files)
 
 	// Rewrite range over function to explicit function calls

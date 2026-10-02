@@ -155,6 +155,8 @@ type reader struct {
 
 	// Label to return to.
 	retlabel *types.Sym
+
+	nilSafety *nilSafetyContext
 }
 
 // A readerDict represents an instantiated "compile-time dictionary,"
@@ -1810,6 +1812,9 @@ func (r *reader) stmt1(tag codeStmt, out *ir.Nodes) ir.Node {
 		rhs := r.expr()
 		return ir.NewAssignOpStmt(pos, op, lhs, rhs)
 
+	case stmtCoalesceAssign:
+		return r.coalesceAssign()
+
 	case stmtIncDec:
 		op := r.op()
 		lhs := r.expr()
@@ -2243,6 +2248,19 @@ func (r *reader) expr() (res ir.Node) {
 
 	case exprCond:
 		return r.condExpr()
+
+	case exprSafeNav:
+		return r.safeNavExpr()
+
+	case exprNilGuard:
+		return r.nilGuardExpr()
+
+	case exprCoalesce:
+		return r.coalesceExpr()
+
+	case exprNilValue:
+		assert(r.nilSafety != nil && r.nilSafety.value != nil)
+		return r.nilSafety.value
 
 	case exprCompLit:
 		return r.compLit()

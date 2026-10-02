@@ -16,6 +16,7 @@ type builder struct {
 	blocks    []*Block
 	mayReturn func(*ast.CallExpr) bool
 	current   *Block
+	nilAbsent *Block             // short-circuit target of the active safe-navigation chain
 	lblocks   map[string]*lblock // labeled blocks
 	targets   *targets           // linked stack of branch targets
 }
@@ -508,8 +509,50 @@ func (b *builder) add(n ast.Node) {
 	// short-circuiting of && and ||.
 	ast.Inspect(n, func(node ast.Node) bool {
 		switch e := node.(type) {
-		case *ast.FuncLit:
+		case *ast.FuncLit, *ast.LambdaExpr:
 			return false
+		case *ast.SafeNavExpr:
+			done := b.newBlock(KindNilDone, nil)
+			saved := b.nilAbsent
+			b.nilAbsent = done
+			b.add(e.X)
+			b.nilAbsent = saved
+			b.jump(done)
+			b.current = done
+			return false
+		case *ast.NilGuardExpr:
+			b.add(e.X)
+			present := b.newBlock(KindNilPresent, nil)
+			if b.nilAbsent == nil {
+				panic("nil guard outside safe chain")
+			}
+			b.ifelse(present, b.nilAbsent)
+			b.current = present
+			return false
+		case *ast.BinaryExpr:
+			if e.Op == token.COALESCE {
+				fallback := b.newBlock(KindNilFallback, nil)
+				done := b.newBlock(KindNilDone, nil)
+				b.addNilOperand(e.X, fallback)
+				b.ifelse(done, fallback)
+				b.current = fallback
+				b.add(e.Y)
+				b.jump(done)
+				b.current = done
+				return false
+			}
+		case *ast.AssignStmt:
+			if e.Tok == token.COALESCE_ASSIGN {
+				b.add(e.Lhs[0])
+				fallback := b.newBlock(KindNilFallback, e)
+				done := b.newBlock(KindNilDone, e)
+				b.ifelse(done, fallback)
+				b.current = fallback
+				b.add(e.Rhs[0])
+				b.jump(done)
+				b.current = done
+				return false
+			}
 		case *ast.ErrorExpr:
 			b.add(e.X)
 			handler := b.newBlock(KindErrorHandler, nil)
@@ -547,6 +590,27 @@ func (b *builder) add(n ast.Node) {
 		return true
 	})
 	b.current.Nodes = append(b.current.Nodes, n)
+}
+
+// addNilOperand preserves the absent edge through the left operand of ??.
+// A guard failure goes directly to the fallback, without evaluating the rest
+// of the chain or a guarded dereference. With no type information, the caller
+// conservatively also allows a present result to be nil.
+func (b *builder) addNilOperand(e ast.Expr, absent *Block) {
+	switch e := ast.Unparen(e).(type) {
+	case *ast.SafeNavExpr:
+		saved := b.nilAbsent
+		b.nilAbsent = absent
+		b.add(e.X)
+		b.nilAbsent = saved
+	case *ast.StarExpr:
+		b.addNilOperand(e.X, absent)
+		present := b.newBlock(KindNilPresent, nil)
+		b.ifelse(present, absent)
+		b.current = present
+	default:
+		b.add(e)
+	}
 }
 
 // jump adds an edge from the current block to the target block,

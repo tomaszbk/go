@@ -138,7 +138,7 @@ func errorFlowToolchains(t *testing.T) []errorFlowToolchain {
 		{name: "legacy", variant: "legacy", goTool: goTool, toolexec: toolexec},
 		{name: "modern", variant: "modern", goTool: goTool, toolexec: toolexec},
 	}
-	if baseline := os.Getenv("GO_ERROR_HANDLING_BASELINE"); baseline != "" {
+	if baseline := coverageBaseline(); baseline != "" {
 		// An unmodified toolchain, with its own compiler and cover tool,
 		// runs the legacy implementation and must agree with this fork.
 		var env []string
@@ -155,6 +155,13 @@ func errorFlowToolchains(t *testing.T) []errorFlowToolchain {
 		tcs = append(tcs, errorFlowToolchain{name: "baseline", variant: "legacy", goTool: baseline, env: env})
 	}
 	return tcs
+}
+
+func coverageBaseline() string {
+	if baseline := os.Getenv("GON_BASELINE_GO"); baseline != "" {
+		return baseline
+	}
+	return os.Getenv("GO_ERROR_HANDLING_BASELINE")
 }
 
 // command returns a command running the toolchain's go command in dir.
@@ -177,14 +184,14 @@ func (tc errorFlowToolchain) command(t *testing.T, dir string, args ...string) *
 // scenario: the same tests run against both and their coverage profiles must
 // report the same outcome for every statement, in all cover modes. The legacy
 // version is also run with the unmodified toolchain named by
-// GO_ERROR_HANDLING_BASELINE, if set.
+// GON_BASELINE_GO (or the older GO_ERROR_HANDLING_BASELINE), if set.
 func TestErrorFlowCoverage(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 	testenv.MustHaveExec(t)
 	t.Parallel()
 
-	if os.Getenv("GO_ERROR_HANDLING_BASELINE") == "" {
-		t.Log("GO_ERROR_HANDLING_BASELINE is not set; not running the legacy version with an unmodified toolchain")
+	if coverageBaseline() == "" {
+		t.Log("GON_BASELINE_GO is not set; not running the legacy version with an unmodified toolchain")
 	}
 	modes := errorFlowModes
 	if testing.Short() {

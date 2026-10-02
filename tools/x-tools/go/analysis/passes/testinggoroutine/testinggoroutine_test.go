@@ -20,3 +20,7 @@ func Test(t *testing.T) {
 	pkgs := []string{"a", "typeparams"}
 	analysistest.Run(t, testdata, testinggoroutine.Analyzer, pkgs...)
 }
+
+func TestGon(t *testing.T) {
+	analysistest.Run(t, analysistest.TestData(), testinggoroutine.Analyzer, "gon")
+}

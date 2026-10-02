@@ -1095,7 +1095,7 @@ func (check *Checker) rawExpr(T *target, x *operand, e ast.Expr, allowGeneric bo
 	}
 
 	// Only conditional expressions see a condOnlyTarget.
-	if T != nil && T.kind == condOnlyTarget && !isCondExpr(e) {
+	if T != nil && T.kind == condOnlyTarget && !isTargetExpr(e) {
 		T = nil
 	}
 
@@ -1166,6 +1166,11 @@ func (check *Checker) exprInternal(T *target, x *operand, e ast.Expr) exprKind {
 			goto Error
 		}
 
+	case *ast.LambdaExpr:
+		check.lambdaExpr(T, x, e)
+		if !x.isValid() {
+			goto Error
+		}
 	case *ast.FuncLit:
 		check.funcLit(x, e)
 		if !x.isValid() {
@@ -1182,7 +1187,7 @@ func (check *Checker) exprInternal(T *target, x *operand, e ast.Expr) exprKind {
 		// type inference doesn't go past parentheses (target types T/U = nil),
 		// but a parenthesized conditional expression keeps its target: the
 		// target determines the conversions of its branches.
-		if _, ok := ast.Unparen(e.X).(*ast.CondExpr); !ok {
+		if _, ok := ast.Unparen(e.X).(*ast.CondExpr); !ok && !isNilTargetExpr(e.X) {
 			T = nil
 		}
 		kind := check.rawExpr(T, x, e.X, false)
@@ -1245,6 +1250,10 @@ func (check *Checker) exprInternal(T *target, x *operand, e ast.Expr) exprKind {
 	case *ast.ErrorExpr:
 		return check.errorExpr(x, e)
 
+	case *ast.NilGuardExpr:
+		check.nilGuard(x, e)
+	case *ast.SafeNavExpr:
+		return check.safeNavExpr(T, x, e, false)
 	case *ast.CondExpr:
 		check.condExpr(T, x, e)
 		if !x.isValid() {
@@ -1298,6 +1307,10 @@ func (check *Checker) exprInternal(T *target, x *operand, e ast.Expr) exprKind {
 		}
 
 	case *ast.BinaryExpr:
+		if e.Op == token.COALESCE {
+			check.coalesceExpr(T, x, e)
+			break
+		}
 		check.binary(x, e, e.X, e.Y, e.Op, e.OpPos)
 		if !x.isValid() {
 			goto Error

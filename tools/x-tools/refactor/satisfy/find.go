@@ -399,6 +399,21 @@ func (f *Finder) expr(e ast.Expr) types.Type {
 		f.expr(e.Cond)
 		f.assign(tv.Type, f.expr(e.Then))
 		f.assign(tv.Type, f.expr(e.Else))
+	case *ast.NilGuardExpr:
+		f.expr(e.X)
+	case *ast.SafeNavExpr:
+		f.assign(tv.Type, f.expr(e.X))
+	case *ast.LambdaExpr:
+		saved := f.sig
+		f.sig, _ = tv.Type.(*types.Signature)
+		if e.Block != nil {
+			f.stmt(e.Block)
+		} else if f.sig.Results().Len() == 0 {
+			f.expr(e.Body)
+		} else {
+			f.stmt(&ast.ReturnStmt{Return: e.Arrow, Results: []ast.Expr{e.Body}})
+		}
+		f.sig = saved
 
 	case *ast.FuncLit:
 		saved := f.sig
@@ -550,6 +565,10 @@ func (f *Finder) expr(e ast.Expr) types.Type {
 	case *ast.BinaryExpr:
 		x := f.expr(e.X)
 		y := f.expr(e.Y)
+		if e.Op == token.COALESCE {
+			f.assign(tv.Type, x)
+			f.assign(tv.Type, y)
+		}
 		if e.Op == token.EQL || e.Op == token.NEQ {
 			f.compare(x, y)
 		}
@@ -607,7 +626,7 @@ func (f *Finder) stmt(s ast.Stmt) {
 
 	case *ast.AssignStmt:
 		switch s.Tok {
-		case token.ASSIGN, token.DEFINE:
+		case token.ASSIGN, token.DEFINE, token.COALESCE_ASSIGN:
 			// y := x   or   y = x
 			var rhsTuple types.Type
 			if len(s.Lhs) != len(s.Rhs) {

@@ -25,7 +25,7 @@ func TestGonAnalyzers(t *testing.T) {
 	if err := os.WriteFile(filepath.Join(dir, "go.mod"), []byte("module example.com/gonanalysis\n\ngo 1.26\n"), 0600); err != nil {
 		t.Fatal(err)
 	}
-	for _, name := range []string{"legacy", "modern", "conditional_legacy", "conditional_modern"} {
+	for _, name := range []string{"legacy", "modern", "conditional_legacy", "conditional_modern", "features_legacy", "features_modern"} {
 		content, err := os.ReadFile(filepath.Join(root, "misc/gon/analysisfixtures", name+".go"))
 		if err != nil {
 			t.Fatal(err)

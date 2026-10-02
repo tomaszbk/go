@@ -37,6 +37,7 @@ func run(pass *analysis.Pass) (any, error) {
 	nodeFilter := []ast.Node{
 		(*ast.FuncDecl)(nil),
 		(*ast.FuncLit)(nil),
+		(*ast.LambdaExpr)(nil),
 	}
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
 		var body *ast.BlockStmt
@@ -45,6 +46,8 @@ func run(pass *analysis.Pass) (any, error) {
 			body = n.Body
 		case *ast.FuncLit:
 			body = n.Body
+		case *ast.LambdaExpr:
+			body = n.Block
 		}
 		if body == nil {
 			return

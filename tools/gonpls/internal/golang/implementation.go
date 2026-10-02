@@ -961,6 +961,7 @@ func implFuncs(pkg *cache.Package, curSel inspector.Cursor, start, end token.Pos
 	for cur := range curSel.Enclosing(
 		(*ast.FuncDecl)(nil),
 		(*ast.FuncLit)(nil),
+		(*ast.LambdaExpr)(nil),
 		(*ast.FuncType)(nil),
 		(*ast.CallExpr)(nil),
 	) {
@@ -977,6 +978,13 @@ func implFuncs(pkg *cache.Package, curSel inspector.Cursor, start, end token.Pos
 				}
 			}
 
+		case *ast.LambdaExpr:
+			if inToken(n.Arrow, "=>", start, end) {
+				if typ := info.TypeOf(n); typ != nil {
+					return funcUses(pkg, typ)
+				}
+				return nil, nil
+			}
 		case *ast.FuncType:
 			if n.Func.IsValid() && inToken(n.Func, "func", start, end) && !beneathFuncDef(cur) {
 				// Case 2a: function type.
@@ -1051,21 +1059,24 @@ func funcDefs(pkg *cache.Package, t types.Type) ([]protocol.Location, error) {
 
 	// local search
 	for _, pgf := range pkg.CompiledGoFiles() {
-		for curFn := range pgf.Cursor().Preorder((*ast.FuncDecl)(nil), (*ast.FuncLit)(nil)) {
+		for curFn := range pgf.Cursor().Preorder((*ast.FuncDecl)(nil), (*ast.FuncLit)(nil), (*ast.LambdaExpr)(nil)) {
 			fn := curFn.Node()
 			var ftyp types.Type
 			switch fn := fn.(type) {
 			case *ast.FuncDecl:
 				ftyp = pkg.TypesInfo().Defs[fn.Name].Type()
-			case *ast.FuncLit:
-				ftyp = pkg.TypesInfo().TypeOf(fn)
+			case *ast.FuncLit, *ast.LambdaExpr:
+				ftyp = pkg.TypesInfo().TypeOf(fn.(ast.Expr))
 			}
 			if ftyp == nil {
 				continue // missing type information
 			}
 			if unify(t, ftyp, nil) {
-				pos := fn.Pos()
-				loc, err := pgf.PosLocation(pos, pos+token.Pos(len("func")))
+				pos, length := fn.Pos(), token.Pos(len("func"))
+				if l, ok := fn.(*ast.LambdaExpr); ok {
+					pos, length = l.Arrow, 2
+				}
+				loc, err := pgf.PosLocation(pos, pos+length)
 				if err != nil {
 					return nil, err
 				}

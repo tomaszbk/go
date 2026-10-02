@@ -879,7 +879,15 @@ func (p *parser) binaryExpr(x Expr, prec int) Expr {
 		tprec := p.prec
 		p.next()
 		t.X = x
+		if t.Op == Coalesce {
+			tprec--
+		}
 		t.Y = p.binaryExpr(nil, tprec)
+		for _, child := range []Expr{t.X, t.Y} {
+			if b, ok := child.(*Operation); ok && b.Y != nil && (t.Op == Coalesce) != (b.Op == Coalesce) {
+				p.errorAt(t.pos, "cannot mix ?? and "+b.Op.String()+" without parentheses")
+			}
+		}
 		x = t
 	}
 	return x
@@ -1022,9 +1030,44 @@ func (p *parser) operand(keep_parens bool) Expr {
 		pos := p.pos()
 		p.next()
 		p.xnest++
-		x := p.expr()
+		var x Expr
+		var params []Expr
+		if p.tok != _Rparen {
+			x = p.expr()
+			params = append(params, x)
+		}
+		list := p.tok == _Comma || x == nil
+		for p.got(_Comma) {
+			if p.tok == _Rparen {
+				break
+			}
+			params = append(params, p.expr())
+		}
 		p.xnest--
+		rparen := p.pos()
 		p.want(_Rparen)
+		if p.tok == _FatArrow || list {
+			f := new(LambdaExpr)
+			f.pos, f.Rparen, f.Arrow = pos, rparen, p.pos()
+			for _, q := range params {
+				n, ok := q.(*Name)
+				if !ok {
+					p.errorAt(q.Pos(), "lambda parameter must be an identifier")
+					n = NewName(q.Pos(), "_")
+				}
+				f.Params = append(f.Params, n)
+			}
+			p.want(_FatArrow)
+			if p.tok == _Lbrace {
+				p.xnest++
+				f.Block = p.funcBody()
+				p.xnest--
+			} else {
+				f.Body = p.expr()
+			}
+			return f
+		}
+		keep_parens = true
 
 		// Optimization: Record presence of ()'s only where needed
 		// for error reporting. Don't bother in other cases; it is
@@ -1281,6 +1324,7 @@ func (p *parser) pexpr(x Expr, keep_parens bool) Expr {
 		x = p.operand(keep_parens)
 	}
 
+	chain := false
 loop:
 	for {
 		pos := p.pos()
@@ -1319,6 +1363,18 @@ loop:
 					p.errorAt(e.Pos, e.Msg)
 				})
 			}
+			x = t
+
+		case _SafeDot:
+			g := new(NilGuardExpr)
+			g.pos, g.Question, g.X = x.Pos(), pos, x
+			p.next()
+			chain = true
+			if p.tok != _Name {
+				p.syntaxError("?. must be followed by a field or method name")
+			}
+			t := new(SelectorExpr)
+			t.pos, t.X, t.Sel = pos, g, p.name()
 			x = t
 
 		case _Dot:
@@ -1414,7 +1470,13 @@ loop:
 			p.want(_Rbrack)
 			x = t
 
-		case _Lparen:
+		case _Lparen, _SafeLparen:
+			if p.tok == _SafeLparen {
+				g := new(NilGuardExpr)
+				g.pos, g.Question, g.X = x.Pos(), pos, x
+				x = g
+				chain = true
+			}
 			t := new(CallExpr)
 			t.pos = pos
 			p.next()
@@ -1459,13 +1521,18 @@ loop:
 		}
 	}
 
+	if chain {
+		t := new(SafeNavExpr)
+		t.pos, t.X = x.Pos(), x
+		x = t
+	}
 	return x
 }
 
 // isValue reports whether x syntactically must be a value (and not a type) expression.
 func isValue(x Expr) bool {
 	switch x := x.(type) {
-	case *BasicLit, *CompositeLit, *FuncLit, *SliceExpr, *AssertExpr, *TypeSwitchGuard, *CallExpr, *ErrorExpr, *CondExpr:
+	case *BasicLit, *CompositeLit, *FuncLit, *SliceExpr, *AssertExpr, *TypeSwitchGuard, *CallExpr, *ErrorExpr, *CondExpr, *LambdaExpr, *SafeNavExpr, *NilGuardExpr:
 		return true
 	case *Operation:
 		return x.Op != Mul || x.Y != nil // *T may be a type

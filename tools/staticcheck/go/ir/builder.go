@@ -664,6 +664,15 @@ func (b *builder) expr0(fn *Function, e ast.Expr, tv types.TypeAndValue) Value {
 
 	case *ast.CondExpr:
 		return b.condExpr(fn, e, tv)
+	case *ast.NilGuardExpr:
+		v := b.expr(fn, e.X)
+		if fn.nilAbsent == nil {
+			panic("nil guard outside safe chain")
+		}
+		b.nilPresent(fn, v, fn.nilAbsent, e)
+		return v
+	case *ast.SafeNavExpr:
+		return b.safeNav(fn, e, false)
 
 	case *ast.BasicLit:
 		panic("non-constant BasicLit") // unreachable
@@ -674,6 +683,42 @@ func (b *builder) expr0(fn *Function, e ast.Expr, tv types.TypeAndValue) Value {
 			name:           fmt.Sprintf("%s$%d", fn.Name(), 1+len(fn.AnonFuncs)),
 			Signature:      fn.typeOf(e.Type).(*types.Signature),
 			pos:            e.Type.Func,
+			parent:         fn,
+			anonIdx:        int32(len(fn.AnonFuncs)),
+			Pkg:            fn.Pkg,
+			Prog:           fn.Prog,
+			syntax:         e,
+			info:           fn.info,
+			goversion:      fn.goversion,
+			build:          (*builder).buildFromSyntax,
+			topLevelOrigin: nil,           // use anonIdx to lookup an anon instance's origin.
+			typeparams:     fn.typeparams, // share the parent's type parameters.
+			typeargs:       fn.typeargs,   // share the parent's type arguments.
+			subst:          fn.subst,      // share the parent's type substitutions.
+		}
+		fn2.uniq = fn.uniq // start from parent's unique values
+		fn.AnonFuncs = append(fn.AnonFuncs, fn2)
+		// Build anon immediately, as it may cause fn's locals to escape.
+		// (It is not marked 'built' until the end of the enclosing FuncDecl.)
+		fn2.build(b, fn2)
+		fn.uniq = fn2.uniq // resume after anon's unique values
+		if fn2.FreeVars == nil {
+			return fn2
+		}
+		v := &MakeClosure{Fn: fn2}
+		v.setType(fn.typ(tv.Type))
+		for _, fv := range fn2.FreeVars {
+			v.Bindings = append(v.Bindings, fv.outer)
+			fv.outer = nil
+		}
+		return fn.emit(v, e)
+
+	case *ast.LambdaExpr:
+		/* function literal */
+		fn2 := &Function{
+			name:           fmt.Sprintf("%s$%d", fn.Name(), 1+len(fn.AnonFuncs)),
+			Signature:      fn.typeOf(e).(*types.Signature),
+			pos:            e.Lparen,
 			parent:         fn,
 			anonIdx:        int32(len(fn.AnonFuncs)),
 			Pkg:            fn.Pkg,
@@ -757,6 +802,8 @@ func (b *builder) expr0(fn *Function, e ast.Expr, tv types.TypeAndValue) Value {
 
 	case *ast.BinaryExpr:
 		switch e.Op {
+		case token.COALESCE:
+			return b.coalesce(fn, e)
 		case token.LAND, token.LOR:
 			return b.logicalBinop(fn, e)
 		case token.SHL, token.SHR:
@@ -3004,6 +3051,8 @@ start:
 	case *ast.ExprStmt:
 		if e, ok := unparen(s.X).(*ast.ErrorExpr); ok {
 			b.errorExpr(fn, e)
+		} else if e, ok := ast.Unparen(s.X).(*ast.SafeNavExpr); ok {
+			b.safeNav(fn, e, true)
 		} else {
 			b.expr(fn, s.X)
 		}
@@ -3026,6 +3075,8 @@ start:
 
 	case *ast.AssignStmt:
 		switch s.Tok {
+		case token.COALESCE_ASSIGN:
+			b.coalesceAssign(fn, s)
 		case token.ASSIGN, token.DEFINE:
 			b.assignStmt(fn, s.Lhs, s.Rhs, s.Tok == token.DEFINE, _s)
 
@@ -3275,6 +3326,8 @@ func (b *builder) buildFromSyntax(fn *Function) {
 	case *ast.FuncLit:
 		functype = syntax.Type
 		body = syntax.Body
+	case *ast.LambdaExpr:
+		functype, body = lambdaSyntax(syntax, fn.Signature)
 	case nil:
 		panic("no syntax")
 	default:

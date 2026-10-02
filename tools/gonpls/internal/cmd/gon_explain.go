@@ -101,6 +101,24 @@ func (r *gonRequest) explain(ctx context.Context) (gonResult, error) {
 			ex.Documentation = c.doc
 			ex.Summary = gonFirstSentence(c.doc)
 			ex.Source = fmt.Sprintf("%s:%d", codesFile, c.line)
+			if c.name == "InvalidLambda" {
+				ex.Cases = []gonCase{
+					{"lambda requires a function type from context", "A lambda takes its parameter and result types from its use.", "Use a typed declaration, assignment, argument or explicit function-type conversion; remove parentheses around the whole lambda."},
+					{"lambda parameters cannot have types; use a function literal", "Only parenthesized identifier parameters are supported.", "Write (x) => body, or use func(x T) R { ... } when spelling types."},
+				}
+				if doc := filepath.Join(root, "design", "lambda", "README.md"); gonExists(doc) {
+					ex.References = append(ex.References, doc)
+				}
+			}
+			if c.name == "InvalidNilSafety" {
+				ex.Cases = []gonCase{
+					{"cannot be nil; use ?? to provide a value when it is absent", "A safe-navigation chain may stop before producing a result whose type has no nil value.", "Consume the chain with ?? and supply a default."},
+					{"safe navigation requires a pointer or interface", "?. guards pointer or interface operands; ?( guards a function value.", "Use the guard corresponding to the operand, or explicit nil checks."},
+				}
+				if doc := filepath.Join(root, "design", "null-safety", "README.md"); gonExists(doc) {
+					ex.References = append(ex.References, doc)
+				}
+			}
 			if c.name == "InvalidErrorHandling" {
 				ex.Cases = gonErrorHandlingCases
 				if doc := filepath.Join(root, "design", "error-handling", "README.md"); gonExists(doc) {

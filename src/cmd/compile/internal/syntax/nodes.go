@@ -195,6 +195,24 @@ type (
 		expr
 	}
 
+	LambdaExpr struct {
+		Params        []*Name
+		Rparen, Arrow Pos
+		Body          Expr
+		Block         *BlockStmt
+		Lowered       *FuncLit
+		expr
+	}
+	NilGuardExpr struct {
+		X        Expr
+		Question Pos
+		expr
+	}
+	SafeNavExpr struct {
+		X Expr
+		expr
+	}
+
 	// (X)
 	ParenExpr struct {
 		X Expr

@@ -35,3 +35,5 @@ func TestNonConstantFmtString_Go124(t *testing.T) {
 	dir := testfiles.ExtractTxtarFileToTmp(t, filepath.Join(analysistest.TestData(), "nonconst_go124.txtar"))
 	analysistest.RunWithSuggestedFixes(t, dir, printf.Analyzer, "example.com/nonconst")
 }
+
+func TestGon(t *testing.T) { analysistest.Run(t, analysistest.TestData(), printf.Analyzer, "gon") }

@@ -27,3 +27,18 @@ func TestIsIdentifier(t *testing.T) {
 		})
 	}
 }
+
+func TestGonTokens(t *testing.T) {
+	// Existing public values must not move when additive tokens are introduced.
+	if TILDE != 88 || IDENT != 4 || ADD != 12 || VAR != 85 {
+		t.Fatal("legacy token values changed")
+	}
+	for _, tok := range []Token{FATARROW, SAFE_PERIOD, SAFE_LPAREN, COALESCE, COALESCE_ASSIGN} {
+		if !tok.IsOperator() || tok.IsKeyword() || tok.IsLiteral() {
+			t.Errorf("token classification: %v", tok)
+		}
+	}
+	if COALESCE.Precedence() != LOR.Precedence() || FATARROW.Precedence() != LowestPrec {
+		t.Fatal("invalid Gon precedence")
+	}
+}

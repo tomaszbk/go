@@ -41,6 +41,9 @@ func run(pass *analysis.Pass) (any, error) {
 			case *ast.FuncLit:
 				typ = fn.Type
 				body = fn.Body
+			case *ast.LambdaExpr:
+				typ = &ast.FuncType{Params: &ast.FieldList{List: []*ast.Field{{Names: fn.Params}}}}
+				body = fn.Block
 			}
 			if body == nil {
 				return true

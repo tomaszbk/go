@@ -73,6 +73,9 @@ const (
 	nValueSpec
 	nErrorExpr
 	nCondExpr
+	nLambdaExpr
+	nNilGuardExpr
+	nSafeNavExpr
 )
 
 // typeOf returns a distinct single-bit value that represents the type of n.
@@ -123,6 +126,12 @@ func typeOf(n ast.Node) uint64 {
 		return 1 << nErrorExpr
 	case *ast.CondExpr:
 		return 1 << nCondExpr
+	case *ast.LambdaExpr:
+		return 1 << nLambdaExpr
+	case *ast.NilGuardExpr:
+		return 1 << nNilGuardExpr
+	case *ast.SafeNavExpr:
+		return 1 << nSafeNavExpr
 	case *ast.CallExpr:
 		return 1 << nCallExpr
 	case *ast.CaseClause:

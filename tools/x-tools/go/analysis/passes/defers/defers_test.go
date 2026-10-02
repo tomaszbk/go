@@ -15,3 +15,5 @@ func Test(t *testing.T) {
 	testdata := analysistest.TestData()
 	analysistest.Run(t, testdata, defers.Analyzer, "a")
 }
+
+func TestGon(t *testing.T) { analysistest.Run(t, analysistest.TestData(), defers.Analyzer, "gon") }

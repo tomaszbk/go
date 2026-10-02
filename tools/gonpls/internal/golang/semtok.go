@@ -387,6 +387,14 @@ func (tv *tokenVisitor) inspect(n ast.Node) (descend bool) {
 		} else {
 			tv.token(n.Pos(), len(n.Value), semtok.TokNumber)
 		}
+	case *ast.LambdaExpr:
+		tv.token(n.Arrow, len("=>"), semtok.TokOperator)
+	case *ast.NilGuardExpr:
+		tv.token(n.Question, 2, semtok.TokOperator)
+	case *ast.SafeNavExpr:
+	case *ast.CondExpr:
+		tv.token(n.If, len("if"), semtok.TokKeyword)
+		tv.token(n.ElsePos, len("else"), semtok.TokKeyword)
 	case *ast.ErrorExpr:
 		if n.Body == nil {
 			tv.token(n.OpPos, 1, semtok.TokOperator)
@@ -767,10 +775,19 @@ func (tv *tokenVisitor) unkIdent(id *ast.Ident) (semtok.Type, []semtok.Modifier)
 	case *ast.BinaryExpr, *ast.UnaryExpr, *ast.ParenExpr, *ast.StarExpr,
 		*ast.IncDecStmt, *ast.SliceExpr, *ast.ExprStmt, *ast.IndexExpr,
 		*ast.ReturnStmt, *ast.ChanType, *ast.SendStmt,
-		*ast.ForStmt,      // possibly incomplete
-		*ast.IfStmt,       /* condition */
+		*ast.ForStmt, // possibly incomplete
+		*ast.IfStmt,  /* condition */
+		*ast.NilGuardExpr, *ast.SafeNavExpr,
+		*ast.CondExpr,     // condition or branch, possibly incomplete
 		*ast.KeyValueExpr, // either key or value
 		*ast.IndexListExpr:
+		return semtok.TokVariable, nil
+	case *ast.LambdaExpr:
+		for _, param := range parent.Params {
+			if param == id {
+				return semtok.TokParameter, def
+			}
+		}
 		return semtok.TokVariable, nil
 	case *ast.ErrorExpr:
 		if id == parent.Err {

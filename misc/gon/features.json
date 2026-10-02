@@ -6,12 +6,28 @@
     "pending": []
   },
   "conditional": {
-    "pending": [
-      "cgo: CondExpr traversal and paired execution",
-      "cover: paired conditional flow profiles",
-      "inliner: Gon control-flow bodies are deliberately declined",
-      "gonpls: semantic tokens, construct query, branch completion and extraction safety",
-      "spec: confirm implementation clarifications and publish feature validation"
+    "pending": [],
+    "limitations": [
+      "source inliner: Gon control-flow callee bodies and affected call sites are deliberately declined",
+      "extract variable: lazy branches and whole conditional expressions are deliberately declined",
+      "cgo: existing restriction on error propagation inside pointer-check rewritten C-call arguments still applies"
+    ]
+  },
+  "lambda": {
+    "pending": [],
+    "limitations": [
+      "source inliner: Gon control-flow callee bodies and affected call sites are deliberately declined",
+      "extract variable: lambdas and movement across their function/context boundaries are deliberately declined",
+      "lambda conversions: require accessible identical signatures; generic inference and unsupported source contexts are declined",
+      "coverage: expression bodies count with their enclosing statement; block bodies have ordinary function counters"
+    ]
+  },
+  "nullsafety": {
+    "pending": [],
+    "limitations": [
+      "source inliner and variable extraction: affected lazy expressions and call sites are deliberately declined",
+      "cgo: existing restriction on error propagation inside pointer-check rewritten C-call arguments still applies",
+      "operators provide runtime nil conveniences, not static non-null guarantees or Option types"
     ]
   }
 }

@@ -412,6 +412,14 @@ func canExtractVariable(info *types.Info, curFile inspector.Cursor, start, end t
 		// e.g. type, builtin, x.(type), 2-valued m[k], or ill-typed
 		return nil, fmt.Errorf("selection is not a single-valued expression")
 	}
+	if unsupportedGonExtraction(expr) {
+		return nil, fmt.Errorf("cannot extract a lambda or nil-safety expression without preserving its target and evaluation order")
+	}
+	if _, ok := ast.Unparen(expr).(*ast.CondExpr); ok {
+		// A fresh := loses the contextual target type, which can change
+		// branch conversions (notably nil converted to an interface).
+		return nil, fmt.Errorf("cannot extract a conditional expression without preserving its target type")
+	}
 
 	var curExprs []inspector.Cursor
 	if !all {
@@ -479,6 +487,34 @@ func canExtractVariable(info *types.Info, curFile inspector.Cursor, start, end t
 	//   x := *newVar + 1
 	//   *newVar = 2
 	for _, curExpr := range curExprs {
+		for cur := curExpr; cur.Node() != nil; cur = cur.Parent() {
+			if _, ok := cur.Node().(*ast.LambdaExpr); ok {
+				if cur.ParentEdgeKind() != edge.LambdaExpr_Block && curExpr.ParentEdgeKind() == edge.LambdaExpr_Body {
+					return nil, fmt.Errorf("cannot extract from a lambda expression body")
+				}
+				if !all {
+					break
+				}
+			}
+			if _, ok := cur.Node().(*ast.FuncLit); ok && !all {
+				break
+			}
+			if n, ok := cur.Node().(*ast.SafeNavExpr); ok && n != expr {
+				return nil, fmt.Errorf("cannot extract from a safe-navigation chain")
+			}
+			if n, ok := cur.Node().(*ast.BinaryExpr); ok && n.Op == token.COALESCE {
+				return nil, fmt.Errorf("cannot extract from a nil-coalescing operand")
+			}
+			switch cur.ParentEdgeKind() {
+			case edge.LambdaExpr_Body:
+				return nil, fmt.Errorf("cannot extract from a lambda expression body")
+			case edge.CondExpr_Then, edge.CondExpr_Else:
+				// Branch braces hold expressions, not statements. Hoisting
+				// into the enclosing scope would eagerly evaluate this branch.
+				// Check every occurrence for extract-all, not just the selection.
+				return nil, fmt.Errorf("cannot extract from a lazy conditional expression branch")
+			}
+		}
 		switch curExpr.ParentEdgeKind() {
 		case edge.AssignStmt_Lhs:
 			return nil, fmt.Errorf("node %T is in LHS of an AssignStmt", expr)
@@ -1003,7 +1039,7 @@ func extractFunctionMethod(cpkg *cache.Package, pgf *parsego.File, start, end to
 				if isFreeBranchStmt(append(stack, n), extractedBlock) {
 					branchStmts = append(branchStmts, n)
 				}
-			case *ast.FuncLit:
+			case *ast.FuncLit, *ast.LambdaExpr:
 				// Don't descend into nested functions.
 				return false
 			}
@@ -1512,6 +1548,15 @@ func canExtractFunction(curFile inspector.Cursor, start, end token.Pos) (*fnExtr
 		return nil, false, false, err
 	}
 
+	for c := range curEnclosing.Enclosing() {
+		if _, ok := c.Node().(*ast.LambdaExpr); ok {
+			return nil, false, false, fmt.Errorf("function extraction inside a lambda requires preserving its inferred signature")
+		}
+	}
+	if unsupportedGonExtraction(curEnclosing.Node()) {
+		return nil, false, false, fmt.Errorf("function extraction containing lambda or nil-safety syntax is unavailable")
+	}
+
 	// Node that encloses the selection must be a statement.
 	// TODO: Support function extraction for an expression.
 	if !is[ast.Stmt](curEnclosing.Node()) {
@@ -1774,7 +1819,8 @@ func adjustReturnStatements(returnTypes []*ast.Field, seenVars map[types.Object]
 			return false
 		}
 		// Don't modify return statements inside anonymous functions.
-		if _, ok := n.(*ast.FuncLit); ok {
+		switch n.(type) {
+		case *ast.FuncLit, *ast.LambdaExpr:
 			return false
 		}
 		if n, ok := n.(*ast.ReturnStmt); ok {
@@ -2018,4 +2064,25 @@ func isFreeBranchStmt(stack []ast.Node, extractedBlock *ast.BlockStmt) bool {
 	}
 	// We didn't find the relevant ancestor on the path, so this must be a free branch statement.
 	return true
+}
+
+// unsupportedGonExtraction rejects transformations that would need to preserve
+// contextual typing, absence, or lazy evaluation beyond the extractor's model.
+func unsupportedGonExtraction(n ast.Node) bool {
+	found := false
+	ast.Inspect(n, func(n ast.Node) bool {
+		if found {
+			return false
+		}
+		switch n := n.(type) {
+		case *ast.LambdaExpr, *ast.NilGuardExpr, *ast.SafeNavExpr:
+			found = true
+		case *ast.BinaryExpr:
+			found = n.Op == token.COALESCE
+		case *ast.AssignStmt:
+			found = n.Tok == token.COALESCE_ASSIGN
+		}
+		return !found
+	})
+	return found
 }

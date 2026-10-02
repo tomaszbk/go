@@ -281,6 +281,14 @@ func (a *application) apply(parent ast.Node, name string, iter *iterator, n ast.
 		a.apply(n, "Cond", nil, n.Cond)
 		a.apply(n, "Then", nil, n.Then)
 		a.apply(n, "Else", nil, n.Else)
+	case *ast.LambdaExpr:
+		a.applyList(n, "Params")
+		a.apply(n, "Body", nil, n.Body)
+		a.apply(n, "Block", nil, n.Block)
+	case *ast.NilGuardExpr:
+		a.apply(n, "X", nil, n.X)
+	case *ast.SafeNavExpr:
+		a.apply(n, "X", nil, n.X)
 
 	case *ast.StarExpr:
 		a.apply(n, "X", nil, n.X)

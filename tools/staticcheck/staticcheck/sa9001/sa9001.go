@@ -45,7 +45,7 @@ func run(pass *analysis.Pass) (any, error) {
 			switch stmt := node.(type) {
 			case *ast.DeferStmt:
 				stmts = append(stmts, stmt)
-			case *ast.FuncLit:
+			case *ast.FuncLit, *ast.LambdaExpr:
 				// Don't look into function bodies
 				return false
 			case *ast.ReturnStmt:

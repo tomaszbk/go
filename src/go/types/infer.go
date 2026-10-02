@@ -7,6 +7,7 @@ package types
 
 import (
 	"fmt"
+	"go/ast"
 	"go/token"
 	"slices"
 	"strings"
@@ -151,6 +152,13 @@ func (check *Checker) infer(posn positioner, tparams []*TypeParam, targs []Type,
 
 	// indices of generic parameters with untyped arguments, for later use
 	var untyped []int
+	pending := make(map[int]*ast.LambdaExpr)
+	type lambdaResult struct {
+		sig    *Signature
+		values []*operand
+	}
+	lambdaResults := make(map[int]lambdaResult)
+	lambdaUntyped := make(map[*TypeParam][]*operand)
 
 	// --- 1 ---
 	// use information from function arguments
@@ -161,6 +169,10 @@ func (check *Checker) infer(posn positioner, tparams []*TypeParam, targs []Type,
 	}
 
 	for i, arg := range args {
+		if e, ok := arg.expr.(*ast.LambdaExpr); ok && check.lambdaTypes[e] == nil {
+			pending[i] = e
+			continue
+		}
 		if !arg.isValid() {
 			// An error was reported earlier. Ignore this arg
 			// and continue, we may still be able to infer all
@@ -306,9 +318,146 @@ func (check *Checker) infer(posn positioner, tparams []*TypeParam, targs []Type,
 			}
 		}
 
-		if u.unknowns() == nn {
-			break // no progress
+		// Process context-sensitive lambdas in argument order after constraints.
+		subst := func(t Type) Type {
+			known := u.inferred(tparams)
+			killCycles(tparams, known)
+			smap := makeSubstMap(tparams, known)
+			for range len(tparams) + 1 {
+				t = check.subst(nopos, t, smap, nil, check.context())
+			}
+			return t
 		}
+		unknown := func(t Type) bool { return isParameterized(tparams, subst(t)) }
+		progressed := false
+		for index := range args {
+			e := pending[index]
+			if e == nil {
+				continue
+			}
+			target := subst(params.At(index).typ)
+			core, _ := commonUnder(target, nil)
+			if core != nil {
+				core = subst(core)
+			}
+			fsig, _ := core.(*Signature)
+			if fsig == nil || unknown(fsig.params) || e.Block != nil && unknown(fsig.results) {
+				continue
+			}
+			if len(e.Params) != fsig.params.Len() {
+				err.addf(e, "lambda has %d parameters, but %s has %d", len(e.Params), fsig, fsig.params.Len())
+				return nil
+			}
+			sig := check.lambdaSignature(e, fsig)
+			if !unknown(fsig.results) {
+				check.finishLambda(e, sig, false)
+				if !u.unify(params.At(index).typ, sig, assign) {
+					errorf(params.At(index).typ, sig, args[index])
+					return nil
+				}
+			} else {
+				values := check.inferLambda(e, sig)
+				if len(values) != sig.results.Len() {
+					err.addf(e, "lambda body has %d results; want %d", len(values), sig.results.Len())
+					return nil
+				}
+				for j, v := range values {
+					if !v.isValid() {
+						return nil
+					}
+					rt := subst(sig.results.At(j).typ)
+					if isUntyped(v.typ()) {
+						if tp, ok := rt.(*TypeParam); ok && !v.isNil() {
+							lambdaUntyped[tp] = append(lambdaUntyped[tp], v)
+						}
+					} else if !u.unify(rt, v.typ(), assign) {
+						errorf(rt, v.typ(), v)
+						return nil
+					}
+				}
+				lambdaResults[index] = lambdaResult{sig, values}
+			}
+			args[index].typ_ = sig
+			delete(pending, index)
+			progressed = true
+		}
+		if progressed || u.unknowns() != nn {
+			continue
+		}
+		if len(pending) > 0 {
+			// Default only the inputs (and block outputs) still blocking a lambda.
+			needed := make(map[*TypeParam]bool)
+			for index, e := range pending {
+				core, _ := commonUnder(subst(params.At(index).typ), nil)
+				sig, _ := core.(*Signature)
+				if sig == nil {
+					continue
+				}
+				for _, tp := range tparams {
+					if u.at(tp) == nil && (isParameterized([]*TypeParam{tp}, subst(sig.params)) || e.Block != nil && isParameterized([]*TypeParam{tp}, subst(sig.results))) {
+						needed[tp] = true
+					}
+				}
+			}
+			defaults := make(map[*TypeParam]Type)
+			for _, index := range untyped {
+				tp := params.At(index).typ.(*TypeParam)
+				if needed[tp] {
+					t := args[index].typ()
+					if old := defaults[tp]; old != nil {
+						t = maxType(old, t)
+					}
+					if t != nil {
+						defaults[tp] = t
+					}
+				}
+			}
+			for tp, vals := range lambdaUntyped {
+				if needed[tp] {
+					for _, v := range vals {
+						t := v.typ()
+						if old := defaults[tp]; old != nil {
+							t = maxType(old, t)
+						}
+						if t != nil {
+							defaults[tp] = t
+						}
+					}
+				}
+			}
+			for tp, t := range defaults {
+				u.set(tp, Default(t))
+				progressed = true
+			}
+			if progressed {
+				continue
+			}
+			for index := range args {
+				e := pending[index]
+				if e == nil {
+					continue
+				}
+				core, _ := commonUnder(subst(params.At(index).typ), nil)
+				hint, _ := core.(*Signature)
+				invalids := make([]Type, len(tparams))
+				for j, tp := range tparams {
+					invalids[j] = u.at(tp)
+					if invalids[j] == nil {
+						invalids[j] = Typ[Invalid]
+					}
+				}
+				if hint != nil {
+					hint = check.subst(nopos, hint, makeSubstMap(tparams, invalids), nil, check.context()).(*Signature)
+				}
+				check.recoverLambda(e, hint)
+				if err.empty() {
+					err.addf(e, "cannot infer type arguments needed for lambda parameters or block-bodied lambda results at argument %d", index+1)
+				}
+			}
+			return nil
+		}
+		break
+
 	}
 
 	if traceInference {
@@ -348,6 +497,26 @@ func (check *Checker) infer(posn positioner, tparams []*TypeParam, targs []Type,
 			maxUntyped[tpar] = max
 		}
 	}
+
+	for tp, values := range lambdaUntyped {
+		if u.at(tp) != nil {
+			continue
+		}
+		if maxUntyped == nil {
+			maxUntyped = make(map[*TypeParam]Type)
+		}
+		for _, v := range values {
+			t := v.typ()
+			if old := maxUntyped[tp]; old != nil {
+				t = maxType(old, t)
+			}
+			if t == nil {
+				err.addf(v, "mismatched untyped lambda results")
+				return nil
+			}
+			maxUntyped[tp] = t
+		}
+	}
 	// maxUntyped contains the maximum untyped type for each type parameter
 	// which doesn't have a type yet. Set the respective default types.
 	for tpar, typ := range maxUntyped {
@@ -356,6 +525,25 @@ func (check *Checker) infer(posn positioner, tparams []*TypeParam, targs []Type,
 		u.set(tpar, d)
 	}
 
+	for index, r := range lambdaResults {
+		sig := r.sig
+		for j := range sig.results.Len() {
+			v := sig.results.At(j)
+			for range len(tparams) + 1 {
+				v.typ = check.subst(nopos, v.typ, makeSubstMap(tparams, u.inferred(tparams)), nil, check.context())
+			}
+		}
+		for j, v := range r.values {
+			check.assignment(v, sig.results.At(j).typ, "return statement")
+		}
+		e := args[index].expr.(*ast.LambdaExpr)
+		check.finishLambda(e, sig, true)
+		check.record(args[index])
+		if !u.unify(params.At(index).typ, sig, assign) {
+			errorf(params.At(index).typ, sig, args[index])
+			return nil
+		}
+	}
 	// --- simplify ---
 
 	// u.inferred(tparams) now contains the incoming type arguments plus any additional type

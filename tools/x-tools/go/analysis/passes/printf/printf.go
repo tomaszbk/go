@@ -185,7 +185,7 @@ func findPrintLike(pass *analysis.Pass, res *Result) {
 		wrappers []*wrapper
 		byObj    = make(map[types.Object]*wrapper)
 	)
-	for cur := range inspect.Root().Preorder((*ast.FuncDecl)(nil), (*ast.FuncLit)(nil), (*ast.InterfaceType)(nil)) {
+	for cur := range inspect.Root().Preorder((*ast.FuncDecl)(nil), (*ast.FuncLit)(nil), (*ast.LambdaExpr)(nil), (*ast.InterfaceType)(nil)) {
 
 		// addWrapper records that a func (or var representing
 		// a FuncLit) is a potential print{,f} wrapper.
@@ -223,7 +223,7 @@ func findPrintLike(pass *analysis.Pass, res *Result) {
 				addWrapper(fn, fn.Signature(), cur.ChildAt(edge.FuncDecl_Body, -1))
 			}
 
-		case *ast.FuncLit:
+		case *ast.FuncLit, *ast.LambdaExpr:
 			// anonymous function directly assigned to a variable:
 			//
 			//    var wrapf = func(format string, args ...any) {...}
@@ -258,8 +258,18 @@ func findPrintLike(pass *analysis.Pass, res *Result) {
 				}
 			}
 			if v != nil {
-				sig := info.TypeOf(f).(*types.Signature)
-				curBody := cur.ChildAt(edge.FuncLit_Body, -1)
+				sig := info.TypeOf(f.(ast.Expr)).(*types.Signature)
+				var curBody inspector.Cursor
+				switch f := f.(type) {
+				case *ast.FuncLit:
+					curBody = cur.ChildAt(edge.FuncLit_Body, -1)
+				case *ast.LambdaExpr:
+					if f.Block != nil {
+						curBody = cur.ChildAt(edge.LambdaExpr_Block, -1)
+					} else {
+						curBody = cur.ChildAt(edge.LambdaExpr_Body, -1)
+					}
+				}
 				addWrapper(v, sig, curBody)
 			}
 

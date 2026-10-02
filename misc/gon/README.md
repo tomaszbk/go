@@ -134,6 +134,49 @@ tokens for `!` and `or`. Diagnostics, hover, definitions, local rename, completi
 formatting, and import organization are covered by the stdio LSP regression.
 Normal parse/type errors remain errors; Gon syntax diagnostics are not hidden.
 
+Conditional expressions (`if c { a } else { b }`) also have keyword tokens,
+type queries, hover/navigation and completion in both branches and the boolean
+condition, including incomplete source. `gon query type` identifies them as
+`conditional-expression`. cgo preserves lazy evaluation and contextual argument
+types; coverage counts the enclosing statement, with separate counters for
+handlers and function bodies. Focused executable pairs check these integrations
+against ordinary Go.
+
+Lambdas use `(x) => expression` or `(x) => { statements }` and infer their
+signature from the receiving function type. For example:
+
+```go
+var twice func(int) int = (x) => x * 2
+slices.SortFunc(users, (a, b) => cmp.Compare(a.Name, b.Name))
+name := user?.Name ?? "guest"
+value := callback?(arg()) ?? 0
+config ??= defaults()
+```
+
+Safe navigation (`?.`, `?(`) skips the rest of its chain when its guarded
+operand is nil. Coalescing (`??`) evaluates a fallback only for absence or nil;
+`??=` stores only when the current value is nil. Zero and empty values remain
+present. Ordinary interface nil semantics are preserved. These operators do
+not add static non-null types or change ordinary Go nil behavior.
+
+The compiler, public parser/type checker, formatter, cgo, coverage, SSA and
+Staticcheck IR understand these constructs. Gonpls supports tokens, inferred
+parameter hints, hover, navigation, guarded completion and call signatures.
+Lambda/function-literal conversion actions preserve the signature and decline
+generic inference or source contexts where that cannot be proved. Converting
+a function literal to a lambda currently requires a direct typed declaration
+or assignment, without named results.
+`gon query type` distinguishes `lambda`, `nil-guard`, `safe-navigation` and
+`nil-coalescing`; `gon explain InvalidLambda` and `InvalidNilSafety` describe
+their diagnostics.
+
+Source inlining deliberately declines Gon control-flow callee bodies and
+affected call sites. Extract-variable actions decline lazy branches and whole
+conditional expressions, lambdas and nil-safety expressions, preserving
+evaluation order and target conversions.
+The existing cgo restriction on propagation/handlers within arguments requiring
+pointer-check rewriting also applies inside conditional expressions.
+
 The SSA and Staticcheck IR builders lower Gon error expressions to ordinary
 branches and returns, including named result resets, `defer`, typed-nil errors,
 multiple successful values and returns inside range-over-function loops.
@@ -148,6 +191,15 @@ with the new syntax. The server is an initial Gon adaptation, not a claim of
 complete compatibility with every gopls or third-party analysis feature.
 
 ## Regression checks
+
+Use `GON_BASELINE_GO=/absolute/path/to/unmodified/go` for current validation.
+Older test-specific environment names remain compatibility aliases. The
+conditional profile includes cgo/bootstrap adapters, coverage, editor query,
+extraction and LSP checks; select only checks affected by a change with
+`validate.py conditional --only CHECK`. See [VALIDATION.md](VALIDATION.md) for
+the exact focused commands used to close integration. The `lambda` and
+`nullsafety` profiles add paired execution, feature analyzer diagnostics and
+real LSP checks; use `--list` to inspect their focused commands.
 
 Compiler regression inputs under the selected toolchain's `GOROOT/test` are
 loaded as standalone files when they begin with a test-harness recipe such as

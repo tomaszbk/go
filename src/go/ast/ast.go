@@ -401,6 +401,29 @@ type (
 		Body  *BlockStmt // local error handler; nil for propagation
 	}
 
+	// A LambdaExpr is a contextually typed function literal. Exactly one of
+	// Body (an expression) or Block (a statement body) is non-nil.
+	LambdaExpr struct {
+		Lparen token.Pos // position of "("
+		Params []*Ident  // parameter names
+		Rparen token.Pos // position of ")"
+		Arrow  token.Pos // position of "=>"
+		Body   Expr
+		Block  *BlockStmt
+	}
+
+	// A NilGuardExpr marks the operand tested for nil before a selection or call.
+	// It occurs inside a SafeNavExpr and ends immediately after the "?".
+	NilGuardExpr struct {
+		X        Expr
+		Question token.Pos // position of "?" in "?." or "?("
+	}
+
+	// A SafeNavExpr delimits a whole short-circuiting safe-navigation chain.
+	SafeNavExpr struct {
+		X Expr
+	}
+
 	// A CondExpr node represents a conditional expression
 	// "if Cond { Then } else { Else }".
 	CondExpr struct {
@@ -531,6 +554,9 @@ func (x *SliceExpr) Pos() token.Pos      { return x.X.Pos() }
 func (x *TypeAssertExpr) Pos() token.Pos { return x.X.Pos() }
 func (x *CallExpr) Pos() token.Pos       { return x.Fun.Pos() }
 func (x *ErrorExpr) Pos() token.Pos      { return x.X.Pos() }
+func (x *LambdaExpr) Pos() token.Pos     { return x.Lparen }
+func (x *NilGuardExpr) Pos() token.Pos   { return x.X.Pos() }
+func (x *SafeNavExpr) Pos() token.Pos    { return x.X.Pos() }
 func (x *CondExpr) Pos() token.Pos       { return x.If }
 func (x *StarExpr) Pos() token.Pos       { return x.Star }
 func (x *UnaryExpr) Pos() token.Pos      { return x.OpPos }
@@ -580,6 +606,14 @@ func (x *ErrorExpr) End() token.Pos {
 	}
 	return x.OpPos + 1
 }
+func (x *LambdaExpr) End() token.Pos {
+	if x.Block != nil {
+		return x.Block.End()
+	}
+	return x.Body.End()
+}
+func (x *NilGuardExpr) End() token.Pos { return x.Question + 1 }
+func (x *SafeNavExpr) End() token.Pos  { return x.X.End() }
 func (x *CondExpr) End() token.Pos     { return x.ElseRbrace + 1 }
 func (x *StarExpr) End() token.Pos     { return x.X.End() }
 func (x *UnaryExpr) End() token.Pos    { return x.X.End() }
@@ -613,6 +647,9 @@ func (*SliceExpr) exprNode()      {}
 func (*TypeAssertExpr) exprNode() {}
 func (*CallExpr) exprNode()       {}
 func (*ErrorExpr) exprNode()      {}
+func (*LambdaExpr) exprNode()     {}
+func (*NilGuardExpr) exprNode()   {}
+func (*SafeNavExpr) exprNode()    {}
 func (*CondExpr) exprNode()       {}
 func (*StarExpr) exprNode()       {}
 func (*UnaryExpr) exprNode()      {}

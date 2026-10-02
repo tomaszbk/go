@@ -55,7 +55,7 @@ func NoEffects(info *types.Info, expr ast.Expr) bool {
 				}
 			}
 
-		case *ast.FuncLit:
+		case *ast.FuncLit, *ast.LambdaExpr:
 			// A FuncLit has no effects, but do not descend into it.
 			return false
 

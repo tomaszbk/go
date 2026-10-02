@@ -27,6 +27,10 @@ func prepareErrorPropagation(pkg *types2.Package, info *types2.Info, files []*sy
 			case *syntax.FuncLit:
 				visitFunc(n.Body, n.GetTypeInfo().Type.(*types2.Signature))
 				return false
+			case *syntax.LambdaExpr:
+				lit := n.Lowered
+				visitFunc(lit.Body, lit.GetTypeInfo().Type.(*types2.Signature))
+				return false
 			case *syntax.ErrorExpr:
 				if n.Body != nil {
 					break
@@ -83,6 +87,10 @@ func prepareErrorPropagation(pkg *types2.Package, info *types2.Info, files []*sy
 				return false
 			case *syntax.FuncLit:
 				visitFunc(n.Body, n.GetTypeInfo().Type.(*types2.Signature))
+				return false
+			case *syntax.LambdaExpr:
+				lit := n.Lowered
+				visitFunc(lit.Body, lit.GetTypeInfo().Type.(*types2.Signature))
 				return false
 			}
 			return true

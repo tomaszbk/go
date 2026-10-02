@@ -162,6 +162,10 @@ func (check *Checker) closeScope() {
 }
 
 func (check *Checker) suspendedCall(keyword string, call syntax.Expr) {
+	if _, ok := syntax.Unparen(call).(*syntax.SafeNavExpr); ok {
+		check.errorf(call, InvalidNilSafety, "expression in %s must not use safe navigation", keyword)
+		return
+	}
 	code := InvalidDefer
 	if keyword == "go" {
 		code = InvalidGo
@@ -439,7 +443,13 @@ func (check *Checker) stmt(ctxt stmtContext, s syntax.Stmt) {
 		// function and method calls and receive operations can appear
 		// in statement context. Such statements may be parenthesized."
 		var x operand
-		kind := check.rawExpr(nil, &x, s.X, false)
+		var kind exprKind
+		if chain, ok := syntax.Unparen(s.X).(*syntax.SafeNavExpr); ok {
+			kind = check.safeNavExpr(nil, &x, chain, true)
+			check.record(&x)
+		} else {
+			kind = check.rawExpr(nil, &x, s.X, false)
+		}
 		var msg string
 		var code Code
 		switch x.mode() {
@@ -508,6 +518,10 @@ func (check *Checker) stmt(ctxt stmtContext, s syntax.Stmt) {
 			return
 		}
 
+		if s.Op == syntax.Coalesce {
+			check.coalesceAssign(lhs[0], rhs[0])
+			return
+		}
 		var x operand
 		check.binary(&x, nil, lhs[0], rhs[0], s.Op)
 		check.assignVar(lhs[0], nil, &x, "assignment")

@@ -124,6 +124,11 @@ const (
 	additional_beg
 	// additional tokens, handled in an ad-hoc manner
 	TILDE
+	FATARROW        // =>
+	SAFE_PERIOD     // ?.
+	SAFE_LPAREN     // ?(
+	COALESCE        // ??
+	COALESCE_ASSIGN // ??=
 	additional_end
 )
 
@@ -226,7 +231,12 @@ var tokens = [...]string{
 	TYPE:   "type",
 	VAR:    "var",
 
-	TILDE: "~",
+	TILDE:           "~",
+	FATARROW:        "=>",
+	SAFE_PERIOD:     "?.",
+	SAFE_LPAREN:     "?(",
+	COALESCE:        "??",
+	COALESCE_ASSIGN: "??=",
 }
 
 // String returns the string corresponding to the token tok.
@@ -261,7 +271,7 @@ const (
 // is LowestPrecedence.
 func (op Token) Precedence() int {
 	switch op {
-	case LOR:
+	case LOR, COALESCE:
 		return 1
 	case LAND:
 		return 2
@@ -301,7 +311,7 @@ func (tok Token) IsLiteral() bool { return literal_beg < tok && tok < literal_en
 // IsOperator returns true for tokens corresponding to operators and
 // delimiters; it returns false otherwise.
 func (tok Token) IsOperator() bool {
-	return (operator_beg < tok && tok < operator_end) || tok == TILDE
+	return (operator_beg < tok && tok < operator_end) || (additional_beg < tok && tok < additional_end)
 }
 
 // IsKeyword returns true for tokens corresponding to keywords;

@@ -1621,4 +1621,6 @@ const (
 	//  func f() int { return 1 }
 	//  func g() error { f()!; return nil }
 	InvalidErrorHandling ErrorCode = 10000 + iota
+	InvalidLambda
+	InvalidNilSafety
 )

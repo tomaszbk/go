@@ -316,7 +316,7 @@ func hover(ctx context.Context, snapshot *cache.Snapshot, fh file.Handle, rng pr
 	switch node := cur.Node().(type) {
 	// (import paths were handled above)
 	case *ast.ReturnStmt:
-		return hoverReturnStatement(pgf, cur)
+		return hoverReturnStatement(pgf, pkg.TypesInfo(), qual, cur)
 	case *ast.Ident:
 		// fall through to rest of function
 	case ast.Expr:
@@ -1146,11 +1146,26 @@ func hoverConstantExpr(pgf *parsego.File, expr ast.Expr, tv types.TypeAndValue, 
 	}, nil
 }
 
-func hoverReturnStatement(pgf *parsego.File, curReturn inspector.Cursor) (protocol.Range, *hoverResult, error) {
+func hoverReturnStatement(pgf *parsego.File, info *types.Info, qual types.Qualifier, curReturn inspector.Cursor) (protocol.Range, *hoverResult, error) {
 	var funcType *ast.FuncType
 	// Find innermost enclosing function.
-	for c := range curReturn.Enclosing((*ast.FuncDecl)(nil), (*ast.FuncLit)(nil)) {
+	for c := range curReturn.Enclosing((*ast.FuncDecl)(nil), (*ast.FuncLit)(nil), (*ast.LambdaExpr)(nil)) {
 		switch n := c.Node().(type) {
+		case *ast.LambdaExpr:
+			t := info.TypeOf(n)
+			if t == nil {
+				return protocol.Range{}, nil, nil
+			}
+			sig, ok := t.Underlying().(*types.Signature)
+			if !ok || sig.Results().Len() == 0 {
+				return protocol.Range{}, nil, nil
+			}
+			var results []string
+			for i := 0; i < sig.Results().Len(); i++ {
+				results = append(results, types.TypeString(sig.Results().At(i).Type(), qual))
+			}
+			rng, err := pgf.NodeRange(curReturn.Node())
+			return rng, &hoverResult{Signature: "returns (" + strings.Join(results, ", ") + ")"}, err
 		case *ast.FuncLit:
 			funcType = n.Type
 		case *ast.FuncDecl:
@@ -1161,7 +1176,7 @@ func hoverReturnStatement(pgf *parsego.File, curReturn inspector.Cursor) (protoc
 		}
 	}
 	// Inv: funcType != nil because a ReturnStmt is always enclosed by a function.
-	if funcType.Results == nil {
+	if funcType == nil || funcType.Results == nil {
 		return protocol.Range{}, nil, nil // no result variables
 	}
 	rng, err := pgf.NodeRange(curReturn.Node())

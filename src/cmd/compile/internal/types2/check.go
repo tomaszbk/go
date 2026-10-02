@@ -107,6 +107,9 @@ type actionDesc struct {
 // A Checker maintains the state of the type checker.
 // It must be created with NewChecker.
 type Checker struct {
+	nilGuardDepth  int
+	inferLambdaSig *Signature
+	lambdaTypes    map[*syntax.LambdaExpr]*Signature
 	// package information
 	// (initialized by NewChecker, valid for the life-time of checker)
 	conf *Config

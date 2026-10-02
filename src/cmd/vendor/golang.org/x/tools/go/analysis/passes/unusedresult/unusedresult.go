@@ -140,7 +140,11 @@ func run(pass *analysis.Pass) (any, error) {
 		(*ast.ExprStmt)(nil),
 	}
 	for cur := range inspect.Root().Preorder(nodeFilter...) {
-		call, ok := ast.Unparen(cur.Node().(*ast.ExprStmt).X).(*ast.CallExpr)
+		expr := ast.Unparen(cur.Node().(*ast.ExprStmt).X)
+		if chain, ok := expr.(*ast.SafeNavExpr); ok {
+			expr = ast.Unparen(chain.X)
+		}
+		call, ok := expr.(*ast.CallExpr)
 		if !ok {
 			continue // not a call statement
 		}

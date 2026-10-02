@@ -395,6 +395,7 @@ type Function struct {
 
 	// The following fields are cleared after building.
 	build        buildFunc                // algorithm to build function body (nil => built)
+	nilAbsent    *BasicBlock              // active safe-navigation short-circuit target
 	currentBlock *BasicBlock              // where to emit code
 	vars         map[*types.Var]Value     // addresses of local variables
 	results      []*Alloc                 // result allocations of the current function

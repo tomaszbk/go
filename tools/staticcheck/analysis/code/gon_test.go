@@ -20,6 +20,11 @@ func TestGonEffects(t *testing.T) {
 		{"f()!", true},
 		{"f() or err { panic(err) }", true},
 		{"func() { f() }", false},
+		{"() => f()", false},
+		{"() => { f()! }", false},
+		{"p?.Field", true},
+		{"f?(g())", true},
+		{"p ?? f()", true},
 	} {
 		e, err := parser.ParseExpr(tt.src)
 		if err != nil {

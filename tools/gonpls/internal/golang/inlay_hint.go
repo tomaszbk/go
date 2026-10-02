@@ -230,8 +230,12 @@ func funcTypeParams(info *types.Info, pgf *parsego.File, qual types.Qualifier, c
 }
 
 func assignVariableTypes(info *types.Info, pgf *parsego.File, qual types.Qualifier, cur inspector.Cursor, add func(protocol.InlayHint)) {
-	for cur := range cur.Preorder((*ast.AssignStmt)(nil), (*ast.ValueSpec)(nil)) {
+	for cur := range cur.Preorder((*ast.AssignStmt)(nil), (*ast.ValueSpec)(nil), (*ast.LambdaExpr)(nil)) {
 		switch node := cur.Node().(type) {
+		case *ast.LambdaExpr:
+			for _, param := range node.Params {
+				variableType(info, pgf, qual, param, add)
+			}
 		case *ast.AssignStmt:
 			if node.Tok == token.DEFINE {
 				for _, lhs := range node.Lhs {

@@ -133,6 +133,10 @@ func UsedIdent(info *types.Info, e ast.Expr) *ast.Ident {
 	if info.Types == nil || info.Uses == nil {
 		panic("one of info.Types or info.Uses is nil; both must be populated")
 	}
+	// A guard tests the same function value before a conditional call.
+	if guard, ok := ast.Unparen(e).(*ast.NilGuardExpr); ok {
+		e = guard.X
+	}
 	// Look through type instantiation if necessary.
 	switch d := ast.Unparen(e).(type) {
 	case *ast.IndexExpr:

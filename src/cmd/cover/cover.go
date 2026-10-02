@@ -591,32 +591,59 @@ func (f *File) Visit(node ast.Node) ast.Visitor {
 			f.postFunc(n, fname, flit, n.Body)
 		}
 		return nil
-	case *ast.FuncLit:
-		// For function literals enclosed in functions, just glom the
-		// code for the literal in with the enclosing function (for now).
-		if f.fn.counterVar != "" {
-			return f
-		}
-
-		// Hack: function literals aren't named in the go/ast representation,
-		// and we don't know what name the compiler will choose. For now,
-		// just make up a descriptive name.
-		pos := n.Pos()
-		p := f.fset.File(pos).Position(pos)
-		fname := fmt.Sprintf("func.L%d.C%d", p.Line, p.Column)
-		if *pkgcfg != "" {
-			f.preFunc(n, fname)
-		}
-		if pkgconfig.Granularity != "perfunc" {
-			ast.Walk(f, n.Body)
-		}
-		if *pkgcfg != "" {
-			flit := true
-			f.postFunc(n, fname, flit, n.Body)
+	case *ast.ErrorExpr:
+		ast.Walk(f, n.X)
+		if n.Body != nil {
+			if *pkgcfg != "" && f.fn.counterVar == "" {
+				// A handler in a package-initialized expression lambda
+				// has no enclosing statement's counter group. Register the
+				// handler's counters at its own entry, without evaluating
+				// or rewriting the surrounding expression body.
+				f.visitFuncLit(n, n.Body)
+			} else {
+				ast.Walk(f, n.Body)
+			}
 		}
 		return nil
+	case *ast.LambdaExpr:
+		if n.Block == nil {
+			// The expression body belongs to its enclosing statement, as
+			// do lazy conditional/coalescing operands. Visit nested handler
+			// blocks, without adding a counter for the expression itself.
+			ast.Walk(f, n.Body)
+			return nil
+		}
+		return f.visitFuncLit(n, n.Block)
+	case *ast.FuncLit:
+		return f.visitFuncLit(n, n.Body)
 	}
 	return f
+}
+
+func (f *File) visitFuncLit(n ast.Node, body *ast.BlockStmt) ast.Visitor {
+	// For function literals enclosed in functions, just glom the
+	// code for the literal in with the enclosing function (for now).
+	if f.fn.counterVar != "" {
+		return f
+	}
+
+	// Hack: function literals aren't named in the go/ast representation,
+	// and we don't know what name the compiler will choose. For now,
+	// just make up a descriptive name.
+	pos := n.Pos()
+	p := f.fset.File(pos).Position(pos)
+	fname := fmt.Sprintf("func.L%d.C%d", p.Line, p.Column)
+	if *pkgcfg != "" {
+		f.preFunc(n, fname)
+	}
+	if pkgconfig.Granularity != "perfunc" {
+		ast.Walk(f, body)
+	}
+	if *pkgcfg != "" {
+		flit := true
+		f.postFunc(n, fname, flit, body)
+	}
+	return nil
 }
 
 func mkCounterVarName(idx int) string {
@@ -1143,6 +1170,11 @@ func (f *nestedBlockFinder) Visit(node ast.Node) (w ast.Visitor) {
 		return nil // Prune search.
 	}
 	switch n := node.(type) {
+	case *ast.LambdaExpr:
+		if !f.handlersOnly && n.Block != nil {
+			f.pos = n.Block.Lbrace
+		}
+		return nil // A different function, including an expression body.
 	case *ast.FuncLit:
 		if !f.handlersOnly {
 			f.pos = n.Body.Lbrace
@@ -1188,7 +1220,7 @@ func (f *propagationFinder) Visit(node ast.Node) (w ast.Visitor) {
 		return nil // Prune search.
 	}
 	switch n := node.(type) {
-	case *ast.FuncLit:
+	case *ast.FuncLit, *ast.LambdaExpr:
 		return nil // A different function.
 	case *ast.ErrorExpr:
 		if n.Body == nil {

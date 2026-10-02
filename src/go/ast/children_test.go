@@ -64,6 +64,19 @@ func TestChildren(t *testing.T) {
 	if got := slices.Collect(ast.Children(handled)); !reflect.DeepEqual(got, []ast.Node{x, binding, body}) {
 		t.Fatal(got)
 	}
+	for _, test := range []struct {
+		n        ast.Node
+		children []ast.Node
+	}{
+		{&ast.LambdaExpr{Params: []*ast.Ident{x, y}, Body: z}, []ast.Node{x, y, z}},
+		{&ast.LambdaExpr{Params: []*ast.Ident{x}, Block: body}, []ast.Node{x, body}},
+		{&ast.NilGuardExpr{X: x}, []ast.Node{x}},
+		{&ast.SafeNavExpr{X: x}, []ast.Node{x}},
+	} {
+		if got := slices.Collect(ast.Children(test.n)); !reflect.DeepEqual(got, test.children) {
+			t.Fatal(got)
+		}
+	}
 	// Ident.Obj is a semantic backlink, not a child.
 	x.Obj = &ast.Object{Decl: cond}
 	if got := slices.Collect(ast.Children(x)); len(got) != 0 {

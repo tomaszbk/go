@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"go/ast"
+	"go/token"
 	"go/types"
 	"io"
 	"sort"
@@ -58,7 +59,7 @@ type gonTypeInfo struct {
 	Mode       string         `json:"mode"`
 	Value      string         `json:"value,omitempty"`
 	Location   gonLocation    `json:"location"`
-	Construct  string         `json:"construct,omitempty"` // Gon error-handling construct, if any
+	Construct  string         `json:"construct,omitempty"` // Gon language construct, if any
 	Object     *gonObjectInfo `json:"object,omitempty"`
 }
 
@@ -269,7 +270,20 @@ func (r *gonRequest) queryType(ctx context.Context, item *gonQueryItem, t *gonTa
 		if tv.Value != nil {
 			ti.Value = tv.Value.ExactString()
 		}
-		if e, isErr := expr.(*ast.ErrorExpr); isErr {
+		switch e := expr.(type) {
+		case *ast.LambdaExpr:
+			ti.Construct = "lambda"
+		case *ast.NilGuardExpr:
+			ti.Construct = "nil-guard"
+		case *ast.SafeNavExpr:
+			ti.Construct = "safe-navigation"
+		case *ast.BinaryExpr:
+			if e.Op == token.COALESCE {
+				ti.Construct = "nil-coalescing"
+			}
+		case *ast.CondExpr:
+			ti.Construct = "conditional-expression"
+		case *ast.ErrorExpr:
 			ti.Construct = "error-propagation"
 			if e.Body != nil {
 				ti.Construct = "error-handler"

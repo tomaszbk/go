@@ -780,7 +780,11 @@ func (p *printer) binaryExpr(x *ast.BinaryExpr, prec1, cutoff, depth int) {
 	printBlank := prec < cutoff || isCondExpr(x.X) && x.X != ast.Expr(p.parenCond) || isCondExpr(x.Y)
 
 	ws := indent
-	p.expr1(x.X, prec, depth+diffPrec(x.X, prec))
+	lprec := prec
+	if x.Op == token.COALESCE {
+		lprec++
+	}
+	p.expr1(x.X, lprec, depth+diffPrec(x.X, prec))
 	if printBlank {
 		p.print(blank)
 	}
@@ -799,7 +803,11 @@ func (p *printer) binaryExpr(x *ast.BinaryExpr, prec1, cutoff, depth int) {
 	if printBlank {
 		p.print(blank)
 	}
-	p.expr1(x.Y, prec+1, depth+1)
+	rprec := prec + 1
+	if x.Op == token.COALESCE {
+		rprec = prec
+	}
+	p.expr1(x.Y, rprec, depth+1)
 	if ws == ignore {
 		p.print(unindent)
 	}
@@ -882,6 +890,40 @@ func (p *printer) expr1(expr ast.Expr, prec1, depth int) {
 		startCol := p.out.Column - len("func")
 		p.signature(x.Type)
 		p.funcBody(p.distanceFrom(x.Type.Pos(), startCol), blank, x.Body)
+
+	case *ast.LambdaExpr:
+		p.setPos(x.Lparen)
+		startCol := p.out.Column
+		p.print(token.LPAREN)
+		params := make([]ast.Expr, len(x.Params))
+		for i, name := range x.Params {
+			params[i] = name
+		}
+		p.exprList(x.Lparen, params, 1, commaTerm, x.Rparen, false)
+		p.setPos(x.Rparen)
+		p.print(token.RPAREN, blank)
+		p.setPos(x.Arrow)
+		p.print(token.FATARROW)
+		if x.Block != nil {
+			p.funcBody(p.distanceFrom(x.Lparen, startCol), blank, x.Block)
+		} else {
+			if p.lineFor(x.Body.Pos()) > p.lineFor(x.Arrow) {
+				p.print(indent, newline)
+				p.expr(x.Body)
+				p.print(unindent)
+			} else {
+				p.print(blank)
+				p.expr(x.Body)
+			}
+		}
+
+	case *ast.NilGuardExpr:
+		p.expr1(x.X, token.HighestPrec, depth)
+		p.setPos(x.Question)
+		p.print("?")
+
+	case *ast.SafeNavExpr:
+		p.expr1(x.X, prec1, depth)
 
 	case *ast.ParenExpr:
 		if _, hasParens := x.X.(*ast.ParenExpr); hasParens {
@@ -1339,7 +1381,7 @@ func stripParens(x ast.Expr) ast.Expr {
 					strip = false // do not strip parentheses
 				}
 				return false
-			case *ast.CondExpr:
+			case *ast.CondExpr, *ast.LambdaExpr, *ast.SafeNavExpr:
 				strip = false // do not strip parentheses
 				return false
 			}
@@ -1504,6 +1546,10 @@ func leadingCondExpr(s ast.Stmt) *ast.CondExpr {
 		case *ast.SliceExpr:
 			x, prec1 = e.X, token.HighestPrec
 		case *ast.TypeAssertExpr:
+			x, prec1 = e.X, token.HighestPrec
+		case *ast.SafeNavExpr:
+			x = e.X
+		case *ast.NilGuardExpr:
 			x, prec1 = e.X, token.HighestPrec
 		case *ast.ErrorExpr:
 			x, prec1 = e.X, token.HighestPrec

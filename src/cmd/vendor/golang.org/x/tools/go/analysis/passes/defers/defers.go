@@ -39,7 +39,7 @@ func run(pass *analysis.Pass) (any, error) {
 			if typesinternal.IsFunctionNamed(typeutil.Callee(pass.TypesInfo, v), "time", "Since") {
 				pass.Reportf(v.Pos(), "call to time.Since is not deferred")
 			}
-		case *ast.FuncLit:
+		case *ast.FuncLit, *ast.LambdaExpr:
 			return false // prune
 		}
 		return true

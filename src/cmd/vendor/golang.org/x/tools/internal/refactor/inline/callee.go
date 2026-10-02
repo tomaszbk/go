@@ -97,8 +97,16 @@ type object struct {
 func AnalyzeCallee(logf func(string, ...any), fset *token.FileSet, pkg *types.Package, info *types.Info, decl *ast.FuncDecl, content []byte) (*Callee, error) {
 	checkInfoFields(info)
 	for n := range ast.Preorder(decl) {
-		switch n.(type) {
-		case *ast.ErrorExpr, *ast.CondExpr:
+		switch n := n.(type) {
+		case *ast.BinaryExpr:
+			if n.Op == token.COALESCE {
+				return nil, fmt.Errorf("cannot inline Gon control-flow expressions")
+			}
+		case *ast.AssignStmt:
+			if n.Tok == token.COALESCE_ASSIGN {
+				return nil, fmt.Errorf("cannot inline Gon control-flow expressions")
+			}
+		case *ast.ErrorExpr, *ast.CondExpr, *ast.LambdaExpr, *ast.NilGuardExpr, *ast.SafeNavExpr:
 			return nil, fmt.Errorf("cannot inline function containing Gon control-flow expressions")
 		}
 	}

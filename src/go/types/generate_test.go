@@ -150,8 +150,13 @@ var filemap = map[string]action{
 		renameIdents(f, "IsSyncAtomicAlign64->_IsSyncAtomicAlign64", "IsSyncAtomicAlign128->_IsSyncAtomicAlign128")
 	},
 	"hilbert_test.go": func(f *ast.File) { renameImportPath(f, `"cmd/compile/internal/types2"->"go/types"`) },
-	"infer.go":        func(f *ast.File) { fixTokenPos(f); fixInferSig(f) },
-	"initorder.go":    nil,
+	"infer.go": func(f *ast.File) {
+		fixTokenPos(f)
+		fixInferSig(f)
+		insertImportPath(f, `"go/ast"`)
+		renameSelectorExprs(f, "syntax.LambdaExpr->ast.LambdaExpr")
+	},
+	"initorder.go": nil,
 	// "initorder.go": fixErrErrorfCall, // disabled for now due to unresolved error_ use implications for gopls
 	"instantiate.go":      func(f *ast.File) { fixTokenPos(f); fixCheckErrorfCall(f); fixSprintf(f) },
 	"instantiate_test.go": func(f *ast.File) { renameImportPath(f, `"cmd/compile/internal/types2"->"go/types"`) },

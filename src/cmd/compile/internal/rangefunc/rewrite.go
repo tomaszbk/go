@@ -644,6 +644,11 @@ func Rewrite(pkg *types2.Package, info *types2.Info, files []*syntax.File) map[*
 				}
 				rewriteFunc(pkg, info, n.Type, n.Body, sig, ri)
 				return false
+			case *syntax.LambdaExpr:
+				lit := n.Lowered
+				sig := lit.GetTypeInfo().Type.(*types2.Signature)
+				rewriteFunc(pkg, info, lit.Type, lit.Body, sig, ri)
+				return false
 			}
 			return true
 		})
@@ -682,6 +687,11 @@ func (r *rewriter) checkFuncMisuse() bool {
 // converts each in turn.
 func (r *rewriter) inspect(n syntax.Node) bool {
 	switch n := n.(type) {
+	case *syntax.LambdaExpr:
+		lit := n.Lowered
+		sig := lit.GetTypeInfo().Type.(*types2.Signature)
+		rewriteFunc(r.pkg, r.info, lit.Type, lit.Body, sig, r.rangefuncBodyClosures)
+		return false
 	case *syntax.FuncLit:
 		sig, _ := r.info.Types[n].Type.(*types2.Signature)
 		if sig == nil {

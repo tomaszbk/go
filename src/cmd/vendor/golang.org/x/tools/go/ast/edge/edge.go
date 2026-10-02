@@ -173,6 +173,11 @@ const (
 	CondExpr_Cond
 	CondExpr_Then
 	CondExpr_Else
+	LambdaExpr_Params
+	LambdaExpr_Body
+	LambdaExpr_Block
+	NilGuardExpr_X
+	SafeNavExpr_X
 
 	maxKind
 )
@@ -199,6 +204,11 @@ func info[N ast.Node](fieldName string) fieldInfo {
 }
 
 var fieldInfos = [...]fieldInfo{
+	LambdaExpr_Params:     info[*ast.LambdaExpr]("Params"),
+	LambdaExpr_Body:       info[*ast.LambdaExpr]("Body"),
+	LambdaExpr_Block:      info[*ast.LambdaExpr]("Block"),
+	NilGuardExpr_X:        info[*ast.NilGuardExpr]("X"),
+	SafeNavExpr_X:         info[*ast.SafeNavExpr]("X"),
 	ErrorExpr_X:           info[*ast.ErrorExpr]("X"),
 	ErrorExpr_Err:         info[*ast.ErrorExpr]("Err"),
 	ErrorExpr_Body:        info[*ast.ErrorExpr]("Body"),

@@ -112,7 +112,7 @@ func run(pass *analysis.Pass) (any, error) {
 
 					var context string
 					var where analysis.Range = e.async // Put the report at the go fun() or t.Run(name, fun).
-					if _, local := e.fun.(*ast.FuncLit); local {
+					if isFunctionLiteral(e.fun) {
 						where = call // Put the report at the t.Forbidden() call.
 					} else if id, ok := e.fun.(*ast.Ident); ok {
 						context = fmt.Sprintf(" (%s calls %s)", id.Name, forbidden)
@@ -186,6 +186,12 @@ func goAsyncCall(info *types.Info, goStmt *ast.GoStmt, toDecl func(*types.Func) 
 	call := goStmt.Call
 
 	fun := ast.Unparen(call.Fun)
+	if conv, ok := fun.(*ast.CallExpr); ok && info.Types[conv.Fun].IsType() && len(conv.Args) == 1 {
+		fun = ast.Unparen(conv.Args[0])
+	}
+	if _, ok := fun.(*ast.LambdaExpr); ok {
+		return &asyncCall{region: fun, async: goStmt, scope: nil, fun: fun}
+	}
 	if id := typesinternal.UsedIdent(info, fun); id != nil {
 		if lit := funcLitInScope(id); lit != nil {
 			return &asyncCall{region: lit, async: goStmt, scope: nil, fun: fun}
@@ -213,8 +219,8 @@ func tRunAsyncCall(info *types.Info, call *ast.CallExpr) *asyncCall {
 	}
 
 	fun := ast.Unparen(call.Args[1])
-	if lit, ok := fun.(*ast.FuncLit); ok { // function lit?
-		return &asyncCall{region: lit, async: call, scope: lit, fun: fun}
+	if isFunctionLiteral(fun) {
+		return &asyncCall{region: fun, async: call, scope: fun, fun: fun}
 	}
 
 	if id := typesinternal.UsedIdent(info, fun); id != nil {
@@ -275,4 +281,12 @@ func formatMethod(sel *types.Selection, fn *types.Func) string {
 		rtype = p.Elem()
 	}
 	return fmt.Sprintf("(%s%s).%s", ptr, rtype.String(), fn.Name())
+}
+
+func isFunctionLiteral(e ast.Expr) bool {
+	switch e.(type) {
+	case *ast.FuncLit, *ast.LambdaExpr:
+		return true
+	}
+	return false
 }

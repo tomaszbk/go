@@ -1486,4 +1486,19 @@ const (
 	//  func f() int { return 1 }
 	//  func g() error { f()!; return nil }
 	InvalidErrorHandling Code = 10000 + iota
+
+	// InvalidLambda occurs when a lambda lacks a contextual function type,
+	// has incompatible parameters or results, or cannot complete inference.
+	//
+	// Example:
+	//  var f = (x) => x
+	InvalidLambda
+
+	// InvalidNilSafety occurs when safe navigation, nil coalescing or guarded
+	// dereferencing uses an unsupported operand, result type or context.
+	//
+	// Example:
+	//  var p *struct { N int }
+	//  var n = p?.N // use p?.N ?? 0 to supply a value when p is nil
+	InvalidNilSafety
 )

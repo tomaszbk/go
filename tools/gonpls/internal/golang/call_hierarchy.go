@@ -140,6 +140,10 @@ func enclosingNodeCallItem(ctx context.Context, snapshot *cache.Snapshot, pkgPat
 			start, end = node.Name.Pos(), node.Name.End()
 			kind = protocol.Function
 
+		case *ast.LambdaExpr:
+			name = "lambda"
+			start, end = node.Pos(), node.Arrow+2
+			kind = protocol.Function
 		case *ast.FuncLit:
 			// If the call comes from a FuncLit with
 			// no enclosing FuncDecl, then use the

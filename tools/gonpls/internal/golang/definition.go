@@ -88,6 +88,12 @@ func Definition(ctx context.Context, snapshot *cache.Snapshot, fh file.Handle, r
 		var funcType *ast.FuncType
 		for c := range cur.Enclosing() {
 			switch n := c.Node().(type) {
+			case *ast.LambdaExpr:
+				loc, err := pgf.PosLocation(n.Arrow, n.Arrow+2)
+				if err != nil {
+					return nil, err
+				}
+				return []protocol.Location{loc}, nil
 			case *ast.FuncLit:
 				funcType = n.Type
 			case *ast.FuncDecl:
@@ -98,7 +104,7 @@ func Definition(ctx context.Context, snapshot *cache.Snapshot, fh file.Handle, r
 			}
 		}
 		// Inv: funcType != nil, as a return stmt cannot appear outside a function.
-		if funcType.Results == nil {
+		if funcType == nil || funcType.Results == nil {
 			return nil, nil // no result variables
 		}
 		loc, err := pgf.NodeLocation(funcType.Results)
@@ -153,7 +159,7 @@ func Definition(ctx context.Context, snapshot *cache.Snapshot, fh file.Handle, r
 						}
 						return []protocol.Location{loc}, nil
 					}
-				case *ast.FuncDecl, *ast.FuncLit:
+				case *ast.FuncDecl, *ast.FuncLit, *ast.LambdaExpr:
 					// bad syntax; avoid jumping outside the current function
 					return nil, nil
 				}

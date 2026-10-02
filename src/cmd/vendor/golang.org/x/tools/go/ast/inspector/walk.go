@@ -123,6 +123,20 @@ func walk(v *visitor, ek edge.Kind, index int, node ast.Node) {
 		walk(v, edge.CondExpr_Cond, -1, n.Cond)
 		walk(v, edge.CondExpr_Then, -1, n.Then)
 		walk(v, edge.CondExpr_Else, -1, n.Else)
+	case *ast.LambdaExpr:
+		for i, param := range n.Params {
+			walk(v, edge.LambdaExpr_Params, i, param)
+		}
+		if n.Body != nil {
+			walk(v, edge.LambdaExpr_Body, -1, n.Body)
+		}
+		if n.Block != nil {
+			walk(v, edge.LambdaExpr_Block, -1, n.Block)
+		}
+	case *ast.NilGuardExpr:
+		walk(v, edge.NilGuardExpr_X, -1, n.X)
+	case *ast.SafeNavExpr:
+		walk(v, edge.SafeNavExpr_X, -1, n.X)
 
 	case *ast.StarExpr:
 		walk(v, edge.StarExpr_X, -1, n.X)

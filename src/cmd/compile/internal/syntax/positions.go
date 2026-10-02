@@ -36,6 +36,10 @@ func StartPos(n Node) Pos {
 			m = n.Key
 		// case *FuncLit:
 		// case *ParenExpr:
+		case *NilGuardExpr:
+			m = n.X
+		case *SafeNavExpr:
+			m = n.X
 		case *SelectorExpr:
 			m = n.X
 		case *IndexExpr:
@@ -185,6 +189,16 @@ func EndPos(n Node) Pos {
 			m = n.Value
 		case *FuncLit:
 			m = n.Body
+		case *LambdaExpr:
+			if n.Block != nil {
+				m = n.Block
+			} else {
+				m = n.Body
+			}
+		case *NilGuardExpr:
+			return n.Question
+		case *SafeNavExpr:
+			m = n.X
 		case *ParenExpr:
 			m = n.X
 		case *SelectorExpr:

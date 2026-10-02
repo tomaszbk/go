@@ -148,6 +148,11 @@ var tokens = []elt{
 	{token.SEMICOLON, ";", operator},
 	{token.COLON, ":", operator},
 	{token.TILDE, "~", operator},
+	{token.FATARROW, "=>", operator},
+	{token.SAFE_PERIOD, "?.", operator},
+	{token.SAFE_LPAREN, "?(", operator},
+	{token.COALESCE, "??", operator},
+	{token.COALESCE_ASSIGN, "??=", operator},
 
 	// Keywords
 	{token.BREAK, "break", keyword},

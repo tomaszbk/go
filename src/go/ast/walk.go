@@ -131,6 +131,21 @@ func walkChildren(v Visitor, node Node) {
 			Walk(v, n.Body)
 		}
 
+	case *LambdaExpr:
+		walkList(v, n.Params)
+		if n.Body != nil {
+			Walk(v, n.Body)
+		}
+		if n.Block != nil {
+			Walk(v, n.Block)
+		}
+
+	case *NilGuardExpr:
+		Walk(v, n.X)
+
+	case *SafeNavExpr:
+		Walk(v, n.X)
+
 	case *CondExpr:
 		Walk(v, n.Cond)
 		Walk(v, n.Then)

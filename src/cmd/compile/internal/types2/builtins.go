@@ -1000,7 +1000,7 @@ func (check *Checker) builtinArgs(call *syntax.CallExpr, id builtinId) []*operan
 	}
 	cond := false
 	for _, e := range argList[first:] {
-		if isCondExpr(e) {
+		if isTargetExpr(e) {
 			cond = true
 		}
 	}
@@ -1011,7 +1011,7 @@ func (check *Checker) builtinArgs(call *syntax.CallExpr, id builtinId) []*operan
 	xlist := make([]*operand, len(argList))
 	for i, e := range argList {
 		var T *target
-		if i >= first && isCondExpr(e) {
+		if i >= first && isTargetExpr(e) {
 			var typ Type
 			switch id {
 			case _Append:

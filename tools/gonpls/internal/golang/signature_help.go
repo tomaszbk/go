@@ -67,7 +67,7 @@ loop:
 				fnval = callExpr.Fun
 				break loop
 			}
-		case *ast.FuncLit, *ast.FuncType, *ast.CompositeLit:
+		case *ast.FuncLit, *ast.LambdaExpr, *ast.FuncType, *ast.CompositeLit:
 			// The user is within an anonymous function or
 			// a composite literal, which may be the argument
 			// to the *ast.CallExpr.

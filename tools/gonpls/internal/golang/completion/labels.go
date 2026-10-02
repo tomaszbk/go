@@ -64,7 +64,7 @@ func (c *completer) labels(lt labelType) {
 
 		for i, p := range c.path {
 			switch p := p.(type) {
-			case *ast.FuncLit:
+			case *ast.FuncLit, *ast.LambdaExpr:
 				// Labels are function scoped, so don't continue out of functions.
 				return
 			case *ast.LabeledStmt:
@@ -90,6 +90,8 @@ func (c *completer) labels(lt labelType) {
 			}
 
 			switch n := n.(type) {
+			case *ast.FuncLit, *ast.LambdaExpr:
+				return false
 			// Only search into block-like nodes enclosing our "goto".
 			// This prevents us from finding labels in nested blocks.
 			case *ast.BlockStmt, *ast.CommClause, *ast.CaseClause:

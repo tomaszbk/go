@@ -12,6 +12,8 @@ assert execution on the others.
 GON_BASELINE_GO=/path/to/unmodified/go python3 misc/gon/validate.py tooling
 GON_BASELINE_GO=/path/to/unmodified/go python3 misc/gon/validate.py errorhandling
 GON_BASELINE_GO=/path/to/unmodified/go python3 misc/gon/validate.py conditional
+GON_BASELINE_GO=/path/to/unmodified/go python3 misc/gon/validate.py lambda
+GON_BASELINE_GO=/path/to/unmodified/go python3 misc/gon/validate.py nullsafety
 python3 misc/gon/validate.py conditional --list
 ```
 
@@ -28,8 +30,8 @@ it does not declare unfinished language features complete.
 
 The runner invokes only named packages, test filters and individual testdir
 features. Never replace it with all.bash, run.bash, dist test, test std,
-test cmd/... or the entire test directory. The conditional profile deliberately
-reports the open items in `features.json`. Add checks before clearing those items.
+test cmd/... or the entire test directory. Each profile reports any open items
+in `features.json`. Add checks before clearing those items.
 
 ## Checklist for each feature
 

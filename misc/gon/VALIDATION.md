@@ -274,3 +274,212 @@ See [the full record](../../handover/upstream-2026-10-02.md) for exact revisions
 commands, logs, conflict resolutions and skipped/dormant upstream tests. In
 particular, two upstream gcimporter TestMain functions execute zero tests; their
 package-level successes are not counted as importer validation.
+
+## Conditional integration closure (2026-10-02)
+
+Conditional integration is complete with explicit conservative limits: source
+inlining declines Gon control-flow bodies and affected call sites; variable
+extraction declines lazy branches and whole conditional expressions; cgo's
+existing restriction on error handling in pointer-check rewritten C arguments
+still applies. The user confirmed all four target-type clarifications, now
+recorded in the local specification. `features.json` separates these supported
+limits from pending work, which is empty for conditional expressions.
+
+Validated on **darwin/arm64**, with unmodified **Go 1.27.1** at
+`/opt/homebrew/bin/go`. Only checks affected by this integration ran; compiler,
+SSA/IR and other unchanged gates were not repeated. No full profile, whole
+distribution suite, full bootstrap, or other-architecture execution is claimed.
+
+From the repository root:
+
+```sh
+GON_BASELINE_GO=/opt/homebrew/bin/go ./gon/bin/gon test cmd/cgo/internal/testconditional -run '^Test(PairedCgoConditional|CgoConditionalDiagnostics|CgoConditionalBootstrap)$' -count=1 -v
+GO_ERROR_HANDLING_BASELINE=/opt/homebrew/bin/go ./gon/bin/gon test cmd/cgo/internal/testerrorhandling -run '^Test(PairedCgoErrorHandling|CgoErrorHandlingDiagnostics)$' -count=1
+GON_BASELINE_GO=/opt/homebrew/bin/go ./gon/bin/gon test cmd/cover -run '^(TestCondFlowCoverage|TestErrorFlowCoverage|TestLegacyInstrumentationUnchanged|TestErrorHandlingRanges)$' -count=1 -v
+GON_BASELINE_GO=/opt/homebrew/bin/go python3 misc/gon/validate.py conditional --only refactor-safety --only vet
+GON_BASELINE_GO=/opt/homebrew/bin/go python3 misc/gon/test.py --conditional-only
+```
+
+All selected tests passed. cgo conditional took 6.033s and existing cgo error
+handling 4.663s, with no skips. Its executable pairs check C and Go call order,
+lazy branch selection, contextual pointer/nil types, actual pointer checks,
+defer, errno propagation and handlers. Nine diagnostic/control cases cover
+rejected source and nested function boundaries. The bootstrap adapter test
+builds maintained cmd/cgo against upstream go/ast and processes ordinary source;
+the baseline supplies other internal cmd dependencies.
+
+Cover passed in 4.252s. The new conditional fixtures compare 45 profiles across
+legacy Gon, modern Gon, baseline legacy and set/count/atomic modes. Executable
+assertions cover both success/failure branches, named results, defer, handlers,
+closure boundaries and nesting. Existing error-flow and unchanged legacy
+instrumentation regressions passed as well.
+
+The runner subset passed refactor-safety (53 tests/subtests, 3.439s) and vet
+(1 test, 1.948s), without skips. Exit 2 indicates a partial selection; the
+metadata still listed pending items when it ran, before this closure update.
+Exact JSON events and the historical summary remain in
+`pkg/gon-validation/conditional/`. The new inliner executable pair runs both
+original and transformed legacy code under Gon and baseline Go, plus modern
+code under Gon after verifying refusal without edits. It asserts lazy branch
+selection, evaluation order and early error returns. Legacy inlining remains
+available even in functions with unrelated conditional expressions.
+
+From `tools/gonpls`:
+
+```sh
+../../gon/bin/gon test ./internal/cmd -run '^TestGonConditionalQuery$' -count=1
+../../gon/bin/gon test ./internal/golang -run '^TestConditionalExtraction$' -count=1
+```
+
+Both passed. The LSP command above ran after rebuilding gonpls and passed its
+legacy/baseline/modern executable pair, keyword tokens, hover/navigation,
+completion for incomplete then/else/condition expressions and inferred sibling
+types, and extraction-action refusal. Unit checks include package-level query
+types/constants and extract-all across eager and lazy occurrences.
+
+Distribution commands also passed:
+
+```sh
+./gon/bin/gon install cmd/cgo
+python3 misc/gon/vendor.py
+python3 misc/gon/vendor.py --check
+python3 misc/gon/build.py
+./gon/bin/gon install cmd/fix
+git diff --check
+```
+
+The validation runner now exposes focused cgo, cover, editor-query,
+editor-extraction and editor-lsp checks in the conditional profile. Its setup
+also installs cmd/fix so regenerated inliner changes reach `gon fix`.
+`GON_BASELINE_GO` is the current public setting; older aliases remain supported.
+
+## Lambdas and null safety (2026-10-02)
+
+Implemented `(params) => expression/block`, `?.`, `?(`, `??`, guarded
+dereferencing and `??=` in the compiler and public syntax/type checker families.
+Integration includes CFG/SSA/Staticcheck IR, analyzers, cgo/bootstrap adapters,
+coverage, gonpls and the semantic CLI. The lambda design was already accepted;
+the user authorized both implementations, with the recommended nil-safety
+decisions, and requested only necessary focused tests.
+
+Validation ran on **darwin/arm64**, using `/opt/homebrew/bin/go` (unmodified
+Go 1.27.1) for legacy baselines. No other architecture execution, full bootstrap
+or whole-distribution test run is claimed. All source changes remain uncommitted.
+
+From the repository root:
+
+```sh
+./gon/bin/gon test go/token go/scanner go/ast go/parser go/printer go/format cmd/gofmt -count=1
+./gon/bin/gon test cmd/compile/internal/syntax cmd/compile/internal/types2 go/types -run='Lambda|NilSafety|NullSafety|TestGenerate' -count=1
+GON_BASELINE_GO=/opt/homebrew/bin/go ./gon/bin/gon test cmd/internal/testdir -run='^Test/(lambda|nullsafety|errorhandling|conditional)\.go$' -count=1 -json
+GON_BASELINE_GO=/opt/homebrew/bin/go ./gon/bin/gon test cmd/cgo cmd/cgo/internal/testconditional -run='^Test(GonErrorBoundary|GonTargetType|GonWalk|PairedCgoGonFeatures|PairedCgoConditional|CgoConditionalDiagnostics|CgoConditionalBootstrap)$' -count=1
+GON_BASELINE_GO=/opt/homebrew/bin/go ./gon/bin/gon test cmd/cover -run='^TestGonFlowCoverage$' -count=1
+GON_BASELINE_GO=/opt/homebrew/bin/go ./gon/bin/gon test cmd/cover -run='^Test(ErrorHandlingRanges|LegacyInstrumentationUnchanged|ErrorFlowCoverage|CondFlowCoverage|GonFlowCoverage)$' -short -count=1
+```
+
+All passed. The final four-feature execution took 14.597s, without skips. The
+lambda/nil-safety harnesses execute legacy and modern with Gon, legacy with the
+baseline, modern without inlining and under the race detector, exported generic
+and inlined cross-package bodies, plus vet on both variants. They reject 23
+invalid lambda and 28 invalid nil-safety programs. Cases cover closure capture,
+function boundaries, deferred work, partial errors, nil/typed-nil interfaces,
+single evaluation, skipped arguments, nested guards, zero versus absence,
+nil-map stores and `??=` without a store on the present path.
+
+Cgo's final combined regression passed in 0.244s and 20.897s for the two
+packages, without skips, including coverage, vet and the baseline.
+`TestCgoConditionalBootstrap` checks the cgo bootstrap adapters;
+`cmd/cgo`'s `TestGonErrorBoundary`, `TestGonTargetType`, `TestGonWalk` and cover's
+`TestGonFunctionBoundary` also passed. The complete feature coverage test passed
+in 6.31s across set/count/atomic and both language variants plus baseline. The
+focused cover regression command with `-short` passed in 7.34s. Expression
+lambda bodies count with their enclosing statement; block lambda bodies have
+ordinary function counters. Package-initializer lambdas with `or` handlers are
+covered, including handler entry counters.
+
+From `tools/x-tools`:
+
+```sh
+GON_ROOT=/Users/tzbk/Documents/gon GON_BASELINE_GO=/opt/homebrew/bin/go ../../gon/bin/gon test ./go/ssa -run='^TestGonFeatures$' -count=1 -v
+../../gon/bin/gon test ./go/analysis/passes/nilfunc ./go/analysis/passes/defers ./go/analysis/passes/waitgroup ./go/analysis/passes/unusedresult ./go/analysis/passes/printf ./go/analysis/passes/testinggoroutine ./go/analysis/passes/unreachable -run='^(Test|TestGon)$' -count=1
+../../gon/bin/gon test ./go/analysis/passes/copylock ./go/analysis/passes/lostcancel -run='^TestGon' -count=1
+```
+
+From `tools/staticcheck`:
+
+```sh
+GON_ROOT=/Users/tzbk/Documents/gon ../../gon/bin/gon test ./go/ir -run='^TestGonFeatures$' -count=1
+../../gon/bin/gon test ./internal/sharedcheck ./simple/s1023 ./staticcheck/sa4004 ./staticcheck/sa4009 ./staticcheck/sa5003 ./staticcheck/sa9001 -run='^TestGon' -count=1
+```
+
+These passed. SSA's fixture runs legacy on baseline and Gon, modern on Gon, then
+interprets both SSA programs (1.798s). Staticcheck builds both variants with IR
+sanity checks (0.207s). Extended cases distinguish absent chains, present typed
+nil results and interface boxing, generic nilable unions, nested dereferences,
+skipped propagation/handlers, lambda defaults and no-store assignments. Nil-map
+panic recovery is tested by the native harness; it is not duplicated in the
+interpreter fixture because the existing interpreter cannot represent recovered
+runtime errors without loading runtime, even for the legacy program.
+
+The analyzer tests assert legacy/modern diagnostic parity. They also cover
+closure scopes, copylock interface conversions, lostcancel paths and preserving
+necessary contextual types when suggesting removal of redundant declarations.
+The old Staticcheck `TestTestdata` suites for the five changed analyzers could
+not run: the imported checkout lacks their `testdata/go1.x/go.mod` fixtures.
+This is recorded as unavailable evidence, not a passing regression; their new
+`TestGon` fixtures and the full analyzer registry corpus passed.
+
+The final maintained-tooling subset ran from the root:
+
+```sh
+GON_BASELINE_GO=/opt/homebrew/bin/go python3 misc/gon/validate.py lambda --only structural-tools --only analyzers --only refactor-safety --only staticcheck-safety --only typerefs
+```
+
+All five selected checks passed: 42, 1730, 58, 2 and 25 test events respectively.
+The registry corpus exercises all 247 registered analyzers on seven packages.
+The only skip was upstream `typesinternal.TestErrorCodes`, replaced by passing
+`TestGonErrorCodes`. The runner exited 2 because this was a partial selection
+and metadata was still open at execution time. It does not represent a full
+profile run. Logs and the exact commands are in `pkg/gon-validation/lambda/`.
+
+Structural checks assert cursor edges and mutable AST slots; CFG checks assert
+that absent receivers bypass arguments and go directly to coalescing fallbacks.
+Interface constraint discovery covers lambda results, navigation, `??` and
+`??=`. Typerefs covers generic result inference, parameter shadowing and guards.
+The inliner declines affected code; extraction declines movement across lazy
+paths or contextual lambda boundaries. Conservative refactoring limits are
+listed separately from unfinished work in `features.json`.
+
+Final editor checks passed after rebuilding public gonpls (3.31s):
+
+```sh
+GON_BASELINE_GO=/opt/homebrew/bin/go python3 misc/gon/test.py --features-only
+# From tools/gonpls:
+../../gon/bin/gon test ./internal/golang ./internal/cmd -run='Test(GonFeatureExtraction|GonFeatureQuery|GonFeatureExplain)$' -count=1
+```
+
+The real LSP script passed in 4.75s, including baseline/modern execution,
+semantic tokens, hover, parameter/return navigation, inferred parameter hints,
+guarded-call signature help, incomplete-source completion, extraction refusal,
+formatting and executable lambda/function-literal conversion roundtrips. It
+asserts that conversions are declined for unsafe contexts, partially inferred
+generic calls and comments that would be lost. Focused extraction/query/explain
+tests passed in 0.344s and 1.039s for the two packages. `gon query type` reports
+the new constructs and `gon explain` documents both new diagnostic codes.
+
+Distribution checks passed:
+
+```sh
+./gon/bin/gon install cmd/compile
+./gon/bin/gon install cmd/vet cmd/fix cmd/cover cmd/cgo cmd/gofmt
+python3 misc/gon/vendor.py
+python3 misc/gon/vendor.py --check
+python3 misc/gon/build.py
+python3 -m py_compile misc/gon/validate.py
+git diff --check
+```
+
+The public tools were rebuilt after the final source changes. The `lambda` and
+`nullsafety` validation profiles now list all focused feature gates. These
+records combine the checks actually needed during implementation rather than
+rerunning unchanged gates merely to obtain a full-profile status.

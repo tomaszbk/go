@@ -21,7 +21,7 @@ def checks(feature):
         return name, cwd, args + ['-count=1']
     common = [
         ('vendor', '.', [sys.executable, 'misc/gon/vendor.py', '--check']),
-        ('install-tools', '.', [str(GON), 'install', 'cmd/vet', 'cmd/gofmt', 'cmd/cover', 'cmd/cgo']),
+        ('install-tools', '.', [str(GON), 'install', 'cmd/vet', 'cmd/fix', 'cmd/gofmt', 'cmd/cover', 'cmd/cgo']),
         ('build-tooling', '.', [sys.executable, 'misc/gon/build.py']),
         test('ast', '.', ['go/ast']),
         test('structural-tools', 'tools/x-tools', ['./go/ast/inspector', './go/ast/astutil', './go/ast/edge', './go/cfg', './refactor/satisfy', './internal/typesinternal'], 'TestGon|TestCond|TestError|TestInspectAllNodes'),
@@ -30,7 +30,7 @@ def checks(feature):
         test('staticcheck-safety', 'tools/staticcheck', ['./analysis/code', './go/ast/astutil'], '^TestGon'),
     ]
     pairs = []
-    features = ['errorhandling', 'conditional'] if feature == 'tooling' else [feature]
+    features = ['errorhandling', 'conditional', 'lambda', 'nullsafety'] if feature == 'tooling' else [feature]
     for name in features:
         pairs.append(test(name+'-execution', '.', ['cmd/internal/testdir'], 'Test/'+name+r'.go$'))
     if feature == 'tooling':
@@ -43,27 +43,52 @@ def checks(feature):
             ('lsp', '.', [sys.executable, 'misc/gon/test.py']),
             ('cli', '.', [sys.executable, 'misc/gon/test_cli.py']),
         ]
-    pattern = 'CondExpr|CondParen' if feature == 'conditional' else 'ErrorHandling|ErrorExpr'
+    pattern = {'conditional': 'CondExpr|CondParen', 'errorhandling': 'ErrorHandling|ErrorExpr',
+               'lambda': 'Lambda|NilSafety|NullSafety', 'nullsafety': 'Lambda|NilSafety|NullSafety'}[feature]
     extra = []
-    if feature == 'errorhandling':
+    if feature == 'conditional':
+        extra = [
+            test('cgo', '.', ['cmd/cgo/internal/testconditional'], '^Test(PairedCgoConditional|CgoConditionalDiagnostics|CgoConditionalBootstrap)$'),
+            test('cover', '.', ['cmd/cover'], '^Test(CondFlowCoverage|ErrorFlowCoverage|ErrorHandlingRanges|LegacyInstrumentationUnchanged)$'),
+            test('editor-query', 'tools/gonpls', ['./internal/cmd'], '^TestGonConditionalQuery$'),
+            test('editor-extraction', 'tools/gonpls', ['./internal/golang'], '^TestConditionalExtraction$'),
+            ('editor-lsp', '.', [sys.executable, 'misc/gon/test.py', '--conditional-only']),
+        ]
+    elif feature == 'errorhandling':
         extra = [
             test('cgo', '.', ['cmd/cgo/internal/testerrorhandling'], '^Test(PairedCgoErrorHandling|CgoErrorHandlingDiagnostics)$'),
             test('cover', '.', ['cmd/cover'], '^Test(ErrorFlowCoverage|ErrorHandlingRanges|LegacyInstrumentationUnchanged)$'),
             ('lsp', '.', [sys.executable, 'misc/gon/test.py']),
             ('cli', '.', [sys.executable, 'misc/gon/test_cli.py']),
         ]
+    elif feature in ('lambda', 'nullsafety'):
+        extra = [
+            test('lexical', '.', ['go/token', 'go/scanner'], '^Test(GonTokens|Scan|Semis|ScanErrors)$'),
+            test('cgo', '.', ['cmd/cgo', 'cmd/cgo/internal/testconditional'], '^Test(Gon|PairedCgoGonFeatures|CgoConditionalBootstrap)'),
+            test('cover', '.', ['cmd/cover'], '^Test(GonFlowCoverage|GonFunctionBoundary|LegacyInstrumentationUnchanged)$'),
+            test('editor-query', 'tools/gonpls', ['./internal/cmd'], '^TestGon(FeatureQuery|FeatureExplain)$'),
+            test('editor-extraction', 'tools/gonpls', ['./internal/golang'], '^Test(GonFeatureExtraction|ConditionalExtraction)$'),
+            test('typerefs', 'tools/gonpls', ['./internal/cache/typerefs'], '^TestRefs$'),
+            ('editor-lsp', '.', [sys.executable, 'misc/gon/test.py', '--features-only']),
+            test('analyzer-diagnostics', 'tools/x-tools', ['./go/analysis/passes/'+p for p in
+                 ['copylock', 'lostcancel', 'nilfunc', 'defers', 'waitgroup', 'unusedresult', 'printf', 'testinggoroutine', 'unreachable']], '^TestGon'),
+            test('staticcheck-diagnostics', 'tools/staticcheck', ['./internal/sharedcheck', './simple/s1023'] +
+                 ['./staticcheck/'+p for p in ['sa4004', 'sa4009', 'sa5003', 'sa9001']], '^TestGon'),
+        ]
     return common + pairs + extra + [
         test('syntax', '.', ['cmd/compile/internal/syntax', 'go/parser', 'go/printer', 'go/format', 'cmd/gofmt'], pattern),
         test('types', '.', ['cmd/compile/internal/types2', 'go/types'], pattern+'|TestGenerate'),
         test('ssa', 'tools/x-tools', ['./go/ssa'], '^TestGon'),
         test('staticcheck-ir', 'tools/staticcheck', ['./go/ir'], '^TestGon'),
-        test('vet', '.', ['cmd/vet'], '^TestCondExpr$' if feature == 'conditional' else '^TestVet$'),
+        # New feature pairs exercise vet directly in their execution harnesses.
+        *([test('vet', '.', ['cmd/vet'], '^TestCondExpr$' if feature == 'conditional' else '^TestVet$')]
+          if feature in ('conditional', 'errorhandling') else []),
     ]
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('feature', choices=['tooling', 'errorhandling', 'conditional'])
+    parser.add_argument('feature', choices=['tooling', 'errorhandling', 'conditional', 'lambda', 'nullsafety'])
     parser.add_argument('--list', action='store_true', help='show commands without executing')
     parser.add_argument('--only', action='append', help='run selected check IDs; reports a partial run')
     args = parser.parse_args()

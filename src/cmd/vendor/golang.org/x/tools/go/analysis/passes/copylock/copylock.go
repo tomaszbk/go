@@ -48,6 +48,7 @@ func run(pass *analysis.Pass) (any, error) {
 		(*ast.File)(nil),
 		(*ast.FuncDecl)(nil),
 		(*ast.FuncLit)(nil),
+		(*ast.LambdaExpr)(nil),
 		(*ast.GenDecl)(nil),
 		(*ast.RangeStmt)(nil),
 		(*ast.ReturnStmt)(nil),
@@ -65,6 +66,17 @@ func run(pass *analysis.Pass) (any, error) {
 			checkCopyLocksFunc(pass, node.Name.Name, node.Recv, node.Type)
 		case *ast.FuncLit:
 			checkCopyLocksFunc(pass, "func", nil, node.Type)
+		case *ast.LambdaExpr:
+			for _, id := range node.Params {
+				if obj := pass.TypesInfo.Defs[id]; obj != nil {
+					if path := lockPath(pass.Pkg, obj.Type(), nil); path != nil {
+						pass.ReportRangef(id, "lambda passes lock by value: %v", path)
+					}
+				}
+			}
+			if node.Body != nil {
+				checkCopyLocksReturnStmt(pass, &ast.ReturnStmt{Return: node.Arrow, Results: []ast.Expr{node.Body}})
+			}
 		case *ast.CallExpr:
 			checkCopyLocksCallExpr(pass, node)
 		case *ast.AssignStmt:
@@ -275,6 +287,15 @@ func lockPathRhs(pass *analysis.Pass, x ast.Expr) typePath {
 			return path
 		}
 		return lockPathRhs(pass, cond.Else)
+	}
+	if chain, ok := x.(*ast.SafeNavExpr); ok {
+		return lockPathRhs(pass, chain.X)
+	}
+	if coalesce, ok := x.(*ast.BinaryExpr); ok && coalesce.Op == token.COALESCE {
+		if path := lockPathRhs(pass, coalesce.X); path != nil {
+			return path
+		}
+		return lockPathRhs(pass, coalesce.Y)
 	}
 	if star, ok := x.(*ast.StarExpr); ok {
 		if _, ok := ast.Unparen(star.X).(*ast.CallExpr); ok {

@@ -92,7 +92,9 @@ kind, package and signature, `hover` documentation for definitions,
 `container` for symbols); `truncated` (`omitted`, `nextOffset`) when paged; and
 `error` for a target that failed. `query type` returns `type` with the
 expression, type, underlying type, mode, constant value and, for Gon error
-handling, `construct`: `error-propagation` or `error-handler`.
+handling, conditional expressions, lambdas or nil safety, `construct`:
+`error-propagation`, `error-handler`, `conditional-expression`, `lambda`,
+`nil-guard`, `safe-navigation`, or `nil-coalescing`.
 
 **`check`** returns `patterns`, `packages`, `verified` (`parse`,
 `type-check`, `analysis`), `analyzers` (names), `notVerified` (for example

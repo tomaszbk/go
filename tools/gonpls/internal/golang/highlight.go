@@ -314,6 +314,10 @@ loop:
 			// If cursor is in a key: value expr, we don't want control flow highlighting.
 			return
 
+		case *ast.LambdaExpr:
+			// Lambdas have an inferred signature, so do not associate their
+			// returns with the surrounding explicitly declared function.
+			return
 		case *ast.FuncLit:
 			funcType = n.Type
 			funcBody = n.Body
@@ -422,7 +426,7 @@ loop:
 	if funcBody != nil {
 		ast.Inspect(funcBody, func(n ast.Node) bool {
 			switch n := n.(type) {
-			case *ast.FuncDecl, *ast.FuncLit:
+			case *ast.FuncDecl, *ast.FuncLit, *ast.LambdaExpr:
 				// Don't traverse into any functions other than enclosingFunc.
 				return false
 			case *ast.ReturnStmt:

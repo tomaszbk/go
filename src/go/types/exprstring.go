@@ -42,6 +42,25 @@ func WriteExpr(buf *bytes.Buffer, x ast.Expr) {
 	case *ast.BasicLit:
 		buf.WriteString(x.Value)
 
+	case *ast.LambdaExpr:
+		buf.WriteByte('(')
+		for i, p := range x.Params {
+			if i > 0 {
+				buf.WriteString(", ")
+			}
+			WriteExpr(buf, p)
+		}
+		buf.WriteString(") => ")
+		if x.Body != nil {
+			WriteExpr(buf, x.Body)
+		} else {
+			buf.WriteString("{…}")
+		}
+	case *ast.NilGuardExpr:
+		WriteExpr(buf, x.X)
+		buf.WriteByte('?')
+	case *ast.SafeNavExpr:
+		WriteExpr(buf, x.X)
 	case *ast.FuncLit:
 		buf.WriteByte('(')
 		WriteExpr(buf, x.Type)

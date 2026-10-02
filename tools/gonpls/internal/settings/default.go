@@ -56,6 +56,7 @@ func DefaultOptions(overrides ...func(*Options)) *Options {
 						RefactorRewriteFillSwitch:         true,
 						RefactorRewriteImplementInterface: true,
 						RefactorRewriteInvertIf:           true,
+						RefactorRewriteLambda:             true,
 						RefactorRewriteJoinLines:          true,
 						RefactorRewriteRemoveUnusedParam:  true,
 						RefactorRewriteSplitLines:         true,

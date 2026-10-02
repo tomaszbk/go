@@ -357,6 +357,24 @@ func (p *printer) printRawNode(n Node) {
 	case *BasicLit:
 		p.print(_Name, n.Value) // _Name requires actual value following immediately
 
+	case *LambdaExpr:
+		p.print(_Lparen)
+		for i, q := range n.Params {
+			if i > 0 {
+				p.print(_Comma, blank)
+			}
+			p.print(q)
+		}
+		p.print(_Rparen, blank, _FatArrow, blank)
+		if n.Block != nil {
+			p.print(n.Block)
+		} else {
+			p.print(n.Body)
+		}
+	case *NilGuardExpr:
+		p.print(n.X, _Name, "?")
+	case *SafeNavExpr:
+		p.print(n.X)
 	case *FuncLit:
 		p.print(n.Type, blank)
 		if n.Body != nil {

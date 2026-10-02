@@ -64,6 +64,10 @@ const (
 	_Type        // type
 	_Var         // var
 
+	_FatArrow   // =>
+	_SafeDot    // ?.
+	_SafeLparen // ?(
+
 	// empty line comment to exclude it from .String
 	tokenCount //
 )
@@ -135,13 +139,14 @@ const (
 	Xor // ^
 
 	// precMul
-	Mul    // *
-	Div    // /
-	Rem    // %
-	And    // &
-	AndNot // &^
-	Shl    // <<
-	Shr    // >>
+	Mul      // *
+	Div      // /
+	Rem      // %
+	And      // &
+	AndNot   // &^
+	Shl      // <<
+	Shr      // >>
+	Coalesce // ??
 )
 
 // Operator precedences

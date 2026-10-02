@@ -31,7 +31,7 @@ import (
 // conditional expressions in many other contexts and gets no diagnostics,
 // so that every analyzer traverses them without crashing.
 //
-// If GO_CONDITIONAL_EXPRESSION_BASELINE is set to an unmodified go command,
+// If GON_BASELINE_GO is set to an unmodified go command,
 // its own vet must report the same for the legacy package.
 func TestCondExpr(t *testing.T) {
 	t.Parallel()
@@ -65,9 +65,12 @@ func TestCondExpr(t *testing.T) {
 			strings.Join(got["legacy"], "\n\t"), strings.Join(got["modern"], "\n\t"))
 	}
 
-	baseline := os.Getenv("GO_CONDITIONAL_EXPRESSION_BASELINE")
+	baseline := os.Getenv("GON_BASELINE_GO")
 	if baseline == "" {
-		t.Log("GO_CONDITIONAL_EXPRESSION_BASELINE is not set; the legacy scenarios were not vetted with an unmodified toolchain")
+		baseline = os.Getenv("GO_CONDITIONAL_EXPRESSION_BASELINE") // historical alias
+	}
+	if baseline == "" {
+		t.Log("GON_BASELINE_GO is not set; the legacy scenarios were not vetted with an unmodified toolchain")
 		return
 	}
 	dir := t.TempDir()

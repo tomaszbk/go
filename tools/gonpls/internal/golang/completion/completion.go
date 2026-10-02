@@ -1343,7 +1343,9 @@ func (c *completer) selector(ctx context.Context, sel *ast.SelectorExpr) error {
 	// True selector?
 	if tv, ok := c.pkg.TypesInfo().Types[sel.X]; ok {
 		c.methodsAndFields(tv.Type, tv.Addressable(), nil, c.deepState.enqueue)
-		c.addPostfixSnippetCandidates(ctx, sel)
+		if _, guarded := sel.X.(*ast.NilGuardExpr); !guarded {
+			c.addPostfixSnippetCandidates(ctx, sel)
+		}
 		return nil
 	}
 
@@ -1997,6 +1999,13 @@ func enclosingFunction(path []ast.Node, info *types.Info) *funcInfo {
 					body: t.Body,
 				}
 			}
+		case *ast.LambdaExpr:
+			if typ := info.TypeOf(t); typ != nil {
+				if sig, ok := typ.Underlying().(*types.Signature); ok {
+					return &funcInfo{sig: sig, body: t.Block}
+				}
+			}
+			return nil // Do not inherit the outer function's return context.
 		case *ast.FuncLit:
 			if typ, ok := info.Types[t]; ok {
 				if sig, _ := typ.Type.(*types.Signature); sig == nil {
@@ -2235,6 +2244,39 @@ func expectedCandidate(ctx context.Context, c *completer) (inf candidateInferenc
 Nodes:
 	for i, node := range c.path {
 		switch node := node.(type) {
+		case *ast.LambdaExpr:
+			if node.Body != nil && c.pos >= node.Arrow {
+				if typ := c.pkg.TypesInfo().TypeOf(node); typ != nil {
+					if sig, ok := typ.Underlying().(*types.Signature); ok && sig.Results().Len() == 1 {
+						inf.objType = sig.Results().At(0).Type()
+					}
+				}
+			}
+			return inf
+		case *ast.CondExpr:
+			if c.pos <= node.Lbrace {
+				// The condition has its own boolean context, independent of
+				// the conditional expression's result type.
+				inf.objType = nil
+				inf.objKind = kindBool
+				return inf
+			}
+			// Prefer a type already supplied by the checker. In incomplete
+			// source, continue outward for the assignment/argument target;
+			// use the other branch only if that context supplies no type.
+			if typ := c.pkg.TypesInfo().TypeOf(node); typ != nil && typ != types.Typ[types.Invalid] {
+				inf.objType = typ
+				return inf
+			}
+			other := node.Then
+			if c.pos <= node.Rbrace {
+				other = node.Else
+			}
+			defer func() {
+				if inf.objType == nil || inf.objType == types.Typ[types.Invalid] {
+					inf.objType = c.pkg.TypesInfo().TypeOf(other)
+				}
+			}()
 		case *ast.BinaryExpr:
 			// Determine if query position comes from left or right of op.
 			e := node.X
@@ -2887,7 +2929,7 @@ func breaksExpectedTypeInference(n ast.Node, pos token.Pos) bool {
 		// Doesn't break inference if pos is in func name.
 		// For example: "Foo<>(123)"
 		return !astutil.NodeContainsPos(n.Fun, pos)
-	case *ast.FuncLit, *ast.IndexExpr, *ast.SliceExpr:
+	case *ast.FuncLit, *ast.LambdaExpr, *ast.IndexExpr, *ast.SliceExpr:
 		return true
 	default:
 		return false

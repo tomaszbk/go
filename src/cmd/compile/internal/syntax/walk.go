@@ -124,6 +124,21 @@ func (w walker) node(n Node) {
 		w.node(n.Type)
 		w.node(n.Body)
 
+	case *LambdaExpr:
+		for _, p := range n.Params {
+			w.node(p)
+		}
+		if n.Body != nil {
+			w.node(n.Body)
+		}
+		if n.Block != nil {
+			w.node(n.Block)
+		}
+	case *NilGuardExpr:
+		w.node(n.X)
+	case *SafeNavExpr:
+		w.node(n.X)
+
 	case *ParenExpr:
 		w.node(n.X)
 

@@ -602,6 +602,34 @@ func (st *state) inlineCall() (*inlineCallResult, error) {
 	// Compute syntax path enclosing Call, innermost first (Path[0]=Call),
 	// and outermost enclosing function, if any.
 	caller.path, _ = astutil.PathEnclosingInterval(caller.File, caller.Call.Pos(), caller.Call.End())
+	// Substitution and statement lifting do not yet model Gon branch targets,
+	// lazy evaluation, or early returns. Decline affected call sites as well
+	// as callee bodies (see AnalyzeCallee), before computing edits.
+	context := ast.Node(caller.Call)
+	for _, n := range caller.path {
+		switch n.(type) {
+		case *ast.CondExpr, *ast.ErrorExpr, *ast.LambdaExpr, *ast.NilGuardExpr, *ast.SafeNavExpr:
+			return nil, fmt.Errorf("cannot inline call within Gon control-flow expressions")
+		case ast.Stmt, *ast.ValueSpec:
+			if context == caller.Call {
+				context = n // include sibling operands whose order must be preserved
+			}
+		}
+	}
+	for n := range ast.Preorder(context) {
+		switch n := n.(type) {
+		case *ast.BinaryExpr:
+			if n.Op == token.COALESCE {
+				return nil, fmt.Errorf("cannot inline call containing Gon control-flow expressions")
+			}
+		case *ast.AssignStmt:
+			if n.Tok == token.COALESCE_ASSIGN {
+				return nil, fmt.Errorf("cannot inline call containing Gon control-flow expressions")
+			}
+		case *ast.CondExpr, *ast.ErrorExpr, *ast.LambdaExpr, *ast.NilGuardExpr, *ast.SafeNavExpr:
+			return nil, fmt.Errorf("cannot inline call containing Gon control-flow expressions")
+		}
+	}
 	for _, n := range caller.path {
 		if decl, ok := n.(*ast.FuncDecl); ok {
 			caller.enclosingFunc = decl

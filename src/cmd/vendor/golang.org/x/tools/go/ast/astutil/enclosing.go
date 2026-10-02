@@ -253,6 +253,12 @@ func childrenOf(n ast.Node) []ast.Node {
 				tok(n.ElseLbrace, len("{")),
 				tok(n.ElseRbrace, len("}")))
 		}
+	case *ast.LambdaExpr:
+		children = append(children, tok(n.Lparen, 1), tok(n.Rparen, 1), tok(n.Arrow, 2))
+	case *ast.NilGuardExpr:
+		children = append(children, tok(n.Question, 1))
+	case *ast.SafeNavExpr:
+		// The underlying primary expression owns the chain's tokens.
 
 	case *ast.CallExpr:
 		children = append(children,
@@ -558,6 +564,12 @@ func NodeDescription(n ast.Node) string {
 		return "local error handler"
 	case *ast.CondExpr:
 		return "conditional expression"
+	case *ast.LambdaExpr:
+		return "lambda expression"
+	case *ast.NilGuardExpr:
+		return "nil guard"
+	case *ast.SafeNavExpr:
+		return "safe navigation"
 	case *ast.CallExpr:
 		if len(n.Args) == 1 && !n.Ellipsis.IsValid() {
 			return "function call (or conversion)"

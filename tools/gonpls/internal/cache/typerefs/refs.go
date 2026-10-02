@@ -504,6 +504,25 @@ func visitExpr(expr ast.Expr, f refVisitor) {
 	case *ast.FuncLit:
 		visitExpr(n.Type, f)
 		// Skip Body, which does not affect the type.
+	case *ast.LambdaExpr:
+		// Generic calls can infer their result type from an expression body.
+		// Ignore references to lambda parameters, which are not package refs.
+		if n.Body != nil {
+			visitExpr(n.Body, func(name, sel string) {
+				for _, param := range n.Params {
+					if name == param.Name {
+						return
+					}
+				}
+				f(name, sel)
+			})
+		}
+	case *ast.NilGuardExpr:
+		visitExpr(n.X, f)
+	case *ast.SafeNavExpr:
+		visitExpr(n.X, f)
+	case *ast.ErrorExpr:
+		visitExpr(n.X, f) // the handler cannot determine successful result types
 
 	case *ast.CompositeLit:
 		if n.Type != nil {

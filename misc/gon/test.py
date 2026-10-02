@@ -44,6 +44,34 @@ func main() {
 LEGACY = MODERN.replace('value := read(fail) or problem {', 'value, problem := read(fail)\n    if problem != nil {').replace(
     'next := read(false)!', 'next, err := read(false)\n    if err != nil { return 0, err }')
 
+CONDITIONAL_MODERN = '''package main
+import "fmt"
+var calls, conditions int
+func touch(v int) int { calls++; return v }
+func condition(flag bool) bool { conditions++; return flag }
+func choose(flag bool) int {
+    return if condition(flag) { touch(1) } else { touch(2) }
+}
+func complete(flag bool, pickInt int, pickString string, pickBool bool) int {
+    return if flag { pickInt } else { pickInt }
+}
+func inferred(flag bool, pickInt int, pickString string) {
+    value := if flag { pickInt } else { pickInt }
+    fmt.Println(value)
+}
+func main() {
+    a, b := choose(true), choose(false)
+    fmt.Println(a, b, calls, conditions)
+}
+'''
+CONDITIONAL_LEGACY = CONDITIONAL_MODERN.replace(
+    'return if condition(flag) { touch(1) } else { touch(2) }',
+    'if condition(flag) { return touch(1) }; return touch(2)').replace(
+    'return if flag { pickInt } else { pickInt }',
+    'if flag { return pickInt }; return pickInt').replace(
+    'value := if flag { pickInt } else { pickInt }',
+    'var value int; if flag { value = pickInt } else { value = pickInt }')
+
 
 def command(*args, cwd=None, env=None):
     return subprocess.run([str(a) for a in args], cwd=cwd, env=env,
@@ -51,7 +79,7 @@ def command(*args, cwd=None, env=None):
 
 
 class Client:
-    def __init__(self, folder, log):
+    def __init__(self, folder, log, options=None):
         self.process = subprocess.Popen([str(LSP), "serve"], cwd=folder,
                                         stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=log)
         self.messages = queue.Queue()
@@ -66,7 +94,7 @@ class Client:
                 "semanticTokens": {"requests": {"full": True}, "formats": ["relative"],
                     "tokenTypes": ["namespace", "type", "class", "enum", "interface", "struct", "typeParameter", "parameter", "variable", "property", "enumMember", "event", "function", "method", "macro", "keyword", "modifier", "comment", "string", "number", "regexp", "operator"],
                     "tokenModifiers": ["declaration", "definition", "readonly", "static", "deprecated", "abstract", "async", "modification", "documentation", "defaultLibrary"]}}},
-            "initializationOptions": {"semanticTokens": True, "staticcheck": True, "analyses": {"unusedwrite": True}, "diagnosticsDelay": "10ms"},
+            "initializationOptions": dict({"semanticTokens": True, "staticcheck": True, "analyses": {"unusedwrite": True}, "diagnosticsDelay": "10ms"}, **(options or {})),
         })
         self.send("initialized", {})
 
@@ -166,10 +194,254 @@ def apply_edits(source, edits):
     return source
 
 
+def conditional_editor(baseline):
+    """Real LSP requests, incomplete branches, and an executable lazy-flow pair."""
+    with tempfile.TemporaryDirectory(prefix="gon-conditional-editor-") as temp:
+        folder = Path(temp).resolve()
+        (folder / "go.mod").write_text("module example.com/conditional\n\ngo 1.26\n")
+        file = folder / "main.go"
+        file.write_text(CONDITIONAL_LEGACY)
+        expected = "1 2 2 2\n"
+        assert command(baseline, "run", file, cwd=folder) == expected
+        assert command(GON, "run", file, cwd=folder) == expected
+        file.write_text(CONDITIONAL_MODERN)
+        assert command(GON, "run", file, cwd=folder) == expected
+        uri = file.as_uri()
+        doc = {"textDocument": {"uri": uri}}
+        with (folder / "lsp.log").open("w+") as log:
+            client = Client(folder, log)
+            try:
+                client.send("textDocument/didOpen", {"textDocument": {
+                    "uri": uri, "languageId": "go", "version": 1, "text": CONDITIONAL_MODERN}})
+                diagnostics = client.diagnostics(uri, 1, lambda d: True)
+                assert not any(d.get("severity") == 1 for d in diagnostics), diagnostics
+                tokens = client.request("textDocument/semanticTokens/full", doc)
+                legend = client.result["capabilities"]["semanticTokensProvider"]["legend"]["tokenTypes"]
+                classified = {}
+                line = column = 0
+                for delta, char, length, kind, _ in zip(*[iter(tokens["data"])] * 5):
+                    line += delta
+                    column = char if delta else column + char
+                    classified[(line, column, length)] = legend[kind]
+                for needle, size in [("if condition", 2), ("else { touch", 4)]:
+                    pos = position(CONDITIONAL_MODERN, needle)
+                    assert classified[(pos["line"], pos["character"], size)] == "keyword", classified
+                hover = client.request("textDocument/hover", dict(doc, position=position(CONDITIONAL_MODERN, "pickInt }")))
+                assert "int" in json.dumps(hover), hover
+                definitions = client.request("textDocument/definition", dict(doc, position=position(CONDITIONAL_MODERN, "pickInt }")))
+                assert definitions[0]["range"]["start"] == position(CONDITIONAL_MODERN, "pickInt int"), definitions
+                for needle in ("touch(1)", "touch(2)"):
+                    actions = client.request("textDocument/codeAction", dict(doc,
+                        range={"start": position(CONDITIONAL_MODERN, needle), "end": position(CONDITIONAL_MODERN, needle, len(needle))},
+                        context={"diagnostics": [], "only": ["refactor.extract.variable", "refactor.extract.variable-all"]}))
+                    assert not actions, actions
+                # Partial identifiers in both branches use their value context;
+                # a partial condition must prefer a boolean, not that value type.
+                cases = [
+                    ("return if flag { pickInt } else { pickInt }", "return if flag { pick } else { pickInt }", "pick }", "pickInt", "pickString"),
+                    ("return if flag { pickInt } else { pickInt }", "return if flag { pickInt } else { pick }", "pick }", "pickInt", "pickString"),
+                    ("return if flag { pickInt } else { pickInt }", "return if pick { pickInt } else { pickInt }", "pick {", "pickBool", "pickInt"),
+                    ("value := if flag { pickInt } else { pickInt }", "value := if flag { pick } else { pickInt }", "pick }", "pickInt", "pickString"),
+                ]
+                for version, (old, new, needle, preferred, other) in enumerate(cases, 2):
+                    source = CONDITIONAL_MODERN.replace(old, new)
+                    client.send("textDocument/didChange", dict(doc, textDocument={"uri": uri, "version": version}, contentChanges=[{"text": source}]))
+                    completion = client.request("textDocument/completion", dict(doc, position=position(source, needle, len("pick"))))
+                    labels = [item["label"] for item in completion["items"]]
+                    assert preferred in labels and other in labels, labels
+                    assert labels.index(preferred) < labels.index(other), labels
+                    # Incomplete branch identifiers must not trigger semtok's
+                    # unimplemented-node fallback either.
+                    assert client.request("textDocument/semanticTokens/full", doc)["data"]
+            finally:
+                client.close()
+            log.seek(0)
+            logs = log.read()
+            assert "panic" not in logs.lower() and "failed to implement" not in logs, logs
+
+
+
+FEATURES_MODERN = '''package main
+import ("fmt"; "strconv")
+type Item struct { Value int; Next *Item }
+func defaultValue() int { return -1 }
+func complete(pickInt int, pickString string) {
+    var f func(int) int = (n) => pickInt + n
+    _ = f
+}
+func main() {
+    var fn func(int) int = (x) => x + 1
+    var p *Item
+    a := p?.Value ?? defaultValue()
+    p = &Item{Value: 7}
+    b := p?.Value ?? defaultValue()
+    var absent func(int) int
+    fallback := absent ?? (x) => x + 2
+    c := fallback?(3) ?? 0
+    entries := map[int]*Item{}
+    entries[0] ??= p
+    var parseFn func(string) (int, error) = (s) => {
+        v := strconv.Atoi(s)!
+        return v, nil
+    }
+    n, err := parseFn("bad")
+    fmt.Println(fn(3), a, b, c, entries[0].Value, n, err != nil)
+}
+'''
+FEATURES_LEGACY = FEATURES_MODERN.replace(
+    '(n) => pickInt + n', 'func(n int) int { return pickInt + n }').replace(
+    '(x) => x + 1', 'func(x int) int { return x + 1 }').replace(
+    'a := p?.Value ?? defaultValue()',
+    'var a int; if p != nil { a = p.Value } else { a = defaultValue() }').replace(
+    'b := p?.Value ?? defaultValue()',
+    'var b int; if p != nil { b = p.Value } else { b = defaultValue() }').replace(
+    'fallback := absent ?? (x) => x + 2',
+    'fallback := absent; if fallback == nil { fallback = func(x int) int { return x + 2 } }').replace(
+    'c := fallback?(3) ?? 0', 'var c int; if fallback != nil { c = fallback(3) }').replace(
+    'entries[0] ??= p', 'if entries[0] == nil { entries[0] = p }').replace(
+    '(s) => {', 'func(s string) (int, error) {').replace(
+    'v := strconv.Atoi(s)!', 'v, err := strconv.Atoi(s); if err != nil { return 0, err }')
+
+
+def features_editor(baseline):
+    """Lambda/nil-safety execution pairs and real authoring/navigation requests."""
+    with tempfile.TemporaryDirectory(prefix="gon-features-editor-") as temp:
+        folder = Path(temp).resolve()
+        (folder / "go.mod").write_text("module example.com/features\n\ngo 1.26\n")
+        file = folder / "main.go"
+        expected = "4 -1 7 5 7 0 true\n"
+        file.write_text(FEATURES_LEGACY)
+        assert command(baseline, "run", file, cwd=folder) == expected
+        assert command(GON, "run", file, cwd=folder) == expected
+        file.write_text(FEATURES_MODERN)
+        assert command(GON, "run", file, cwd=folder) == expected
+        uri = file.as_uri()
+        doc = {"textDocument": {"uri": uri}}
+        with (folder / "lsp.log").open("w+") as log:
+            client = Client(folder, log, {"hints": {"assignVariableTypes": True}})
+            try:
+                client.send("textDocument/didOpen", {"textDocument": {
+                    "uri": uri, "languageId": "go", "version": 1, "text": FEATURES_MODERN}})
+                diagnostics = client.diagnostics(uri, 1, lambda d: True)
+                assert not any(d.get("severity") == 1 for d in diagnostics), diagnostics
+                tokens = client.request("textDocument/semanticTokens/full", doc)
+                legend = client.result["capabilities"]["semanticTokensProvider"]["legend"]["tokenTypes"]
+                classified = {}
+                line = column = 0
+                for delta, char, length, kind, _ in zip(*[iter(tokens["data"])] * 5):
+                    line += delta
+                    column = char if delta else column + char
+                    classified[(line, column, length)] = legend[kind]
+                for needle, size in [("=> x + 1", 2), ("?.Value", 2), ("?? defaultValue", 2), ("?(3)", 2), ("??= p", 3)]:
+                    pos = position(FEATURES_MODERN, needle)
+                    assert classified[(pos["line"], pos["character"], size)] == "operator", classified
+                param = position(FEATURES_MODERN, "x) => x + 1")
+                assert classified[(param["line"], param["character"], 1)] == "parameter", classified
+                for needle, want in [("=> x + 1", "func"), ("pickInt + n", "int"), ("return v, nil", "returns (int, error)")]:
+                    hover = client.request("textDocument/hover", dict(doc, position=position(FEATURES_MODERN, needle)))
+                    assert want in json.dumps(hover), (needle, hover)
+                definitions = client.request("textDocument/definition", dict(doc, position=position(FEATURES_MODERN, "x + 1")))
+                assert definitions[0]["range"]["start"] == param, definitions
+                definitions = client.request("textDocument/definition", dict(doc, position=position(FEATURES_MODERN, "return v, nil")))
+                assert definitions[0]["range"]["start"] == position(FEATURES_MODERN, "=> {"), definitions
+                signature = client.request("textDocument/signatureHelp", dict(doc, position=position(FEATURES_MODERN, "?(3)", 2)))
+                assert "int" in json.dumps(signature), signature
+                hints = client.request("textDocument/inlayHint", dict(doc, range={"start": {"line": 0, "character": 0}, "end": {"line": len(FEATURES_MODERN.splitlines())-1, "character": 1}}))
+                assert any(h["position"] == dict(param, character=param["character"]+1) and "int" in json.dumps(h["label"]) for h in hints), hints
+                for needle in ("(x) => x + 1", "defaultValue()", "pickInt + n"):
+                    actions = client.request("textDocument/codeAction", dict(doc,
+                        range={"start": position(FEATURES_MODERN, needle), "end": position(FEATURES_MODERN, needle, len(needle))},
+                        context={"diagnostics": [], "only": ["refactor.extract.variable", "refactor.extract.variable-all"]}))
+                    assert not actions, (needle, actions)
+                for version, (old, new, needle, preferred) in enumerate([
+                    ("pickInt + n", "pick + n", "pick + n", "pickInt"),
+                    ("b := p?.Value", "b := p?.Val", "b := p?.Val", "Value"),
+                    ("b := p?.Value ?? defaultValue()", "b := p?.", "b := p?.", "Value"),
+                ], 2):
+                    source = FEATURES_MODERN.replace(old, new)
+                    client.send("textDocument/didChange", dict(doc, textDocument={"uri": uri, "version": version}, contentChanges=[{"text": source}]))
+                    length = len("pick") if needle.startswith("pick") else len(needle)
+                    completion = client.request("textDocument/completion", dict(doc, position=position(source, needle, length)))
+                    labels = [item["label"] for item in completion["items"]]
+                    assert preferred in labels, (preferred, labels)
+                    if preferred == "pickInt":
+                        assert labels.index("pickInt") < labels.index("pickString"), labels
+                    assert client.request("textDocument/semanticTokens/full", doc)["data"]
+                client.send("textDocument/didChange", dict(doc, textDocument={"uri": uri, "version": 5}, contentChanges=[{"text": FEATURES_MODERN}]))
+                # Expand typed lambdas only when the signature is nameable and
+                # replacing them cannot change an enclosing generic inference.
+                for ordinal, needle in enumerate(("=> x + 1", "=> {")):
+                    version = 6 + 2*ordinal
+                    actions = client.request("textDocument/codeAction", dict(doc,
+                        range={"start": position(FEATURES_MODERN, needle), "end": position(FEATURES_MODERN, needle, 2)},
+                        context={"diagnostics": [], "only": ["refactor.rewrite.lambda"]}))
+                    assert len(actions) == 1 and actions[0]["title"] == "Convert lambda to function literal", actions
+                    edits = [edit for change in actions[0]["edit"]["documentChanges"] for edit in change.get("edits", [])]
+                    rewritten = apply_edits(FEATURES_MODERN, edits)
+                    assert "func(" in rewritten, rewritten
+                    file.write_text(rewritten)
+                    assert command(GON, "run", file, cwd=folder) == expected
+                    client.send("textDocument/didChange", dict(doc, textDocument={"uri": uri, "version": version}, contentChanges=[{"text": rewritten}]))
+                    literal = "func(x int) int" if ordinal == 0 else "func(s string) (int, error)"
+                    inverse = client.request("textDocument/codeAction", dict(doc,
+                        range={"start": position(rewritten, literal), "end": position(rewritten, literal, 4)},
+                        context={"diagnostics": [], "only": ["refactor.rewrite.lambda"]}))
+                    assert len(inverse) == 1 and inverse[0]["title"] == "Convert function literal to lambda", inverse
+                    inverse_edits = [edit for change in inverse[0]["edit"]["documentChanges"] for edit in change.get("edits", [])]
+                    roundtrip = apply_edits(rewritten, inverse_edits)
+                    assert "=> {" in roundtrip, roundtrip
+                    file.write_text(roundtrip)
+                    assert command(GON, "run", file, cwd=folder) == expected
+                    file.write_text(FEATURES_MODERN)
+                    client.send("textDocument/didChange", dict(doc, textDocument={"uri": uri, "version": version+1}, contentChanges=[{"text": FEATURES_MODERN}]))
+                negative = FEATURES_MODERN + '''
+func generic[T any](x T, f func(T) T) T { return f(x) }
+func generic2[T, U any](x T, f func(T) U) U { return f(x) }
+type UintFn func(uint) uint
+func rejectRewrite() {
+    _ = generic(1, (x) => x + 1)
+    _ = generic2[int](1, (x) => x)
+    uint := 1
+    var f UintFn = (v) => v
+    _, _ = uint, f
+    _ = generic(1, func(genericParam int) int { return genericParam })
+}
+var commented func(int) int = (x) => /*keep*/ x
+var inferred = func(inferredParam int) int { return inferredParam }
+var named func(int) int = func(namedParam int) (result int) { return namedParam }
+var boxed any = func(boxedParam int) int { return boxedParam }
+var parenthesized func(int) int = (func(parenParam int) int { return parenParam })
+'''
+                client.send("textDocument/didChange", dict(doc, textDocument={"uri": uri, "version": 10}, contentChanges=[{"text": negative}]))
+                for needle in ("=> x + 1)\n", "=> x)\n", "=> /*keep*/ x", "=> v\n", "func(genericParam", "func(inferredParam", "func(namedParam", "func(boxedParam", "func(parenParam"):
+                    actions = client.request("textDocument/codeAction", dict(doc,
+                        range={"start": position(negative, needle), "end": position(negative, needle, 2)},
+                        context={"diagnostics": [], "only": ["refactor.rewrite.lambda"]}))
+                    assert not actions, (needle, actions)
+                client.send("textDocument/didChange", dict(doc, textDocument={"uri": uri, "version": 11}, contentChanges=[{"text": FEATURES_MODERN}]))
+                edits = client.request("textDocument/formatting", dict(doc, options={"tabSize": 4, "insertSpaces": False}))
+                formatted = apply_edits(FEATURES_MODERN, edits)
+                assert "=>" in formatted and "?.Value" in formatted and " ??= " in formatted
+                file.write_text(formatted)
+                assert command(GON, "run", file, cwd=folder) == expected
+            finally:
+                client.close()
+            log.seek(0)
+            logs = log.read()
+            assert "panic" not in logs.lower() and "failed to implement" not in logs, logs
+
 def main():
-    baseline = os.environ.get("GO_ERROR_HANDLING_BASELINE")
+    baseline = os.environ.get("GON_BASELINE_GO") or os.environ.get("GO_ERROR_HANDLING_BASELINE")
     if not baseline:
-        raise SystemExit("Set GO_ERROR_HANDLING_BASELINE to an unmodified Go executable")
+        raise SystemExit("Set GON_BASELINE_GO to an unmodified Go executable")
+    if sys.argv[1:] == ["--features-only"]:
+        features_editor(baseline)
+        print("PASS: lambda/null-safety executable pair, LSP tokens, hover, definitions, signature help, inferred parameter hints, completion, extraction safety and formatting")
+        return
+    if sys.argv[1:] == ["--conditional-only"]:
+        conditional_editor(baseline)
+        print("PASS: conditional baseline/modern execution, LSP tokens, hover, definition, incomplete completion and extraction safety")
+        return
     before = command(baseline, "version")
     with tempfile.TemporaryDirectory(prefix="gon-tools-test-") as temp:
         folder = Path(temp).resolve()
@@ -316,6 +588,8 @@ func analysisProbe() error {
             log.seek(0)
             logs = log.read()
             assert "panic" not in logs.lower() and "failed to implement" not in logs, logs
+    conditional_editor(baseline)
+    features_editor(baseline)
     assert command(baseline, "version") == before
     print("PASS: executable legacy/modern pair, baseline, isolation, CLI errors, LSP diagnostics, hover, definition, rename, completion, formatting, semantic tokens, imports, unsaved edits, SSA/Staticcheck diagnostics")
 

@@ -1,4 +1,4 @@
-# Handover: Gon features #8, #6, #7 (paused 2026-09-30)
+# Handover: Gon features #8, #6, #7 (updated 2026-10-02)
 
 Written for a new agent session that resumes this work. Read
 [AGENTS.md](../AGENTS.md) first; its rules are binding. This folder is a
@@ -8,6 +8,96 @@ The current conditional implementation, tooling infrastructure and upstream
 integration are recorded together. Use `git status` for subsequent local work.
 The user's own untracked files (`a.go`, `gon_logo.png`, `AGENTS.md`, `.agents/`,
 and the pre-existing `design/` docs) must be left alone unless a task names them.
+
+## Lambda and null-safety integration closure (2026-10-02, latest update)
+
+The user requested implementation of both features, authorized Astra/Sol 6.1
+subagents and asked to run only necessary tests. Lambdas follow the already
+accepted design. Null safety follows the recommended options in its updated
+specification; the former parked state is superseded. Compiler and public AST,
+parsers, type checkers, lowering, formatting, cgo, coverage and gonpls now support:
+
+```go
+var twice func(int) int = (x) => x * 2
+name := user?.Name ?? "guest"
+value := callback?(arg()) ?? 0
+config ??= defaults()
+```
+
+Lambdas have Go closure/function-boundary semantics, including `!`, `or` and
+`defer`. Nil operators evaluate operands once, skip guarded tails and defaults,
+preserve intrinsic nil checks before interface conversion, and store for `??=`
+only on the nil path. These are runtime conveniences, not non-null types.
+Both syntax/type-checker families, inference, generated mirrors, public AST
+inventory/edges/mutable slots, CFG, SSA, Staticcheck IR, analyzer diagnostics,
+semantic queries and editor operations are integrated. See the specifications
+and project skill for the precise source rules.
+
+Legacy/modern executable pairs and invalid programs are in `test/lambda.go`,
+`test/nullsafety.go` and their `.dir` fixtures. The final combined execution of
+lambda, null safety, error handling and conditional expressions passed in
+14.597s on darwin/arm64 with unmodified Go 1.27.1 baselines and no skips. Both
+new harnesses also run vet, race detection, disabled inlining and cross-package
+generic/export cases. Cgo/coverage pairs, SSA execution, IR sanity, real LSP and
+targeted analyzer diagnostics passed. The real registry corpus now exercises
+247 analyzers on seven packages.
+
+Exact commands and limitations are in
+[the validation record](../misc/gon/VALIDATION.md#lambdas-and-null-safety-2026-10-02).
+Only focused checks were run. The runner subset is partial (exit 2), not a full
+profile pass. Old Staticcheck TestTestdata suites for five changed analyzers
+lack imported fixture go.mod files; their new Gon diagnostics tests passed.
+No other architecture execution or full bootstrap is claimed.
+
+Preserve conservative refactoring limits: the source inliner declines affected
+Gon code, extraction declines lazy/context-dependent movement, and lambda
+conversions require known identical signatures and safe source contexts. Existing
+cgo restrictions around error propagation inside pointer-check-rewritten C
+arguments remain. Pending work and supported limits are separated in
+`misc/gon/features.json`; new `lambda` and `nullsafety` validator profiles list
+the focused gates. Maintained sources are under `tools/`; vendor was regenerated
+and checked, compiler/private tools installed and public gon/gonpls rebuilt.
+
+No commit was requested or made. Preserve unrelated `a.go`, `gon_logo.png` and
+other user work. Root AGENTS.md and design Markdown remain local and ignored.
+The future joint design of Result, Option, sum types and matching is separate
+work; this implementation does not decide or implement its open choices.
+
+## Conditional integration closure (2026-10-02, previous update)
+
+This update supersedes the remaining #8 work and unconfirmed clarifications
+below. Conditional expressions now have cgo traversal and contextual C argument
+types, bootstrap adapters, paired coverage profiles, semantic keyword tokens,
+construct queries, branch/condition completion and conservative extraction
+checks. The source inliner refuses both Gon control-flow callee bodies and
+affected call sites; this is an explicit supported limitation, not an unsafe
+partial transformation. Coverage needed tests only, no instrumenter change.
+
+The user explicitly confirmed all four type rules from the earlier handover:
+distributed conversions, target types for append/delete/panic, the generic nil
+inference restriction, and no-target numeric branch types before conversion to
+interfaces. The local specification and repository-local Gon skill now describe
+the implemented feature. `misc/gon/features.json` has no pending conditional
+integration items and separately lists supported limitations.
+
+Focused tests passed on darwin/arm64 against unmodified Go 1.27.1. They include
+automated baseline/legacy/modern executions for cgo, cover, editor and inlining;
+cgo bootstrap adapter checks; existing cgo error handling and legacy cover
+regressions; query/extraction unit tests; and vet. Public tools were rebuilt,
+cmd/cgo and cmd/fix installed, vendor regenerated and checked. See
+[the exact validation record](../misc/gon/VALIDATION.md#conditional-integration-closure-2026-10-02)
+and the local `design/conditional-expression/VALIDATION.md`.
+
+Only affected tests were run; no full feature profile or distribution suite
+was rerun. The recorded validation-runner subset exits 2 because it is partial,
+with all selected checks passing. No execution on other architectures or full
+bootstrap is claimed. Compiler/public-parser wording for a missing `}` before
+`else` still differs; both reject the malformed source.
+
+Next feature: implement the already accepted lambda design, starting from the
+integration checklist and the implementation notes below. No lambda source has
+been added; null safety remains parked. The latest user preference permits
+Astra and Sol 6.1 subagents, with focused tests only. No commit was requested.
 
 ## Go upstream integration (2026-10-02)
 

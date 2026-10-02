@@ -39,7 +39,7 @@ func findErrorExpr(x ast.Expr) ast.Node {
 			return false
 		}
 		switch n := n.(type) {
-		case *ast.FuncLit:
+		case *ast.FuncLit, *ast.LambdaExpr:
 			return false
 		case *ast.ErrorExpr:
 			found = n

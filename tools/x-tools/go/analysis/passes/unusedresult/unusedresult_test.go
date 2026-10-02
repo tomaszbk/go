@@ -17,3 +17,7 @@ func Test(t *testing.T) {
 	unusedresult.Analyzer.Flags.Set("funcs", funcs)
 	analysistest.Run(t, testdata, unusedresult.Analyzer, "a", "typeparams")
 }
+
+func TestGon(t *testing.T) {
+	analysistest.Run(t, analysistest.TestData(), unusedresult.Analyzer, "gon")
+}

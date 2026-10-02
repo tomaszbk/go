@@ -120,6 +120,9 @@ const (
 	KindCondThen        // Then branch of CondExpr; Stmt=nil
 	KindCondElse        // Else branch of CondExpr; Stmt=nil
 	KindCondDone        // continuation after CondExpr; Stmt=nil
+	KindNilPresent      // guarded non-nil continuation
+	KindNilFallback     // fallback of ?? or ??=
+	KindNilDone         // continuation after nil handling
 )
 
 func (kind BlockKind) String() string {
@@ -149,6 +152,9 @@ func (kind BlockKind) String() string {
 		KindCondThen:        "CondThen",
 		KindCondElse:        "CondElse",
 		KindCondDone:        "CondDone",
+		KindNilPresent:      "NilPresent",
+		KindNilFallback:     "NilFallback",
+		KindNilDone:         "NilDone",
 	}[kind]
 }
 

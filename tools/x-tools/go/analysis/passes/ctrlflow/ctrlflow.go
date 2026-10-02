@@ -45,6 +45,7 @@ type CFGs struct {
 	defs      map[*ast.Ident]types.Object // from Pass.TypesInfo.Defs
 	funcDecls map[*types.Func]*declInfo
 	funcLits  map[*ast.FuncLit]*litInfo
+	lambdas   map[*ast.LambdaExpr]*litInfo
 	noReturn  map[*types.Func]bool // functions lacking a reachable return statement
 	pass      *analysis.Pass       // transient; nil after construction
 }
@@ -94,6 +95,9 @@ func (c *CFGs) FuncLit(lit *ast.FuncLit) *cfg.CFG {
 	return c.funcLits[lit].cfg
 }
 
+// Lambda returns the control-flow graph of a Gon lambda body.
+func (c *CFGs) Lambda(lit *ast.LambdaExpr) *cfg.CFG { return c.lambdas[lit].cfg }
+
 func run(pass *analysis.Pass) (any, error) {
 	inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
 
@@ -106,13 +110,16 @@ func run(pass *analysis.Pass) (any, error) {
 	// Pass 1. Map types.Funcs to ast.FuncDecls in this package.
 	funcDecls := make(map[*types.Func]*declInfo) // functions and methods
 	funcLits := make(map[*ast.FuncLit]*litInfo)
+	lambdas := make(map[*ast.LambdaExpr]*litInfo)
 
 	var decls []*types.Func // keys(funcDecls), in order
 	var lits []*ast.FuncLit // keys(funcLits), in order
+	var lambdaList []*ast.LambdaExpr
 
 	nodeFilter := []ast.Node{
 		(*ast.FuncDecl)(nil),
 		(*ast.FuncLit)(nil),
+		(*ast.LambdaExpr)(nil),
 	}
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
 		switch n := n.(type) {
@@ -125,6 +132,9 @@ func run(pass *analysis.Pass) (any, error) {
 		case *ast.FuncLit:
 			funcLits[n] = new(litInfo)
 			lits = append(lits, n)
+		case *ast.LambdaExpr:
+			lambdas[n] = new(litInfo)
+			lambdaList = append(lambdaList, n)
 		}
 	})
 
@@ -132,6 +142,7 @@ func run(pass *analysis.Pass) (any, error) {
 		defs:      pass.TypesInfo.Defs,
 		funcDecls: funcDecls,
 		funcLits:  funcLits,
+		lambdas:   lambdas,
 		noReturn:  make(map[*types.Func]bool),
 		pass:      pass,
 	}
@@ -159,6 +170,19 @@ func run(pass *analysis.Pass) (any, error) {
 		}
 	}
 
+	for _, lit := range lambdaList {
+		body := lit.Block
+		if body == nil {
+			var stmt ast.Stmt = &ast.ExprStmt{X: lit.Body}
+			if sig, ok := pass.TypesInfo.TypeOf(lit).(*types.Signature); ok && sig.Results().Len() != 0 {
+				stmt = &ast.ReturnStmt{Return: lit.Arrow, Results: []ast.Expr{lit.Body}}
+			}
+			body = &ast.BlockStmt{Lbrace: lit.Arrow, List: []ast.Stmt{stmt}, Rbrace: lit.End()}
+		}
+		li := lambdas[lit]
+		li.cfg = cfg.New(body, c.callMayReturn)
+		li.noReturn = li.cfg.NoReturn()
+	}
 	// All CFGs are now built.
 	c.pass = nil
 

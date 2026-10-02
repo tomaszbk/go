@@ -9,6 +9,7 @@ package waitgroup
 import (
 	_ "embed"
 	"go/ast"
+	"go/types"
 	"reflect"
 
 	"golang.org/x/tools/go/analysis"
@@ -45,8 +46,8 @@ func run(pass *analysis.Pass) (any, error) {
 			call := n.(*ast.CallExpr)
 			obj := typeutil.Callee(pass.TypesInfo, call)
 			if typesinternal.IsMethodNamed(obj, "sync", "WaitGroup", "Add") &&
-				hasSuffix(stack, wantSuffix) &&
-				backindex(stack, 1) == backindex(stack, 2).(*ast.BlockStmt).List[0] { // ExprStmt must be Block's first stmt
+				(hasSuffix(stack, wantSuffix) &&
+					backindex(stack, 1) == backindex(stack, 2).(*ast.BlockStmt).List[0] || immediateLambdaGo(pass.TypesInfo, stack)) { // ExprStmt must be Block's first stmt
 
 				pass.Reportf(call.Lparen, "WaitGroup.Add called from inside new goroutine")
 			}
@@ -88,4 +89,42 @@ func hasSuffix(stack, suffix []ast.Node) bool {
 // backindex is like [slices.Index] but from the back of the slice.
 func backindex[T any](slice []T, i int) T {
 	return slice[len(slice)-1-i]
+}
+
+// immediateLambdaGo recognizes a contextually typed lambda immediately invoked
+// in a go statement, including the conversion required to provide its type.
+func immediateLambdaGo(info *types.Info, stack []ast.Node) bool {
+	for i := len(stack) - 2; i >= 0; i-- {
+		e, ok := stack[i].(*ast.LambdaExpr)
+		if !ok {
+			continue
+		}
+		if e.Block != nil {
+			if len(e.Block.List) == 0 || i+3 != len(stack)-1 || stack[i+2] != e.Block.List[0] {
+				return false
+			}
+		} else if e.Body != stack[len(stack)-1] {
+			return false
+		}
+		var current ast.Node = e
+		for j := i - 1; j >= 0; j-- {
+			switch p := stack[j].(type) {
+			case *ast.ParenExpr:
+				if p.X != current {
+					return false
+				}
+				current = p
+			case *ast.CallExpr:
+				if info.Types[p.Fun].IsType() && len(p.Args) == 1 && p.Args[0] == current {
+					current = p
+					continue
+				}
+				return p.Fun == current && j > 0 && func() bool { g, ok := stack[j-1].(*ast.GoStmt); return ok && g.Call == p }()
+			default:
+				return false
+			}
+		}
+		return false
+	}
+	return false
 }

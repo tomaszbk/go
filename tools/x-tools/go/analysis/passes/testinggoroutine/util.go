@@ -53,7 +53,7 @@ func isMethodNamed(f *types.Func, pkgPath string, names ...string) bool {
 // funcLitInScope returns a FuncLit that id is at least initially assigned to.
 //
 // TODO: This is closely tied to id.Obj which is deprecated.
-func funcLitInScope(id *ast.Ident) *ast.FuncLit {
+func funcLitInScope(id *ast.Ident) ast.Expr {
 	// Compare to (*ast.Object).Pos().
 	if id.Obj == nil {
 		return nil
@@ -73,6 +73,9 @@ func funcLitInScope(id *ast.Ident) *ast.FuncLit {
 			}
 		}
 	}
-	lit, _ := rhs.(*ast.FuncLit)
-	return lit
+	switch rhs.(type) {
+	case *ast.FuncLit, *ast.LambdaExpr:
+		return rhs
+	}
+	return nil
 }

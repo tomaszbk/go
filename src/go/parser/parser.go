@@ -1485,10 +1485,44 @@ func (p *parser) parseOperand() ast.Expr {
 		lparen := p.pos
 		p.next()
 		p.exprLev++
-		x := p.parseRhs() // types may be parenthesized: (some type)
+		var params []ast.Expr
+		if p.tok != token.RPAREN {
+			params = append(params, p.parseRhs()) // types may be parenthesized
+			for p.tok == token.COMMA {
+				p.next()
+				if p.tok == token.RPAREN {
+					break
+				}
+				params = append(params, p.parseRhs())
+			}
+		}
 		p.exprLev--
 		rparen := p.expect(token.RPAREN)
-		return &ast.ParenExpr{Lparen: lparen, X: x, Rparen: rparen}
+		if p.tok == token.FATARROW {
+			x := &ast.LambdaExpr{Lparen: lparen, Rparen: rparen, Arrow: p.pos}
+			for _, e := range params {
+				if name, ok := e.(*ast.Ident); ok {
+					x.Params = append(x.Params, name)
+				} else {
+					p.error(e.Pos(), "lambda parameter must be an identifier")
+				}
+			}
+			p.next()
+			if p.tok == token.LBRACE {
+				level := p.exprLev
+				p.exprLev = 0 // a function body clears control-clause restrictions
+				x.Block = p.parseBlockStmt()
+				p.exprLev = level
+			} else {
+				x.Body = p.parseRhs() // => binds more loosely than every operator
+			}
+			return x
+		}
+		if len(params) != 1 {
+			p.error(rparen, "expected => after lambda parameters")
+			return &ast.BadExpr{From: lparen, To: rparen + 1}
+		}
+		return &ast.ParenExpr{Lparen: lparen, X: params[0], Rparen: rparen}
 
 	case token.FUNC:
 		return p.parseFuncTypeOrLit()
@@ -1880,6 +1914,13 @@ func (p *parser) parsePrimaryExpr(x ast.Expr) ast.Expr {
 	// We track the nesting here rather than at the entry for the function,
 	// since it can iteratively produce a nested output, and we want to
 	// limit how deep a structure we generate.
+	guarded := false
+	finish := func(x ast.Expr) ast.Expr {
+		if guarded {
+			return &ast.SafeNavExpr{X: x}
+		}
+		return x
+	}
 	var n int
 	defer func() { p.nestLev -= n }()
 	for n = 1; ; n++ {
@@ -1891,7 +1932,7 @@ func (p *parser) parsePrimaryExpr(x ast.Expr) ast.Expr {
 			x = &ast.ErrorExpr{X: x, OpPos: pos}
 		case token.IDENT:
 			if _, call := ast.Unparen(x).(*ast.CallExpr); p.lit != "or" || !call {
-				return x
+				return finish(x)
 			}
 			pos := p.pos
 			p.next()
@@ -1902,6 +1943,32 @@ func (p *parser) parsePrimaryExpr(x ast.Expr) ast.Expr {
 			body := p.parseBlockStmt()
 			p.exprLev = level
 			x = &ast.ErrorExpr{X: x, OpPos: pos, Err: err, Body: body}
+		case token.SAFE_PERIOD:
+			question := p.pos
+			p.next()
+			guarded = true
+			x = &ast.NilGuardExpr{X: x, Question: question}
+			if p.tok != token.IDENT {
+				if p.tok == token.LPAREN {
+					p.error(p.pos, "type assertion cannot follow ?.")
+				} else {
+					p.error(p.pos, "?. must be followed by a field or method name")
+				}
+			}
+			x = p.parseSelector(x)
+		case token.SAFE_LPAREN:
+			guarded = true
+			x = &ast.NilGuardExpr{X: x, Question: p.pos}
+			// The scanner consumed both characters; the ordinary call parser
+			// consumes this token as the opening parenthesis at its actual position.
+			p.tok = token.LPAREN
+			p.pos++
+			x = p.parseCallOrConversion(x)
+		case token.FATARROW:
+			p.error(p.pos, "lambda parameters must be parenthesized")
+			p.next()
+			p.parseRhs()
+			return finish(x)
 		case token.PERIOD:
 			p.next()
 			switch p.tok {
@@ -1935,18 +2002,18 @@ func (p *parser) parsePrimaryExpr(x ast.Expr) ast.Expr {
 			switch t.(type) {
 			case *ast.BadExpr, *ast.Ident, *ast.SelectorExpr:
 				if p.exprLev < 0 {
-					return x
+					return finish(x)
 				}
 				// x is possibly a composite literal type
 			case *ast.IndexExpr, *ast.IndexListExpr:
 				if p.exprLev < 0 {
-					return x
+					return finish(x)
 				}
 				// x is possibly a composite literal type
 			case *ast.ArrayType, *ast.StructType, *ast.MapType:
 				// x is a composite literal type
 			default:
-				return x
+				return finish(x)
 			}
 			if t != x {
 				p.error(t.Pos(), "cannot parenthesize type in composite literal")
@@ -1954,7 +2021,7 @@ func (p *parser) parsePrimaryExpr(x ast.Expr) ast.Expr {
 			}
 			x = p.parseLiteralValue(t)
 		default:
-			return x
+			return finish(x)
 		}
 	}
 }
@@ -2062,7 +2129,20 @@ func (p *parser) parseBinaryExpr(x ast.Expr, prec1 int) ast.Expr {
 			return x
 		}
 		pos := p.expect(op)
-		y := p.parseBinaryExpr(nil, oprec+1)
+		rprec := oprec + 1
+		if op == token.COALESCE {
+			rprec = oprec
+		}
+		y := p.parseBinaryExpr(nil, rprec)
+		for _, e := range []ast.Expr{x, y} {
+			if b, ok := e.(*ast.BinaryExpr); ok && (op == token.COALESCE) != (b.Op == token.COALESCE) {
+				other := op
+				if op == token.COALESCE {
+					other = b.Op
+				}
+				p.error(pos, "cannot mix ?? and "+other.String()+" without parentheses")
+			}
+		}
 		x = &ast.BinaryExpr{X: x, OpPos: pos, Op: op, Y: y}
 	}
 }
@@ -2110,7 +2190,7 @@ func (p *parser) parseSimpleStmt(mode int) (ast.Stmt, bool) {
 		token.DEFINE, token.ASSIGN, token.ADD_ASSIGN,
 		token.SUB_ASSIGN, token.MUL_ASSIGN, token.QUO_ASSIGN,
 		token.REM_ASSIGN, token.AND_ASSIGN, token.OR_ASSIGN,
-		token.XOR_ASSIGN, token.SHL_ASSIGN, token.SHR_ASSIGN, token.AND_NOT_ASSIGN:
+		token.XOR_ASSIGN, token.SHL_ASSIGN, token.SHR_ASSIGN, token.AND_NOT_ASSIGN, token.COALESCE_ASSIGN:
 		// assignment statement, possibly part of a range clause
 		pos, tok := p.pos, p.tok
 		p.next()

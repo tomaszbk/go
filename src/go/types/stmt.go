@@ -440,7 +440,13 @@ func (check *Checker) stmt(ctxt stmtContext, s ast.Stmt) {
 		// function and method calls and receive operations can appear
 		// in statement context. Such statements may be parenthesized."
 		var x operand
-		kind := check.rawExpr(nil, &x, s.X, false)
+		var kind exprKind
+		if chain, ok := ast.Unparen(s.X).(*ast.SafeNavExpr); ok {
+			kind = check.safeNavExpr(nil, &x, chain, true)
+			check.record(&x)
+		} else {
+			kind = check.rawExpr(nil, &x, s.X, false)
+		}
 		var msg string
 		var code Code
 		switch x.mode() {
@@ -522,6 +528,10 @@ func (check *Checker) stmt(ctxt stmtContext, s ast.Stmt) {
 			// assignment operations
 			if len(s.Lhs) != 1 || len(s.Rhs) != 1 {
 				check.errorf(inNode(s, s.TokPos), MultiValAssignOp, "assignment operation %s requires single-valued expressions", s.Tok)
+				return
+			}
+			if s.Tok == token.COALESCE_ASSIGN {
+				check.coalesceAssign(s.Lhs[0], s.Rhs[0])
 				return
 			}
 			op := assignOp(s.Tok)

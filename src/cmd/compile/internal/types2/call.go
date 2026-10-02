@@ -672,6 +672,12 @@ func (check *Checker) arguments(call *syntax.CallExpr, sig *Signature, targs []T
 	if len(args) > 0 {
 		context := check.sprintf("argument to %s", call.Fun)
 		for i, a := range args {
+			if e, ok := a.expr.(*syntax.LambdaExpr); ok {
+				if check.lambdaTypes[e] == nil {
+					check.lambdaExpr(newTarget(sigParams.vars[i].typ, context), a, e)
+				}
+				check.record(a)
+			}
 			// A conditional expression for a parameter of the callee whose
 			// type depends on its type parameters had no target type.
 			if n > 0 && isCondExpr(a.expr) && !(ddd && i == nargs-1) && isParameterized(sig.TypeParams().list(), sig.argType(i)) {
@@ -804,6 +810,13 @@ func (check *Checker) selector(x *operand, e *syntax.SelectorExpr, wantType bool
 	}
 
 	check.exprOrType(x, e.X, false)
+	if _, guarded := e.X.(*syntax.NilGuardExpr); guarded && x.isValid() {
+		if _, sig := x.typ().Underlying().(*Signature); sig {
+			check.error(e.X, InvalidNilSafety, "?. requires a pointer or interface")
+			x.invalidate()
+		}
+	}
+
 	switch x.mode() {
 	case builtin:
 		check.errorf(e.Pos(), UncalledBuiltin, "invalid use of %s in selector expression", x)

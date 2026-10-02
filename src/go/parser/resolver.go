@@ -322,6 +322,18 @@ func (r *resolver) Visit(node ast.Node) ast.Visitor {
 		r.walkFuncType(n.Type)
 		r.walkBody(n.Body)
 
+	case *ast.LambdaExpr:
+		r.openScope(n.Pos())
+		defer r.closeScope()
+		r.declare(n, nil, r.topScope, ast.Var, n.Params...)
+		if n.Block != nil {
+			r.walkBody(n.Block)
+		} else {
+			r.openLabelScope()
+			defer r.closeLabelScope()
+			ast.Walk(r, n.Body)
+		}
+
 	case *ast.ErrorExpr:
 		ast.Walk(r, n.X)
 		if n.Body != nil {

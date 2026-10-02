@@ -10,7 +10,7 @@ import (
 type unknownExpr struct{ ast.Expr }
 
 func TestGonTransformSafety(t *testing.T) {
-	for _, src := range []string{"if c { 1 } else { 2 }", "f()!", "f() or err { panic(err) }"} {
+	for _, src := range []string{"if c { 1 } else { 2 }", "f()!", "f() or err { panic(err) }", "(x) => x", "() => { f() }", "p?.Field", "f?()"} {
 		a, err := parser.ParseExpr(src)
 		if err != nil {
 			t.Fatal(err)
@@ -32,9 +32,11 @@ func TestGonTransformSafety(t *testing.T) {
 	if astutil.Equal(&unknownExpr{}, &unknownExpr{}) {
 		t.Fatal("unknown equality accepted")
 	}
-	a, _ := parser.ParseExpr("x + 1")
-	b, ok := astutil.CopyExpr(a)
-	if !ok || !astutil.Equal(a, b) {
-		t.Fatal("legacy copy/equality regressed")
+	for _, src := range []string{"x + 1", "p ?? q"} {
+		a, _ := parser.ParseExpr(src)
+		b, ok := astutil.CopyExpr(a)
+		if !ok || !astutil.Equal(a, b) || a.(*ast.BinaryExpr).Op != b.(*ast.BinaryExpr).Op {
+			t.Fatalf("binary copy/equality changed %s", src)
+		}
 	}
 }

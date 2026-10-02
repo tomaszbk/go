@@ -258,6 +258,7 @@ var codeActionProducers = [...]codeActionProducer{
 	{kind: settings.RefactorRewriteFillSwitch, fn: refactorRewriteFillSwitch, needPkg: true},
 	{kind: settings.RefactorRewriteImplementInterface, fn: refactorRewriteImplementInterface, needPkg: true},
 	{kind: settings.RefactorRewriteInvertIf, fn: refactorRewriteInvertIf},
+	{kind: settings.RefactorRewriteLambda, fn: refactorRewriteLambda, needPkg: true},
 	{kind: settings.RefactorRewriteJoinLines, fn: refactorRewriteJoinLines, needPkg: true},
 	{kind: settings.RefactorRewriteRemoveUnusedParam, fn: refactorRewriteRemoveUnusedParam, needPkg: true},
 	{kind: settings.RefactorRewriteMoveParamLeft, fn: refactorRewriteMoveParamLeft, needPkg: true},

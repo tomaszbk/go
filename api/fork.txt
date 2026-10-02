@@ -3,6 +3,12 @@ pkg go/ast, method (*CondExpr) End() token.Pos
 pkg go/ast, method (*CondExpr) Pos() token.Pos
 pkg go/ast, method (*ErrorExpr) End() token.Pos
 pkg go/ast, method (*ErrorExpr) Pos() token.Pos
+pkg go/ast, method (*LambdaExpr) End() token.Pos
+pkg go/ast, method (*LambdaExpr) Pos() token.Pos
+pkg go/ast, method (*NilGuardExpr) End() token.Pos
+pkg go/ast, method (*NilGuardExpr) Pos() token.Pos
+pkg go/ast, method (*SafeNavExpr) End() token.Pos
+pkg go/ast, method (*SafeNavExpr) Pos() token.Pos
 pkg go/ast, type CondExpr struct
 pkg go/ast, type CondExpr struct, Cond Expr
 pkg go/ast, type CondExpr struct, Else Expr
@@ -18,3 +24,25 @@ pkg go/ast, type ErrorExpr struct, Body *BlockStmt
 pkg go/ast, type ErrorExpr struct, Err *Ident
 pkg go/ast, type ErrorExpr struct, OpPos token.Pos
 pkg go/ast, type ErrorExpr struct, X Expr
+pkg go/ast, type LambdaExpr struct
+pkg go/ast, type LambdaExpr struct, Arrow token.Pos
+pkg go/ast, type LambdaExpr struct, Block *BlockStmt
+pkg go/ast, type LambdaExpr struct, Body Expr
+pkg go/ast, type LambdaExpr struct, Lparen token.Pos
+pkg go/ast, type LambdaExpr struct, Params []*Ident
+pkg go/ast, type LambdaExpr struct, Rparen token.Pos
+pkg go/ast, type NilGuardExpr struct
+pkg go/ast, type NilGuardExpr struct, Question token.Pos
+pkg go/ast, type NilGuardExpr struct, X Expr
+pkg go/ast, type SafeNavExpr struct
+pkg go/ast, type SafeNavExpr struct, X Expr
+pkg go/token, const COALESCE = 92
+pkg go/token, const COALESCE Token
+pkg go/token, const COALESCE_ASSIGN = 93
+pkg go/token, const COALESCE_ASSIGN Token
+pkg go/token, const FATARROW = 89
+pkg go/token, const FATARROW Token
+pkg go/token, const SAFE_LPAREN = 91
+pkg go/token, const SAFE_LPAREN Token
+pkg go/token, const SAFE_PERIOD = 90
+pkg go/token, const SAFE_PERIOD Token

@@ -355,7 +355,7 @@ func MayHaveSideEffects(pass *analysis.Pass, expr ast.Expr, purity purity.Result
 		return true
 	case *ast.Ellipsis:
 		return MayHaveSideEffects(pass, expr.Elt, purity)
-	case *ast.FuncLit:
+	case *ast.FuncLit, *ast.LambdaExpr:
 		// the literal itself cannot have side effects, only calling it
 		// might, which is handled by CallExpr.
 		return false

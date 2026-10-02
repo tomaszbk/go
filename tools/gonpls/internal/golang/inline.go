@@ -32,7 +32,7 @@ func enclosingStaticCall(pkg *cache.Package, pgf *parsego.File, start, end token
 loop:
 	for _, n := range path {
 		switch n := n.(type) {
-		case *ast.FuncLit:
+		case *ast.FuncLit, *ast.LambdaExpr:
 			break loop
 		case *ast.CallExpr:
 			call = n

@@ -65,10 +65,76 @@ Never split prefix negation across lines (`valid := !` + newline + `ok` is a
 syntax error); write `!ok` or `! ok` on one line. `!=` is unchanged, `or` is
 still a valid identifier, and ordinary Go error handling keeps working.
 
-Not implemented yet (do not write them): Result or Option types, `?`
-propagation, sum types, pattern matching, new lambda syntax, safe navigation or
-coalescing operators, conditional expressions. The full, current specification
-is `$(gon env GOROOT)/design/error-handling/README.md`.
+Conditional expressions select one value and evaluate only the chosen branch:
+
+```go
+label := if count == 1 { "item" } else { "items" }
+data := if cached { readCache()! } else { fetch()! }
+```
+
+Both branches are required and must contain one single-valued expression.
+No init statements, else-if chains, or direct nested conditional expressions
+are allowed. A conditional inside a separate operand (such as a call argument)
+is allowed. At statement start, `if` remains an ordinary Go statement.
+
+A contextual target type applies separately to each branch. Without a target,
+typed branches must agree; an untyped branch takes the other branch's type.
+For interface targets, untyped non-nil branches first acquire their no-target
+types; `nil` instead converts directly to the target, preserving nil interfaces.
+Explicit conversions distribute over branches. `gon query type` reports the
+construct as `conditional-expression`.
+
+Gonpls declines variable extraction from lazy branches and extraction of a
+whole conditional, and the source inliner declines Gon control-flow bodies or
+affected call sites. These restrictions preserve evaluation and target types.
+
+Lambdas take their parameter and result types from context:
+
+```go
+var twice func(int) int = (x) => x * 2
+slices.SortFunc(users, (a, b) => cmp.Compare(a.Name, b.Name))
+var load func() ([]byte, error) = () => {
+    data := os.ReadFile(path)!
+    return data, nil
+}
+```
+
+Parameters must be parenthesized identifiers, without written types. Bodies
+may be expressions or ordinary blocks. A lambda has ordinary Go closure and
+capture semantics; `return`, `defer`, `!` and `or` inside it belong to that
+lambda. A standalone `f := (x) => x` has no target and is invalid. Parentheses
+around the whole lambda do not pass a target. Generic calls can infer results
+from expression bodies once parameter types are known; block bodies require
+known result types. Lambda errors use `InvalidLambda`.
+Gonpls offers conversions between lambdas and function literals when signature
+identity and source context are safe; it declines generic inference and types
+that cannot be written at the current position. Conversion to a lambda requires
+a direct typed declaration or assignment without named results.
+
+Null safety operators perform lazy nil checks:
+
+```go
+name := user?.Name ?? "guest"
+value := callback?(arg()) ?? 0
+config ??= defaults()
+timeout := *config?.Timeout ?? 30
+```
+
+`?.` guards a pointer or interface; `?(` guards a function. A nil guard skips
+the remaining primary-expression chain, including arguments and indexes.
+Parentheses end that chain. A value-producing chain without `??` must have a
+type that can be nil; `??` also accepts guarded non-nilable results and guarded
+dereferences. Defaults run only on absence or nil, not on zero, false or empty
+values. `??=` evaluates the location once and stores only when its current
+value is nil. Ordinary interface nil semantics remain: an interface containing
+a typed nil is non-nil. `??` is right associative and cannot mix with other
+binary operators without parentheses. Safe chains cannot be assignment targets
+or direct `go`/`defer` calls. These are conveniences, not static non-null
+guarantees. Diagnostics use `InvalidNilSafety`.
+
+Not implemented yet (do not write them): Result or Option types, lone `?`
+propagation, sum types and pattern matching. Local specifications live in
+`$(gon env GOROOT)/design/{error-handling,conditional-expression,lambda,null-safety}/README.md`.
 
 ## Work with the tooling
 
@@ -99,7 +165,9 @@ workspace failure.
    `gon explain <code>` explains a code such as `InvalidErrorHandling`.
    `gon check` does not build or run tests; its `notVerified` field says what
    remains.
-4. **Validate**: `gon fmt` the changed packages, then `gon vet`, `gon test`
-   for the affected packages, and `gon build ./...` before finishing.
+4. **Validate**: format the changed packages and run the relevant focused
+   `gon test`/`gon vet` checks. In this toolchain repository follow
+   `misc/gon/INTEGRATION.md`, use the maintained module that owns the change,
+   and do not run `gon build ./...` from the repository root.
 
 `gon help tooling` and `gon help <command>` list all flags.

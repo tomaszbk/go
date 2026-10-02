@@ -33,6 +33,30 @@ func TestRefs(t *testing.T) {
 			want:  map[string][]string{"X": {"ext.A", "ext.B", "ext.C"}},
 		},
 		{
+			label: "Gon lambda inferred result",
+			srcs: []string{`package p; import "ext"
+var X = ext.Map(ext.Values, (v) => ext.Convert(v))
+var Y = ext.Map(ext.Values, (ext) => ext.Convert())
+var Z = ext.Map(ext.Values, (v) => ext.Read(v)!)
+`},
+			want: map[string][]string{
+				"X": {"ext.Convert", "ext.Map", "ext.Values"},
+				"Y": {"ext.Map", "ext.Values"},
+				"Z": {"ext.Map", "ext.Read", "ext.Values"},
+			},
+		},
+		{
+			label: "Gon nil safety",
+			srcs: []string{`package p; import "ext"
+var X = ext.P?.Field ?? ext.Default
+var Y = ext.F?(ext.Arg) ?? ext.Default
+`},
+			want: map[string][]string{
+				"X": {"ext.Default", "ext.P"},
+				"Y": {"ext.Arg", "ext.Default", "ext.F"},
+			},
+		},
+		{
 			label: "empty package",
 			want:  map[string][]string{},
 		},

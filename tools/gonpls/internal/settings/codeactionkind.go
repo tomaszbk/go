@@ -88,6 +88,7 @@ const (
 	RefactorRewriteFillStruct         protocol.CodeActionKind = "refactor.rewrite.fillStruct"
 	RefactorRewriteFillSwitch         protocol.CodeActionKind = "refactor.rewrite.fillSwitch"
 	RefactorRewriteInvertIf           protocol.CodeActionKind = "refactor.rewrite.invertIf"
+	RefactorRewriteLambda             protocol.CodeActionKind = "refactor.rewrite.lambda"
 	RefactorRewriteJoinLines          protocol.CodeActionKind = "refactor.rewrite.joinLines"
 	RefactorRewriteRemoveUnusedParam  protocol.CodeActionKind = "refactor.rewrite.removeUnusedParam"
 	RefactorRewriteMoveParamLeft      protocol.CodeActionKind = "refactor.rewrite.moveParamLeft"

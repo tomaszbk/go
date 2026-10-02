@@ -264,6 +264,31 @@ func TestGonQuery(t *testing.T) {
 	res.checkStderr("unknown command")
 }
 
+func TestGonConditionalQuery(t *testing.T) {
+	t.Parallel()
+	const src = `package p
+var flag bool
+var value = if flag { 1 } else { 2 }
+const size = if true { 1 } else { 2.5 }
+`
+	tree := writeTree(t, "-- go.mod --\nmodule example.com/conditional\n\ngo 1.26\n-- p.go --\n"+src)
+	for _, test := range []struct{ needle, typ, mode string }{
+		{"if flag", "int", "value"},
+		{"else { 2 }", "int", "value"},
+		{"if true", "untyped float", "constant"},
+	} {
+		var q gonQuery
+		gonJSON(t, tree, nil, &q, "query", "type", "p.go:#"+strconv.Itoa(strings.Index(src, test.needle))).checkCode(0)
+		if len(q.Results) != 1 {
+			t.Fatalf("results: %+v", q)
+		}
+		ty := q.Results[0].Type
+		if ty == nil || ty.Construct != "conditional-expression" || ty.Type != test.typ || ty.Mode != test.mode {
+			t.Errorf("type at %q = %+v, want %s (%s), conditional-expression", test.needle, ty, test.typ, test.mode)
+		}
+	}
+}
+
 type gonCheck struct {
 	OK          bool
 	Packages    []struct{ ImportPath string }

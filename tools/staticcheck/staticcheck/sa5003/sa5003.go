@@ -55,7 +55,7 @@ func run(pass *analysis.Pass) (any, error) {
 				}
 			case *ast.DeferStmt:
 				defers = append(defers, stmt)
-			case *ast.FuncLit:
+			case *ast.FuncLit, *ast.LambdaExpr:
 				// Don't look into function bodies
 				return false
 			}

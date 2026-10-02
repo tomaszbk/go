@@ -353,6 +353,21 @@ func (c *DeepCopier) CopyExpr(e syntax.Expr) syntax.Expr {
 		newE = newLit
 	case *syntax.KeyValueExpr:
 		newE = &syntax.KeyValueExpr{Key: c.CopyExpr(e.Key), Value: c.CopyExpr(e.Value)}
+	case *syntax.LambdaExpr:
+		l := &syntax.LambdaExpr{Rparen: e.Rparen, Arrow: e.Arrow}
+		for _, n := range e.Params {
+			l.Params = append(l.Params, c.CopyName(n, true))
+		}
+		l.Body = c.CopyExpr(e.Body)
+		l.Block = c.CopyBlockStmt(e.Block)
+		if e.Lowered != nil {
+			l.Lowered = c.CopyExpr(e.Lowered).(*syntax.FuncLit)
+		}
+		newE = l
+	case *syntax.NilGuardExpr:
+		newE = &syntax.NilGuardExpr{X: c.CopyExpr(e.X), Question: e.Question}
+	case *syntax.SafeNavExpr:
+		newE = &syntax.SafeNavExpr{X: c.CopyExpr(e.X)}
 	case *syntax.FuncLit:
 		newE = &syntax.FuncLit{Type: c.CopyExpr(e.Type).(*syntax.FuncType), Body: c.CopyBlockStmt(e.Body)}
 	case *syntax.ParenExpr:

@@ -1017,7 +1017,18 @@ func (p *Package) rewriteCall(f *File, call *Call) (string, bool) {
 			continue
 		}
 
-		fmt.Fprintf(&sb, "_cgo%d := %s; ", i, gofmtPos(arg, origArg.Pos()))
+		// Conditional expressions, lambdas, and nil-safety expressions
+		// inherit the C parameter's target type.
+		// A short declaration would discard it, rejecting two nil branches
+		// or branches that are assignable to the target but differ in type.
+		if isCondExpr(arg) || needsGonTargetType(arg) {
+			if ptype != param.Go {
+				needsUnsafe = true
+			}
+			fmt.Fprintf(&sb, "var _cgo%d %s = %s; ", i, gofmt(ptype), gofmtPos(arg, origArg.Pos()))
+		} else {
+			fmt.Fprintf(&sb, "_cgo%d := %s; ", i, gofmtPos(arg, origArg.Pos()))
+		}
 		fmt.Fprintf(&sbCheck, "_cgoCheckPointer(_cgo%d, nil); ", i)
 	}
 

@@ -15,3 +15,5 @@ func Test(t *testing.T) {
 	testdata := analysistest.TestData()
 	analysistest.RunWithSuggestedFixes(t, testdata, unreachable.Analyzer, "a")
 }
+
+func TestGon(t *testing.T) { analysistest.Run(t, analysistest.TestData(), unreachable.Analyzer, "gon") }

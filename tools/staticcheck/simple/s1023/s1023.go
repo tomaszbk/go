@@ -3,6 +3,7 @@ package s1023
 import (
 	"go/ast"
 	"go/token"
+	"go/types"
 
 	"honnef.co/go/tools/analysis/code"
 	"honnef.co/go/tools/analysis/facts/generated"
@@ -56,6 +57,11 @@ func run(pass *analysis.Pass) (any, error) {
 		case *ast.FuncLit:
 			ret = x.Type.Results
 			body = x.Body
+		case *ast.LambdaExpr:
+			if pass.TypesInfo.TypeOf(x).(*types.Signature).Results().Len() > 0 {
+				return
+			}
+			body = x.Block
 		default:
 			lint.ExhaustiveTypeSwitch(node)
 		}
@@ -74,6 +80,6 @@ func run(pass *analysis.Pass) (any, error) {
 		report.Report(pass, rst, "redundant return statement", report.FilterGenerated())
 	}
 	code.Preorder(pass, fn1, (*ast.CaseClause)(nil))
-	code.Preorder(pass, fn2, (*ast.FuncDecl)(nil), (*ast.FuncLit)(nil))
+	code.Preorder(pass, fn2, (*ast.FuncDecl)(nil), (*ast.FuncLit)(nil), (*ast.LambdaExpr)(nil))
 	return nil, nil
 }

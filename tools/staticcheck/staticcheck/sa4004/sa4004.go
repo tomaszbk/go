@@ -46,6 +46,8 @@ func run(pass *analysis.Pass) (any, error) {
 			body = fn.Body
 		case *ast.FuncLit:
 			body = fn.Body
+		case *ast.LambdaExpr:
+			body = fn.Block
 		default:
 			lint.ExhaustiveTypeSwitch(node)
 		}
@@ -154,6 +156,6 @@ func run(pass *analysis.Pass) (any, error) {
 			return true
 		})
 	}
-	code.Preorder(pass, fn, (*ast.FuncDecl)(nil), (*ast.FuncLit)(nil))
+	code.Preorder(pass, fn, (*ast.FuncDecl)(nil), (*ast.FuncLit)(nil), (*ast.LambdaExpr)(nil))
 	return nil, nil
 }

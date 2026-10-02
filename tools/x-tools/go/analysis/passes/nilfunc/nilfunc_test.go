@@ -15,3 +15,5 @@ func Test(t *testing.T) {
 	testdata := analysistest.TestData()
 	analysistest.Run(t, testdata, nilfunc.Analyzer, "a", "typeparams")
 }
+
+func TestGon(t *testing.T) { analysistest.Run(t, analysistest.TestData(), nilfunc.Analyzer, "gon") }

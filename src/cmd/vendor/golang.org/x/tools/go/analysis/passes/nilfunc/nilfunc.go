@@ -35,8 +35,24 @@ func run(pass *analysis.Pass) (any, error) {
 
 	nodeFilter := []ast.Node{
 		(*ast.BinaryExpr)(nil),
+		(*ast.NilGuardExpr)(nil),
 	}
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
+		var tested ast.Expr
+		switch e := n.(type) {
+		case *ast.NilGuardExpr:
+			tested = e.X
+		case *ast.BinaryExpr:
+			if e.Op == token.COALESCE {
+				tested = e.X
+			}
+		}
+		if tested != nil {
+			if fn, ok := pass.TypesInfo.Uses[typesinternal.UsedIdent(pass.TypesInfo, tested)].(*types.Func); ok {
+				pass.ReportRangef(n, "nil test of function %s is redundant: function is never nil", fn.Name())
+			}
+			return
+		}
 		e := n.(*ast.BinaryExpr)
 
 		// Only want == or != comparisons.
