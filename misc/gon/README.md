@@ -4,6 +4,18 @@
 gopls. Both pin their subprocesses to this toolchain without replacing the user's
 Go installation. Source files still use `.go`.
 
+Gon 1.0 targets backward compatibility with **Go 1.27+**, subject to the
+accepted newline-after-prefix-`!` exception. The user selected this support
+floor on 2026-10-02, replacing Go 1.26+. Use stable Go 1.27.1 as the current
+unmodified baseline; the fork's Go 1.28 development version is not a released
+Go baseline. Module language directives retain their independent meaning.
+
+`gon fix -diff ./...` previews opportunities to adopt Gon syntax; `gon fix
+./...` applies the safe conversions. This includes error propagation/handlers,
+conditional expressions, nil-safety operators and contextually typed lambdas.
+The same optional hints are available in the editor and with `gon check
+--severity=hint ./...`. See [the modernization commands and limits](CLI.md#syntax-modernization).
+
 ## Build
 
 First build the compiler from the repository's `src` directory with `./make.bash`.
@@ -192,7 +204,8 @@ complete compatibility with every gopls or third-party analysis feature.
 
 ## Regression checks
 
-Use `GON_BASELINE_GO=/absolute/path/to/unmodified/go` for current validation.
+Use `GON_BASELINE_GO=/absolute/path/to/unmodified/go` with Go 1.27+ for current
+validation. Existing records retain the versions actually tested.
 Older test-specific environment names remain compatibility aliases. The
 conditional profile includes cgo/bootstrap adapters, coverage, editor query,
 extraction and LSP checks; select only checks affected by a change with

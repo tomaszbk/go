@@ -1,0 +1,41 @@
+package conditional
+
+func value(flag bool, a, b func() int) int {
+	// want +1 "if/else value choice can use a conditional expression"
+	return if flag { a() } else { b() }
+}
+
+func assign(flag bool) (result int) {
+	// want +1 "if/else value choice can use a conditional expression"
+	result = if flag { 1 } else { 2 }
+	return
+}
+
+func boxed(flag bool) any {
+	// want +1 "if/else value choice can use a conditional expression"
+	return if flag { int(1) } else { string("other") }
+}
+
+func boxedNil(flag bool, p *int) any {
+	// want +1 "if/else value choice can use a conditional expression"
+	return if flag { p } else { nil }
+}
+
+func sameConstantType(flag bool) any {
+	// want +1 "if/else value choice can use a conditional expression"
+	return if flag { 1 } else { 2 }
+}
+
+func nested(flag bool) (func() int, error) {
+	return func() int {
+		// want +1 "if/else value choice can use a conditional expression"
+		return if flag { 3 } else { 4 }
+	}, nil
+}
+
+func lambda(flag bool) func() int {
+	return () => {
+		// want +1 "if/else value choice can use a conditional expression"
+		return if flag { 5 } else { 6 }
+	}
+}

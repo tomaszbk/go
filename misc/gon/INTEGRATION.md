@@ -6,6 +6,10 @@ feature's node name. Supported validation architectures are amd64, arm64,
 riscv64 and wasm. Record which platforms actually ran; a local pass does not
 assert execution on the others.
 
+The compatibility floor is Go 1.27+ (user decision, 2026-10-02). Current
+validation uses an unmodified stable Go 1.27.1 baseline. Record the actual
+baseline version; preserve historical results and module language directives.
+
 ## Commands
 
 ```sh

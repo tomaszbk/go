@@ -2,6 +2,7 @@
 
 `gon` adds these commands to the Go command. Every Go command (`build`, `test`,
 `run`, `vet`, `fmt`, `env`, `mod`, `doc`, ...) keeps its upstream behavior.
+`gon fix` additionally recognizes safe opportunities to adopt Gon syntax.
 
 | Command | Purpose | Semantic engine |
 | --- | --- | --- |
@@ -22,6 +23,38 @@ buffers. The editor's language server is a separate, long-lived process. Run
 
 Use the `gon` of the project's selected toolchain. The launcher pins `GOROOT`
 and `GOTOOLCHAIN=local` for everything it runs.
+
+## Syntax modernization
+
+```sh
+gon fix -diff ./...                 # preview changes; exit 1 when changes exist
+gon fix ./...                       # apply suggested fixes
+gon check --severity=hint ./...      # list suggestions without changing files
+gon fix -gonerrors -diff ./...       # preview only error-handling conversions
+gon tool fix help gonerrors          # describe one analyzer
+```
+
+The shared `gonerrors`, `gonconditional`, `gonnil`, and `gonlambda` analyzers
+also provide editor hints and quick fixes. `gon check --severity=hint --json`
+includes their proposed edits, and `gon explain <analyzer>` describes them.
+They are suggestions, not new language errors; existing Go source remains valid.
+`gon fix` keeps its existing package selection, analyzer flags and diff format,
+and still includes the upstream Go modernizers. Its flags and exit status follow
+`gon help fix`, independently of the semantic-command schema below.
+
+The recognized patterns include call results followed by a fresh error check
+(`!` for equivalent zero-value error returns, otherwise `or err { ... }`),
+simple return/assignment branches (conditional expressions), nil defaults and
+guards (`??=`, `??`, `?.`, `?(`), and function literals with known contextual
+signatures (lambdas).
+
+Conversions are deliberately conservative. They decline cases that would lose
+partial results, remove a still-used error binding, alter evaluation or typing,
+or discard comments or required imports. They do not offer syntax for the
+unimplemented Result, Option, sum-type or matching proposals. The absence of a
+suggestion does not mean a manual rewrite is impossible. If nested fixes overlap,
+the existing fix driver applies compatible edits and asks for another run;
+newly exposed source shapes may also need a manual rewrite.
 
 ## Arguments
 

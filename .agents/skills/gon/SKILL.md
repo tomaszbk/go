@@ -10,6 +10,11 @@ still `.go`, tests `_test.go`, and modules use `go.mod`/`go.work`. Upstream
 `go`, `gofmt` and `gopls` do not understand Gon syntax: in this repository use
 `gon` for every Go command and gonpls-based tooling for analysis.
 
+Gon 1.0 preserves compatibility with Go 1.27+ (user decision, 2026-10-02),
+subject to the accepted newline-after-prefix-`!` exception. The current
+unmodified validation baseline is stable Go 1.27.1. This support floor does
+not require rewriting module language directives or historical test records.
+
 ## Select the toolchain
 
 - Run `gon` from `PATH`, or the path in `gon.compilerPath` of this project's
@@ -171,3 +176,18 @@ workspace failure.
    and do not run `gon build ./...` from the repository root.
 
 `gon help tooling` and `gon help <command>` list all flags.
+
+## Modernize existing syntax
+
+Use `gon fix -diff ./...` to preview safe Gon syntax conversions and `gon fix
+./...` to apply them. `gon check --severity=hint ./...` reports the same optional
+suggestions without writes, including edits with `--json`. Gonpls exposes them
+as editor hints and quick fixes. The analyzers are `gonerrors` (`!`/`or`),
+`gonconditional`, `gonnil` (`??=`, `??`, `?.`, `?(`) and `gonlambda`.
+For a focused preview, use `gon fix -gonerrors -diff ./...`; run `gon tool fix
+help <analyzer>` for details. `gon fix -diff` exits 1 when it has a diff.
+
+Only recognized, semantics-preserving patterns are converted. Partial-result
+handlers, still-used error bindings, unavailable lambda target types and edits
+that would discard comments or required imports are conservatively declined.
+Ordinary Go constructs remain valid; these hints are not mandatory diagnostics.

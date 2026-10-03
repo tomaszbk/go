@@ -9,7 +9,25 @@ integration are recorded together. Use `git status` for subsequent local work.
 The user's own untracked files (`a.go`, `gon_logo.png`, `AGENTS.md`, `.agents/`,
 and the pre-existing `design/` docs) must be left alone unless a task names them.
 
-## Lambda and null-safety integration closure (2026-10-02, latest update)
+## Gon syntax modernization (2026-10-02, latest update)
+
+The user requested detection of opportunities to use new syntax in `gon fix`.
+Four conservative analyzers now live in maintained x/tools under
+`go/analysis/passes/gonmodernize`: `gonerrors`, `gonconditional`, `gonnil`,
+and `gonlambda`. `fix.Suite` registers them for both cmd/fix and gonpls. Use
+`gon fix -diff ./...` for preview, `gon fix ./...` to apply, and `gon check
+--severity=hint ./...` for read-only suggestions. Editor hints/quick fixes and
+`gon explain` share the analyzers. No language/compiler semantics changed.
+
+Public tools and cmd/fix were rebuilt, vendor regenerated and checked, and
+gonpls analyzer documentation regenerated. The focused tooling gates passed
+without skips on darwin/arm64 with unmodified Go 1.27.1: vendor, real analyzer
+registry (251 analyzers), existing CLI, syntax fix tests (including all 24
+analyzer orders), and real CLI/LSP/executable legacy-to-modern regression.
+The partial validator exits 2 by design. Exact commands and limitations are in
+`misc/gon/VALIDATION.md` under Gon syntax modernization. No commit was made.
+
+## Lambda and null-safety integration closure (2026-10-02, previous update)
 
 The user requested implementation of both features, authorized Astra/Sol 6.1
 subagents and asked to run only necessary tests. Lambdas follow the already

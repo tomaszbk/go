@@ -42,6 +42,8 @@ def checks(feature):
             test('unusedfunc', 'tools/gonpls', ['./internal/analysis/unusedfunc']),
             ('lsp', '.', [sys.executable, 'misc/gon/test.py']),
             ('cli', '.', [sys.executable, 'misc/gon/test_cli.py']),
+            test('syntax-fixes', 'tools/x-tools', ['./go/analysis/passes/gonmodernize']),
+            ('fix-execution', '.', [sys.executable, 'misc/gon/test_fix.py']),
         ]
     pattern = {'conditional': 'CondExpr|CondParen', 'errorhandling': 'ErrorHandling|ErrorExpr',
                'lambda': 'Lambda|NilSafety|NullSafety', 'nullsafety': 'Lambda|NilSafety|NullSafety'}[feature]

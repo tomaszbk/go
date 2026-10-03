@@ -1,0 +1,69 @@
+package nilchecks
+
+type value struct {
+	N int
+	P *int
+}
+
+func (v *value) observe(n int) {}
+
+func initialize(p *int, makeValue func() *int) *int {
+	// want +1 "nil check can use Gon nil-safety operators"
+	p ??= makeValue()
+	return p
+}
+
+func coalesce(p, fallback *int) *int {
+	// want +1 "nil check can use Gon nil-safety operators"
+	return p ?? fallback
+}
+
+func reversed(p *int, fallback func() *int) *int {
+	// want +1 "nil check can use Gon nil-safety operators"
+	return p ?? fallback()
+}
+
+func boxed(p *int) any {
+	// want +1 "nil check can use Gon nil-safety operators"
+	return p ?? nil
+}
+
+func interfaceCoalesce(p, fallback any) any {
+	// want +1 "nil check can use Gon nil-safety operators"
+	return p ?? fallback
+}
+
+func access(p *value) int {
+	// want +1 "nil check can use Gon nil-safety operators"
+	return p?.N ?? (1 + 2)
+}
+
+func pointerAccess(p *value) *int {
+	// want +1 "nil check can use Gon nil-safety operators"
+	return p?.P
+}
+
+func dereference(p *int) int {
+	// want +1 "nil check can use Gon nil-safety operators"
+	return *p ?? 7
+}
+
+func callback(f func(int) int, arg func() int) int {
+	// want +1 "nil check can use Gon nil-safety operators"
+	return f?(arg()) ?? 8
+}
+
+func calls(f func(...int), p *value, arg func() int, args []int) {
+	// want +1 "nil check can use Gon nil-safety operators"
+	f?(arg())
+	// want +1 "nil check can use Gon nil-safety operators"
+	f?(args...)
+	// want +1 "nil check can use Gon nil-safety operators"
+	p?.observe(arg())
+}
+
+func assign(p *value) (n int) {
+	// want +1 "nil check can use Gon nil-safety operators"
+	n = p?.N ?? 42
+	return
+}

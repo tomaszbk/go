@@ -1,6 +1,9 @@
 {
   "tooling": {
-    "pending": []
+    "pending": [],
+    "limitations": [
+      "syntax modernization: only proven-safe error checks, simple value choices, nil guards/defaults and contextually typed function literals are suggested; arbitrary equivalent control flow is not recognized"
+    ]
   },
   "errorhandling": {
     "pending": []

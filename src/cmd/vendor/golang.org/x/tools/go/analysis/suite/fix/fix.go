@@ -17,6 +17,7 @@ import (
 
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/buildtag"
+	"golang.org/x/tools/go/analysis/passes/gonmodernize"
 	"golang.org/x/tools/go/analysis/passes/hostport"
 	"golang.org/x/tools/go/analysis/passes/inline"
 	"golang.org/x/tools/go/analysis/passes/modernize"
@@ -33,6 +34,7 @@ var Suite = slices.Concat(
 		inline.Analyzer,
 	},
 	modernize.Suite,
+	gonmodernize.Suite,
 	// TODO(adonovan): add any other vet analyzers whose fixes are always safe.
 	// Candidates to audit: sigchanyzer, printf, assign, unreachable.
 	// Many of staticcheck's analyzers would make good candidates
