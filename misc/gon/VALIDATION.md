@@ -532,3 +532,26 @@ Nested overlapping fixes use the existing driver conflict handling and may
 require rerunning the command. The analyzers intentionally decline unsupported
 source shapes and transformations that would alter contextual types or lose
 bindings, comments or imports. All language additions remain optional.
+
+## CI baseline configuration repair (2026-10-02)
+
+GitHub run `37082723337` failed the Linux language step because CI exported
+only `GO_ERROR_HANDLING_BASELINE`; `test/lambda.go` and `test/nullsafety.go`
+require `GON_BASELINE_GO`. The workflow now exports the public baseline on
+Linux and Windows, pins unmodified Go 1.27.1, and selects the four individual
+language harnesses instead of the entire test directory. Linux also builds
+the public tools and runs the syntax modernization analyzer and CLI/LSP pairs.
+
+Local verification passed on darwin/arm64 with unmodified Go 1.27.1:
+
+```sh
+# From src:
+GON_BASELINE_GO=/opt/homebrew/bin/go GO_ERROR_HANDLING_BASELINE=/opt/homebrew/bin/go ../gon/bin/gon test -count=1 cmd/internal/testdir -run '^Test/(errorhandling|conditional|lambda|nullsafety)\.go$'
+# From the repository root:
+GON_BASELINE_GO=/opt/homebrew/bin/go python3 misc/gon/test_fix.py
+git diff --check
+```
+
+Workflow YAML parsing and baseline/feature-selection assertions passed too.
+These local checks do not claim Linux or Windows execution; remote results
+are recorded by the GitHub Actions run for the repair commit.

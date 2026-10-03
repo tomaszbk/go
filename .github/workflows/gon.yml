@@ -1,8 +1,7 @@
 # Checks that cannot run on the maintainers' darwin/arm64 machines: the other
 # in-scope architectures (amd64, riscv64, wasm), Linux- and Windows-specific
-# tests, and the Gon launcher on Windows. The complete suite
-# ('go tool dist test') and js/wasm (misc/gon/cross_pair.sh js wasm) still
-# run locally.
+# tests, and the Gon launcher on Windows. Language checks select the individual
+# Gon feature harnesses; js/wasm (misc/gon/cross_pair.sh js wasm) runs locally.
 name: gon
 
 on:
@@ -30,20 +29,30 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-go@v7
         with:
-          go-version: stable
+          go-version: '1.27.1'
           cache: false
       - name: Build Gon
         run: |
           echo "BASELINE=$(go env GOROOT)/bin/go" >> "$GITHUB_ENV"
+          echo "GON_BASELINE_GO=$(go env GOROOT)/bin/go" >> "$GITHUB_ENV"
           cd src && env -u GOROOT GOROOT_BOOTSTRAP="$(go env GOROOT)" ./make.bash
+      - name: Build public Gon tools
+        run: python3 misc/gon/build.py
       - name: Runtime, cgo and coverage tests
         working-directory: src
         run: >-
-          env -u GOROOT GO_ERROR_HANDLING_BASELINE="$BASELINE" ../bin/go test -short -count=1
+          env -u GOROOT GO_ERROR_HANDLING_BASELINE="$BASELINE" ../gon/bin/gon test -short -count=1
           runtime cmd/cgo/internal/test cmd/cgo/internal/testerrors cmd/cgo/internal/testerrorhandling cmd/cover
       - name: Language tests, with the legacy programs also run by upstream Go
         working-directory: src
-        run: env -u GOROOT GO_ERROR_HANDLING_BASELINE="$BASELINE" ../bin/go test -count=1 cmd/internal/testdir
+        run: >-
+          env -u GOROOT GO_ERROR_HANDLING_BASELINE="$BASELINE" ../gon/bin/gon test -count=1
+          cmd/internal/testdir -run '^Test/(errorhandling|conditional|lambda|nullsafety)\.go$'
+      - name: Syntax modernization analyzers
+        working-directory: tools/x-tools
+        run: ../../gon/bin/gon test -count=1 ./go/analysis/passes/gonmodernize
+      - name: Syntax modernization CLI, editor and executable pairs
+        run: python3 misc/gon/test_fix.py
 
   linux-riscv64:
     runs-on: ubuntu-latest
@@ -52,7 +61,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-go@v7
         with:
-          go-version: stable
+          go-version: '1.27.1'
           cache: false
       - uses: docker/setup-qemu-action@v4
         with:
@@ -72,7 +81,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-go@v7
         with:
-          go-version: stable
+          go-version: '1.27.1'
           cache: false
       - uses: bytecodealliance/actions/wasmtime/setup@v1
       - name: Build Gon
@@ -93,12 +102,13 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-go@v7
         with:
-          go-version: stable
+          go-version: '1.27.1'
           cache: false
       - name: Build Gon
         run: |
           $bootstrap = go env GOROOT
           "BASELINE=$bootstrap\bin\go.exe" >> $env:GITHUB_ENV
+          "GON_BASELINE_GO=$bootstrap\bin\go.exe" >> $env:GITHUB_ENV
           Remove-Item Env:GOROOT -ErrorAction SilentlyContinue
           $env:GOROOT_BOOTSTRAP = $bootstrap
           cd src
